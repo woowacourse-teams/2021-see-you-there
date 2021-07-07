@@ -1,0 +1,1 @@
+export { COLOR } from './style';

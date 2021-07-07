@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url은 차후에 변경해야 함
+    url: jdbc:mysql://localhost:13306/subway?userSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: root
+  sql:
+    init:
+      mode:
+handlebars:
+  suffix: .html
+  enabled: true
+#  security 변동 생길 가능성 있음
+security:
+  jwt:
+    token:
+      secret-key: my_secret_is_secret
+      expire-length: 3600000

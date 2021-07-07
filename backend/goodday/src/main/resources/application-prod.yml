@@ -1,0 +1,21 @@
+spring:
+  config:
+    activate:
+      on-profile:
+        - prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/subway?useSSL=false&ServerTimezone=UTC
+    username: root
+    password: root
+  sql:
+    init:
+      mode: always
+handlebars:
+  suffix: .html
+  enabled: true
+security:
+  jwt:
+    token:
+      secret-key: my_secret_is_secret
+      expire-length: 3600000

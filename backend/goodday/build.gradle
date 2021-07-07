@@ -22,8 +22,9 @@ dependencies {
 	// log
 	implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
 
-	// database
+	// database - mariaDB 버전 확인 필요
 	implementation 'mysql:mysql-connector-java:8.0.22'
+	implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
 	runtimeOnly 'com.h2database:h2'
 
 	// test

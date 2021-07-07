@@ -1,45 +1,45 @@
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: ['.js', '.jsx'],
   },
   entry: {
-    main: "./src/index",
+    main: './src/index',
   },
   output: {
-    path: path.join(__dirname, "dist"), // __dirname: 현재 실행 중인 폴더 경로
-    filename: "[name].js",
+    path: path.join(__dirname, 'dist'),
+    filename: '[name].js',
   },
   module: {
     rules: [
       {
         test: /\.(png|jpg|svg|gif)$/,
-        loader: "url-loader",
+        loader: 'url-loader',
         options: {
-          name: "[name].[ext]?[hash]",
+          name: '[name].[ext]?[hash]',
           limit: 5000,
         },
       },
       {
         test: /\.(js|jsx)$/,
-        exclude: "/node_modules",
-        loader: "babel-loader",
+        exclude: '/node_modules',
+        loader: 'babel-loader',
         options: {
           presets: [
             [
-              "@babel/preset-env",
+              '@babel/preset-env',
               {
                 targets: {
-                  browsers: ["last 2 versions"],
+                  browsers: ['last 2 versions'],
                 },
               },
             ],
-            "@babel/preset-react",
+            '@babel/preset-react',
           ],
         },
       },
@@ -47,15 +47,15 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      VERSION: JSON.stringify("v0.1.0"),
+      VERSION: JSON.stringify('v0.1.0'),
     }),
     new CleanWebpackPlugin()(),
     new HtmlWebpackPlugin({
-      template: "./src/index.html",
+      template: './src/index.html',
     }),
   ],
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
+    contentBase: path.join(__dirname, 'dist'),
     port: 9000,
     historyApiFallback: true,
     open: true,

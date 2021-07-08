@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -39,13 +40,29 @@ public class KakaoController {
     }
 
     @RequestMapping(value = "/callback", produces = "application/json", method = {RequestMethod.GET, RequestMethod.POST})
-    public String kakaoLogin(@RequestParam("code")String code, RedirectAttributes ra, HttpSession session, HttpServletResponse response, Model model) throws IOException {
+    public String kakaoLogin(@RequestParam("code") String code, RedirectAttributes ra, HttpSession session, HttpServletResponse response, Model model) throws IOException {
 
         System.out.println("kakao code:" + code);
         Map<String, String> tokens = getKakaoAccessToken(code);
-        System.out.println("access_token = " + tokens.get("access_token"));
-        System.out.println("refresh_token = " + tokens.get("refresh_token"));
+
+        // 사용자 정보 받아오기
+        getKakaoUserInfo(tokens.get("access_token"));
         return null;
+    }
+
+    private void getKakaoUserInfo(String access_token) {
+        RestTemplate restTemplate = new RestTemplate();
+        String reqUrl = "/v2/user/me";
+        URI uri = URI.create("https://kapi.kakao.com" + reqUrl);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + access_token);
+
+        HttpEntity<MultiValueMap<String, Object>> restRequest = new HttpEntity<>(headers);
+        ResponseEntity<JSONObject> apiResponse = restTemplate.postForEntity(uri, restRequest, JSONObject.class);
+        JSONObject responseBody = apiResponse.getBody();
+        Map<String, Object> map = (Map<String, Object>) responseBody.get("kakao_account");
+        System.out.println(map);
     }
 
     public Map<String, String> getKakaoAccessToken(String code) {

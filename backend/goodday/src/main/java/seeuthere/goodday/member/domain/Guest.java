@@ -1,4 +1,4 @@
 package seeuthere.goodday.member.domain;
 
-public class Guest extends Person{
+public class Guest extends Person {
 }

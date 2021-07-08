@@ -1,0 +1,21 @@
+spring:
+  config:
+    activate:
+      on-profile:
+        - prod
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/seeyouthere?userSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: root
+  sql:
+    init:
+      mode: always
+handlebars:
+  suffix: .html
+  enabled: true
+security:
+  jwt:
+    token:
+      secret-key: my_secret_is_secret
+      expire-length: 3600000

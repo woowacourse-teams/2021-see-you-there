@@ -2,6 +2,13 @@ import { createGlobalStyle } from 'styled-components';
 import { COLOR } from './constants';
 
 const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: 'GongGothicMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
 * {
     font-family: 'Noto Sans KR', sans-serif;
     color: ${COLOR.PARAGRAPH};

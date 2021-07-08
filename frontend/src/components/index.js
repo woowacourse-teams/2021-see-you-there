@@ -13,3 +13,5 @@ export { PlaceIcon } from './icons/place';
 export { RemoveCircleIcon } from './icons/removeCircle';
 export { SearchIcon } from './icons/search';
 export { SubmitRightIcon } from './icons/submitRight';
+
+export { NavBar } from './molecules/NavBar';

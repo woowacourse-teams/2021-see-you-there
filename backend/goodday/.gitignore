@@ -36,3 +36,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### secrets
+!**/src/main/java/seeuthere/goodday/secret/

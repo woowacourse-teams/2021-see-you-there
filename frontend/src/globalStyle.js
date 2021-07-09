@@ -10,11 +10,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
 * {
-    font-family: 'Noto Sans KR', sans-serif;
-    color: ${COLOR.PARAGRAPH};
-    box-sizing: border-box;
     margin:0;
     padding:0;
+    box-sizing: border-box;
+
+    font-family: 'Noto Sans KR', sans-serif;
+    color: ${COLOR.PARAGRAPH};
+    letter-spacing: -0.01rem;
   }
 
   html, body {

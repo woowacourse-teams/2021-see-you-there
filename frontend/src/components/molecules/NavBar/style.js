@@ -1,11 +1,12 @@
 import styled, { css } from 'styled-components';
-import { COLOR, LAYOUT } from '../../../constants';
+import { COLOR, LAYOUT, Z_INDEX } from '../../../constants';
 
 const styleNavRight = css`
   position: fixed;
   top: 0;
   right: 0;
   width: ${LAYOUT.NAV_RIGHT_WIDTH};
+  box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.25);
 `;
 
 const styleNavFull = css`
@@ -31,8 +32,12 @@ export const Nav = styled.nav`
   height: ${LAYOUT.NAV_HEIGHT};
   background-color: ${COLOR.PRIMARY};
 
+  z-index: ${Z_INDEX.NAVBAR};
+
   @media (max-width: ${LAYOUT.TABLET_WIDTH}) {
     width: 100%;
+
+    box-shadow: 0 0.375rem 0.5rem rgba(0, 0, 0, 0.15);
   }
 `;
 
@@ -45,7 +50,7 @@ export const Title = styled.div`
 
 export const TitleText = styled.span`
   font-family: 'GongGothicMedium';
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: ${COLOR.ON_PRIMARY};
   letter-spacing: 0.2rem;
 `;
@@ -84,5 +89,5 @@ export const MenuList = styled.ul`
     min-width: 9rem;
   }
 
-  z-index: 1000;
+  z-index: ${Z_INDEX.HAMBURGER_MENU};
 `;

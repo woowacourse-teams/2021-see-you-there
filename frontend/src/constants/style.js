@@ -1,0 +1,26 @@
+export const COLOR = {
+  PRIMARY: '#2962FF',
+  PRIMARY_DARK: '#0039CB',
+  PRIMARY_LIGHT: '#768FFF',
+  PRIMARY_BACKGROUND: '#F9FAFF',
+
+  ERROR: '#FF4081',
+  ERROR_LIGHT: '#FF79B0',
+
+  ON_PRIMARY: '#FFF',
+  INPUT: '#EEE',
+  BORDER: '#999',
+  ICON: '#666',
+  HEADING: '#555',
+  PARAGRAPH: '#333',
+};
+
+export const LAYOUT = {
+  NAV_HEIGHT: '3.5rem',
+  NAV_RIGHT_WIDTH: '26rem',
+  NAV_ICON_SIZE: '2rem',
+
+  TABLET_WIDTH: '832px',
+
+  MARGIN: '1.5rem',
+};

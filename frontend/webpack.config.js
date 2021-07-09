@@ -49,7 +49,7 @@ module.exports = {
     new webpack.DefinePlugin({
       VERSION: JSON.stringify('v0.1.0'),
     }),
-    new CleanWebpackPlugin()(),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),

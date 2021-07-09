@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { COLOR } from '../../constants';
 
-export const ArrowLeftIcon = (props) => {
+export const ArrowLeft = (props) => {
   const { width, color } = props;
 
   return (
@@ -16,12 +16,12 @@ export const ArrowLeftIcon = (props) => {
   );
 };
 
-ArrowLeftIcon.propTypes = {
+ArrowLeft.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   color: PropTypes.string,
 };
 
-ArrowLeftIcon.defaultProps = {
+ArrowLeft.defaultProps = {
   width: 24,
   color: COLOR.ICON,
 };

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { COLOR } from '../../constants';
 
-export const EnterIcon = (props) => {
+export const Enter = (props) => {
   const { width, color } = props;
 
   return (
@@ -17,12 +17,12 @@ export const EnterIcon = (props) => {
   );
 };
 
-EnterIcon.propTypes = {
+Enter.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   color: PropTypes.string,
 };
 
-EnterIcon.defaultProps = {
+Enter.defaultProps = {
   width: 24,
   color: COLOR.ICON,
 };

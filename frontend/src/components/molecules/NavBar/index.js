@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 
 import { Nav, Title, TitleText, LeftButton, RightButton, MenuList } from './style';
-import { ArrowLeftIcon, HamburgerIcon, PersonCircleIcon } from '../../';
+import { Icon } from '../../';
 import { COLOR, LAYOUT, ROUTE, ROUTES_WITHOUT_MAP, PRIVATE_ROUTES } from '../../../constants';
 
 const HamburgerMenu = (props) => {
@@ -30,7 +30,7 @@ export const NavBar = () => {
     <Nav hasMapView={hasMapView}>
       {canGoBack && (
         <LeftButton onClick={() => history.goBack()}>
-          <ArrowLeftIcon width={LAYOUT.NAV_ICON_SIZE} color={COLOR.ON_PRIMARY} />
+          <Icon.ArrowLeft width={LAYOUT.NAV_ICON_SIZE} color={COLOR.ON_PRIMARY} />
         </LeftButton>
       )}
 
@@ -43,12 +43,12 @@ export const NavBar = () => {
 
       {isLogin ? (
         <RightButton onClick={() => setIsMenuVisible((isMenuVisible) => !isMenuVisible)}>
-          <HamburgerIcon width={LAYOUT.NAV_ICON_SIZE} color={COLOR.ON_PRIMARY} />
+          <Icon.Hamburger width={LAYOUT.NAV_ICON_SIZE} color={COLOR.ON_PRIMARY} />
         </RightButton>
       ) : (
         <NavLink to={ROUTE.LOGIN.PATH}>
           <RightButton>
-            <PersonCircleIcon width={LAYOUT.NAV_ICON_SIZE} color={COLOR.ON_PRIMARY} />
+            <Icon.PersonCircle width={LAYOUT.NAV_ICON_SIZE} color={COLOR.ON_PRIMARY} />
           </RightButton>
         </NavLink>
       )}

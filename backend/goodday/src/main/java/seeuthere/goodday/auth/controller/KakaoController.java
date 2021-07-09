@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import seeuthere.goodday.member.domain.Member;
+import seeuthere.goodday.member.service.MemberService;
 import seeuthere.goodday.secret.SecretKey;
 
 
@@ -30,6 +31,12 @@ public class KakaoController {
 
     private static final String KAKAO_HOST_URI = "https://kapi.kakao.com";
     private static final String KAKAO_AUTH_URI = "https://kauth.kakao.com";
+
+    private final MemberService memberService;
+
+    public KakaoController(MemberService memberService) {
+        this.memberService = memberService;
+    }
 
     @GetMapping(value = "/oauth")
     public String kakaoConnect() {
@@ -50,12 +57,25 @@ public class KakaoController {
         Map<String, String> tokens = getKakaoAccessToken(code);
 
         // 사용자 정보 받아오기
-        getKakaoUserInfo(tokens.get("access_token"));
+        JSONObject userInfo = getKakaoUserInfo(tokens.get("access_token"));
         session.setAttribute("access_token", tokens.get("access_token"));
+
+        // 디비에 저장
+        Integer id = (Integer) userInfo.get("id");
+        Map<String, Object> map = (Map<String, Object>) userInfo.get("kakao_account");
+        Map<String, Object> profile = (Map<String, Object>) map.get("profile");
+        String name = (String) profile.get("nickname");
+        Member member = new Member(id, name);
+        if (memberService.find(id).isEmpty()) {
+            memberService.add(member);
+        }
+        Member inputMember = memberService.find(id).get();
+        System.out.println(inputMember.getId() + " " + inputMember.getName());
+
         return null;
     }
 
-    private void getKakaoUserInfo(String access_token) {
+    private JSONObject getKakaoUserInfo(String access_token) {
         RestTemplate restTemplate = new RestTemplate();
         String reqUrl = "/v2/user/me";
         URI uri = URI.create(KAKAO_HOST_URI + reqUrl);
@@ -67,7 +87,8 @@ public class KakaoController {
         ResponseEntity<JSONObject> apiResponse = restTemplate
             .postForEntity(uri, restRequest, JSONObject.class);
         JSONObject responseBody = apiResponse.getBody();
-        Map<String, Object> map = (Map<String, Object>) responseBody.get("kakao_account");
+//        Map<String, Object> map = (Map<String, Object>) responseBody.get("kakao_account");
+        return responseBody;
     }
 
     public Map<String, String> getKakaoAccessToken(String code) {
@@ -99,11 +120,10 @@ public class KakaoController {
         tokens.put("access_token", accessToken);
         tokens.put("refresh_token", refreshToken);
 
-        RestTemplate template = new RestTemplateBuilder()
+/*        RestTemplate template = new RestTemplateBuilder()
             .defaultHeader("Authorizatoin", "Bearer " + accessToken)
             .build();
-        template.postForEntity(uri, restRequest, JSONObject.class);
-
+        template.postForEntity(uri, restRequest, JSONObject.class);*/
         return tokens;
     }
 

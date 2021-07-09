@@ -1,8 +1,19 @@
 package seeuthere.goodday.member.domain;
 
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
+@Entity
 public class Member extends Person {
 
-    List<Member> friends;
+    @OneToMany
+    private List<Member> friends;
+
+    public Member() {
+    }
+
+    public Member(Integer id, String name) {
+        super(id, name);
+    }
 }

@@ -1,5 +1,6 @@
 package seeuthere.goodday.auth.controller;
 
+import java.util.Enumeration;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,6 +49,7 @@ public class KakaoController {
 
         // 사용자 정보 받아오기
         getKakaoUserInfo(tokens.get("access_token"));
+        session.setAttribute("access_token", tokens.get("access_token"));
         return null;
     }
 
@@ -95,4 +98,32 @@ public class KakaoController {
 
         return tokens;
     }
+
+    @GetMapping(value = "/logout")
+    public void kakaoLogout(HttpSession session) {
+        final Enumeration<String> attributeNames = session.getAttributeNames();
+        while (attributeNames.hasMoreElements()) {
+            System.out.println(attributeNames.nextElement());
+        }
+
+        String accessToken = (String) session.getAttribute("access_token");
+        System.out.println("accessToken: " + accessToken);
+
+
+        RestTemplate restTemplate = new RestTemplate();
+        String reqUrl = "/v1/user/logout";
+        URI uri = URI.create("https://kapi.kakao.com" + reqUrl);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<MultiValueMap<String, Object>> restRequest = new HttpEntity<>(headers);
+        ResponseEntity<JSONObject> apiResponse = restTemplate.postForEntity(uri, restRequest, JSONObject.class);
+        JSONObject responseBody = apiResponse.getBody();
+
+        session.removeAttribute("access_token");
+        Integer id = (Integer) responseBody.get("id");
+        System.out.println("user id : " + id);
+    }
+
 }

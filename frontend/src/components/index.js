@@ -2,6 +2,7 @@ export * as Icon from './icons';
 
 export { Input } from './atoms/Input';
 export { ButtonRound } from './atoms/ButtonRound';
+export { Notice } from './atoms/Notice';
 export { Input } from './atoms/Input';
 export { Modal } from './atoms/Modal';
 

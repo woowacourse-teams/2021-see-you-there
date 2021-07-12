@@ -7,3 +7,4 @@ export { Input } from './atoms/Input';
 export { Modal } from './atoms/Modal';
 
 export { NavBar } from './molecules/NavBar';
+export { Confirm } from './molecules/Confirm';

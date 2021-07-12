@@ -5,7 +5,7 @@ const styleNavRight = css`
   position: fixed;
   top: 0;
   right: 0;
-  width: ${LAYOUT.NAV_RIGHT_WIDTH};
+  width: ${LAYOUT.NAV_WIDTH_RIGHT};
   box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.25);
 `;
 
@@ -34,7 +34,7 @@ export const Nav = styled.nav`
 
   z-index: ${Z_INDEX.NAVBAR};
 
-  @media (max-width: ${LAYOUT.TABLET_WIDTH}) {
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     width: 100%;
 
     box-shadow: 0 0.375rem 0.5rem rgba(0, 0, 0, 0.15);
@@ -49,10 +49,15 @@ export const Title = styled.div`
 `;
 
 export const TitleText = styled.span`
-  font-family: 'GongGothicMedium';
+  margin-top: 0.3rem;
+  margin-left: 0.25rem;
+  min-width: 7.5rem;
+
+  font-family: 'yg-jal-nan';
   font-size: 1.25rem;
   color: ${COLOR.ON_PRIMARY};
   letter-spacing: 0.2rem;
+  line-height: 1.25rem;
 `;
 
 export const RightButton = styled.button`

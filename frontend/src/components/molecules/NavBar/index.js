@@ -4,6 +4,7 @@ import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { Nav, Title, TitleText, LeftButton, RightButton, MenuList } from './style';
 import { Icon } from '../../';
 import { COLOR, LAYOUT, ROUTE, ROUTES_WITHOUT_MAP, PRIVATE_ROUTES } from '../../../constants';
+import { Image } from '../../../assets';
 
 const HamburgerMenu = (props) => {
   const { isVisible } = props;
@@ -36,7 +37,7 @@ export const NavBar = () => {
 
       <NavLink to={ROUTE.HOME.PATH}>
         <Title>
-          {/* <TitleLogo /> */}
+          <img src={Image.logo} width="24" alt="logo" />
           <TitleText>여기서만나</TitleText>
         </Title>
       </NavLink>
@@ -57,3 +58,5 @@ export const NavBar = () => {
     </Nav>
   );
 };
+
+NavBar.propTypes = {};

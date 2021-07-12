@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Input, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
 import { MOCK_PARTICIPANT_LIST } from '../../constants';
 import {
+  MapViewSection,
+  MapView,
   ContentSection,
   AddSection,
   AddForm,
@@ -12,6 +14,26 @@ import {
 } from './style';
 
 export const HomePage = () => {
+  const mapViewRef = useRef(null);
+  const showMapView = (args) => {
+    const { element, x, y, level } = args;
+
+    const options = {
+      center: new kakao.maps.LatLng(x, y),
+      level,
+    };
+    const map = new kakao.maps.Map(element, options);
+  };
+  const validationMessage = '이름을 입력해주세연-';
+
+  useEffect(() => {
+    showMapView({
+      element: mapViewRef.current,
+      x: 37.515403,
+      y: 127.10296,
+      level: 3,
+    });
+  }, []);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,6 +41,9 @@ export const HomePage = () => {
   return (
     <>
       <main>
+        <MapViewSection>
+          <MapView ref={mapViewRef} />
+        </MapViewSection>
 
         <ContentSection>
           <AddSection>

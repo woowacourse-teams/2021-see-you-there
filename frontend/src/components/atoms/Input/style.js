@@ -39,6 +39,7 @@ export const Container = styled.div`
 
     ::placeholder {
       color: ${COLOR.PLACEHOLDER};
+    }
 
     :hover {
       border-color: ${COLOR.ICON};
@@ -48,9 +49,13 @@ export const Container = styled.div`
       border-color: ${COLOR.PRIMARY};
       border-width: 2px;
     }
-  }
 
-  input:focus + label {
-    color: ${COLOR.PRIMARY};
+    :read-only {
+      cursor: pointer;
+    }
+
+    :focus + label {
+      color: ${COLOR.PRIMARY};
+    }
   }
 `;

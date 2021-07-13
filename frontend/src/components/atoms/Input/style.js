@@ -6,7 +6,7 @@ export const Container = styled.div`
   position: relative;
   margin-top: 1.5rem;
   width: ${(props) => props.width};
-  height: 3.5rem;
+  height: 3.25rem;
 
   & > label {
     position: absolute;
@@ -21,7 +21,7 @@ export const Container = styled.div`
 
   & > svg {
     position: absolute;
-    bottom: 0.95rem;
+    bottom: 0.8rem;
     left: 0.95rem;
     margin-right: 0.875rem;
   }
@@ -29,8 +29,8 @@ export const Container = styled.div`
   & > input {
     width: 100%;
     height: 100%;
-    padding: 0 0.5rem;
-    padding-left: ${(props) => (props.hasIcon ? '2.75rem' : '0.5rem')};
+    padding: 0 1rem;
+    padding-left: ${(props) => (props.hasIcon ? '2.75rem' : '1rem')};
 
     border: 1px solid ${COLOR.BORDER_INPUT};
     border-radius: 0.4rem;

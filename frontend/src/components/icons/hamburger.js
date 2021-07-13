@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { COLOR } from '../../constants';
 
-export const HamburgerIcon = (props) => {
+export const Hamburger = (props) => {
   const { width, color } = props;
 
   return (
@@ -24,12 +24,12 @@ export const HamburgerIcon = (props) => {
   );
 };
 
-HamburgerIcon.propTypes = {
+Hamburger.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   color: PropTypes.string,
 };
 
-HamburgerIcon.defaultProps = {
+Hamburger.defaultProps = {
   width: 24,
   color: COLOR.ICON,
 };

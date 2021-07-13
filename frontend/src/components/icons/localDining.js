@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { COLOR } from '../../constants';
 
-export const LocalDiningIcon = (props) => {
+export const LocalDining = (props) => {
   const { width, color } = props;
 
   return (
@@ -16,12 +16,12 @@ export const LocalDiningIcon = (props) => {
   );
 };
 
-LocalDiningIcon.propTypes = {
+LocalDining.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   color: PropTypes.string,
 };
 
-LocalDiningIcon.defaultProps = {
+LocalDining.defaultProps = {
   width: 24,
   color: COLOR.ICON,
 };

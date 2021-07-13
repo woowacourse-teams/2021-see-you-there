@@ -3,18 +3,20 @@ import { COLOR } from './constants';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: 'GongGothicMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');
+    font-family: 'yg-jal-nan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
     font-weight: normal;
     font-style: normal;
   }
 
-* {
-    font-family: 'Noto Sans KR', sans-serif;
-    color: ${COLOR.PARAGRAPH};
-    box-sizing: border-box;
+  * {
     margin:0;
     padding:0;
+    box-sizing: border-box;
+
+    font-family: 'Noto Sans KR', sans-serif;
+    color: ${COLOR.PARAGRAPH};
+    letter-spacing: -0.01rem;
   }
 
   html, body {
@@ -41,6 +43,17 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  h2 {
+    padding: 1.75rem 0 1.25rem;
+
+    line-height: 1.5rem;
+    color: ${COLOR.HEADING};
+    font-size: 1.125rem;
+    text-align: center;
+    font-weight: 400;
+    letter-spacing: -0.05rem;
+  }
+
   ul {
     list-style-type: none;
   }
@@ -50,6 +63,7 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     background: none;
     font-family: inherit;
+
     &:disabled {
       cursor: default;
     }

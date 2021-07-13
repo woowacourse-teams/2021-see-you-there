@@ -17,6 +17,7 @@ public class Kakao {
 
     public static final String KAKAO_HOST_URI = "https://kapi.kakao.com";
     public static final String KAKAO_AUTH_URI = "https://kauth.kakao.com";
+    public static final String DOMAIN_URI = "https://seeyouther.o-r.kr";
 
     public static JSONObject getKakaoUserInfo(String access_token) {
         RestTemplate restTemplate = new RestTemplate();
@@ -35,7 +36,7 @@ public class Kakao {
         MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
         parameters.set("grant_type", "authorization_code");
         parameters.set("client_id", SecretKey.KAKAO_API_KEY);
-        parameters.set("redirect_uri", "http://localhost:8080/kakao/callback");
+        parameters.set("redirect_uri", Kakao.DOMAIN_URI + "/api/kakao/callback");
         parameters.set("code", code);
 
         ResponseEntity<JSONObject> apiResponse = postRequest(restTemplate, uri, parameters, null);

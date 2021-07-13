@@ -43,7 +43,7 @@ export const Avatar = styled.div`
   border-radius: 100%;
   background-color: ${COLOR.BACKGROUND};
 
-  img {
+  & > img {
     width: 3.5rem;
     height: 3.5rem;
   }

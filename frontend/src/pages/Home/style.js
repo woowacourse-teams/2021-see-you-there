@@ -22,7 +22,7 @@ export const ContentSection = styled.section`
   overflow-y: auto;
 
   background-color: ${COLOR.PRIMARY_BACKGROUND};
-  box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.25);
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     width: 100%;
@@ -57,7 +57,7 @@ export const ListSection = styled.section`
   width: 100%;
   padding-bottom: ${LAYOUT.CONTENT_BOTTOM_HEIGHT};
 
-  h2 > span {
+  & > h2 > span {
     font-size: 0.875rem;
   }
 `;

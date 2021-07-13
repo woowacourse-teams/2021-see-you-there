@@ -6,7 +6,7 @@ const styleNavRight = css`
   top: 0;
   right: 0;
   width: ${LAYOUT.NAV_WIDTH_RIGHT};
-  box-shadow: -4px 0px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.25);
 `;
 
 const styleNavFull = css`
@@ -89,7 +89,7 @@ export const MenuList = styled.ul`
     0 1rem 2rem -0.125rem rgb(20 20 84 / 8%), 0 0 0 0.0625rem rgb(20 20 84 / 12%);
   color: ${COLOR.PARAGRAPH};
 
-  & li {
+  & > li {
     padding: 0.25rem 1rem;
     min-width: 9rem;
   }

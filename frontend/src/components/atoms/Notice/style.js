@@ -7,7 +7,7 @@ export const Container = styled.div`
   height: 1.375rem;
   margin: 0.5rem 0 0.5rem 1.05rem;
 
-  span {
+  & > span {
     padding-left: 0.25rem;
 
     font-size: 0.9rem;

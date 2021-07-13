@@ -38,7 +38,7 @@ export const Button = styled.button`
 
   border-radius: 3rem;
 
-  span {
+  & > span {
     color: inherit;
     letter-spacing: -0.06rem;
     margin-left: 0.25rem;

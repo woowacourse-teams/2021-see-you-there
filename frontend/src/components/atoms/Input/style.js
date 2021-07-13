@@ -8,7 +8,7 @@ export const Container = styled.div`
   width: ${(props) => props.width};
   height: 3.5rem;
 
-  label {
+  & > label {
     position: absolute;
     top: -0.5rem;
     left: 0.75rem;
@@ -19,14 +19,14 @@ export const Container = styled.div`
     font-size: 0.75rem;
   }
 
-  svg {
+  & > svg {
     position: absolute;
     bottom: 0.95rem;
     left: 0.95rem;
     margin-right: 0.875rem;
   }
 
-  input {
+  & > input {
     width: 100%;
     height: 100%;
     padding: 0 0.5rem;
@@ -37,24 +37,24 @@ export const Container = styled.div`
 
     outline: none;
 
-    ::placeholder {
+    &::placeholder {
       color: ${COLOR.PLACEHOLDER};
     }
 
-    :hover {
-      border-color: ${COLOR.ICON};
+    &:hover {
+      border-color: ${COLOR.BORDER_INPUT_HOVER};
     }
 
-    :focus {
+    &:focus {
       border-color: ${COLOR.PRIMARY};
       border-width: 2px;
     }
 
-    :read-only {
+    &:read-only {
       cursor: pointer;
     }
 
-    :focus + label {
+    &:focus + label {
       color: ${COLOR.PRIMARY};
     }
   }

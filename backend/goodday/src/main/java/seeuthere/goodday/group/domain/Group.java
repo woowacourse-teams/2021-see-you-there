@@ -1,8 +1,7 @@
 package seeuthere.goodday.group.domain;
 
-import seeuthere.goodday.member.domain.Member;
-
 import java.util.List;
+import seeuthere.goodday.member.domain.Member;
 
 public class Group {
 

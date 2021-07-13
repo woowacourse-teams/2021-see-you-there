@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-#    url은 차후에 변경해야 함
+    #    url은 차후에 변경해야 함
     url: jdbc:mariadb://localhost:13306/seeyouthere?userSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: root

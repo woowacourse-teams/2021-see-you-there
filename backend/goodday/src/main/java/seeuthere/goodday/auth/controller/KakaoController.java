@@ -27,7 +27,7 @@ public class KakaoController {
         StringBuffer url = new StringBuffer();
         url.append(KAKAO_AUTH_URI + "/oauth/authorize?");
         url.append("client_id=" + SecretKey.KAKAO_API_KEY);
-        url.append("&redirect_uri=https://seeyouthere.o-r.kr/api/kakao/callback");
+        url.append("&redirect_uri="+ Kakao.DOMAIN_URI +"/api/kakao/callback");
         url.append("&response_type=code");
 
         return "redirect:" + url;

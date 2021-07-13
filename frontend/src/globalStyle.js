@@ -44,7 +44,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h2 {
-    padding: 2rem 0 1.25rem;
+    padding: 1.75rem 0 1.25rem;
 
     line-height: 1.5rem;
     color: ${COLOR.HEADING};

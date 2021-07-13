@@ -1,6 +1,7 @@
 export { ArrowLeft } from './arrowLeft';
 export { Check } from './check';
 export { CheckCircle } from './checkCircle';
+export { Close } from './close';
 export { Enter } from './enter';
 export { ErrorCircle } from './errorCircle';
 export { Hamburger } from './hamburger';

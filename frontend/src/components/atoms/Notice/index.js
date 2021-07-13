@@ -12,7 +12,7 @@ export const Notice = (props) => {
     <Container color={color}>
       {children && (
         <>
-          <Icon.ErrorCircle width="22" color={color} />
+          <Icon.ErrorCircle width="18" color={color} />
           <span>{children}</span>
         </>
       )}
@@ -26,5 +26,5 @@ Notice.propTypes = {
 };
 
 Notice.defaultProps = {
-  color: COLOR.ERROR_LIGHT,
+  color: COLOR.ERROR,
 };

@@ -8,7 +8,7 @@ export const Confirm = (props) => {
   const { onCancel, onApprove, children } = props;
 
   return (
-    <Modal>
+    <Modal size="small">
       <Container>
         {children}
         <ButtonGroup>

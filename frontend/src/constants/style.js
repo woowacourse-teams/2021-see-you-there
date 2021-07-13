@@ -36,6 +36,7 @@ export const LAYOUT = {
   DEVICE_WIDTH_TABLET: '832px',
 
   MARGIN: '1.5rem',
+  PADDING: '1.5rem',
 };
 
 export const Z_INDEX = {

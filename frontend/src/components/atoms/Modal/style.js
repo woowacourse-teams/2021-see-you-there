@@ -1,5 +1,29 @@
-import styled from 'styled-components';
-import { COLOR, Z_INDEX } from '../../../constants';
+import styled, { css } from 'styled-components';
+
+import { LAYOUT, COLOR, Z_INDEX } from '../../../constants';
+
+const styleSize = {
+  base: css`
+    min-width: 26rem;
+    min-height: 10rem;
+
+    @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+      min-width: 16rem;
+      max-width: 26rem;
+      width: 90%;
+    }
+  `,
+  small: css`
+    min-width: 21.5rem;
+    min-height: 7.5rem;
+
+    @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+      min-width: 16rem;
+      max-width: 21.5rem;
+      width: 90%;
+    }
+  `,
+};
 
 export const Dimmer = styled.div`
   position: fixed;
@@ -16,24 +40,14 @@ export const Dimmer = styled.div`
 `;
 
 export const Container = styled.div`
+  ${(props) => styleSize[props.size]};
+
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1rem 1.5rem;
-  min-width: 17.5rem;
-  min-height: 7.5rem;
+  padding: ${LAYOUT.PADDING};
 
   background-color: ${COLOR.BACKGROUND};
   border-radius: 0.25rem;
-  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.14), 0px 6px 30px rgba(0, 0, 0, 0.12), 0px 8px 10px rgba(0, 0, 0, 0.2);
-
-  // TODO: close 버튼 추가 시 활용
-  /* position: relative; */
-
-  /* & > button {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: var(--size-regular);
-  } */
+  box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.14), 0 6px 30 rgba(0, 0, 0, 0.12), 0 8px 10 rgba(0, 0, 0, 0.2);
 `;

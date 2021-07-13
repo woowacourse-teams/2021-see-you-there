@@ -60,6 +60,7 @@ export const Name = styled.span`
 export const Address = styled.span`
   max-width: 5rem;
   min-height: 1.75rem;
+  margin-top: 0.25rem;
 
   line-height: 0.9rem;
   font-size: 0.625rem;

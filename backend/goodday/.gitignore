@@ -38,4 +38,8 @@ out/
 .vscode/
 
 ### secrets
+<<<<<<< HEAD
 /src/main/java/seeuthere/goodday/secret/
+=======
+/src/main/java/seeuthere/goodday/secret/
+>>>>>>> c9bc56bedbde87105bbe9c4d5574a6e1c83d4556

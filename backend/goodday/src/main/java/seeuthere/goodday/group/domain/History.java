@@ -1,7 +1,8 @@
 package seeuthere.goodday.group.domain;
 
-import java.util.Date;
 import seeuthere.goodday.location.domain.Location;
+
+import java.util.Date;
 
 public class History {
 

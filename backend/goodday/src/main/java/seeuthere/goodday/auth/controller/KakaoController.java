@@ -1,11 +1,5 @@
 package seeuthere.goodday.auth.controller;
 
-import static seeuthere.goodday.auth.domain.Kakao.KAKAO_AUTH_URI;
-import static seeuthere.goodday.auth.domain.Kakao.KAKAO_HOST_URI;
-
-import java.net.URI;
-import java.util.Map;
-import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
@@ -17,6 +11,13 @@ import org.springframework.web.client.RestTemplate;
 import seeuthere.goodday.auth.domain.Kakao;
 import seeuthere.goodday.secret.SecretKey;
 
+import javax.servlet.http.HttpSession;
+import java.net.URI;
+import java.util.Map;
+
+import static seeuthere.goodday.auth.domain.Kakao.KAKAO_AUTH_URI;
+import static seeuthere.goodday.auth.domain.Kakao.KAKAO_HOST_URI;
+
 
 @Controller
 @RequestMapping("/api/kakao")
@@ -27,7 +28,7 @@ public class KakaoController {
         StringBuffer url = new StringBuffer();
         url.append(KAKAO_AUTH_URI + "/oauth/authorize?");
         url.append("client_id=" + SecretKey.KAKAO_API_KEY);
-        url.append("&redirect_uri="+ Kakao.DOMAIN_URI +"/api/kakao/callback");
+        url.append("&redirect_uri=" + Kakao.DOMAIN_URI + "/api/kakao/callback");
         url.append("&response_type=code");
 
         return "redirect:" + url;

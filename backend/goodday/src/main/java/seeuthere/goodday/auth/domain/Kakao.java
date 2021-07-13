@@ -1,9 +1,5 @@
 package seeuthere.goodday.auth.domain;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +8,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import seeuthere.goodday.secret.SecretKey;
+
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Kakao {
 
@@ -45,9 +46,9 @@ public class Kakao {
     }
 
     public static ResponseEntity<JSONObject> postRequest(RestTemplate restTemplate,
-        URI uri, MultiValueMap<String, Object> parameters, HttpHeaders headers) {
+                                                         URI uri, MultiValueMap<String, Object> parameters, HttpHeaders headers) {
         HttpEntity<MultiValueMap<String, Object>> restRequest = new HttpEntity<>(parameters,
-            headers);
+                headers);
         return restTemplate.postForEntity(uri, restRequest, JSONObject.class);
     }
 

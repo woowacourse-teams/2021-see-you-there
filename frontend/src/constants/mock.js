@@ -50,3 +50,14 @@ export const MOCK_PARTICIPANT_LIST = [
     avatar: Image.avatar,
   },
 ];
+
+export const MOCK_ADDRESS_LIST = [
+  { x: 0.0, y: 0.0, addressName: '서울 송파구 잠실동' },
+  { x: 0.0, y: 0.0, addressName: '서울 송파구 잠실본동' },
+  { x: 0.0, y: 0.0, addressName: '서울 송파구 잠실1동' },
+  { x: 0.0, y: 0.0, addressName: '서울 송파구 잠실2동' },
+  { x: 0.0, y: 0.0, addressName: '서울 송파구 잠실3동' },
+  { x: 0.0, y: 0.0, addressName: '서울 송파구 잠실4동' },
+  { x: 0.0, y: 0.0, addressName: '서울 송파구 잠실5동' },
+  { x: 0.0, y: 0.0, addressName: '서울 송파구 잠실6동' },
+];

@@ -48,7 +48,7 @@ export const AddForm = styled.form`
 export const ButtonGroup = styled.div`
   display: flex;
   justify-content: space-evenly;
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 `;
 
 /* 참가자 목록 Section */
@@ -75,4 +75,58 @@ export const BottomSection = styled.section`
   width: inherit;
 
   background-color: ${COLOR.PRIMARY_BACKGROUND};
+`;
+
+/* 주소 검색 Modal */
+
+export const ModalCloseButton = styled.button`
+  width: fit-content;
+  align-self: flex-end;
+`;
+
+export const AddressSearchList = styled.ul`
+  height: 20rem;
+  overflow-y: auto;
+  margin: 1.25rem 0.75rem;
+
+  /* 스크롤 공간 확보 */
+  margin-right: 0;
+  padding-right: 1rem;
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    margin: 1rem 0.5rem;
+    margin-right: 0;
+    padding-right: 0.75rem;
+    height: 16rem;
+  }
+
+  & > li {
+    padding: 0.75rem 0;
+    width: 100%;
+    border-bottom: 1px solid ${COLOR.BORDER_INPUT};
+
+    & > button {
+      display: flex;
+      align-items: center;
+      padding-left: 0.5rem;
+      width: 100%;
+    }
+
+    & svg {
+      margin-left: 0.5rem;
+      visibility: hidden;
+    }
+
+    &:hover {
+      background-color: ${COLOR.PRIMARY_BACKGROUND};
+
+      & > button {
+        color: ${COLOR.PRIMARY};
+      }
+
+      & svg {
+        visibility: visible;
+      }
+    }
+  }
 `;

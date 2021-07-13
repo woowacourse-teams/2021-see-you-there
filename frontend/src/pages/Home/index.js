@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Input, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
-import { MOCK_PARTICIPANT_LIST } from '../../constants';
+import { Input, InputWithButton, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
+import { COLOR, MOCK_PARTICIPANT_LIST, MOCK_ADDRESS_LIST } from '../../constants';
 import {
   MapViewSection,
   MapView,
@@ -11,6 +11,8 @@ import {
   ButtonGroup,
   ListSection,
   BottomSection,
+  ModalCloseButton,
+  AddressSearchList,
 } from './style';
 
 export const HomePage = () => {
@@ -100,7 +102,32 @@ export const HomePage = () => {
         </ContentSection>
       </main>
 
-      {isModalOpen && <Modal>모달 테스트 중</Modal>}
+      {isModalOpen && (
+        <Modal>
+          <ModalCloseButton onClick={() => setIsModalOpen(false)}>
+            <Icon.Close />
+          </ModalCloseButton>
+          <InputWithButton
+            name="addressSearch"
+            label={`${'김하루하루'}의 출발지`}
+            placeholder="예) 여기동 42-1 또는 만나아파트"
+            onClickButton={() => {
+              console.log('찾아라!!');
+            }}
+            buttonIcon={<Icon.Search width="20" />}
+          />
+          <AddressSearchList>
+            {MOCK_ADDRESS_LIST.map((item, index) => (
+              <li key={index}>
+                <button onClick={() => setIsModalOpen(false)}>
+                  {item.addressName}
+                  <Icon.Check color={COLOR.PRIMARY} width="20" />
+                </button>
+              </li>
+            ))}
+          </AddressSearchList>
+        </Modal>
+      )}
 
       {isConfirmOpen && (
         <Confirm

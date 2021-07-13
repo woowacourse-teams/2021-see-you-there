@@ -35,7 +35,7 @@ public class Kakao {
         MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
         parameters.set("grant_type", "authorization_code");
         parameters.set("client_id", SecretKey.KAKAO_API_KEY);
-        parameters.set("redirect_uri", "http://localhost:8080/kakao/callback");
+        parameters.set("redirect_uri", "https://seeyouthere.o-r.kr/api/kakao/callback");
         parameters.set("code", code);
 
         ResponseEntity<JSONObject> apiResponse = postRequest(restTemplate, uri, parameters, null);

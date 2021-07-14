@@ -1,17 +1,11 @@
-export { ArrowLeftIcon } from './icons/expandLeft';
-export { CheckIcon } from './icons/check';
-export { CheckCircleIcon } from './icons/checkCircle';
-export { EnterIcon } from './icons/enter';
-export { HamburgerIcon } from './icons/hamburger';
-export { LocalBarIcon } from './icons/localBar';
-export { LocalCafeIcon } from './icons/localCafe';
-export { LocalDiningIcon } from './icons/localDining';
-export { PeopleIcon } from './icons/people';
-export { PersonIcon } from './icons/person';
-export { PersonCircleIcon } from './icons/personCircle';
-export { PlaceIcon } from './icons/place';
-export { RemoveCircleIcon } from './icons/removeCircle';
-export { SearchIcon } from './icons/search';
-export { SubmitRightIcon } from './icons/submitRight';
+export * as Icon from './icons';
+
+export { ButtonRound } from './atoms/ButtonRound';
+export { Notice } from './atoms/Notice';
+export { Input } from './atoms/Input';
+export { InputWithButton } from './atoms/InputWithButton';
+export { Modal } from './atoms/Modal';
 
 export { NavBar } from './molecules/NavBar';
+export { Confirm } from './molecules/Confirm';
+export { ParticipantList } from './molecules/ParticipantList';

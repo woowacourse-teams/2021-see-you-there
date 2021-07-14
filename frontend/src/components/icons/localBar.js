@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { COLOR } from '../../constants';
 
-export const LocalBarIcon = (props) => {
+export const LocalBar = (props) => {
   const { width, color } = props;
 
   return (
@@ -13,12 +13,12 @@ export const LocalBarIcon = (props) => {
   );
 };
 
-LocalBarIcon.propTypes = {
+LocalBar.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   color: PropTypes.string,
 };
 
-LocalBarIcon.defaultProps = {
+LocalBar.defaultProps = {
   width: 24,
   color: COLOR.ICON,
 };

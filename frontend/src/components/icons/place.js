@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { COLOR } from '../../constants';
 
-export const PlaceIcon = (props) => {
+export const Place = (props) => {
   const { width, color } = props;
 
   return (
@@ -16,12 +16,12 @@ export const PlaceIcon = (props) => {
   );
 };
 
-PlaceIcon.propTypes = {
+Place.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   color: PropTypes.string,
 };
 
-PlaceIcon.defaultProps = {
+Place.defaultProps = {
   width: 24,
   color: COLOR.ICON,
 };

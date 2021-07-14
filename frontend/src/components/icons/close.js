@@ -3,25 +3,25 @@ import PropTypes from 'prop-types';
 
 import { COLOR } from '../../constants';
 
-export const ArrowLeft = (props) => {
+export const Close = (props) => {
   const { width, color } = props;
 
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={width} viewBox="0 0 24 24" fill="none">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path
-        d="M15.5348 3.51514L7.0498 12.0001L15.5348 20.4851L16.9498 19.0711L9.8778 12.0001L16.9498 4.92914L15.5348 3.51514Z"
-        fill={color}
+        d="M17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41L17.59 5Z"
+        fill="#666666"
       />
     </svg>
   );
 };
 
-ArrowLeft.propTypes = {
+Close.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   color: PropTypes.string,
 };
 
-ArrowLeft.defaultProps = {
+Close.defaultProps = {
   width: 24,
   color: COLOR.ICON,
 };

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { COLOR } from '../../constants';
 
-export const CheckCircleIcon = (props) => {
+export const CheckCircle = (props) => {
   const { width, color, fill } = props;
 
   return (
@@ -24,13 +24,13 @@ export const CheckCircleIcon = (props) => {
   );
 };
 
-CheckCircleIcon.propTypes = {
+CheckCircle.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   color: PropTypes.string,
   fill: PropTypes.string,
 };
 
-CheckCircleIcon.defaultProps = {
+CheckCircle.defaultProps = {
   width: 24,
   color: COLOR.ICON,
   fill: '#fff',

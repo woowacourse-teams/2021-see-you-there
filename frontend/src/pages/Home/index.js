@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
+import { useMapView } from '../../hooks';
 import { Input, InputWithButton, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
 import { COLOR, MOCK_PARTICIPANT_LIST, MOCK_ADDRESS_LIST } from '../../constants';
 import {
@@ -16,29 +17,11 @@ import {
 } from './style';
 
 export const HomePage = () => {
-  const mapViewRef = useRef(null);
-  const showMapView = (args) => {
-    const { element, x, y, level } = args;
-
-    const options = {
-      center: new kakao.maps.LatLng(x, y),
-      level,
-    };
-    const map = new kakao.maps.Map(element, options);
-  };
-  const validationMessage = '이름을 입력해주세연-';
-
-  useEffect(() => {
-    showMapView({
-      element: mapViewRef.current,
-      x: 37.515403,
-      y: 127.10296,
-      level: 3,
-    });
-  }, []);
-
+  const { mapViewRef } = useMapView();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const validationMessage = '이름을 입력해주세연-';
 
   return (
     <>

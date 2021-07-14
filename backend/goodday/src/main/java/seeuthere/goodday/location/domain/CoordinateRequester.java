@@ -6,40 +6,37 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import seeuthere.goodday.exception.GoodDayException;
-import seeuthere.goodday.location.dto.Document;
-import seeuthere.goodday.location.dto.LocationResponse;
+import seeuthere.goodday.location.dto.AxisDocument;
+import seeuthere.goodday.location.dto.AxisResponse;
 import seeuthere.goodday.location.exception.LocationExceptionSet;
 
-public class LocationRequester {
+public class CoordinateRequester {
 
-    private static final String BASIC_URL = "/v2/local/geo/coord2regioncode.json";
+    private static final String BASIC_URL = "/v2/local/search/address.json";
     private final WebClient webClient;
 
-    public LocationRequester(WebClient webClient) {
+    public CoordinateRequester(WebClient webClient) {
         this.webClient = webClient;
     }
 
-    public List<Document> requestAddress(double x, double y) {
+    public List<AxisDocument> requestCoordinate(String address) {
         try {
-            LocationResponse locationResponse = receivedLocationResponse(x, y);
-
-            return Objects.requireNonNull(locationResponse).getDocuments();
+            AxisResponse axisResponse = receivedAxisResponse(address);
+            return Objects.requireNonNull(axisResponse).getDocuments();
         } catch (WebClientResponseException e) {
             throw new GoodDayException(LocationExceptionSet.INVALID_LOCATION);
         }
     }
 
-    private LocationResponse receivedLocationResponse(double x, double y) {
+    private AxisResponse receivedAxisResponse(String address) {
         return webClient.get()
             .uri(uriBuilder ->
                 uriBuilder.path(BASIC_URL)
-                    .queryParam("x", x)
-                    .queryParam("y", y)
-                    .build()
-            )
+                    .queryParam("query", address)
+                    .build())
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
-            .bodyToMono(LocationResponse.class)
+            .bodyToMono(AxisResponse.class)
             .block();
     }
 }

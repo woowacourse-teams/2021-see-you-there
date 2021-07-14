@@ -43,4 +43,9 @@ export const Button = styled.button`
     letter-spacing: -0.06rem;
     margin-left: 0.25rem;
   }
+
+  &:disabled {
+    background-color: ${COLOR.PRIMARY_LIGHT};
+    box-shadow: none;
+  }
 `;

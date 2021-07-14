@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { COLOR } from '../../constants';
 
-export const CheckIcon = (props) => {
+export const Check = (props) => {
   const { width, color } = props;
 
   return (
@@ -16,12 +16,12 @@ export const CheckIcon = (props) => {
   );
 };
 
-CheckIcon.propTypes = {
+Check.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   color: PropTypes.string,
 };
 
-CheckIcon.defaultProps = {
+Check.defaultProps = {
   width: 24,
   color: COLOR.ICON,
 };

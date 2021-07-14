@@ -23,8 +23,8 @@ export const INPUT = {
 export const MESSAGE = {
   NOTICE_NAME_TOO_LONG: '이름은 6자 이하로만 입력 가능합니다.',
   NOTICE_NAME_TOO_SHORT: '이름은 2자 이상으로 입력해주세요.',
-
   NOTICE_NAME_EMPTY: '참석자 이름을 입력해주세요.',
+  NOTICE_INCOMPLETE_FORM: '참석자 정보를 입력해주세요.',
 
   CONFIRM_PARTICIPANT_DELETE: '참석자를 삭제하시겠습니까?',
 };

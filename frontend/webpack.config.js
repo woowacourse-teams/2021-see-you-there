@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -30,6 +31,7 @@ module.exports = {
         exclude: '/node_modules',
         loader: 'babel-loader',
         options: {
+          plugins: ['react-refresh/babel'],
           presets: [
             [
               '@babel/preset-env',
@@ -53,6 +55,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
+    new ReactRefreshWebpackPlugin(),
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),

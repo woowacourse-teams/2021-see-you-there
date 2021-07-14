@@ -39,5 +39,5 @@ out/
 
 ### secrets
 
-/src/main/java/seeuthere/goodday/secret/
+**/src/main/java/seeuthere/goodday/secret/
 

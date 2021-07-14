@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-import { useMapView } from '../../hooks';
+import { useParticipantRemoveConfirm, useMapView, useModal, useParticipantForm } from '../../hooks';
 import { Input, InputWithButton, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
-import { COLOR, MOCK_PARTICIPANT_LIST, MOCK_ADDRESS_LIST } from '../../constants';
+import { COLOR, MOCK_ADDRESS_LIST, INPUT, MESSAGE } from '../../constants';
 import {
   MapViewSection,
   MapView,
@@ -16,12 +17,17 @@ import {
   AddressSearchList,
 } from './style';
 
-export const HomePage = () => {
+export const HomePage = (props) => {
+  const { participant } = props;
   const { mapViewRef } = useMapView();
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useParticipantRemoveConfirm({ participant });
+  const { form, name, address, validationMessage } = useParticipantForm({ participant, openModal, closeModal });
 
-  const validationMessage = '이름을 입력해주세연-';
+  const escapeModal = () => {
+    address.focus();
+    closeModal();
+  };
 
   return (
     <>
@@ -33,33 +39,40 @@ export const HomePage = () => {
         <ContentSection>
           <AddSection>
             <h2>만날 사람을 추가해보세요.</h2>
-            <AddForm>
-              <Input name="name" label="이름" placeholder="이름을 2 ~ 6자로 입력해주세요." Icon={<Icon.Person />} />
-
+            <AddForm ref={form.ref} onSubmit={form.handleSubmit}>
               <Input
-                name="address"
-                label="주소"
-                placeholder="출발지를 입력해주세요."
-                value=""
+                name={INPUT.NAME.KEY}
+                label={INPUT.NAME.LABEL}
+                value={name.value}
+                onChange={name.handleChange}
+                onBlur={name.handleBlur}
+                placeholder={INPUT.NAME.PLACEHOLDER}
+                Icon={<Icon.Person />}
+              />
+              <Input
+                name={INPUT.ADDRESS.KEY}
+                label={INPUT.ADDRESS.LABEL}
+                value={address.value}
+                placeholder={INPUT.ADDRESS.PLACEHOLDER}
                 Icon={<Icon.Place />}
-                onKeyPress={(e) => {
-                  if (e.key !== 'Enter') return;
-
-                  setIsModalOpen(() => true);
-                }}
-                onClick={() => {
-                  setIsModalOpen(() => true);
-                }}
+                onKeyPress={address.handleKeyPress}
+                onFocus={address.handleClick}
+                onClick={address.handleClick}
                 readOnly
               />
 
               <Notice>{validationMessage}</Notice>
 
               <ButtonGroup>
-                <ButtonRound type="button" size="small" color="gray" Icon={<Icon.People width="18" />}>
+                <ButtonRound type="button" size="small" Icon={<Icon.People width="18" />} color="gray">
                   팔로잉 목록에서 선택
                 </ButtonRound>
-                <ButtonRound size="small" Icon={<Icon.SubmitRight width="18" color="#fff" />} disabled>
+                <ButtonRound
+                  type="submit"
+                  size="small"
+                  Icon={<Icon.SubmitRight width="18" color="#fff" />}
+                  disabled={!form.isComplete}
+                >
                   만날 사람 추가
                 </ButtonRound>
               </ButtonGroup>
@@ -68,15 +81,9 @@ export const HomePage = () => {
 
           <ListSection>
             <h2>
-              만나는 사람들 <span>({MOCK_PARTICIPANT_LIST.length}명)</span>
+              만나는 사람들 <span>({participant.list.length}명)</span>
             </h2>
-            <ParticipantList
-              items={MOCK_PARTICIPANT_LIST}
-              onClickToDelete={(id) => {
-                setIsConfirmOpen(() => true);
-                console.log(id);
-              }}
-            />
+            <ParticipantList items={participant.list} onClickToDelete={(id) => openConfirm(id)} />
           </ListSection>
 
           <BottomSection>
@@ -86,23 +93,25 @@ export const HomePage = () => {
       </main>
 
       {isModalOpen && (
-        <Modal>
-          <ModalCloseButton onClick={() => setIsModalOpen(false)}>
+        <Modal escapeModal={escapeModal}>
+          <ModalCloseButton onClick={escapeModal}>
             <Icon.Close />
           </ModalCloseButton>
           <InputWithButton
-            name="addressSearch"
-            label={`${'김하루하루'}의 출발지`}
-            placeholder="예) 여기동 42-1 또는 만나아파트"
+            name={INPUT.ADDRESS_SEARCH.KEY}
+            label={INPUT.ADDRESS_SEARCH.LABEL(name.value)}
+            placeholder={INPUT.ADDRESS_SEARCH.PLACEHOLDER}
             onClickButton={() => {
+              // TODO: API 연결해서 주소 검색 목록 가져오기
               console.log('찾아라!!');
             }}
             buttonIcon={<Icon.Search width="20" />}
+            autoFocus
           />
           <AddressSearchList>
             {MOCK_ADDRESS_LIST.map((item, index) => (
               <li key={index}>
-                <button onClick={() => setIsModalOpen(false)}>
+                <button onClick={() => address.handleSelect(item)}>
                   {item.addressName}
                   <Icon.Check color={COLOR.PRIMARY} width="20" />
                 </button>
@@ -113,17 +122,18 @@ export const HomePage = () => {
       )}
 
       {isConfirmOpen && (
-        <Confirm
-          onCancel={() => {
-            setIsConfirmOpen(() => false);
-          }}
-          onApprove={() => {
-            setIsConfirmOpen(() => false);
-          }}
-        >
-          참석자를 삭제하시겠습니까?
+        <Confirm onCancel={cancelConfirm} onApprove={approveConfirm}>
+          {MESSAGE.CONFIRM_PARTICIPANT_DELETE}
         </Confirm>
       )}
     </>
   );
+};
+
+HomePage.propTypes = {
+  participant: PropTypes.shape({
+    list: PropTypes.array,
+    add: PropTypes.func,
+    remove: PropTypes.func,
+  }),
 };

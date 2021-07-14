@@ -2,22 +2,23 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { HomePage } from './pages';
+import { useParticipants } from './hooks';
 import { NavBar } from './components';
 import { ROUTE } from './constants';
 
 export const App = () => {
-  // TODO: const {participants, add, delete} = useParticipants()
+  const { participant } = useParticipants();
 
   return (
     <Router>
       <NavBar />
       <Switch>
         <Route exact path={ROUTE.HOME.PATH}>
-          <HomePage />
+          <HomePage participant={participant} />
         </Route>
         // TODO: 중간지점 찾기 페이지
         {/* <Route exact path={ROUTE.MIDPOINT.PATH}>
-           <MidpointPage participants={participants} />
+           <MidpointPage participant={participant} />
          </Route> */}
         // TODO: 로그인 / 로그아웃 페이지
         {/* <Route exact path={ROUTE.LOGIN.PATH}>

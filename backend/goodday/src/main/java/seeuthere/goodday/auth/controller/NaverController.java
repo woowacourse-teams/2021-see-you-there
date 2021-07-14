@@ -11,6 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.dto.TokenDto;
 import seeuthere.goodday.secret.SecretKey;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -81,6 +82,28 @@ public class NaverController {
                 .retrieve()
                 .bodyToMono(String.class).block();
         System.out.println(response);
+    }
+
+    @GetMapping("/logout")
+    public String naverLogout(HttpSession session, HttpServletRequest request) {
+        String accessToken = (String) session.getAttribute("access_token");
+        WebClient webclient = WebClient.builder()
+                .baseUrl("https://nid.naver.com")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        webclient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/oauth2.0/token")
+                        .queryParam("client_id", SecretKey.NAVER_API_KEY)
+                        .queryParam("client_secret", SecretKey.NAVER_CLIENT_SECRET)
+                        .queryParam("grant_type", "delete")
+                        .queryParam("access_token", accessToken)
+                        .queryParam("service_provider", "NAVER")
+                        .build())
+                .retrieve().bodyToMono(String.class).block();
+
+        return "redirect:/";
     }
 
 }

@@ -46,7 +46,7 @@ public class KakaoController {
     }
 
     @GetMapping(value = "/logout")
-    public void kakaoLogout(HttpSession session) {
+    public String kakaoLogout(HttpSession session) {
         String accessToken = (String) session.getAttribute("access_token");
 
         RestTemplate restTemplate = new RestTemplate();
@@ -57,5 +57,6 @@ public class KakaoController {
         Kakao.postRequest(restTemplate, uri, null, headers);
 
         session.removeAttribute("access_token");
+        return "redirect:/";
     }
 }

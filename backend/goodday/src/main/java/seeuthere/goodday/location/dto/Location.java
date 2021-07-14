@@ -1,4 +1,4 @@
-package seeuthere.goodday.location.domain;
+package seeuthere.goodday.location.dto;
 
 public class Location {
 

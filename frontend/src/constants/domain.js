@@ -2,15 +2,15 @@ export const INPUT = {
   NAME: {
     KEY: 'name',
     LABEL: '이름',
-    PLACEHOLDER: '이름을 2 ~ 6자로 입력해주세요.',
+    PLACEHOLDER: '이름을 1 ~ 6자로 입력해주세요.',
+    MIN_LENGTH: 1,
     MAX_LENGTH: 6,
-    MIN_LENGTH: 2,
   },
 
   ADDRESS: {
     KEY: 'address',
-    LABEL: '주소',
-    PLACEHOLDER: '출발지를 입력해주세요. (클릭)',
+    LABEL: '출발지',
+    PLACEHOLDER: '출발지를 입력해주세요. ( 클릭 )',
   },
 
   ADDRESS_SEARCH: {
@@ -20,9 +20,15 @@ export const INPUT = {
   },
 };
 
+// TODO: 백엔드분들과 상의 후 MAX_LENGTH 유지할지 결정
+export const PARTICIPANT = {
+  MIN_LENGTH: 2,
+  MAX_LENGTH: 8,
+};
+
 export const MESSAGE = {
-  NOTICE_NAME_TOO_LONG: '이름은 6자 이하로만 입력 가능합니다.',
-  NOTICE_NAME_TOO_SHORT: '이름은 2자 이상으로 입력해주세요.',
+  NOTICE_NAME_TOO_LONG: '이름을 6자 이하로만 입력 가능합니다.',
+  NOTICE_NAME_TOO_SHORT: '이름을 1자 이상으로 입력해주세요.',
   NOTICE_NAME_EMPTY: '참석자 이름을 입력해주세요.',
   NOTICE_INCOMPLETE_FORM: '참석자 정보를 입력해주세요.',
 

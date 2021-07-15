@@ -7,7 +7,7 @@ export const List = styled.ul`
   row-gap: 1.25rem;
   grid-template-columns: repeat(3, 1fr);
   width: ${LAYOUT.CONTENT_WIDTH_RIGHT};
-  margin: 0 auto;
+  margin: 1.25rem auto 0;
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     grid-template-columns: repeat(2, 1fr);

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import { useParticipantRemoveConfirm, useMapView, useModal, useParticipantForm } from '../../hooks';
 import { Input, InputWithButton, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
-import { COLOR, MOCK_ADDRESS_LIST, INPUT, MESSAGE } from '../../constants';
+import { COLOR, MOCK_ADDRESS_LIST, INPUT, MESSAGE, PARTICIPANT } from '../../constants';
 import {
-  MapViewSection,
+  MapViewArea,
   MapView,
-  ContentSection,
+  ContentArea,
   AddSection,
   AddForm,
   ButtonGroup,
@@ -32,11 +32,11 @@ export const HomePage = (props) => {
   return (
     <>
       <main>
-        <MapViewSection>
+        <MapViewArea>
           <MapView ref={mapViewRef} />
-        </MapViewSection>
+        </MapViewArea>
 
-        <ContentSection>
+        <ContentArea>
           <AddSection>
             <h2>만날 사람을 추가해보세요.</h2>
             <AddForm ref={form.ref} onSubmit={form.handleSubmit}>
@@ -48,6 +48,7 @@ export const HomePage = (props) => {
                 onBlur={name.handleBlur}
                 placeholder={INPUT.NAME.PLACEHOLDER}
                 Icon={<Icon.Person />}
+                autoFocus
               />
               <Input
                 name={INPUT.ADDRESS.KEY}
@@ -56,8 +57,8 @@ export const HomePage = (props) => {
                 placeholder={INPUT.ADDRESS.PLACEHOLDER}
                 Icon={<Icon.Place />}
                 onKeyPress={address.handleKeyPress}
-                onFocus={address.handleClick}
-                onClick={address.handleClick}
+                onFocus={address.searchModalOpen}
+                onClick={address.searchModalOpen}
                 readOnly
               />
 
@@ -71,7 +72,7 @@ export const HomePage = (props) => {
                   type="submit"
                   size="small"
                   Icon={<Icon.SubmitRight width="18" color="#fff" />}
-                  disabled={!form.isComplete}
+                  disabled={!form.isComplete || participant.isFull}
                 >
                   만날 사람 추가
                 </ButtonRound>
@@ -81,33 +82,34 @@ export const HomePage = (props) => {
 
           <ListSection>
             <h2>
-              만나는 사람들 <span>({participant.list.length}명)</span>
+              만나는 사람들 <span>{participant.list.length}명</span>
             </h2>
+            {participant.isLack && <span>만날 사람을 추가해 중간지점을 확인해보세요.</span>}
             <ParticipantList items={participant.list} onClickToDelete={(id) => openConfirm(id)} />
           </ListSection>
 
           <BottomSection>
-            <ButtonRound Icon={<Icon.Search color="#fff" />}>중간지점 찾기</ButtonRound>
+            <ButtonRound Icon={<Icon.Search color="#fff" />} disabled={participant.isLack}>
+              중간지점 찾기
+            </ButtonRound>
           </BottomSection>
-        </ContentSection>
+        </ContentArea>
       </main>
 
       {isModalOpen && (
-        <Modal escapeModal={escapeModal}>
+        <Modal escape={escapeModal}>
           <ModalCloseButton onClick={escapeModal}>
             <Icon.Close />
           </ModalCloseButton>
+          <form onSubmit={handleSubmitAddressSearch}>
           <InputWithButton
             name={INPUT.ADDRESS_SEARCH.KEY}
             label={INPUT.ADDRESS_SEARCH.LABEL(name.value)}
             placeholder={INPUT.ADDRESS_SEARCH.PLACEHOLDER}
-            onClickButton={() => {
-              // TODO: API 연결해서 주소 검색 목록 가져오기
-              console.log('찾아라!!');
-            }}
             buttonIcon={<Icon.Search width="20" />}
             autoFocus
           />
+          </form>
           <AddressSearchList>
             {MOCK_ADDRESS_LIST.map((item, index) => (
               <li key={index}>

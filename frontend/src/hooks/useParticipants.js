@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PARTICIPANT } from '../constants';
 
 export const useParticipants = (initialState = []) => {
   const [list, setList] = useState(initialState);
@@ -11,5 +12,8 @@ export const useParticipants = (initialState = []) => {
     setList((list) => list.filter((v) => v.id !== id));
   };
 
-  return { participant: { list, add, remove } };
+  const isFull = list.length === PARTICIPANT.MAX_LENGTH;
+  const isLack = list.length < PARTICIPANT.MIN_LENGTH;
+
+  return { participant: { list, add, remove, isFull, isLack } };
 };

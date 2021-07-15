@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 
 import { getId, getAvatarKey } from '../utils';
 import { Image } from '../assets';
-import { INPUT, MESSAGE } from '../constants';
+import { INPUT, MESSAGE, PARTICIPANT } from '../constants';
 
 const INITIAL_STATE = {
   NAME: '',
@@ -72,13 +72,10 @@ export const useParticipantForm = (props) => {
       const name = e.target.value;
       const trimmedName = name.trim();
 
-      if (trimmedName.length < INPUT.NAME.MIN_LENGTH) {
-        setValidationMessage(MESSAGE.NOTICE_NAME_TOO_SHORT);
-        focusName();
+      if (!trimmedName && !participant.isLack) {
         return;
       }
       setValidationMessage('');
-      focusAddress();
     },
   };
 
@@ -99,7 +96,7 @@ export const useParticipantForm = (props) => {
       openModal();
     },
 
-    handleClick: () => {
+    searchModalOpen: () => {
       if (name.length < INPUT.NAME.MIN_LENGTH) {
         setValidationMessage(MESSAGE.NOTICE_NAME_EMPTY);
         focusName();

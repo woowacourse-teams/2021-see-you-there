@@ -13,7 +13,7 @@ public class Member extends Person {
     public Member() {
     }
 
-    public Member(Integer id, String name) {
+    public Member(String id, String name) {
         super(id, name);
     }
 }

@@ -1,6 +1,5 @@
 package seeuthere.goodday.auth.controller;
 
-import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,24 +12,29 @@ import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.domain.Naver;
 import seeuthere.goodday.auth.dto.ProfileDto;
 import seeuthere.goodday.auth.dto.TokenDto;
+import seeuthere.goodday.member.service.MemberService;
 import seeuthere.goodday.secret.SecretKey;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.math.BigInteger;
-import java.security.SecureRandom;
+
+import static seeuthere.goodday.auth.domain.Naver.NAVER_AUTH_URI;
 
 @Controller
 @RequestMapping("/api/naver")
 public class NaverController {
 
+    private final MemberService memberService;
+
+    public NaverController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
     @GetMapping("/oauth")
-    public String naverConnect(HttpSession session) {
+    public String naverConnect() {
         String state = Naver.generateState();
-        session.setAttribute("oauth_state", state);
 
         StringBuffer url = new StringBuffer();
-        url.append("https://nid.naver.com" + "/oauth2.0/authorize?");
+        url.append(NAVER_AUTH_URI + "/oauth2.0/authorize?");
         url.append("client_id=" + SecretKey.NAVER_API_KEY);
         url.append("&response_type=code");
         url.append("&redirect_uri=http://localhost:8080/api/naver/callback");
@@ -41,20 +45,21 @@ public class NaverController {
 
     @RequestMapping(value = "/callback", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
     public ResponseEntity<ProfileDto> naverLogin(@RequestParam(value = "code") String code,
-                                                  @RequestParam(value = "state") String state,
-                                                  HttpSession session) {
+                                                 @RequestParam(value = "state") String state,
+                                                 HttpSession session) {
         TokenDto response = Naver.getAccessToken(code, state);
 
         session.setAttribute("access_token", response.getAccess_token());
-
-        return ResponseEntity.ok().body(Naver.getUserInfo(response.getAccess_token()));
+        ProfileDto profile = Naver.getUserInfo(response.getAccess_token());
+        memberService.add(profile);
+        return ResponseEntity.ok().body(profile);
     }
 
     @GetMapping("/logout")
     public String naverLogout(HttpSession session) {
         String accessToken = (String) session.getAttribute("access_token");
         WebClient webclient = WebClient.builder()
-                .baseUrl("https://nid.naver.com")
+                .baseUrl(NAVER_AUTH_URI)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 

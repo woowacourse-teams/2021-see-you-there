@@ -1,20 +1,18 @@
 package seeuthere.goodday.auth.controller;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.domain.Kakao;
 import seeuthere.goodday.auth.dto.ProfileDto;
+import seeuthere.goodday.member.service.MemberService;
 import seeuthere.goodday.secret.SecretKey;
 
 import javax.servlet.http.HttpSession;
-import java.net.URI;
 import java.util.Map;
 
 import static seeuthere.goodday.auth.domain.Kakao.KAKAO_AUTH_URI;
@@ -24,6 +22,12 @@ import static seeuthere.goodday.auth.domain.Kakao.KAKAO_HOST_URI;
 @Controller
 @RequestMapping("/api/kakao")
 public class KakaoController {
+
+    private final MemberService memberService;
+
+    public KakaoController(MemberService memberService) {
+        this.memberService = memberService;
+    }
 
     @GetMapping(value = "/oauth")
     public String kakaoConnect() {
@@ -41,7 +45,9 @@ public class KakaoController {
     public ResponseEntity<ProfileDto> kakaoLogin(@RequestParam("code") String code, HttpSession session) {
         Map<String, String> tokens = Kakao.getKakaoAccessToken(code);
         session.setAttribute("access_token", tokens.get("access_token"));
-        return ResponseEntity.ok().body(Kakao.getKakaoUserInfo(tokens.get("access_token")));
+        ProfileDto profile = Kakao.getKakaoUserInfo(tokens.get("access_token"));
+        memberService.add(profile);
+        return ResponseEntity.ok().body(profile);
     }
 
     @GetMapping(value = "/logout")

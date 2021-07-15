@@ -3,11 +3,13 @@ package seeuthere.goodday.location.controller;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import seeuthere.goodday.location.dto.AxisDocument;
 import seeuthere.goodday.location.dto.Document;
+import seeuthere.goodday.location.dto.UtilityDocument;
 import seeuthere.goodday.location.service.LocationService;
 
 @RestController
@@ -37,4 +39,19 @@ public class LocationController {
         List<AxisDocument> axisDocuments = locationService.findAxis(address);
         return ResponseEntity.ok(axisDocuments);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<UtilityDocument>> findBasicUtility(@RequestParam String keyword) {
+        List<UtilityDocument> documents = locationService.findSearch(keyword);
+        return ResponseEntity.ok(documents);
+    }
+
+    @GetMapping("/utility/{category}")
+    public ResponseEntity<List<UtilityDocument>> findUtility(@PathVariable String category,
+        @RequestParam double x, @RequestParam double y) {
+        List<UtilityDocument> documents = locationService.findUtility(category, x, y);
+        return ResponseEntity.ok(documents);
+    }
 }
+
+

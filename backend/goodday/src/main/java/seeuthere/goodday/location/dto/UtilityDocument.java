@@ -4,9 +4,10 @@ public class UtilityDocument {
 
     private String placeName;
     private String distance;
+    private String addressName;
     private String roadAddressName;
-    private String x;
-    private String y;
+    private double x;
+    private double y;
 
     public UtilityDocument() {
 
@@ -20,15 +21,19 @@ public class UtilityDocument {
         return distance;
     }
 
+    public String getAddressName() {
+        return addressName;
+    }
+
     public String getRoadAddressName() {
         return roadAddressName;
     }
 
-    public String getX() {
+    public double getX() {
         return x;
     }
 
-    public String getY() {
+    public double getY() {
         return y;
     }
 }

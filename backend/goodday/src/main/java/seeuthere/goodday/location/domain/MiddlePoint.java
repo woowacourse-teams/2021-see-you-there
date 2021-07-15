@@ -10,30 +10,30 @@ public class MiddlePoint {
     private final double x;
     private final double y;
 
-    public MiddlePoint(Location location) {
-        this.x = location.getX();
-        this.y = location.getY();
+    public MiddlePoint(Point point) {
+        this.x = point.getX();
+        this.y = point.getY();
     }
 
-    public static MiddlePoint valueOf(List<Location> locations) {
-        validation(locations);
-        return new MiddlePoint(calculation(locations));
+    public static MiddlePoint valueOf(List<Point> points) {
+        validation(points);
+        return new MiddlePoint(calculation(points));
     }
 
-    private static void validation(List<Location> locations) {
-        if (Objects.isNull(locations) || locations.size() <= 1) {
+    private static void validation(List<Point> points) {
+        if (Objects.isNull(points) || points.size() <= 1) {
             throw new GoodDayException(LocationExceptionSet.NOT_ENOUGH_LOCATION);
         }
     }
 
-    private static Location calculation(List<Location> locations) {
+    private static Point calculation(List<Point> points) {
         double sumX = 0;
         double sumY = 0;
-        for (Location location : locations) {
-            sumX += location.getX();
-            sumY += location.getY();
+        for (Point point : points) {
+            sumX += point.getX();
+            sumY += point.getY();
         }
-        return new Location(sumX / locations.size(), sumY / locations.size());
+        return new Point(sumX / points.size(), sumY / points.size());
     }
 
     public double getX() {

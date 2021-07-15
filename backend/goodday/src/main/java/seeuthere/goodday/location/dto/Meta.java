@@ -18,7 +18,7 @@ public class Meta {
     @Override
     public String toString() {
         return "Meta{" +
-            "totalCount=" + totalCount +
-            '}';
+                "totalCount=" + totalCount +
+                '}';
     }
 }

@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:subway
+    url: jdbc:h2:mem:seeyouthere
     username: sa
     password:
   h2:

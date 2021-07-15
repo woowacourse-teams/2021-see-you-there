@@ -1,5 +1,3 @@
-
-
 package seeuthere.goodday.auth.domain;
 
 

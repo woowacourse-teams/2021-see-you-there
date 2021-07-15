@@ -1,6 +1,5 @@
 package seeuthere.goodday.auth.controller;
 
-import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +14,7 @@ import seeuthere.goodday.auth.dto.ProfileDto;
 import seeuthere.goodday.auth.dto.TokenDto;
 import seeuthere.goodday.secret.SecretKey;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 
 @Controller
 @RequestMapping("/api/naver")
@@ -41,8 +37,8 @@ public class NaverController {
 
     @RequestMapping(value = "/callback", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
     public ResponseEntity<ProfileDto> naverLogin(@RequestParam(value = "code") String code,
-                                                  @RequestParam(value = "state") String state,
-                                                  HttpSession session) {
+                                                 @RequestParam(value = "state") String state,
+                                                 HttpSession session) {
         TokenDto response = Naver.getAccessToken(code, state);
 
         session.setAttribute("access_token", response.getAccess_token());

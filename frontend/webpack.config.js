@@ -33,14 +33,7 @@ module.exports = {
         options: {
           plugins: ['react-refresh/babel'],
           presets: [
-            [
-              '@babel/preset-env',
-              {
-                targets: {
-                  browsers: ['last 2 versions'],
-                },
-              },
-            ],
+            ['@babel/preset-env', { targets: { esmodules: true, browsers: ['last 2 versions'] } }],
             '@babel/preset-react',
           ],
         },

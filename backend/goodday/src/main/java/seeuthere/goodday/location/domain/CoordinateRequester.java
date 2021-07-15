@@ -1,7 +1,5 @@
 package seeuthere.goodday.location.domain;
 
-import java.util.List;
-import java.util.Objects;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -9,6 +7,9 @@ import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.location.dto.AxisDocument;
 import seeuthere.goodday.location.dto.AxisResponse;
 import seeuthere.goodday.location.exception.LocationExceptionSet;
+
+import java.util.List;
+import java.util.Objects;
 
 public class CoordinateRequester {
 
@@ -30,13 +31,13 @@ public class CoordinateRequester {
 
     private AxisResponse receivedAxisResponse(String address) {
         return webClient.get()
-            .uri(uriBuilder ->
-                uriBuilder.path(BASIC_URL)
-                    .queryParam("query", address)
-                    .build())
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .bodyToMono(AxisResponse.class)
-            .block();
+                .uri(uriBuilder ->
+                        uriBuilder.path(BASIC_URL)
+                                .queryParam("query", address)
+                                .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(AxisResponse.class)
+                .block();
     }
 }

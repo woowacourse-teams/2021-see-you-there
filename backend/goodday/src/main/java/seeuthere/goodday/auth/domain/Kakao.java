@@ -1,17 +1,12 @@
 package seeuthere.goodday.auth.domain;
 
 import org.json.simple.JSONObject;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.dto.ProfileDto;
 import seeuthere.goodday.secret.SecretKey;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,7 +24,7 @@ public class Kakao {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
-        JSONObject response =  webClient.post()
+        JSONObject response = webClient.post()
                 .uri(uriBuilder -> uriBuilder.path("/v2/user/me").build())
                 .header("Authorization", "Bearer " + access_token)
                 .retrieve().bodyToMono(JSONObject.class).block();

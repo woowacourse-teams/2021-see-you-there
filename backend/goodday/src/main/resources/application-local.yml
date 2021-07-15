@@ -11,9 +11,3 @@ spring:
 handlebars:
   suffix: .html
   enabled: true
-#  security 변동 생길 가능성 있음
-security:
-  jwt:
-    token:
-      secret-key: my_secret_is_secret
-      expire-length: 3600000

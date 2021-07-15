@@ -1,21 +1,24 @@
 package seeuthere.goodday.auth.controller;
 
-import static seeuthere.goodday.auth.domain.Kakao.KAKAO_AUTH_URI;
-import static seeuthere.goodday.auth.domain.Kakao.KAKAO_HOST_URI;
-
-import java.net.URI;
-import java.util.Map;
-import javax.servlet.http.HttpSession;
-import org.json.simple.JSONObject;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.domain.Kakao;
+import seeuthere.goodday.auth.dto.ProfileDto;
 import seeuthere.goodday.secret.SecretKey;
+
+import javax.servlet.http.HttpSession;
+import java.net.URI;
+import java.util.Map;
+
+import static seeuthere.goodday.auth.domain.Kakao.KAKAO_AUTH_URI;
+import static seeuthere.goodday.auth.domain.Kakao.KAKAO_HOST_URI;
 
 
 @Controller
@@ -27,7 +30,7 @@ public class KakaoController {
         StringBuffer url = new StringBuffer();
         url.append(KAKAO_AUTH_URI + "/oauth/authorize?");
         url.append("client_id=" + SecretKey.KAKAO_API_KEY);
-        url.append("&redirect_uri="+ Kakao.DOMAIN_URI +"/api/kakao/callback");
+        url.append("&redirect_uri=" + Kakao.DOMAIN_URI + "/api/kakao/callback");
         url.append("&response_type=code");
 
         return "redirect:" + url;
@@ -35,26 +38,26 @@ public class KakaoController {
 
     @RequestMapping(value = "/callback", produces = "application/json", method = {RequestMethod.GET,
             RequestMethod.POST})
-    public String kakaoLogin(@RequestParam("code") String code, HttpSession session) {
+    public ResponseEntity<ProfileDto> kakaoLogin(@RequestParam("code") String code, HttpSession session) {
         Map<String, String> tokens = Kakao.getKakaoAccessToken(code);
         session.setAttribute("access_token", tokens.get("access_token"));
-
-        // 사용자 정보 받아오기 - 프론트한테 보낼 정보 협의
-        JSONObject access_token = Kakao.getKakaoUserInfo(tokens.get("access_token"));
-        return null;
+        return ResponseEntity.ok().body(Kakao.getKakaoUserInfo(tokens.get("access_token")));
     }
 
     @GetMapping(value = "/logout")
-    public void kakaoLogout(HttpSession session) {
+    public String kakaoLogout(HttpSession session) {
         String accessToken = (String) session.getAttribute("access_token");
+        WebClient webClient = WebClient.builder()
+                .baseUrl(KAKAO_HOST_URI + "/v1/user/logout")
+                .build();
 
-        RestTemplate restTemplate = new RestTemplate();
-        URI uri = URI.create(KAKAO_HOST_URI + "/v1/user/logout");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + accessToken);
-        Kakao.postRequest(restTemplate, uri, null, headers);
+        webClient.post()
+                .header("Authorization", "Bearer " + accessToken)
+                .retrieve()
+                .bodyToMono(String.class).block();
 
         session.removeAttribute("access_token");
+        session.removeAttribute("refresh_token");
+        return "redirect:/";
     }
 }

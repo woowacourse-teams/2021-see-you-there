@@ -4,22 +4,21 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import seeuthere.goodday.location.dto.AxisDocument;
 import seeuthere.goodday.location.dto.Document;
+import seeuthere.goodday.location.dto.LocationsRequest;
+import seeuthere.goodday.location.dto.MiddlePointResponse;
 import seeuthere.goodday.location.dto.UtilityDocument;
 import seeuthere.goodday.location.service.LocationService;
 
 @RestController
 @RequestMapping("/api/location")
 public class LocationController {
-
-    /*
-        중간지점 찾기
-        request 를 body 로 받는게 좋을것 같은데, 의논 필요
-    */
 
     private final LocationService locationService;
 
@@ -51,6 +50,12 @@ public class LocationController {
         @RequestParam double x, @RequestParam double y) {
         List<UtilityDocument> documents = locationService.findUtility(category, x, y);
         return ResponseEntity.ok(documents);
+    }
+
+    @PostMapping("/middlePoint")
+    public ResponseEntity<MiddlePointResponse> findMiddlePoint(@RequestBody LocationsRequest locationsRequest) {
+        MiddlePointResponse middlePointResponse = locationService.findMiddlePoint(locationsRequest);
+        return ResponseEntity.ok(middlePointResponse);
     }
 }
 

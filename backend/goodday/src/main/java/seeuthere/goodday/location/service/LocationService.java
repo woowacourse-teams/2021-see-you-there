@@ -1,14 +1,20 @@
 package seeuthere.goodday.location.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.location.domain.CoordinateRequester;
+import seeuthere.goodday.location.domain.Location;
 import seeuthere.goodday.location.domain.LocationRequester;
+import seeuthere.goodday.location.domain.MiddlePoint;
 import seeuthere.goodday.location.domain.SearchRequester;
 import seeuthere.goodday.location.domain.UtilityRequester;
 import seeuthere.goodday.location.dto.AxisDocument;
 import seeuthere.goodday.location.dto.Document;
+import seeuthere.goodday.location.dto.LocationRequest;
+import seeuthere.goodday.location.dto.LocationsRequest;
+import seeuthere.goodday.location.dto.MiddlePointResponse;
 import seeuthere.goodday.location.dto.UtilityDocument;
 import seeuthere.goodday.location.util.LocationCategory;
 
@@ -44,5 +50,16 @@ public class LocationService {
 
         SearchRequester searchRequester = new SearchRequester(webClient);
         return searchRequester.requestSearch(keyword);
+    }
+
+    public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest) {
+        List<Location> locations = new ArrayList<>();
+
+        for (LocationRequest locationRequest : locationsRequest.getLocationRequests()) {
+            locations.add(new Location(locationRequest.getX(), locationRequest.getY()));
+        }
+
+        MiddlePoint middlePoint = MiddlePoint.valueOf(locations);
+        return new MiddlePointResponse(middlePoint.getX(), middlePoint.getY());
     }
 }

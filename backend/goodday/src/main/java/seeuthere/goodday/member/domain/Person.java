@@ -8,7 +8,7 @@ import javax.persistence.*;
 public abstract class Person {
 
     @Id
-    private Integer id;
+    private String id;
 
     private String name;
 
@@ -17,12 +17,12 @@ public abstract class Person {
     public Person() {
     }
 
-    public Person(Integer id, String name) {
+    public Person(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

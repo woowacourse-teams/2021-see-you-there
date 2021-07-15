@@ -16,8 +16,7 @@ public class Kakao {
 
     public static final String KAKAO_HOST_URI = "https://kapi.kakao.com";
     public static final String KAKAO_AUTH_URI = "https://kauth.kakao.com";
-    // 도메인~~~
-    public static final String DOMAIN_URI = "http://localhost:8080";
+    public static final String DOMAIN_URI = "https://seeyouthere.o-r.kr";
 
     public static ProfileDto getKakaoUserInfo(String access_token) {
         WebClient webClient = WebClient.builder()

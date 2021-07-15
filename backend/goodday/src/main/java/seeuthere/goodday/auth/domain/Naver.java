@@ -16,8 +16,10 @@ import java.util.Map;
 
 public class Naver {
 
-    private Naver() {
+    public static String NAVER_HOST_URI = "https://openapi.naver.com";
+    public static String NAVER_AUTH_URI = "https://nid.naver.com";
 
+    private Naver() {
     }
 
     public static String generateState() {
@@ -27,7 +29,7 @@ public class Naver {
 
     public static TokenDto getAccessToken(String code, String state) {
         WebClient webclient = WebClient.builder()
-                .baseUrl("https://nid.naver.com")
+                .baseUrl(NAVER_AUTH_URI)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
@@ -45,7 +47,7 @@ public class Naver {
 
     public static ProfileDto getUserInfo(String accessToken) {
         WebClient webclient = WebClient.builder()
-                .baseUrl("https://openapi.naver.com")
+                .baseUrl(NAVER_HOST_URI)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 

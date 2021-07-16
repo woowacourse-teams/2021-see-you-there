@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 import { useParticipantRemoveConfirm, useMapView, useModal, useParticipantForm } from '../../hooks';
 import { Input, InputWithButton, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
@@ -27,6 +28,17 @@ export const HomePage = (props) => {
   const escapeModal = () => {
     address.focus();
     closeModal();
+  };
+
+  const history = useHistory();
+
+  const handleClickGetMiddlePoint = () => {
+    if (participant.isLack) {
+      // TODO: 스낵바 구현
+      return;
+    }
+
+    history.push(ROUTE.MIDPOINT.PATH);
   };
 
   return (
@@ -89,7 +101,11 @@ export const HomePage = (props) => {
           </ListSection>
 
           <BottomSection>
-            <ButtonRound Icon={<Icon.Search color="#fff" />} disabled={participant.isLack}>
+            <ButtonRound
+              Icon={<Icon.Search color="#fff" />}
+              onClick={handleClickGetMiddlePoint}
+              disabled={participant.isLack}
+            >
               중간지점 찾기
             </ButtonRound>
           </BottomSection>
@@ -102,13 +118,13 @@ export const HomePage = (props) => {
             <Icon.Close />
           </ModalCloseButton>
           <form onSubmit={handleSubmitAddressSearch}>
-          <InputWithButton
-            name={INPUT.ADDRESS_SEARCH.KEY}
-            label={INPUT.ADDRESS_SEARCH.LABEL(name.value)}
-            placeholder={INPUT.ADDRESS_SEARCH.PLACEHOLDER}
-            buttonIcon={<Icon.Search width="20" />}
-            autoFocus
-          />
+            <InputWithButton
+              name={INPUT.ADDRESS_SEARCH.KEY}
+              label={INPUT.ADDRESS_SEARCH.LABEL(name.value)}
+              placeholder={INPUT.ADDRESS_SEARCH.PLACEHOLDER}
+              buttonIcon={<Icon.Search width="20" />}
+              autoFocus
+            />
           </form>
           <AddressSearchList>
             {MOCK_ADDRESS_LIST.map((item, index) => (
@@ -122,7 +138,6 @@ export const HomePage = (props) => {
           </AddressSearchList>
         </Modal>
       )}
-
       {isConfirmOpen && (
         <Confirm onCancel={cancelConfirm} onApprove={approveConfirm}>
           {MESSAGE.CONFIRM_PARTICIPANT_DELETE}

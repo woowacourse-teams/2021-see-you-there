@@ -34,3 +34,5 @@ export const MESSAGE = {
 
   CONFIRM_PARTICIPANT_DELETE: '참석자를 삭제하시겠습니까?',
 };
+
+export const POBI_POINT = { x: 127.10296, y: 37.515403, name: '어디서 만나?', tag: '포비 💙' };

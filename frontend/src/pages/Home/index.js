@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 
 import { useParticipantRemoveConfirm, useMapView, useModal, useParticipantForm } from '../../hooks';
 import { Input, InputWithButton, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
-import { COLOR, INPUT, MESSAGE, API_URL, ROUTE } from '../../constants';
+import { COLOR, INPUT, MESSAGE, API_URL, ROUTE, POBI_POINT } from '../../constants';
 import {
   MapViewArea,
   MapView,
@@ -22,7 +22,7 @@ import { httpRequest } from '../../utils';
 
 export const HomePage = (props) => {
   const { participant } = props;
-  const { mapViewRef } = useMapView();
+  const { mapViewRef, showMapView } = useMapView();
   const { isModalOpen, openModal, closeModal } = useModal();
   const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useParticipantRemoveConfirm({ participant });
   const [addressKeyword, setAddressKeyword] = useState('');
@@ -62,6 +62,10 @@ export const HomePage = (props) => {
 
     history.push(ROUTE.MIDPOINT.PATH);
   };
+
+  useEffect(() => {
+    showMapView(POBI_POINT);
+  }, []);
 
   return (
     <>

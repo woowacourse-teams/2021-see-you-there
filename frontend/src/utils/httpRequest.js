@@ -1,10 +1,10 @@
-const getOptions = ({ accessToken, data, method }) => {
+const getOptions = ({ accessToken, body, method }) => {
   return {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`,
     },
-    body: data ? JSON.stringify(data) : null,
+    body: body ? JSON.stringify(body) : null,
     method,
   };
 };

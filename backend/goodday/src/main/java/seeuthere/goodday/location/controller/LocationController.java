@@ -1,5 +1,6 @@
 package seeuthere.goodday.location.controller;
 
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,8 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import seeuthere.goodday.location.dto.AxisDocument;
 import seeuthere.goodday.location.dto.Document;
 import seeuthere.goodday.location.service.LocationService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/location")
@@ -28,7 +27,7 @@ public class LocationController {
 
     @GetMapping("/address")
     public ResponseEntity<List<Document>> findAddress(@RequestParam double x,
-                                                      @RequestParam double y) {
+        @RequestParam double y) {
         List<Document> documents = locationService.findAddress(x, y);
         return ResponseEntity.ok(documents);
     }

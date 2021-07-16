@@ -21,6 +21,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
 
+	//jwt
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
 	// webflux
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 

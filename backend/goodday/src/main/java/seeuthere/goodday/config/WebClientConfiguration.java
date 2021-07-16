@@ -19,15 +19,15 @@ public class WebClientConfiguration {
         newMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
 
         ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
-                .codecs(configurer ->
-                        configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(newMapper)))
-                .build();
+            .codecs(configurer ->
+                configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(newMapper)))
+            .build();
 
         return WebClient.builder()
-                .baseUrl("https://dapi.kakao.com")
-                .exchangeStrategies(exchangeStrategies)
-                .defaultHeader("Authorization", "KakaoAK " + SecretKey.KAKAO_API_KEY)
-                .build();
+            .baseUrl("https://dapi.kakao.com")
+            .exchangeStrategies(exchangeStrategies)
+            .defaultHeader("Authorization", "KakaoAK " + SecretKey.KAKAO_API_KEY)
+            .build();
     }
 
 }

@@ -1,12 +1,12 @@
-package seeuthere.goodday.location.dto;
+package seeuthere.goodday.location.dto.response;
 
 import java.util.List;
 
-public class Response<T> {
+public class ResponseFormat<T> {
 
     List<T> data;
 
-    public Response(List<T> data) {
+    public ResponseFormat(List<T> data) {
         this.data = data;
     }
 

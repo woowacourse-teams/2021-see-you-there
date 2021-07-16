@@ -1,4 +1,4 @@
-package seeuthere.goodday.location.dto;
+package seeuthere.goodday.location.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

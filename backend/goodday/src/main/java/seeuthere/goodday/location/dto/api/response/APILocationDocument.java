@@ -1,8 +1,8 @@
-package seeuthere.goodday.location.dto;
+package seeuthere.goodday.location.dto.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Document {
+public class APILocationDocument {
 
     private String regionType;
     private String code;
@@ -18,7 +18,7 @@ public class Document {
     private double x;
     private double y;
 
-    public Document() {
+    public APILocationDocument() {
     }
 
     public String getRegionType() {

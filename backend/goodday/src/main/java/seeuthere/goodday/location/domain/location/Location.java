@@ -1,7 +1,4 @@
-package seeuthere.goodday.location.domain;
-
-import java.util.Objects;
-import seeuthere.goodday.location.dto.Address;
+package seeuthere.goodday.location.domain.location;
 
 public class Location {
 
@@ -65,22 +62,8 @@ public class Location {
             return this;
         }
 
-        public Builder address(Address address) {
-            if (Objects.nonNull(address)) {
-                this.address = address.getAddressName();
-            }
-            return this;
-        }
-
         public Builder roadAddress(String roadAddress) {
             this.roadAddress = roadAddress;
-            return this;
-        }
-
-        public Builder roadAddress(Address roadAddress) {
-            if (Objects.nonNull(roadAddress)) {
-                this.roadAddress = roadAddress.getAddressName();
-            }
             return this;
         }
 

@@ -1,4 +1,4 @@
-package seeuthere.goodday.location.dto;
+package seeuthere.goodday.location.dto.api.response.component;
 
 public class Address {
 

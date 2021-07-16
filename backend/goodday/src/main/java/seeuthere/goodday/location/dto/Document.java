@@ -60,15 +60,15 @@ public class Document {
     @Override
     public String toString() {
         return "Document{" +
-                "regionType='" + regionType + '\'' +
-                ", code='" + code + '\'' +
-                ", addressName='" + addressName + '\'' +
-                ", region1depthName='" + region1depthName + '\'' +
-                ", region2depthName='" + region2depthName + '\'' +
-                ", region3depthName='" + region3depthName + '\'' +
-                ", region4depthName='" + region4depthName + '\'' +
-                ", x=" + x +
-                ", y=" + y +
-                '}';
+            "regionType='" + regionType + '\'' +
+            ", code='" + code + '\'' +
+            ", addressName='" + addressName + '\'' +
+            ", region1depthName='" + region1depthName + '\'' +
+            ", region2depthName='" + region2depthName + '\'' +
+            ", region3depthName='" + region3depthName + '\'' +
+            ", region4depthName='" + region4depthName + '\'' +
+            ", x=" + x +
+            ", y=" + y +
+            '}';
     }
 }

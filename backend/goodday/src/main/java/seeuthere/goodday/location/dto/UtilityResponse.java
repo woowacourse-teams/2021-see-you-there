@@ -2,15 +2,15 @@ package seeuthere.goodday.location.dto;
 
 import java.util.List;
 
-public class AxisResponse {
+public class UtilityResponse {
 
     private Meta meta;
-    private List<AxisDocument> documents;
+    private List<UtilityDocument> documents;
 
-    public AxisResponse() {
+    public UtilityResponse() {
     }
 
-    public List<AxisDocument> getDocuments() {
+    public List<UtilityDocument> getDocuments() {
         return documents;
     }
 
@@ -21,5 +21,4 @@ public class AxisResponse {
             ", documents=" + documents +
             '}';
     }
-
 }

@@ -6,40 +6,43 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import seeuthere.goodday.exception.GoodDayException;
-import seeuthere.goodday.location.dto.Document;
-import seeuthere.goodday.location.dto.LocationResponse;
+import seeuthere.goodday.location.dto.UtilityDocument;
+import seeuthere.goodday.location.dto.UtilityResponse;
 import seeuthere.goodday.location.exception.LocationExceptionSet;
 
-public class LocationRequester {
+public class UtilityRequester {
 
-    private static final String BASIC_URL = "/v2/local/geo/coord2regioncode.json";
+    private static final String BASIC_URL = "/v2/local/search/category.json";
+    private static final int BASIC_DISTANCE = 1000;
     private final WebClient webClient;
 
-    public LocationRequester(WebClient webClient) {
+    public UtilityRequester(WebClient webClient) {
         this.webClient = webClient;
     }
 
-    public List<Document> requestAddress(double x, double y) {
+    public List<UtilityDocument> requestUtility(String categoryCode, double x, double y) {
         try {
-            LocationResponse locationResponse = receivedLocationResponse(x, y);
-
-            return Objects.requireNonNull(locationResponse).getDocuments();
+            UtilityResponse utilityResponse = receivedUtilityResponse(categoryCode, x, y);
+            return Objects.requireNonNull(utilityResponse).getDocuments();
         } catch (WebClientResponseException e) {
             throw new GoodDayException(LocationExceptionSet.INVALID_LOCATION);
         }
     }
 
-    private LocationResponse receivedLocationResponse(double x, double y) {
+    private UtilityResponse receivedUtilityResponse(String categoryCode, double x, double y) {
         return webClient.get()
             .uri(uriBuilder ->
                 uriBuilder.path(BASIC_URL)
                     .queryParam("x", x)
                     .queryParam("y", y)
+                    .queryParam("category_group_code", categoryCode)
+                    .queryParam("radius", BASIC_DISTANCE)
+                    .queryParam("sort", "distance")
                     .build()
             )
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
-            .bodyToMono(LocationResponse.class)
+            .bodyToMono(UtilityResponse.class)
             .block();
     }
 }

@@ -17,8 +17,8 @@ public class LocationResponse {
     @Override
     public String toString() {
         return "LocationResponse{" +
-                "meta=" + meta +
-                ", documents=" + documents +
-                '}';
+            "meta=" + meta +
+            ", documents=" + documents +
+            '}';
     }
 }

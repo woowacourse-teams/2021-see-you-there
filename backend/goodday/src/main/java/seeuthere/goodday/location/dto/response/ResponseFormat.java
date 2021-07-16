@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ResponseFormat<T> {
 
-    List<T> data;
+    private final List<T> data;
 
     public ResponseFormat(List<T> data) {
         this.data = data;

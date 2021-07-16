@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 
 import { useParticipantRemoveConfirm, useMapView, useModal, useParticipantForm } from '../../hooks';
 import { Input, InputWithButton, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
-import { COLOR, MOCK_ADDRESS_LIST, INPUT, MESSAGE, PARTICIPANT } from '../../constants';
+import { COLOR, INPUT, MESSAGE, API_URL, ROUTE } from '../../constants';
 import {
   MapViewArea,
   MapView,
@@ -17,13 +18,34 @@ import {
   ModalCloseButton,
   AddressSearchList,
 } from './style';
+import { httpRequest } from '../../utils';
 
 export const HomePage = (props) => {
   const { participant } = props;
   const { mapViewRef } = useMapView();
   const { isModalOpen, openModal, closeModal } = useModal();
   const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useParticipantRemoveConfirm({ participant });
+  const [addressKeyword, setAddressKeyword] = useState('');
   const { form, name, address, validationMessage } = useParticipantForm({ participant, openModal, closeModal });
+
+  const fetchAddressSearch = async ({ queryKey }) => {
+    const [_, keyword] = queryKey;
+    const res = await httpRequest.get(API_URL.ADDRESS_SEARCH(keyword));
+
+    return await res.json();
+  };
+
+  const { data } = useQuery(['주소검색', addressKeyword], fetchAddressSearch, {
+    enabled: !!addressKeyword,
+    staleTime: Infinity,
+  });
+
+  const handleSubmitAddressSearch = (e) => {
+    e.preventDefault();
+
+    const keyword = e.target['addressSearch'].value;
+    setAddressKeyword(keyword);
+  };
 
   const escapeModal = () => {
     address.focus();
@@ -127,14 +149,18 @@ export const HomePage = (props) => {
             />
           </form>
           <AddressSearchList>
-            {MOCK_ADDRESS_LIST.map((item, index) => (
-              <li key={index}>
-                <button onClick={() => address.handleSelect(item)}>
-                  {item.addressName}
-                  <Icon.Check color={COLOR.PRIMARY} width="20" />
-                </button>
-              </li>
-            ))}
+            {data?.data.map((item, index) => {
+              const { x, y, name: addressName, address: fullAddress } = item;
+
+              return (
+                <li key={index}>
+                  <button onClick={() => address.handleSelect({ x, y, addressName })}>
+                    {addressName} <span>{addressName !== fullAddress && fullAddress}</span>
+                    <Icon.Check color={COLOR.PRIMARY} width="20" />
+                  </button>
+                </li>
+              );
+            })}
           </AddressSearchList>
         </Modal>
       )}

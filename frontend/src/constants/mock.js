@@ -61,3 +61,5 @@ export const MOCK_ADDRESS_LIST = [
   { x: '2.0', y: '2.0', addressName: '서울 송파구 잠실5동' },
   { x: '2.0', y: '2.0', addressName: '서울 송파구 잠실6동' },
 ];
+
+export const MOCK_MIDPOINT = { x: 127.06302321147605, y: 37.508822740225305, name: '여기서만나' };

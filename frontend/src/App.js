@@ -1,15 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { HomePage, MidpointPage } from './pages';
 import { useParticipants } from './hooks';
 import { NavBar } from './components';
-import { ROUTE } from './constants';
+import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
 
 export const App = () => {
+  const queryClient = new QueryClient();
   const { participant } = useParticipants();
 
   return (
+    <QueryClientProvider client={queryClient}>
       <Router>
         <NavBar />
         <Switch>
@@ -29,5 +33,7 @@ export const App = () => {
         </Route> */}
         </Switch>
       </Router>
+      <ReactQueryDevtools panelProps={REACT_QUERY_DEV_TOOL} />
+    </QueryClientProvider>
   );
 };

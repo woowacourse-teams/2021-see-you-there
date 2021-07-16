@@ -104,6 +104,15 @@ export const AddressSearchList = styled.ul`
   overflow-y: auto;
   margin: 1.25rem 0.75rem;
 
+  /* 상세 주소 */
+  & span {
+    margin-top: 0.2rem;
+    margin-left: 0.5rem;
+    font-size: 0.6rem;
+    color: ${COLOR.PLACEHOLDER};
+    letter-spacing: -0.02rem;
+  }
+
   /* 스크롤 공간 확보 */
   margin-right: 0;
   padding-right: 1rem;
@@ -136,6 +145,11 @@ export const AddressSearchList = styled.ul`
       background-color: ${COLOR.PRIMARY_BACKGROUND};
 
       & > button {
+        color: ${COLOR.PRIMARY};
+      }
+
+      /* 상세 주소 */
+      & span {
         color: ${COLOR.PRIMARY};
       }
 

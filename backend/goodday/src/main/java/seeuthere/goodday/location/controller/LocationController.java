@@ -55,7 +55,7 @@ public class LocationController {
         return ResponseEntity.ok(new ResponseFormat<>(documents));
     }
 
-    @PostMapping("/middlePoint")
+    @PostMapping("/midPoint")
     public ResponseEntity<MiddlePointResponse> findMiddlePoint(
         @RequestBody LocationsRequest locationsRequest) {
         MiddlePointResponse middlePointResponse = locationService.findMiddlePoint(locationsRequest);

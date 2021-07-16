@@ -32,3 +32,35 @@ export const ContentArea = styled.section`
     display: none;
   }
 `;
+
+/* 중간지점 결과 Section */
+
+export const ResultSection = styled.section`
+  background-color: ${COLOR.BACKGROUND};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 18%;
+
+  & > h2 > span {
+    color: ${COLOR.PRIMARY_LIGHT};
+    font-size: 1.25em;
+  }
+`;
+
+/* 참가자 목록 Section */
+
+export const ListSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  & > h2 > span {
+    padding-left: 0.125rem;
+    font-size: 0.875rem;
+    color: ${COLOR.PARAGRAPH_LIGHT};
+    font-weight: 400;
+  }
+`;

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { useQuery } from 'react-query';
 
 import { useMapView } from '../../hooks';
-import { MapViewArea, MapView, ContentArea } from './style';
+import { ParticipantList } from '../../components';
+import { MapViewArea, MapView, ContentArea, ListSection, ResultSection } from './style';
 import { API_URL } from '../../constants';
 import { httpRequest } from '../../utils';
 
@@ -50,7 +51,19 @@ export const MidpointPage = (props) => {
         <MapViewArea>
           <MapView ref={mapViewRef} />
         </MapViewArea>
-        <ContentArea></ContentArea>
+        <ContentArea>
+          <ResultSection>
+            <h2>
+              <span>{closestStation?.placeName}</span> 에서 만나요!
+            </h2>
+          </ResultSection>
+          <ListSection>
+            <h2>
+              만나는 사람들 <span>{participant.list.length}명</span>
+            </h2>
+            <ParticipantList items={participant.list} />
+          </ListSection>
+        </ContentArea>
       </main>
     </>
   );

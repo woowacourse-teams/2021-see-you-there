@@ -12,6 +12,6 @@ public class ControllerAdvice {
     @ExceptionHandler(GoodDayException.class)
     public ResponseEntity<ErrorResponse> handleGoodDayException(GoodDayException e) {
         return ResponseEntity.status(e.getStatus())
-            .body(new ErrorResponse(e.getMessage()));
+                .body(new ErrorResponse(e.getMessage()));
     }
 }

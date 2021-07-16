@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.domain.Kakao;
 import seeuthere.goodday.auth.dto.ProfileDto;
+import seeuthere.goodday.auth.dto.ProfileTokenDto;
+import seeuthere.goodday.auth.service.AuthService;
 import seeuthere.goodday.member.service.MemberService;
 import seeuthere.goodday.secret.SecretKey;
 
@@ -24,9 +26,11 @@ import static seeuthere.goodday.auth.domain.Kakao.KAKAO_HOST_URI;
 public class KakaoController {
 
     private final MemberService memberService;
+    private final AuthService authService;
 
-    public KakaoController(MemberService memberService) {
+    public KakaoController(MemberService memberService, AuthService authService) {
         this.memberService = memberService;
+        this.authService = authService;
     }
 
     @GetMapping(value = "/oauth")
@@ -42,12 +46,13 @@ public class KakaoController {
 
     @RequestMapping(value = "/callback", produces = "application/json", method = {RequestMethod.GET,
             RequestMethod.POST})
-    public ResponseEntity<ProfileDto> kakaoLogin(@RequestParam("code") String code, HttpSession session) {
+    public ResponseEntity<ProfileTokenDto> kakaoLogin(@RequestParam("code") String code, HttpSession session) {
         Map<String, String> tokens = Kakao.getKakaoAccessToken(code);
         session.setAttribute("access_token", tokens.get("access_token"));
         ProfileDto profile = Kakao.getKakaoUserInfo(tokens.get("access_token"));
         memberService.add(profile);
-        return ResponseEntity.ok().body(profile);
+        ProfileTokenDto profileWithToken = authService.createToken(profile);
+        return ResponseEntity.ok().body(profileWithToken);
     }
 
     @GetMapping(value = "/logout")

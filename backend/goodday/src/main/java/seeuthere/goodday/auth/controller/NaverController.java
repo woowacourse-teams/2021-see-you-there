@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.domain.Naver;
 import seeuthere.goodday.auth.dto.ProfileDto;
+import seeuthere.goodday.auth.dto.ProfileTokenDto;
 import seeuthere.goodday.auth.dto.TokenDto;
+import seeuthere.goodday.auth.service.AuthService;
 import seeuthere.goodday.member.service.MemberService;
 import seeuthere.goodday.secret.SecretKey;
 
@@ -24,9 +26,11 @@ import static seeuthere.goodday.auth.domain.Naver.NAVER_AUTH_URI;
 public class NaverController {
 
     private final MemberService memberService;
+    private final AuthService authService;
 
-    public NaverController(MemberService memberService) {
+    public NaverController(MemberService memberService, AuthService authService) {
         this.memberService = memberService;
+        this.authService = authService;
     }
 
     @GetMapping("/oauth")
@@ -44,7 +48,7 @@ public class NaverController {
     }
 
     @RequestMapping(value = "/callback", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
-    public ResponseEntity<ProfileDto> naverLogin(@RequestParam(value = "code") String code,
+    public ResponseEntity<ProfileTokenDto> naverLogin(@RequestParam(value = "code") String code,
                                                  @RequestParam(value = "state") String state,
                                                  HttpSession session) {
         TokenDto response = Naver.getAccessToken(code, state);
@@ -52,7 +56,8 @@ public class NaverController {
         session.setAttribute("access_token", response.getAccess_token());
         ProfileDto profile = Naver.getUserInfo(response.getAccess_token());
         memberService.add(profile);
-        return ResponseEntity.ok().body(profile);
+        ProfileTokenDto profileTokenDto = authService.createToken(profile);
+        return ResponseEntity.ok().body(profileTokenDto);
     }
 
     @GetMapping("/logout")

@@ -1,6 +1,8 @@
 package seeuthere.goodday.auth.infrastructure;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
@@ -21,5 +23,23 @@ public class JwtTokenProvider {
             .setExpiration(validity)
             .signWith(SignatureAlgorithm.HS256, SecretKey.JWT_SECRET_KEY)
             .compact();
+    }
+
+
+    public String extractId(String token) {
+        validateToken(token);
+        return Jwts.parser().setSigningKey(SecretKey.JWT_SECRET_KEY).parseClaimsJws(token).getBody()
+            .getSubject();
+    }
+
+    private boolean validateToken(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(SecretKey.JWT_SECRET_KEY)
+                .parseClaimsJws(token);
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (JwtException | IllegalArgumentException exception) {
+            // TODO : 예외처리 얘기해보기
+            throw new RuntimeException();
+        }
     }
 }

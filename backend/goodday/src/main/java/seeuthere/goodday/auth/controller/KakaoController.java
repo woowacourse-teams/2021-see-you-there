@@ -42,8 +42,7 @@ public class KakaoController {
 
     @RequestMapping(value = "/callback", produces = "application/json", method = {RequestMethod.GET,
         RequestMethod.POST})
-    public ResponseEntity<ProfileTokenDto> kakaoLogin(@RequestParam("code") String code,
-        HttpSession session) {
+    public ResponseEntity<ProfileTokenDto> kakaoLogin(@RequestParam("code") String code) {
         String accessToken = Kakao.getKakaoAccessToken(code);
         ProfileDto profile = Kakao.getKakaoUserInfo(accessToken);
         memberService.add(profile);

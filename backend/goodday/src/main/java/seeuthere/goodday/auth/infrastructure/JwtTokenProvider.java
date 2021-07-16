@@ -7,6 +7,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import org.springframework.stereotype.Component;
+import seeuthere.goodday.auth.exception.AuthExceptionSet;
+import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.secret.SecretKey;
 
 @Component
@@ -38,8 +40,7 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException exception) {
-            // TODO : 예외처리 얘기해보기
-            throw new RuntimeException();
+            throw new GoodDayException(AuthExceptionSet.INVALID_TOKEN);
         }
     }
 }

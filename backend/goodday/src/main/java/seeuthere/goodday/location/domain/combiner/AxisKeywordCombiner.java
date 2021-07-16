@@ -31,7 +31,8 @@ public class AxisKeywordCombiner {
         return new AxisKeywordCombiner(locations);
     }
 
-    private static void axisProcess(List<Location> locations, List<APIAxisDocument> APIAxisDocuments) {
+    private static void axisProcess(List<Location> locations,
+        List<APIAxisDocument> APIAxisDocuments) {
         for (APIAxisDocument apiAxisDocument : APIAxisDocuments) {
 
             locations.add(

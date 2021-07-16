@@ -1,13 +1,15 @@
-package seeuthere.goodday.location.dto;
+package seeuthere.goodday.location.dto.api.response;
 
-public class AxisDocument {
+import seeuthere.goodday.location.dto.api.response.component.Address;
+
+public class APIAxisDocument {
 
     private double x;
     private double y;
     private Address address;
     private Address roadAddress;
 
-    public AxisDocument() {
+    public APIAxisDocument() {
 
     }
 

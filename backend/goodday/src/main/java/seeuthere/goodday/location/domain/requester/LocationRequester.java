@@ -1,4 +1,4 @@
-package seeuthere.goodday.location.domain;
+package seeuthere.goodday.location.domain.requester;
 
 import java.util.List;
 import java.util.Objects;
@@ -6,8 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import seeuthere.goodday.exception.GoodDayException;
-import seeuthere.goodday.location.dto.Document;
-import seeuthere.goodday.location.dto.LocationResponse;
+import seeuthere.goodday.location.dto.api.response.APILocationDocument;
+import seeuthere.goodday.location.dto.api.response.APILocationResponse;
 import seeuthere.goodday.location.exception.LocationExceptionSet;
 
 public class LocationRequester {
@@ -19,17 +19,17 @@ public class LocationRequester {
         this.webClient = webClient;
     }
 
-    public List<Document> requestAddress(double x, double y) {
+    public List<APILocationDocument> requestAddress(double x, double y) {
         try {
-            LocationResponse locationResponse = receivedLocationResponse(x, y);
+            APILocationResponse APILocationResponse = receivedLocationResponse(x, y);
 
-            return Objects.requireNonNull(locationResponse).getDocuments();
+            return Objects.requireNonNull(APILocationResponse).getDocuments();
         } catch (WebClientResponseException e) {
             throw new GoodDayException(LocationExceptionSet.INVALID_LOCATION);
         }
     }
 
-    private LocationResponse receivedLocationResponse(double x, double y) {
+    private APILocationResponse receivedLocationResponse(double x, double y) {
         return webClient.get()
             .uri(uriBuilder ->
                 uriBuilder.path(BASIC_URL)
@@ -39,7 +39,7 @@ public class LocationRequester {
             )
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
-            .bodyToMono(LocationResponse.class)
+            .bodyToMono(APILocationResponse.class)
             .block();
     }
 }

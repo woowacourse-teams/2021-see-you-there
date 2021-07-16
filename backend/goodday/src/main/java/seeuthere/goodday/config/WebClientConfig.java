@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.secret.SecretKey;
 
 @Configuration
-public class WebClientConfiguration {
+public class WebClientConfig {
 
     @Bean
     public WebClient webClient(ObjectMapper baseConfig) {

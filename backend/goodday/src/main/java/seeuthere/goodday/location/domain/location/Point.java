@@ -1,4 +1,4 @@
-package seeuthere.goodday.location.domain;
+package seeuthere.goodday.location.domain.location;
 
 public class Point {
 

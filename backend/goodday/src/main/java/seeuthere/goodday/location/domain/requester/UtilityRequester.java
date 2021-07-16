@@ -1,4 +1,4 @@
-package seeuthere.goodday.location.domain;
+package seeuthere.goodday.location.domain.requester;
 
 import java.util.List;
 import java.util.Objects;
@@ -6,8 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import seeuthere.goodday.exception.GoodDayException;
-import seeuthere.goodday.location.dto.UtilityDocument;
-import seeuthere.goodday.location.dto.UtilityResponse;
+import seeuthere.goodday.location.dto.api.response.APIUtilityDocument;
+import seeuthere.goodday.location.dto.api.response.APIUtilityResponse;
 import seeuthere.goodday.location.exception.LocationExceptionSet;
 
 public class UtilityRequester {
@@ -20,16 +20,16 @@ public class UtilityRequester {
         this.webClient = webClient;
     }
 
-    public List<UtilityDocument> requestUtility(String categoryCode, double x, double y) {
+    public List<APIUtilityDocument> requestUtility(String categoryCode, double x, double y) {
         try {
-            UtilityResponse utilityResponse = receivedUtilityResponse(categoryCode, x, y);
-            return Objects.requireNonNull(utilityResponse).getDocuments();
+            APIUtilityResponse apiUtilityResponse = receivedUtilityResponse(categoryCode, x, y);
+            return Objects.requireNonNull(apiUtilityResponse).getDocuments();
         } catch (WebClientResponseException e) {
             throw new GoodDayException(LocationExceptionSet.INVALID_LOCATION);
         }
     }
 
-    private UtilityResponse receivedUtilityResponse(String categoryCode, double x, double y) {
+    private APIUtilityResponse receivedUtilityResponse(String categoryCode, double x, double y) {
         return webClient.get()
             .uri(uriBuilder ->
                 uriBuilder.path(BASIC_URL)
@@ -42,7 +42,7 @@ public class UtilityRequester {
             )
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
-            .bodyToMono(UtilityResponse.class)
+            .bodyToMono(APIUtilityResponse.class)
             .block();
     }
 }

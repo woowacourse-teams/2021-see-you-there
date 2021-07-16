@@ -1,6 +1,6 @@
-package seeuthere.goodday.location.dto;
+package seeuthere.goodday.location.dto.api.response;
 
-public class UtilityDocument {
+public class APIUtilityDocument {
 
     private String placeName;
     private String distance;
@@ -9,7 +9,7 @@ public class UtilityDocument {
     private double x;
     private double y;
 
-    public UtilityDocument() {
+    public APIUtilityDocument() {
 
     }
 

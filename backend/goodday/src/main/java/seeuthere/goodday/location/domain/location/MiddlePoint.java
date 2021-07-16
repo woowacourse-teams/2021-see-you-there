@@ -1,4 +1,4 @@
-package seeuthere.goodday.location.domain;
+package seeuthere.goodday.location.domain.location;
 
 import java.util.List;
 import java.util.Objects;

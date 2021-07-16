@@ -1,11 +1,10 @@
 package seeuthere.goodday.member.service;
 
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import seeuthere.goodday.auth.dto.ProfileDto;
 import seeuthere.goodday.member.dao.MemberRepository;
 import seeuthere.goodday.member.domain.Member;
-
-import java.util.Optional;
 
 @Service
 public class MemberService {

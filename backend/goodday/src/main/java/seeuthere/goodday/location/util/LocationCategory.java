@@ -43,18 +43,18 @@ public enum LocationCategory {
         this.description = description;
     }
 
+    public static String translatedCode(String description) {
+        if (!categoryMap.containsKey(description)) {
+            throw new GoodDayException(LocationExceptionSet.NOT_FOUND_CATEGORY);
+        }
+        return categoryMap.get(description).getCode();
+    }
+
     public String getCode() {
         return code;
     }
 
     public String getDescription() {
         return description;
-    }
-
-    public static String translatedCode(String description) {
-        if (!categoryMap.containsKey(description)) {
-            throw new GoodDayException(LocationExceptionSet.NOT_FOUND_CATEGORY);
-        }
-        return categoryMap.get(description).getCode();
     }
 }

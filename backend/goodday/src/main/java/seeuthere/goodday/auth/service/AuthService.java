@@ -24,7 +24,7 @@ public class AuthService {
 
     public void validate(String token) {
         String id = jwtTokenProvider.extractId(token);
-        if(memberService.find(id).isEmpty()){
+        if (memberService.find(id).isEmpty()) {
             // TODO : 예외처리 얘기해보기
             throw new RuntimeException();
         }

@@ -7,7 +7,7 @@ import seeuthere.goodday.auth.service.AuthService;
 
 public class MemberInterceptor implements HandlerInterceptor {
 
-    private AuthService authService;
+    private final AuthService authService;
 
     public MemberInterceptor(AuthService authService) {
         this.authService = authService;

@@ -14,11 +14,12 @@ public class AuthorizationExtractor {
         Enumeration<String> headers = reqeust.getHeaders(AUTHORIZATION);
         while (headers.hasMoreElements()) {
             String value = headers.nextElement();
-            if(value.toLowerCase().startsWith(BEARER_TYPE.toLowerCase())) {
+            if (value.toLowerCase().startsWith(BEARER_TYPE.toLowerCase())) {
                 String authHeaderValue = value.substring(BEARER_TYPE.length()).trim();
-                reqeust.setAttribute(ACCESS_TOKEN_TYPE, value.substring(0, BEARER_TYPE.length()).trim());
+                reqeust.setAttribute(ACCESS_TOKEN_TYPE,
+                    value.substring(0, BEARER_TYPE.length()).trim());
                 int commaIndex = authHeaderValue.indexOf(',');
-                if(commaIndex > 0 ) {
+                if (commaIndex > 0) {
                     authHeaderValue = authHeaderValue.substring(0, commaIndex);
                 }
                 return authHeaderValue;

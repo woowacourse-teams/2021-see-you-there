@@ -9,6 +9,13 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   }
 
+  @font-face {
+      font-family: 'S-CoreDream-3Light';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+  }
+
   * {
     margin:0;
     padding:0;
@@ -46,11 +53,12 @@ const GlobalStyle = createGlobalStyle`
   h2 {
     padding: 1.75rem 0 1.25rem;
 
-    line-height: 1.5rem;
+    font-family: 'S-CoreDream-3Light', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.1rem;
     color: ${COLOR.HEADING};
-    font-size: 1.125rem;
     text-align: center;
-    font-weight: 400;
     letter-spacing: -0.05rem;
   }
 

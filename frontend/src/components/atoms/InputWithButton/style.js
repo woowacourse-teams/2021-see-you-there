@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 import { Container as InputContainer } from '../Input/style';
-import { COLOR } from '../../../constants';
 
 export const Container = styled(InputContainer)`
   & > button {

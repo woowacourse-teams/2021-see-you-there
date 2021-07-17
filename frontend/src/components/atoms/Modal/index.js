@@ -5,10 +5,26 @@ import PropTypes from 'prop-types';
 import { Dimmer, Container } from './style';
 
 export const Modal = (props) => {
-  const { size, children, onClickToClose } = props;
+  const { size, children, escape } = props;
+
+  const handleClickDimmer = (e) => {
+    const { target, currentTarget } = e;
+
+    if (target !== currentTarget) {
+      return;
+    }
+    escape();
+  };
+
+  const handleKeyDownESC = (e) => {
+    if (e.key !== 'Escape') {
+      return;
+    }
+    escape();
+  };
 
   return createPortal(
-    <Dimmer onClick={onClickToClose}>
+    <Dimmer onClick={handleClickDimmer} onKeyDown={handleKeyDownESC}>
       <Container size={size}>{children}</Container>
     </Dimmer>,
     document.getElementById('portal')
@@ -18,10 +34,10 @@ export const Modal = (props) => {
 Modal.propTypes = {
   size: PropTypes.string,
   children: PropTypes.node.isRequired,
-  onClickToClose: PropTypes.func,
+  escape: PropTypes.func,
 };
 
 Modal.defaultProps = {
   size: 'base',
-  onClickToClose: () => {},
+  escape: () => {},
 };

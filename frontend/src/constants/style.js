@@ -19,6 +19,7 @@ export const COLOR = {
   ICON: '#666',
   HEADING: '#555',
   PARAGRAPH: '#333',
+  PARAGRAPH_LIGHT: '#aaa',
 };
 
 /* 웹(너비 832px 이상)에서 지도가 표시될 경우, RIGHT 사용 */
@@ -29,7 +30,7 @@ export const LAYOUT = {
   NAV_ICON_SIZE: '1.75rem',
 
   CONTENT_WIDTH: '18rem',
-  CONTENT_WIDTH_RIGHT: '22rem',
+  CONTENT_WIDTH_RIGHT: '20rem',
   CONTENT_FIRST_BOX_HEIGHT: '22.5rem',
   CONTENT_BOTTOM_HEIGHT: '6.5rem',
 
@@ -45,4 +46,15 @@ export const Z_INDEX = {
   NAVBAR: 20,
   HAMBURGER_MENU: 30,
   MODAL: 100,
+};
+
+export const REACT_QUERY_DEV_TOOL = {
+  style: {
+    backgroundColor: '#d0d0d0',
+    height: '100%',
+    maxHeight: '100%',
+    width: '360px',
+    left: '0',
+    fontSize: '0.75rem',
+  },
 };

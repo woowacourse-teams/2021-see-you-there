@@ -7,7 +7,7 @@ import { COLOR } from '../../../constants';
 
 const ParticipantListItem = (props) => {
   const { item, onClickToDelete } = props;
-  const { id, name, address, avatar } = item;
+  const { id, name, addressName, avatar } = item;
 
   return (
     <Item>
@@ -20,7 +20,7 @@ const ParticipantListItem = (props) => {
         <img src={avatar} alt={name} />
       </Avatar>
       <Name>{name}</Name>
-      <Address>{address}</Address>
+      <Address>{addressName}</Address>
     </Item>
   );
 };
@@ -41,7 +41,7 @@ ParticipantList.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      address: PropTypes.string.isRequired,
+      addressName: PropTypes.string.isRequired,
       avatar: PropTypes.string.isRequired,
     })
   ).isRequired,

@@ -56,7 +56,7 @@ export const TitleText = styled.span`
   font-family: 'yg-jal-nan';
   font-size: 1.25rem;
   color: ${COLOR.ON_PRIMARY};
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.125rem;
   line-height: 1.25rem;
 `;
 

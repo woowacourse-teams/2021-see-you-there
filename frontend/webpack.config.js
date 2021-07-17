@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
-module.exports = {
-  mode: 'development',
+const config = ({ isDev }) => ({
+  mode: isDev ? 'development' : 'production',
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -31,11 +31,11 @@ module.exports = {
         exclude: '/node_modules',
         loader: 'babel-loader',
         options: {
-          plugins: ['react-refresh/babel'],
           presets: [
             ['@babel/preset-env', { targets: { esmodules: true, browsers: ['last 2 versions'] } }],
             '@babel/preset-react',
           ],
+          plugins: [isDev && 'react-refresh/babel'].filter(Boolean),
         },
       },
     ],
@@ -57,4 +57,6 @@ module.exports = {
     open: true,
     hot: true,
   },
-};
+});
+
+module.exports = (env, argv) => config({ isDev: argv.mode === 'development' });

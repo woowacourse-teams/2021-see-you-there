@@ -90,6 +90,55 @@ export const BottomSection = styled.section`
   width: inherit;
 
   background-color: ${COLOR.PRIMARY_BACKGROUND};
+
+  & > button {
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      background: rgba(255, 255, 255, 0.35);
+      width: 40px;
+      height: 100%;
+      left: 40px;
+      top: 0;
+      transform: skewX(-15deg);
+      filter: blur(2px);
+    }
+
+    &:not(:disabled)::after {
+      -webkit-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
+      -moz-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
+      -o-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
+      animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
+    }
+  }
+
+  @keyframes shine {
+    0% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    9% {
+      opacity: 1;
+      transform: translateX(400px);
+    }
+    10% {
+      opacity: 0;
+      transform: translateX(400px);
+    }
+    11% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    20% {
+      opacity: 1;
+      transform: translateX(400px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(400px);
+    }
+  }
 `;
 
 /* 주소 검색 Modal */

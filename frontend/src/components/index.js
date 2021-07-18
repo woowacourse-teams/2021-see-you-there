@@ -1,5 +1,6 @@
 export * as Icon from './icons';
 
+export { Animation } from './atoms/Animation';
 export { ButtonRound } from './atoms/ButtonRound';
 export { Notice } from './atoms/Notice';
 export { Input } from './atoms/Input';

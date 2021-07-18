@@ -1,5 +1,7 @@
-export const API_DOMAIN = 'https://seeyouthere.o-r.kr';
-export const API_END_POINT = 'https://seeyouthere.o-r.kr/api';
+export const API_DOMAIN = 'http://localhost:8080';
+export const API_END_POINT = 'http://localhost:8080/api';
+// export const API_DOMAIN = 'https://seeyouthere.o-r.kr';
+// export const API_END_POINT = 'https://seeyouthere.o-r.kr/api';
 
 export const API_URL = {
   ADDRESS_SEARCH: (keyword) => `${API_END_POINT}/location/coordinate?address=${keyword}`,

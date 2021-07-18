@@ -85,7 +85,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: transparent;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: ${COLOR.BORDER_INPUT_HOVER};
+    background-color: ${COLOR.BORDER_HOVER};
   }
 `;
 

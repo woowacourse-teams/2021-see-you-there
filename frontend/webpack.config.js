@@ -14,6 +14,7 @@ const config = ({ isDev }) => ({
   },
   output: {
     path: path.join(__dirname, 'dist'),
+    publicPath: '/',
     filename: '[name].js',
   },
   module: {

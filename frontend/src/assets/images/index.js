@@ -8,6 +8,24 @@ import avatar7 from './avatar7.png';
 import avatar8 from './avatar8.png';
 import avatar9 from './avatar9.png';
 import avatar10 from './avatar10.png';
+import drawingLogin from './drawingLogin.png';
 import logo from './logo.png';
+import logoKakao from './logoKakao.png';
+import logoNaver from './logoNaver.png';
 
-export { avatar1, avatar2, avatar3, avatar4, avatar5, avatar6, avatar7, avatar8, avatar9, avatar10, logo };
+export {
+  avatar1,
+  avatar2,
+  avatar3,
+  avatar4,
+  avatar5,
+  avatar6,
+  avatar7,
+  avatar8,
+  avatar9,
+  avatar10,
+  drawingLogin,
+  logo,
+  logoKakao,
+  logoNaver,
+};

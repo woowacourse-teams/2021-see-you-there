@@ -7,24 +7,30 @@ import { COLOR, LAYOUT, ROUTE, ROUTES_WITHOUT_MAP, PRIVATE_ROUTES } from '../../
 import { Image } from '../../../assets';
 
 const HamburgerMenu = (props) => {
-  const { isVisible } = props;
+  const { isVisible, setIsMenuVisible, history } = props;
 
   return (
-    <MenuList isVisible={isVisible}>
+    <MenuList isVisible={isVisible} onClick={() => setIsMenuVisible(false)}>
       {PRIVATE_ROUTES.map((ROUTE, index) => (
         <li key={index}>{ROUTE.NAME}</li>
       ))}
+      <li>
+        <button onClick={() => history.push(ROUTE.LOGOUT.PATH)}>{ROUTE.LOGOUT.NAME}</button>
+      </li>
     </MenuList>
   );
 };
 
-export const NavBar = () => {
+export const NavBar = (props) => {
+  const { user } = props;
+  const { id, nickname, profileImage, token } = user;
   const history = useHistory();
   const { pathname } = useLocation();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
-  const isLogin = false;
-  const canGoBack = pathname !== ROUTE.HOME.PATH;
+  const isLogin = !!token;
+  const isOAuth = [ROUTE.LOGIN.PATH, ROUTE.LOGOUT.PATH, ROUTE.LOGIN_KAKAO.PATH].includes(pathname);
+  const canGoBack = ![ROUTE.HOME.PATH, ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGOUT.PATH].includes(pathname);
   const hasMapView = ROUTES_WITHOUT_MAP.map((ROUTE) => ROUTE.PATH).includes(pathname);
 
   return (
@@ -42,7 +48,7 @@ export const NavBar = () => {
         </Title>
       </NavLink>
 
-      {isLogin ? (
+      {isOAuth ? null : isLogin ? (
         <RightButton onClick={() => setIsMenuVisible((isMenuVisible) => !isMenuVisible)}>
           <Icon.Hamburger width={LAYOUT.NAV_ICON_SIZE} color={COLOR.ON_PRIMARY} />
         </RightButton>
@@ -54,7 +60,14 @@ export const NavBar = () => {
         </NavLink>
       )}
 
-      <HamburgerMenu isVisible={isMenuVisible} />
+      <MenuList isVisible={isMenuVisible} onClick={() => setIsMenuVisible(false)}>
+        {PRIVATE_ROUTES.map((ROUTE, index) => (
+          <li key={index}>{ROUTE.NAME}</li>
+        ))}
+        <li>
+          <button onClick={() => history.push(ROUTE.LOGOUT.PATH)}>{ROUTE.LOGOUT.NAME}</button>
+        </li>
+      </MenuList>
     </Nav>
   );
 };

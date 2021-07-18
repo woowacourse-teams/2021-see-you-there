@@ -176,7 +176,7 @@ export const AddressSearchList = styled.ul`
   & > li {
     padding: 0.75rem 0;
     width: 100%;
-    border-bottom: 1px solid ${COLOR.BORDER_INPUT};
+    border-bottom: 1px solid ${COLOR.BORDER};
 
     & > button {
       display: flex;

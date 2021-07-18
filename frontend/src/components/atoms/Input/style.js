@@ -32,7 +32,7 @@ export const Container = styled.div`
     padding: 0 1rem;
     padding-left: ${(props) => (props.hasIcon ? '2.75rem' : '1rem')};
 
-    border: 1px solid ${COLOR.BORDER_INPUT};
+    border: 1px solid ${COLOR.BORDER};
     border-radius: 0.4rem;
 
     outline: none;
@@ -42,7 +42,7 @@ export const Container = styled.div`
     }
 
     &:hover {
-      border-color: ${COLOR.BORDER_INPUT_HOVER};
+      border-color: ${COLOR.BORDER_HOVER};
     }
 
     &:focus {

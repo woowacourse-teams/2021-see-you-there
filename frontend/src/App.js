@@ -28,9 +28,9 @@ export const App = () => {
           <Route exact path={ROUTE.LOGIN.PATH}>
             <LoginPage />
           </Route>
-          {/* <Route exact path={ROUTE.LOGOUT.PATH}>
-            <LogoutPage/>
-          </Route> */}
+          <Route path={[ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGIN_NAVER.PATH]}>
+            <OAuthPage setUser={setUser} />
+          </Route>
         </Switch>
       </Router>
       <ReactQueryDevtools panelProps={REACT_QUERY_DEV_TOOL} />

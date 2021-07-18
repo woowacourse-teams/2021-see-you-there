@@ -37,7 +37,7 @@ export const ContentArea = styled.section`
   }
 `;
 
-export const Button = styled.button`
+export const Anchor = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;

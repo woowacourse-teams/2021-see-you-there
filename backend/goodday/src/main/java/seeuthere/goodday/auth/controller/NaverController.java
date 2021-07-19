@@ -1,5 +1,6 @@
 package seeuthere.goodday.auth.controller;
 
+import static seeuthere.goodday.auth.domain.Kakao.DOMAIN_URI;
 import static seeuthere.goodday.auth.domain.Naver.NAVER_AUTH_URI;
 
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class NaverController {
         url.append(NAVER_AUTH_URI + "/oauth2.0/authorize?");
         url.append("client_id=" + SecretKey.NAVER_API_KEY);
         url.append("&response_type=code");
-        url.append("&redirect_uri=http://localhost:8080/api/naver/callback");
+        url.append("&redirect_uri=" + DOMAIN_URI + "/api/naver/callback");
         url.append("&state=" + state);
 
         return "redirect:" + url;

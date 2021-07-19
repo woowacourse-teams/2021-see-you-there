@@ -3,8 +3,8 @@ export const ROUTE = {
   MIDPOINT: { NAME: '중간지점찾기', PATH: '/midpoint' },
   LOGIN: { NAME: '로그인', PATH: '/login' },
 
-  LOGIN_KAKAO: { NAME: '카카오 로그인', PATH: '/api/kakao/callback' },
-  LOGIN_NAVER: { NAME: '네이버 로그인', PATH: '/api/naver/callback' },
+  LOGIN_KAKAO: { NAME: '카카오 로그인', PATH: '/kakao/callback' },
+  LOGIN_NAVER: { NAME: '네이버 로그인', PATH: '/naver/callback' },
 
   LOGOUT: { NAME: '로그아웃', PATH: '/logout' },
   PROFILE: { NAME: '내 프로필', PATH: '/profile' },

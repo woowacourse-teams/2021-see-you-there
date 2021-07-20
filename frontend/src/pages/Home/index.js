@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useQuery } from 'react-query';
+import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { Input, InputWithButton, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
-import { ParticipantContext } from '../../contexts';
+import { ParticipantAddForm } from './ParticipantAddForm';
+import { ButtonRound, Icon, Confirm, ParticipantList } from '../../components';
+import { ParticipantContext, ParticipantAddFormContextProvider } from '../../contexts';
 import { useConfirm, useMapView } from '../../hooks';
+import { MESSAGE, ROUTE, POBI_POINT } from '../../constants';
+import { MapViewArea, MapView, ContentArea, AddSection, ListSection, BottomSection } from './style';
 
 export const HomePage = () => {
   const { participant } = useContext(ParticipantContext);
@@ -35,45 +37,9 @@ export const HomePage = () => {
         <ContentArea>
           <AddSection>
             <h2>만날 사람을 추가해보세요.</h2>
-            <AddForm ref={form.ref} onSubmit={form.handleSubmit}>
-              <Input
-                name={INPUT.NAME.KEY}
-                label={INPUT.NAME.LABEL}
-                value={name.value}
-                onChange={name.handleChange}
-                onBlur={name.handleBlur}
-                placeholder={INPUT.NAME.PLACEHOLDER}
-                Icon={<Icon.Person />}
-                autoFocus
-              />
-              <Input
-                name={INPUT.ADDRESS.KEY}
-                label={INPUT.ADDRESS.LABEL}
-                value={address.value}
-                placeholder={INPUT.ADDRESS.PLACEHOLDER}
-                Icon={<Icon.Place />}
-                onKeyPress={address.handleKeyPress}
-                onFocus={address.searchModalOpen}
-                onClick={address.searchModalOpen}
-                readOnly
-              />
-
-              <Notice>{validationMessage}</Notice>
-
-              <ButtonGroup>
-                <ButtonRound type="button" size="small" Icon={<Icon.People width="18" />} color="gray">
-                  팔로잉 목록에서 선택
-                </ButtonRound>
-                <ButtonRound
-                  type="submit"
-                  size="small"
-                  Icon={<Icon.SubmitRight width="18" color="#fff" />}
-                  disabled={!form.isComplete || participant.isFull}
-                >
-                  만날 사람 추가
-                </ButtonRound>
-              </ButtonGroup>
-            </AddForm>
+            <ParticipantAddFormContextProvider>
+              <ParticipantAddForm />
+            </ParticipantAddFormContextProvider>
           </AddSection>
 
           <ListSection>
@@ -96,36 +62,6 @@ export const HomePage = () => {
         </ContentArea>
       </main>
 
-      {isModalOpen && (
-        <Modal escape={escapeModal}>
-          <ModalCloseButton onClick={escapeModal}>
-            <Icon.Close />
-          </ModalCloseButton>
-          <form onSubmit={handleSubmitAddressSearch}>
-            <InputWithButton
-              name={INPUT.ADDRESS_SEARCH.KEY}
-              label={INPUT.ADDRESS_SEARCH.LABEL(name.value)}
-              placeholder={INPUT.ADDRESS_SEARCH.PLACEHOLDER}
-              buttonIcon={<Icon.Search width="20" />}
-              autoFocus
-            />
-          </form>
-          <AddressSearchList>
-            {data?.data.map((item, index) => {
-              const { x, y, name: addressName, address: fullAddress } = item;
-
-              return (
-                <li key={index}>
-                  <button onClick={() => address.handleSelect({ x, y, addressName })}>
-                    {addressName} <span>{addressName !== fullAddress && fullAddress}</span>
-                    <Icon.Check color={COLOR.PRIMARY} width="20" />
-                  </button>
-                </li>
-              );
-            })}
-          </AddressSearchList>
-        </Modal>
-      )}
       {isConfirmOpen && (
         <Confirm onCancel={cancelConfirm} onApprove={approveConfirm}>
           {MESSAGE.CONFIRM_PARTICIPANT_DELETE}

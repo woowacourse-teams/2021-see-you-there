@@ -17,15 +17,16 @@ export const App = () => {
       <Router>
         <NavBar user={user} />
         <Switch>
-          <ParticipantContextProvider>
-            <Route exact path={ROUTE.HOME.PATH}>
+          <Route exact path={ROUTE.HOME.PATH}>
+            <ParticipantContextProvider>
               <HomePage />
-            </Route>
-            <Route exact path={ROUTE.MIDPOINT.PATH}>
+            </ParticipantContextProvider>
+          </Route>
+          <Route exact path={ROUTE.MIDPOINT.PATH}>
+            <ParticipantContextProvider>
               <MidpointPage />
-            </Route>
-          </ParticipantContextProvider>
-
+            </ParticipantContextProvider>
+          </Route>
           <Route exact path={ROUTE.LOGIN.PATH}>
             <LoginPage />
           </Route>

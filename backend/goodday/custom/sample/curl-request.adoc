@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ curl 'https://api.example.com/api/location/coordinate?address=%EC%A0%84%EB%B6%81%20%EC%82%BC%EC%84%B1%EB%8F%99%20100' -i -X GET \
+    -H 'Accept: application/json'
+----

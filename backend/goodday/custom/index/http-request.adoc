@@ -1,0 +1,7 @@
+[source,http,options="nowrap"]
+----
+GET /api/location/coordinate?address=%EC%A0%84%EB%B6%81%20%EC%82%BC%EC%84%B1%EB%8F%99%20100 HTTP/1.1
+Accept: application/json
+Host: localhost:39593
+
+----

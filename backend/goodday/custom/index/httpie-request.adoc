@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ http GET 'http://localhost:39593/api/location/coordinate?address=%EC%A0%84%EB%B6%81%20%EC%82%BC%EC%84%B1%EB%8F%99%20100' \
+    'Accept:application/json'
+----

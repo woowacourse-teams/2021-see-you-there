@@ -1,0 +1,23 @@
+= Rest Docs API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+
+include::build/generated-snippets/index/curl-request.adoc[]
+
+include::build/generated-snippets/index/http-request.adoc[]
+
+include::build/generated-snippets/index/http-response.adoc[]
+
+include::build/generated-snippets/index/httpie-request.adoc[]
+
+include::build/generated-snippets/index/request-body.adoc[]
+
+include::build/generated-snippets/index/response-body.adoc[]
+
+include::build/generated-snippets/index/response-fields.adoc[]

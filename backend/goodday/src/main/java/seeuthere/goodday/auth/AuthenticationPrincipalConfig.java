@@ -15,13 +15,14 @@ public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
         this.authService = authService;
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new MemberInterceptor(authService))
-            .excludePathPatterns("/api/kakao/oauth")
-            .excludePathPatterns("/api/kakao/callback")
-            .excludePathPatterns("/api/naver/oauth")
-            .excludePathPatterns("/api/naver/callback")
-            .excludePathPatterns("/api/location/**");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new MemberInterceptor(authService))
+//            .excludePathPatterns("/docs")
+//            .excludePathPatterns("/api/kakao/oauth")
+//            .excludePathPatterns("/api/kakao/callback")
+//            .excludePathPatterns("/api/naver/oauth")
+//            .excludePathPatterns("/api/naver/callback")
+//            .excludePathPatterns("/api/location/**");
+//    }
 }

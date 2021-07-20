@@ -41,3 +41,6 @@ out/
 
 **/src/main/java/seeuthere/goodday/secret/
 
+## html
+**src/main/resources/static/docs/index.html
+

@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
-import { useMapView } from '../../hooks';
 import { ParticipantList } from '../../components';
 import { MapViewArea, MapView, ContentArea, ListSection, ResultSection } from './style';
+import { ParticipantContext } from '../../contexts';
+import { useMapView } from '../../hooks';
 import { API_URL } from '../../constants';
 import { httpRequest } from '../../utils';
 
-export const MidpointPage = (props) => {
-  const { participant } = props;
+export const MidpointPage = () => {
+  const { participant } = useContext(ParticipantContext);
   const { mapViewRef, showMapView, setMarker, setMarkers, setBounds } = useMapView();
 
   const fetchMidpoint = async ({ queryKey }) => {
@@ -67,12 +67,4 @@ export const MidpointPage = (props) => {
       </main>
     </>
   );
-};
-
-MidpointPage.propTypes = {
-  participant: PropTypes.shape({
-    list: PropTypes.array,
-    add: PropTypes.func,
-    remove: PropTypes.func,
-  }),
 };

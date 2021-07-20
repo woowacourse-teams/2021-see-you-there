@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useContext } from 'react';
 import { useQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
 
-import { useParticipantRemoveConfirm, useMapView, useModal, useParticipantForm } from '../../hooks';
 import { Input, InputWithButton, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
+import { ParticipantContext } from '../../contexts';
+import { useParticipantRemoveConfirm, useMapView, useModal, useParticipantForm } from '../../hooks';
 import { COLOR, INPUT, MESSAGE, API_URL, ROUTE, POBI_POINT } from '../../constants';
 import {
   MapViewArea,
@@ -20,8 +20,8 @@ import {
 } from './style';
 import { httpRequest } from '../../utils';
 
-export const HomePage = (props) => {
-  const { participant } = props;
+export const HomePage = () => {
+  const { participant } = useContext(ParticipantContext);
   const { mapViewRef, showMapView } = useMapView();
   const { isModalOpen, openModal, closeModal } = useModal();
   const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useParticipantRemoveConfirm({ participant });
@@ -175,12 +175,4 @@ export const HomePage = (props) => {
       )}
     </>
   );
-};
-
-HomePage.propTypes = {
-  participant: PropTypes.shape({
-    list: PropTypes.array,
-    add: PropTypes.func,
-    remove: PropTypes.func,
-  }),
 };

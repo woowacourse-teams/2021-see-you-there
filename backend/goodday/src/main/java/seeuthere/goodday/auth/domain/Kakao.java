@@ -50,7 +50,7 @@ public class Kakao {
                 .path("/oauth/token")
                 .queryParam("grant_type", "authorization_code")
                 .queryParam("client_id", SecretKey.KAKAO_API_KEY)
-                .queryParam("redirect_uri", Kakao.DOMAIN_URI + "/api/kakao/callback")
+                .queryParam("redirect_uri", DOMAIN_URI + "/kakao/callback")
                 .queryParam("code", code)
                 .build())
             .retrieve().bodyToMono(JSONObject.class).block();

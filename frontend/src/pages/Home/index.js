@@ -4,54 +4,12 @@ import { useHistory } from 'react-router-dom';
 
 import { Input, InputWithButton, ButtonRound, Icon, Confirm, ParticipantList, Modal, Notice } from '../../components';
 import { ParticipantContext } from '../../contexts';
-import { useParticipantRemoveConfirm, useMapView, useModal, useParticipantForm } from '../../hooks';
-import { COLOR, INPUT, MESSAGE, API_URL, ROUTE, POBI_POINT } from '../../constants';
-import {
-  MapViewArea,
-  MapView,
-  ContentArea,
-  AddSection,
-  AddForm,
-  ButtonGroup,
-  ListSection,
-  BottomSection,
-  ModalCloseButton,
-  AddressSearchList,
-} from './style';
-import { httpRequest } from '../../utils';
+import { useConfirm, useMapView } from '../../hooks';
 
 export const HomePage = () => {
   const { participant } = useContext(ParticipantContext);
   const { mapViewRef, showMapView } = useMapView();
-  const { isModalOpen, openModal, closeModal } = useModal();
-  const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useParticipantRemoveConfirm({ participant });
-  const [addressKeyword, setAddressKeyword] = useState('');
-  const { form, name, address, validationMessage } = useParticipantForm({ participant, openModal, closeModal });
-
-  const fetchAddressSearch = async ({ queryKey }) => {
-    const [_, keyword] = queryKey;
-    const res = await httpRequest.get(API_URL.ADDRESS_SEARCH(keyword));
-
-    return await res.json();
-  };
-
-  const { data } = useQuery(['주소검색', addressKeyword], fetchAddressSearch, {
-    enabled: !!addressKeyword,
-    staleTime: Infinity,
-  });
-
-  const handleSubmitAddressSearch = (e) => {
-    e.preventDefault();
-
-    const keyword = e.target['addressSearch'].value;
-    setAddressKeyword(keyword);
-  };
-
-  const escapeModal = () => {
-    address.focus();
-    closeModal();
-  };
-
+  const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useConfirm({ approve: participant.remove });
   const history = useHistory();
 
   const handleClickGetMiddlePoint = () => {

@@ -4,7 +4,7 @@ import { ParticipantAddFormContext, ParticipantContext } from '../contexts';
 import { INPUT, MESSAGE } from '../constants';
 
 export const useParticipantInputName = () => {
-  const { participant } = useContext(ParticipantContext);
+  const { isLackParticipants } = useContext(ParticipantContext);
   const { name, setName, focusName, setValidationMessage } = useContext(ParticipantAddFormContext);
 
   const handleChangeName = (e) => {
@@ -25,7 +25,7 @@ export const useParticipantInputName = () => {
     const name = e.target.value;
     const trimmedName = name.trim();
 
-    if (!trimmedName && !participant.isLack) {
+    if (!trimmedName && !isLackParticipants) {
       return;
     }
     setValidationMessage('');

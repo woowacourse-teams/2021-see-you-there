@@ -15,12 +15,13 @@ import { getId, getAvatarKey } from '../../utils';
 import { Image } from '../../assets';
 
 export const ParticipantAddForm = () => {
-  const { participant } = useContext(ParticipantContext);
+  const { addParticipant, isFullParticipants } = useContext(ParticipantContext);
   const { formRef, resetForm, validationMessage, setValidationMessage, focusName, focusAddress, isComplete } =
     useContext(ParticipantAddFormContext);
 
   const { isModalOpen, openModal, closeModal } = useModal();
   const { name, handleChangeName, handleBlurName } = useParticipantInputName();
+
   const { address, handleKeyPressAddress, handleOpenAddressSearchModal, handleSelectAddress } =
     useParticipantInputAddress({ openModal, closeModal });
 
@@ -46,7 +47,7 @@ export const ParticipantAddForm = () => {
       ...address,
     };
 
-    participant.add(newParticipant);
+    addParticipant(newParticipant);
 
     resetForm();
     resetAddressKeyword();
@@ -88,7 +89,7 @@ export const ParticipantAddForm = () => {
             type="submit"
             size="small"
             Icon={<Icon.SubmitRight width="18" color="#fff" />}
-            disabled={!isComplete || participant.isFull}
+            disabled={!isComplete || isFullParticipants}
           >
             만날 사람 추가
           </ButtonRound>

@@ -9,12 +9,12 @@ import { API_URL } from '../../constants';
 import { httpRequest } from '../../utils';
 
 export const MidpointPage = () => {
-  const { participant } = useContext(ParticipantContext);
+  const { participants } = useContext(ParticipantContext);
   const { mapViewRef, showMapView, setMarker, setMarkers, setBounds } = useMapView();
 
   const fetchMidpoint = async ({ queryKey }) => {
-    const [_, participant] = queryKey;
-    const locations = participant.list.map(({ x, y }) => ({ x, y }));
+    const [_, participants] = queryKey;
+    const locations = participants.map(({ x, y }) => ({ x, y }));
     const res = await httpRequest.post(API_URL.MIDPOINT, { body: { locations } });
 
     return await res.json();
@@ -27,7 +27,7 @@ export const MidpointPage = () => {
     return await res.json();
   };
 
-  const { data: midpoint } = useQuery(['중간지점', participant], fetchMidpoint, { staleTime: Infinity });
+  const { data: midpoint } = useQuery(['중간지점', participants], fetchMidpoint, { staleTime: Infinity });
   const { data: stations } = useQuery(['지하철역', midpoint], fetchStations, {
     enabled: !!midpoint,
     staleTime: Infinity,
@@ -40,8 +40,8 @@ export const MidpointPage = () => {
 
       showMapView(closestStation);
       setMarker({ x, y, name: placeName });
-      setMarkers(participant.list);
-      setBounds([closestStation, ...participant.list]);
+      setMarkers(participants);
+      setBounds([closestStation, ...participants]);
     }
   }, [stations]);
 
@@ -59,9 +59,9 @@ export const MidpointPage = () => {
           </ResultSection>
           <ListSection>
             <h2>
-              만나는 사람들 <span>{participant.list.length}명</span>
+              만나는 사람들 <span>{participants.length}명</span>
             </h2>
-            <ParticipantList items={participant.list} />
+            <ParticipantList items={participants} />
           </ListSection>
         </ContentArea>
       </main>

@@ -2,20 +2,20 @@ import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ParticipantAddForm } from './ParticipantAddForm';
+import { MapViewArea, MapView, ContentArea, AddSection, ListSection, BottomSection } from './style';
 import { ButtonRound, Icon, Confirm, ParticipantList } from '../../components';
 import { ParticipantContext, ParticipantAddFormContextProvider } from '../../contexts';
 import { useConfirm, useMapView } from '../../hooks';
 import { MESSAGE, ROUTE, POBI_POINT } from '../../constants';
-import { MapViewArea, MapView, ContentArea, AddSection, ListSection, BottomSection } from './style';
 
 export const HomePage = () => {
-  const { participant } = useContext(ParticipantContext);
+  const { participants, removeParticipant, isLackParticipants } = useContext(ParticipantContext);
   const { mapViewRef, showMapView } = useMapView();
-  const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useConfirm({ approve: participant.remove });
+  const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useConfirm({ approve: removeParticipant });
   const history = useHistory();
 
   const handleClickGetMiddlePoint = () => {
-    if (participant.isLack) {
+    if (isLackParticipants) {
       // TODO: 스낵바 구현
       return;
     }
@@ -44,17 +44,17 @@ export const HomePage = () => {
 
           <ListSection>
             <h2>
-              만나는 사람들 <span>{participant.list.length}명</span>
+              만나는 사람들 <span>{participants.length}명</span>
             </h2>
-            {participant.isLack && <span>만날 사람을 추가해 중간지점을 확인해보세요.</span>}
-            <ParticipantList items={participant.list} onClickToDelete={(id) => openConfirm(id)} />
+            {isLackParticipants && <span>만날 사람을 추가해 중간지점을 확인해보세요.</span>}
+            <ParticipantList items={participants} onClickToDelete={(id) => openConfirm(id)} />
           </ListSection>
 
           <BottomSection>
             <ButtonRound
               Icon={<Icon.Search color="#fff" />}
               onClick={handleClickGetMiddlePoint}
-              disabled={participant.isLack}
+              disabled={isLackParticipants}
             >
               중간지점 찾기
             </ButtonRound>

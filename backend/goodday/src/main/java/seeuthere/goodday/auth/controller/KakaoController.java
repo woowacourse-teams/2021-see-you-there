@@ -1,18 +1,17 @@
 package seeuthere.goodday.auth.controller;
 
-import static seeuthere.goodday.auth.domain.Kakao.KAKAO_AUTH_URI;
+import static seeuthere.goodday.auth.utils.Kakao.KAKAO_AUTH_URI;
 
-import javax.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import seeuthere.goodday.auth.domain.Kakao;
 import seeuthere.goodday.auth.dto.ProfileDto;
 import seeuthere.goodday.auth.dto.ProfileTokenDto;
 import seeuthere.goodday.auth.service.AuthService;
+import seeuthere.goodday.auth.utils.Kakao;
 import seeuthere.goodday.member.service.MemberService;
 import seeuthere.goodday.secret.SecretKey;
 

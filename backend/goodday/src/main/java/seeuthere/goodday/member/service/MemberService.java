@@ -3,6 +3,8 @@ package seeuthere.goodday.member.service;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import seeuthere.goodday.auth.dto.ProfileDto;
+import seeuthere.goodday.auth.exception.AuthExceptionSet;
+import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.member.dao.MemberRepository;
 import seeuthere.goodday.member.domain.Member;
 
@@ -16,13 +18,19 @@ public class MemberService {
     }
 
     public Member add(ProfileDto profile) {
-        if (find(profile.getId()).isEmpty()) {
-            return memberRepository.save(new Member(profile.getId(), profile.getNickname()));
+        if (!memberRepository.existsById(profile.getId())) {
+            return memberRepository.save(
+                new Member(profile.getId(), profile.getNickname(), profile.getProfileImage()));
         }
         return null;
     }
 
-    public Optional<Member> find(String id) {
-        return memberRepository.findById(id);
+    public Member find(String id) {
+        Optional<Member> member = memberRepository.findById(id);
+        if (member.isEmpty()) {
+            throw new GoodDayException(AuthExceptionSet.NOT_FOUND_USER);
+        }
+
+        return member.get();
     }
 }

@@ -7,17 +7,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import seeuthere.goodday.auth.domain.EnableAuth;
+import seeuthere.goodday.auth.dto.ProfileDto;
+import seeuthere.goodday.member.domain.Member;
+import seeuthere.goodday.member.service.MemberService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/members")
 public class MemberController {
 
-    /*
-        개인정보 가져오기
-    * */
+    private final MemberService memberService;
+
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
     @GetMapping
-    public ResponseEntity<Void> findUserInfo() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ProfileDto> findMemberInfo(@EnableAuth String id) {
+        Member member = memberService.find(id);
+        return ResponseEntity.ok()
+            .body(new ProfileDto(member.getId(), member.getName(), member.getProfileImage()));
     }
 
     /*

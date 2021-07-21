@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.dto.ProfileDto;
 import seeuthere.goodday.secret.SecretKey;
 
-public class Kakao {
+public class KakaoUtil {
 
     public static final String KAKAO_HOST_URI = "https://kapi.kakao.com";
     public static final String KAKAO_AUTH_URI = "https://kauth.kakao.com";

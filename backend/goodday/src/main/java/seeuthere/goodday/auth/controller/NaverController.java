@@ -1,7 +1,7 @@
 package seeuthere.goodday.auth.controller;
 
-import static seeuthere.goodday.auth.utils.Kakao.DOMAIN_URI;
-import static seeuthere.goodday.auth.utils.Naver.NAVER_AUTH_URI;
+import static seeuthere.goodday.auth.utils.KakaoUtil.DOMAIN_URI;
+import static seeuthere.goodday.auth.utils.NaverUtil.NAVER_AUTH_URI;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,8 @@ import seeuthere.goodday.auth.dto.ProfileDto;
 import seeuthere.goodday.auth.dto.ProfileTokenDto;
 import seeuthere.goodday.auth.dto.TokenDto;
 import seeuthere.goodday.auth.service.AuthService;
-import seeuthere.goodday.auth.utils.Naver;
+import seeuthere.goodday.auth.service.NaverService;
+import seeuthere.goodday.auth.utils.NaverUtil;
 import seeuthere.goodday.member.service.MemberService;
 import seeuthere.goodday.secret.SecretKey;
 
@@ -23,15 +24,17 @@ public class NaverController {
 
     private final MemberService memberService;
     private final AuthService authService;
+    private final NaverService naverService;
 
-    public NaverController(MemberService memberService, AuthService authService) {
+    public NaverController(MemberService memberService, AuthService authService, NaverService naverService) {
         this.memberService = memberService;
         this.authService = authService;
+        this.naverService = naverService;
     }
 
     @GetMapping("/oauth")
     public String naverConnect() {
-        String state = Naver.generateState();
+        String state = NaverUtil.generateState();
 
         StringBuffer url = new StringBuffer();
         url.append(NAVER_AUTH_URI + "/oauth2.0/authorize?");
@@ -47,11 +50,8 @@ public class NaverController {
         RequestMethod.POST}, produces = "application/json")
     public ResponseEntity<ProfileTokenDto> naverLogin(@RequestParam(value = "code") String code,
         @RequestParam(value = "state") String state) {
-        TokenDto response = Naver.getAccessToken(code, state);
-
-        ProfileDto profile = Naver.getUserInfo(response.getAccessToken());
+        ProfileDto profile = naverService.getProfileWithToken(code, state);
         memberService.add(profile);
-        ProfileTokenDto profileTokenDto = authService.createToken(profile);
-        return ResponseEntity.ok().body(profileTokenDto);
+        return ResponseEntity.ok().body(authService.createToken(profile));
     }
 }

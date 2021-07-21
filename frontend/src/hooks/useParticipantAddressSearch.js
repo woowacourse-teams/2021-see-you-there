@@ -1,13 +1,12 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import { useQuery } from 'react-query';
 
+import { ParticipantAddFormContext } from '../contexts';
 import { API_URL } from '../constants';
 import { httpRequest } from '../utils';
 
-const INITIAL_STATE = '';
-
 export const useParticipantAddressSearch = () => {
-  const [addressKeyword, setAddressKeyword] = useState(INITIAL_STATE);
+  const { addressKeyword, setAddressKeyword, setAddress, escapeModal } = useContext(ParticipantAddFormContext);
 
   const fetchAddressSearch = async ({ queryKey }) => {
     const [_, keyword] = queryKey;
@@ -21,13 +20,22 @@ export const useParticipantAddressSearch = () => {
     staleTime: Infinity,
   });
 
-  const handleSubmitAddressSearch = (e) => {
+  const handleSubmitAddressKeyword = (e) => {
     e.preventDefault();
 
     const keyword = e.target['addressSearch'].value;
+
     setAddressKeyword(keyword);
   };
-  const resetAddressKeyword = () => setAddressKeyword(INITIAL_STATE);
 
-  return { addressList: data, handleSubmitAddressSearch, setAddressKeyword, resetAddressKeyword };
+  const handleSelectAddressListItem = (address) => {
+    setAddress(address);
+    escapeModal();
+  };
+
+  return {
+    addressList: data,
+    handleSubmitAddressKeyword,
+    handleSelectAddressListItem,
+  };
 };

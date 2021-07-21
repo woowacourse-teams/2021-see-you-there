@@ -3,9 +3,9 @@ import { useContext } from 'react';
 import { ParticipantAddFormContext, ParticipantContext } from '../contexts';
 import { INPUT, MESSAGE } from '../constants';
 
-export const useParticipantInputName = () => {
+export const useParticipantNameInput = () => {
   const { isLackParticipants } = useContext(ParticipantContext);
-  const { name, setName, focusName, setValidationMessage } = useContext(ParticipantAddFormContext);
+  const { name, setName, focusName, setNoticeMessage, resetNoticeMessage } = useContext(ParticipantAddFormContext);
 
   const handleChangeName = (e) => {
     const name = e.target.value;
@@ -14,11 +14,12 @@ export const useParticipantInputName = () => {
 
     setName(slicedName);
     if (name.length > INPUT.NAME.MAX_LENGTH) {
-      setValidationMessage(MESSAGE.NOTICE_NAME_TOO_LONG);
+      setNoticeMessage(MESSAGE.NOTICE_NAME_TOO_LONG);
+
       focusName();
       return;
     }
-    setValidationMessage('');
+    resetNoticeMessage();
   };
 
   const handleBlurName = (e) => {
@@ -28,8 +29,8 @@ export const useParticipantInputName = () => {
     if (!trimmedName && !isLackParticipants) {
       return;
     }
-    setValidationMessage('');
+    resetNoticeMessage();
   };
 
-  return { name, handleChangeName, handleBlurName };
+  return { name, handleChangeName, handleBlurName, focusName };
 };

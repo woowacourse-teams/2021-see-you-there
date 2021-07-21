@@ -1,42 +1,27 @@
-import React, { useState, useContext } from 'react';
-import { useQuery } from 'react-query';
+import React, { useContext } from 'react';
 
 import { Input, InputWithButton, ButtonRound, Icon, Modal, Notice } from '../../components';
 import { ParticipantContext, ParticipantAddFormContext } from '../../contexts';
-import {
-  useModal,
-  useParticipantInputName,
-  useParticipantInputAddress,
-  useParticipantAddressSearch,
-} from '../../hooks';
-import { COLOR, INPUT } from '../../constants';
+import { useParticipantNameInput, useParticipantAddressInput, useParticipantAddressSearch } from '../../hooks';
+import { COLOR, INPUT, MESSAGE } from '../../constants';
 import { AddForm, ButtonGroup, ModalCloseButton, AddressSearchList } from './style';
 import { getId, getAvatarKey } from '../../utils';
 import { Image } from '../../assets';
 
 export const ParticipantAddForm = () => {
   const { addParticipant, isFullParticipants } = useContext(ParticipantContext);
-  const { formRef, resetForm, validationMessage, setValidationMessage, focusName, focusAddress, isComplete } =
+  const { formRef, resetForm, isComplete, noticeMessage, setNoticeMessage, isModalOpen, escapeModal } =
     useContext(ParticipantAddFormContext);
 
-  const { isModalOpen, openModal, closeModal } = useModal();
-  const { name, handleChangeName, handleBlurName } = useParticipantInputName();
-
-  const { address, handleKeyPressAddress, handleOpenAddressSearchModal, handleSelectAddress } =
-    useParticipantInputAddress({ openModal, closeModal });
-
-  const { addressList, handleSubmitAddressSearch, resetAddressKeyword } = useParticipantAddressSearch();
-
-  const escapeModal = () => {
-    focusAddress();
-    closeModal();
-  };
+  const { name, handleChangeName, handleBlurName, focusName } = useParticipantNameInput();
+  const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useParticipantAddressInput();
+  const { addressList, handleSubmitAddressKeyword, handleSelectAddressListItem } = useParticipantAddressSearch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!isComplete) {
-      setValidationMessage(MESSAGE.NOTICE_INCOMPLETE_FORM);
+      setNoticeMessage(MESSAGE.NOTICE_INCOMPLETE_FORM);
       return;
     }
 
@@ -48,9 +33,8 @@ export const ParticipantAddForm = () => {
     };
 
     addParticipant(newParticipant);
-
     resetForm();
-    resetAddressKeyword();
+    // TODO: DEVICE_WIDTH_TABLET 이상일 경우에만 focus
     focusName();
   };
 
@@ -74,12 +58,12 @@ export const ParticipantAddForm = () => {
           placeholder={INPUT.ADDRESS.PLACEHOLDER}
           Icon={<Icon.Place />}
           onKeyPress={handleKeyPressAddress}
-          onFocus={handleOpenAddressSearchModal}
-          onClick={handleOpenAddressSearchModal}
+          onFocus={handleFocusAddress}
+          onClick={handleClickAddress}
           readOnly
         />
 
-        <Notice>{validationMessage}</Notice>
+        <Notice>{noticeMessage}</Notice>
 
         <ButtonGroup>
           <ButtonRound type="button" size="small" Icon={<Icon.People width="18" />} color="gray">
@@ -101,12 +85,13 @@ export const ParticipantAddForm = () => {
           <ModalCloseButton onClick={escapeModal}>
             <Icon.Close />
           </ModalCloseButton>
-          <form onSubmit={handleSubmitAddressSearch}>
+          <form onSubmit={handleSubmitAddressKeyword}>
             <InputWithButton
               name={INPUT.ADDRESS_SEARCH.KEY}
               label={INPUT.ADDRESS_SEARCH.LABEL(name.value)}
               placeholder={INPUT.ADDRESS_SEARCH.PLACEHOLDER}
               buttonIcon={<Icon.Search width="20" />}
+              autocomplete="off"
               autoFocus
             />
           </form>
@@ -116,7 +101,7 @@ export const ParticipantAddForm = () => {
 
               return (
                 <li key={index}>
-                  <button onClick={() => handleSelectAddress({ x, y, addressName })}>
+                  <button onClick={() => handleSelectAddressListItem({ x, y, addressName })}>
                     {addressName} <span>{addressName !== fullAddress && fullAddress}</span>
                     <Icon.Check color={COLOR.PRIMARY} width="20" />
                   </button>

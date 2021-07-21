@@ -11,6 +11,7 @@ import io.restassured.RestAssured;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import seeuthere.goodday.AcceptanceTest;
 
 public class MapTest extends AcceptanceTest {
 

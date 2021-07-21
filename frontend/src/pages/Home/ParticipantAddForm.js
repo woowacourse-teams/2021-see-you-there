@@ -91,7 +91,6 @@ export const ParticipantAddForm = () => {
               label={INPUT.ADDRESS_SEARCH.LABEL(name.value)}
               placeholder={INPUT.ADDRESS_SEARCH.PLACEHOLDER}
               buttonIcon={<Icon.Search width="20" />}
-              autocomplete="off"
               autoFocus
             />
           </form>

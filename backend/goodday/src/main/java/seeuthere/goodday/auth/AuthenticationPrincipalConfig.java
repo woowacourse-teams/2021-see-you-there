@@ -18,6 +18,7 @@ public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new MemberInterceptor(authService))
+            .excludePathPatterns("/api/docs/**")
             .excludePathPatterns("/docs/**")
             .excludePathPatterns("/api/kakao/oauth")
             .excludePathPatterns("/api/kakao/callback")

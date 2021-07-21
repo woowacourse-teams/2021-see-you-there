@@ -31,7 +31,7 @@ export const LogoutPage = () => {
         <Animation animationData={logoutAnimation} loop="false" speed="1.4" />
       </ContentArea>
 
-      <iframe style={{ display: 'none' }} src={logoutUrl.kakao}>
+      <iframe title="로그아웃" src={logoutUrl.kakao} style={{ display: 'none' }}>
         <p>현재 사용 중인 브라우저는 iframe 요소를 지원하지 않습니다!</p>
       </iframe>
     </main>

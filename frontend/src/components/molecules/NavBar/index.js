@@ -8,6 +8,7 @@ import { COLOR, LAYOUT, ROUTE, ROUTES_WITHOUT_MAP, PRIVATE_ROUTES } from '../../
 import { Image } from '../../../assets';
 
 export const NavBar = () => {
+  /* eslint-disable-next-line no-unused-vars */
   const { user, isLogin } = useContext(UserContext);
   const history = useHistory();
   const { pathname } = useLocation();

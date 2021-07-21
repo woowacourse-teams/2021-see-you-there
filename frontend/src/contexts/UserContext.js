@@ -1,4 +1,5 @@
 import React, { useState, createContext } from 'react';
+import PropTypes from 'prop-types';
 
 import { setLocalStorage, removeLocalStorage } from '../utils';
 
@@ -45,4 +46,8 @@ export const UserContextProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   );
+};
+
+UserContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };

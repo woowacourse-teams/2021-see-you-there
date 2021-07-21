@@ -1,4 +1,5 @@
 import React, { useState, createContext } from 'react';
+import PropTypes from 'prop-types';
 
 import { PARTICIPANT } from '../constants';
 
@@ -33,4 +34,8 @@ export const ParticipantContextProvider = ({ children }) => {
       {children}
     </ParticipantContext.Provider>
   );
+};
+
+ParticipantContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };

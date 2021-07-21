@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Container } from './style';
 
 export const InputWithButton = (props) => {
-  const { name, label, Icon, width, buttonType, onClickButton, buttonIcon, ...attrs } = props;
+  const { name, label, Icon, width, buttonType, buttonIcon, onClickButton, ...attrs } = props;
 
   return (
     <Container width={width} hasIcon={!!Icon}>
@@ -23,8 +23,9 @@ InputWithButton.propTypes = {
   label: PropTypes.string,
   Icon: PropTypes.node,
   width: PropTypes.string,
-  buttonIcon: PropTypes.node,
   buttonType: PropTypes.oneOf(['submit', 'button', 'reset']),
+  buttonIcon: PropTypes.node,
+  onClickButton: PropTypes.func,
 };
 
 InputWithButton.defaultProps = {

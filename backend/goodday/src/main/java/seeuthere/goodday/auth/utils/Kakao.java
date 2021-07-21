@@ -1,4 +1,4 @@
-package seeuthere.goodday.auth.domain;
+package seeuthere.goodday.auth.utils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -31,7 +31,8 @@ public class Kakao {
 
     private static ProfileDto convertToProfileDto(JSONObject response) {
         String id = String.valueOf(response.get("id"));
-        Map<String, Object> kakaoAccount = (LinkedHashMap<String, Object>) response.get("kakao_account");
+        Map<String, Object> kakaoAccount = (LinkedHashMap<String, Object>) response
+            .get("kakao_account");
         Map<String, Object> profile = (LinkedHashMap<String, Object>) kakaoAccount.get("profile");
         String nickName = (String) profile.get("nickname");
         String profileImage = (String) profile.get("thumbnail_image_url");

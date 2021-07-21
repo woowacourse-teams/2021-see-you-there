@@ -1,4 +1,4 @@
-package seeuthere.goodday.auth.domain;
+package seeuthere.goodday.auth.utils;
 
 
 import java.math.BigInteger;

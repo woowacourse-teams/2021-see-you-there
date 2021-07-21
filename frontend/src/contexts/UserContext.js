@@ -1,7 +1,7 @@
 import React, { useState, createContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { setLocalStorage, removeLocalStorage } from '../utils';
+import { storage } from '../utils';
 
 const INITIAL_STATE = {
   id: null,
@@ -20,12 +20,12 @@ export const UserContextProvider = ({ children }) => {
   const isLogin = !!token;
 
   const login = (userInfo) => {
-    setLocalStorage(TOKEN, userInfo.token);
+    storage.local.set(TOKEN, userInfo.token);
     setUser(userInfo);
   };
 
   const logout = () => {
-    removeLocalStorage(TOKEN);
+    storage.local.remove(TOKEN);
     setUser(INITIAL_STATE);
   };
 

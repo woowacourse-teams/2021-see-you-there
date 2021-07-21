@@ -41,3 +41,8 @@ out/
 
 **/src/main/java/seeuthere/goodday/secret/
 
+## html
+**/src/main/resources/static/docs/
+**/BOOT-INF/
+**/custom/
+

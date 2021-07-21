@@ -23,4 +23,5 @@ export const Confirm = (props) => {
 Confirm.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onApprove: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };

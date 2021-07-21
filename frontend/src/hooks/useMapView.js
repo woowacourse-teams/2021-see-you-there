@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useState, useRef } from 'react';
 
 const IMAGE_SRC = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
@@ -5,6 +6,7 @@ const IMAGE_SRC = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mark
 export const useMapView = () => {
   let mapObj = useRef(null);
   const mapViewRef = useRef(null);
+  /* eslint-disable-next-line no-unused-vars */
   const [categoryMarkers, setCategoryMarkers] = useState({ restaurants: [], stations: [] });
 
   const showMapView = (midpoint) => {
@@ -36,6 +38,7 @@ export const useMapView = () => {
     mapObj.setBounds(bounds);
   };
 
+  /* eslint-disable-next-line no-unused-vars */
   const handleSelectCategory = (nextMarkers) => {
     setCategoryMarkers((prevMarkers) => {
       prevMarkers.forEach((marker) => marker.setMap(null));

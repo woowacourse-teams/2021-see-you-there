@@ -1,38 +1,14 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useQuery } from 'react-query';
+import React, { useContext, useEffect } from 'react';
 
-import { useMapView } from '../../hooks';
 import { ParticipantList } from '../../components';
 import { MapViewArea, MapView, ContentArea, ListSection, ResultSection } from './style';
-import { API_URL } from '../../constants';
-import { httpRequest } from '../../utils';
+import { ParticipantContext } from '../../contexts';
+import { useMapView, useMidpoint } from '../../hooks';
 
-export const MidpointPage = (props) => {
-  const { participant } = props;
+export const MidpointPage = () => {
+  const { participants } = useContext(ParticipantContext);
   const { mapViewRef, showMapView, setMarker, setMarkers, setBounds } = useMapView();
-
-  const fetchMidpoint = async ({ queryKey }) => {
-    const [_, participant] = queryKey;
-    const locations = participant.list.map(({ x, y }) => ({ x, y }));
-    const res = await httpRequest.post(API_URL.MIDPOINT, { body: { locations } });
-
-    return await res.json();
-  };
-
-  const fetchStations = async ({ queryKey }) => {
-    const [category, midpoint] = queryKey;
-    const res = await httpRequest.get(API_URL.CATEGORY(category, midpoint));
-
-    return await res.json();
-  };
-
-  const { data: midpoint } = useQuery(['중간지점', participant], fetchMidpoint, { staleTime: Infinity });
-  const { data: stations } = useQuery(['지하철역', midpoint], fetchStations, {
-    enabled: !!midpoint,
-    staleTime: Infinity,
-  });
-  const closestStation = stations?.data?.[0];
+  const { stations, closestStation } = useMidpoint();
 
   useEffect(() => {
     if (closestStation) {
@@ -40,8 +16,8 @@ export const MidpointPage = (props) => {
 
       showMapView(closestStation);
       setMarker({ x, y, name: placeName });
-      setMarkers(participant.list);
-      setBounds([closestStation, ...participant.list]);
+      setMarkers(participants);
+      setBounds([closestStation, ...participants]);
     }
   }, [stations]);
 
@@ -59,20 +35,12 @@ export const MidpointPage = (props) => {
           </ResultSection>
           <ListSection>
             <h2>
-              만나는 사람들 <span>{participant.list.length}명</span>
+              만나는 사람들 <span>{participants.length}명</span>
             </h2>
-            <ParticipantList items={participant.list} />
+            <ParticipantList items={participants} />
           </ListSection>
         </ContentArea>
       </main>
     </>
   );
-};
-
-MidpointPage.propTypes = {
-  participant: PropTypes.shape({
-    list: PropTypes.array,
-    add: PropTypes.func,
-    remove: PropTypes.func,
-  }),
 };

@@ -57,6 +57,7 @@ const config = ({ isDev }) => ({
     historyApiFallback: true,
     open: true,
     hot: true,
+    stats: 'errors-only',
   },
 });
 

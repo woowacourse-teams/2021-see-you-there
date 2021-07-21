@@ -1,6 +1,7 @@
 export { useConfirm } from './useConfirm';
 export { useMapView } from './useMapView';
+export { useMidpoint } from './useMidpoint';
 export { useModal } from './useModal';
-export { useParticipantForm } from './useParticipantForm';
-export { useParticipantRemoveConfirm } from './useParticipantRemoveConfirm';
-export { useParticipants } from './useParticipants';
+export { useParticipantAddressSearch } from './useParticipantAddressSearch';
+export { useParticipantAddressInput } from './useParticipantAddressInput';
+export { useParticipantNameInput } from './useParticipantNameInput';

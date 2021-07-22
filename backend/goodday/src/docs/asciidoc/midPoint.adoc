@@ -7,17 +7,10 @@
 :sectlinks:
 :operation-http-request-title: Example Request
 :operation-http-response-title: Example Response
+:default-path: build/generated-snippets/midPoint
 
-include::build/generated-snippets/midPoint/curl-request.adoc[]
+## request
+include::{default-path}/http-request.adoc[]
 
-include::build/generated-snippets/midPoint/http-request.adoc[]
-
-include::build/generated-snippets/midPoint/http-response.adoc[]
-
-include::build/generated-snippets/midPoint/httpie-request.adoc[]
-
-include::build/generated-snippets/midPoint/request-body.adoc[]
-
-include::build/generated-snippets/midPoint/response-body.adoc[]
-
-include::build/generated-snippets/midPoint/response-fields.adoc[]
+## response
+include::{default-path}/http-response.adoc[]

@@ -7,17 +7,10 @@
 :sectlinks:
 :operation-http-request-title: Example Request
 :operation-http-response-title: Example Response
+:default-path: build/generated-snippets/keyword
 
-include::build/generated-snippets/keyword/curl-request.adoc[]
+## request
+include::{default-path}/http-request.adoc[]
 
-include::build/generated-snippets/keyword/http-request.adoc[]
-
-include::build/generated-snippets/keyword/http-response.adoc[]
-
-include::build/generated-snippets/keyword/httpie-request.adoc[]
-
-include::build/generated-snippets/keyword/request-body.adoc[]
-
-include::build/generated-snippets/keyword/response-body.adoc[]
-
-include::build/generated-snippets/keyword/response-fields.adoc[]
+## response
+include::{default-path}/http-response.adoc[]

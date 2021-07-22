@@ -2,10 +2,17 @@ package seeuthere.goodday.member.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import io.restassured.RestAssured;
-import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import seeuthere.goodday.AcceptanceTest;
@@ -34,11 +41,28 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
         // when
         RestAssured.given(this.spec)
+            .filter(
+                document("member",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    requestFields(
+                        subsectionWithPath("name").description("사용자 닉네임"),
+                        subsectionWithPath("profileImage").description("사용자 프로필 이미지"),
+                        subsectionWithPath("memberId").description("사용자 고유 아이디")
+                    ),
+                    responseFields(
+                        subsectionWithPath("id").description("사용자 아이디"),
+                        subsectionWithPath("name").description("사용자 닉네임"),
+                        subsectionWithPath("profileImage").description("사용자 프로필 이미지"),
+                        subsectionWithPath("memberId").description("사용자 고유 아이디")
+                    )
+                )
+            )
             .body(memberRequest)
             .header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .when()
-                .post(path)
+                .put(path)
             .then().assertThat().statusCode(is(200));
 
         //then

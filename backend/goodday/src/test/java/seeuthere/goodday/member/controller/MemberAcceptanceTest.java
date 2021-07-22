@@ -8,11 +8,11 @@ import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import seeuthere.goodday.AcceptanceTest;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
 import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.service.MemberService;
-import seeuthere.goodday.study.AcceptanceTest;
 
 
 class MemberAcceptanceTest extends AcceptanceTest {
@@ -47,6 +47,4 @@ class MemberAcceptanceTest extends AcceptanceTest {
         assertThat(member.getProfileImage()).isEqualTo("changedImage");
         assertThat(member.getMemberId()).isEqualTo("123454");
     }
-
-
 }

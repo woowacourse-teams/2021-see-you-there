@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Lottie from 'react-lottie';
 
 export const Animation = (props) => {
-  const { animationData, loop, ...rest } = props;
+  const { animationData, loop, speed, ...rest } = props;
 
   return (
     <Lottie
@@ -10,7 +11,14 @@ export const Animation = (props) => {
         animationData,
         loop,
       }}
+      speed={speed}
       {...rest}
     />
   );
+};
+
+Animation.propTypes = {
+  animationData: PropTypes.object,
+  loop: PropTypes.bool,
+  speed: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

@@ -10,21 +10,22 @@ export const useConfirm = ({ approve = () => {}, cancel = () => {}, isOpen = fal
   };
   const closeConfirm = () => setConfirmState(false);
 
-  const handleApprove = () => {
+  const approveConfirm = () => {
     approve(target);
-    setTarget(null);
     closeConfirm();
+    setTarget(null);
   };
-  const handleCancel = () => {
+  const cancelConfirm = () => {
     cancel(target);
-    setTarget(null);
     closeConfirm();
+    setTarget(null);
   };
 
   return {
     isConfirmOpen,
     openConfirm,
-    handleApprove,
-    handleCancel,
+    closeConfirm,
+    approveConfirm,
+    cancelConfirm,
   };
 };

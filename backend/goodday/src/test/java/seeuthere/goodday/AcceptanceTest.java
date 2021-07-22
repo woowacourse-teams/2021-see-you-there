@@ -1,4 +1,4 @@
-package seeuthere.goodday.study;
+package seeuthere.goodday;
 
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.documentationConfiguration;
 

@@ -2,8 +2,11 @@ package seeuthere.goodday.location.dto.response;
 
 public class MiddlePointResponse {
 
-    private final double x;
-    private final double y;
+    private double x;
+    private double y;
+
+    public MiddlePointResponse() {
+    }
 
     public MiddlePointResponse(double x, double y) {
         this.x = x;

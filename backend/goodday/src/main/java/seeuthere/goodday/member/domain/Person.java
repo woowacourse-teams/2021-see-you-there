@@ -14,11 +14,11 @@ public abstract class Person {
     @Id
     private String id;
 
-    private String name;
+    protected String name;
 
-    private String profileImage;
+    protected String profileImage;
 
-    private String address;
+    protected String address;
 
     public Person() {
     }

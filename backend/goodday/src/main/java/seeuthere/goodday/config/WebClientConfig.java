@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 import seeuthere.goodday.secret.SecretKey;
 
 @Configuration
@@ -29,9 +30,14 @@ public class WebClientConfig {
     @Qualifier("TransportWebClient")
     public WebClient transportWebClient(ObjectMapper baseConfig) {
         ExchangeStrategies exchangeStrategies = getExchangeStrategies(baseConfig);
+        String apiUrl = "http://ws.bus.go.kr/api/rest/pathinfo";
+
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(apiUrl);
+        factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
 
         return WebClient.builder()
-            .baseUrl("http://ws.bus.go.kr/api/rest/pathinfo")
+            .uriBuilderFactory(factory)
+            .baseUrl(apiUrl)
             .exchangeStrategies(exchangeStrategies)
             .build();
     }

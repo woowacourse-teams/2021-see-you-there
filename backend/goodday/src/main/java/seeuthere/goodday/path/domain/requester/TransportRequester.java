@@ -1,14 +1,12 @@
 package seeuthere.goodday.path.domain.requester;
 
-import io.restassured.internal.http.URIBuilder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.DefaultUriBuilderFactory;
-import org.springframework.web.util.UriBuilder;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.path.dto.api.response.APIBusResponse;
 import seeuthere.goodday.path.util.TransportURL;
 import seeuthere.goodday.secret.SecretKey;
 
@@ -24,7 +22,7 @@ public class TransportRequester {
 
         String s = webClient.get()
             .uri(uriBuilder ->
-                uriBuilder.path(TransportURL.SUBWAY.getUrl())
+                uriBuilder.path(TransportURL.BUS.getUrl())
                     .queryParam("ServiceKey", SecretKey.TRANSPORT_API_KEY)
                     .queryParam("startX", start.getX())
                     .queryParam("startY", start.getY())
@@ -32,12 +30,22 @@ public class TransportRequester {
                     .queryParam("endY", end.getY())
                     .build()
             )
-            .accept(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_XML)
             .retrieve()
             .bodyToMono(String.class)
             .block();
 
-        System.out.println(s);
+        System.out.println();
+
+        try {
+            XmlMapper xmlMapper = new XmlMapper();
+            APIBusResponse value
+                = xmlMapper.readValue(s, APIBusResponse.class);
+            System.out.println(value.getServiceResult());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.out.println();
+        }
     }
 
     public void subwayPath(Point start, Point end) {
@@ -50,7 +58,7 @@ public class TransportRequester {
                     .queryParam("endX", end.getX())
                     .queryParam("endY", end.getY())
                     .build())
-                    .accept(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_XML)
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();

@@ -4,7 +4,6 @@ import { Input, InputWithButton, ButtonRound, Icon, Modal, Notice } from '../../
 import { ParticipantContext, ParticipantAddFormContext } from '../../contexts';
 import { useParticipantNameInput, useParticipantAddressInput, useParticipantAddressSearch } from '../../hooks';
 import { COLOR, INPUT, MESSAGE } from '../../constants';
-import { AddForm, ButtonGroup, ModalCloseButton, AddressSearchList } from './style';
 import { getId, getAvatarKey } from '../../utils';
 import { Image } from '../../assets';
 

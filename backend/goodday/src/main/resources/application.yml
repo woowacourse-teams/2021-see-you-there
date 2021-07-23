@@ -1,3 +1,17 @@
 spring:
   profiles:
     active: test
+logging:
+  file:
+    name: application-debug.log
+    path: /logs
+  pattern:
+    console: "%d %-5level &logger : %msg%n"
+    file: "%d %-5level [%thread] &logger : %msg%n"
+  logback:
+    rollingpolicy:
+      max-file-size: 15MB
+      max-history: 10
+  level:
+    root: info
+    seeuthere.goodday: debug

@@ -3,6 +3,7 @@ package seeuthere.goodday.location.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.location.domain.combiner.AxisKeywordCombiner;
@@ -28,7 +29,7 @@ public class LocationService {
 
     private final WebClient webClient;
 
-    public LocationService(WebClient webClient) {
+    public LocationService(@Qualifier("KakaoWebClient") WebClient webClient) {
         this.webClient = webClient;
     }
 

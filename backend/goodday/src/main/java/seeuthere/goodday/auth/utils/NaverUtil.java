@@ -1,4 +1,4 @@
-package seeuthere.goodday.auth.domain;
+package seeuthere.goodday.auth.utils;
 
 
 import java.math.BigInteger;
@@ -13,12 +13,12 @@ import seeuthere.goodday.auth.dto.ProfileDto;
 import seeuthere.goodday.auth.dto.TokenDto;
 import seeuthere.goodday.secret.SecretKey;
 
-public class Naver {
+public class NaverUtil {
 
     public static String NAVER_HOST_URI = "https://openapi.naver.com";
     public static String NAVER_AUTH_URI = "https://nid.naver.com";
 
-    private Naver() {
+    private NaverUtil() {
     }
 
     public static String generateState() {

@@ -14,16 +14,19 @@ public abstract class Person {
     @Id
     private String id;
 
-    private String name;
+    protected String name;
 
-    private String address;
+    protected String profileImage;
+
+    protected String address;
 
     public Person() {
     }
 
-    public Person(String id, String name) {
+    public Person(String id, String name, String profileImage) {
         this.id = id;
         this.name = name;
+        this.profileImage = profileImage;
     }
 
     public String getId() {
@@ -32,6 +35,10 @@ public abstract class Person {
 
     public String getName() {
         return name;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
     }
 
     public String getAddress() {

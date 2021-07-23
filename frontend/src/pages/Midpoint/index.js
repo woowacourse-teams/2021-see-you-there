@@ -1,9 +1,17 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
-import { ParticipantList } from '../../components';
-import { MapViewArea, MapView, ContentArea, ListSection, ResultSection } from './style';
+import { ParticipantList, Icon } from '../../components';
+import { MapViewArea, Chips, Chip, MapView, ContentArea, ListSection, ResultSection } from './style';
 import { ParticipantContext } from '../../contexts';
 import { useMapView, useMidpoint } from '../../hooks';
+import { COLOR, POBI_POINT } from '../../constants';
+
+const categoryList = [
+  { category: 'default', Icon: Icon.Map, text: '전체보기' },
+  { category: 'cafe', Icon: Icon.LocalCafe, text: '카페' },
+  { category: 'dining', Icon: Icon.LocalDining, text: '음식점' },
+  { category: 'party', Icon: Icon.LocalParty, text: '문화시설' },
+];
 
 export const MidpointPage = () => {
   const { participants } = useContext(ParticipantContext);
@@ -11,27 +19,49 @@ export const MidpointPage = () => {
   const { stations, closestStation } = useMidpoint();
 
   useEffect(() => {
-    if (closestStation) {
-      const { x, y, placeName } = closestStation;
-
-      showMapView(closestStation);
-      setMarker({ x, y, name: placeName });
-      setMarkers(participants);
-      setBounds([closestStation, ...participants]);
+    if (!closestStation) {
+      showMapView(POBI_POINT);
+      return;
     }
+
+    const { x, y, placeName } = closestStation;
+
+    showMapView(closestStation);
+    setMarker({ x, y, name: placeName });
+    setMarkers(participants);
+    setBounds([closestStation, ...participants]);
   }, [stations]);
+
+  const [isVisible, setIsVisible] = useState({
+    default: true,
+    cafe: false,
+    dining: false,
+    party: false,
+  });
 
   return (
     <>
       <main>
         <MapViewArea>
+          <Chips>
+            {categoryList.map(({ category, Icon, text }, index) => (
+              <Chip key={index} checked={isVisible[category]}>
+                <Icon width="18" color={isVisible[category] ? COLOR.PRIMARY : COLOR.BORDER_DARK} />
+                <span>{text}</span>
+              </Chip>
+            ))}
+          </Chips>
           <MapView ref={mapViewRef} />
         </MapViewArea>
         <ContentArea>
           <ResultSection>
-            <h2>
-              <span>{closestStation?.placeName}</span> 에서 만나요!
-            </h2>
+            {closestStation ? (
+              <h2>
+                <span>{closestStation.placeName}</span> 에서 만나요!
+              </h2>
+            ) : (
+              <h2>흑흑 못 만나요...</h2>
+            )}
           </ResultSection>
           <ListSection>
             <h2>

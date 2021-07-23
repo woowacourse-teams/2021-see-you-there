@@ -14,6 +14,7 @@ export const COLOR = {
   ON_ERROR: '#333',
   BORDER: '#EEE',
   BORDER_HOVER: '#CCC',
+  BORDER_DARK: '#AAA',
   PLACEHOLDER: '#999',
 
   ICON: '#666',
@@ -42,6 +43,7 @@ export const LAYOUT = {
 
 export const Z_INDEX = {
   MAP: 0,
+  MAP_CONTROLLER: 5,
   CONTENT: 10,
   NAVBAR: 20,
   HAMBURGER_MENU: 30,

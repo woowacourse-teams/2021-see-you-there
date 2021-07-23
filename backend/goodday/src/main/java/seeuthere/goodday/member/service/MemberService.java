@@ -25,14 +25,15 @@ public class MemberService {
         if (!memberRepository.existsById(profile.getId())) {
             String memberId = generateRandomMemberId();
             return memberRepository.save(
-                new Member(profile.getId(), memberId, profile.getNickname(), profile.getProfileImage()));
+                new Member(profile.getId(), memberId, profile.getNickname(),
+                    profile.getProfileImage()));
         }
         return null;
     }
 
     private String generateRandomMemberId() {
         String memberId = RandomStringUtils.randomAlphabetic(10);
-        while(memberRepository.existsByMemberId(memberId)){
+        while (memberRepository.existsByMemberId(memberId)) {
             memberId = RandomStringUtils.randomAlphabetic(10);
         }
         return memberId;

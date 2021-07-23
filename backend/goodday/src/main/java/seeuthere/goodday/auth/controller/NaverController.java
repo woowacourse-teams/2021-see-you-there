@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import seeuthere.goodday.auth.dto.ProfileDto;
 import seeuthere.goodday.auth.dto.ProfileTokenDto;
-import seeuthere.goodday.auth.dto.TokenDto;
 import seeuthere.goodday.auth.service.AuthService;
 import seeuthere.goodday.auth.service.NaverService;
 import seeuthere.goodday.auth.utils.NaverUtil;
@@ -26,7 +25,8 @@ public class NaverController {
     private final AuthService authService;
     private final NaverService naverService;
 
-    public NaverController(MemberService memberService, AuthService authService, NaverService naverService) {
+    public NaverController(MemberService memberService, AuthService authService,
+        NaverService naverService) {
         this.memberService = memberService;
         this.authService = authService;
         this.naverService = naverService;

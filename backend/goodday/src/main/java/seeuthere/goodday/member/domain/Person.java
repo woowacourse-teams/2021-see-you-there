@@ -11,14 +11,11 @@ import javax.persistence.InheritanceType;
 @DiscriminatorColumn(name = "type")
 public abstract class Person {
 
+    protected String name;
+    protected String profileImage;
+    protected String address;
     @Id
     private String id;
-
-    protected String name;
-
-    protected String profileImage;
-
-    protected String address;
 
     public Person() {
     }

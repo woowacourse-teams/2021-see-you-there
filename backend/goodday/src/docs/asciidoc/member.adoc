@@ -9,8 +9,19 @@
 :operation-http-response-title: Example Response
 :default-path: build/generated-snippets/member
 
+# 회원 정보 조회
+
 ## request
-include::{default-path}/http-request.adoc[]
+include::{default-path}/info/http-request.adoc[]
 
 ## response
-include::{default-path}/http-response.adoc[]
+include::{default-path}/info/http-response.adoc[]
+
+# 회원 정보 수정
+
+## request
+include::{default-path}/update/http-request.adoc[]
+
+## response
+include::{default-path}/update/http-response.adoc[]
+

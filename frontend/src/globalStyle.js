@@ -16,12 +16,19 @@ const GlobalStyle = createGlobalStyle`
       font-style: normal;
   }
 
+  @font-face {
+    font-family: 'NanumSquareRound';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
   * {
     margin:0;
     padding:0;
     box-sizing: border-box;
 
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'NanumSquareRound', sans-serif;
     color: ${COLOR.PARAGRAPH};
     letter-spacing: -0.01rem;
   }

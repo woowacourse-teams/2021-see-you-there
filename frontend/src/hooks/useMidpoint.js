@@ -29,10 +29,11 @@ export const useMidpoint = () => {
     return await res.json();
   };
 
-  const { data: places } = useQuery([category, midpoint], fetchCategory, {
+  const { data: categoryData } = useQuery([category, midpoint], fetchCategory, {
     enabled: !!midpoint && !!category,
     staleTime: Infinity,
   });
+
   const { data: stations } = useQuery([STATION, midpoint], fetchCategory, {
     enabled: !!midpoint,
     staleTime: Infinity,
@@ -46,6 +47,6 @@ export const useMidpoint = () => {
     setCategory,
     stations,
     closestStation,
-    places,
+    categoryData,
   };
 };

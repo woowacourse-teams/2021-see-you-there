@@ -9,7 +9,7 @@ const styleChip = {
     }
     border: 1px solid ${COLOR.BORDER_DARK};
   `,
-  checked: css`
+  selected: css`
     & > span {
       color: ${COLOR.PRIMARY};
     }
@@ -28,30 +28,30 @@ export const MapViewArea = styled.section`
   }
 `;
 
-export const Chips = styled.div`
+export const Chips = styled.ul`
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 0;
+  top: 1rem;
   width: 100%;
 
   z-index: ${Z_INDEX.MAP_CONTROLLER};
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    top: ${LAYOUT.NAV_HEIGHT};
+    top: calc(${LAYOUT.NAV_HEIGHT} + 0.75rem);
   }
 `;
 
 export const Chip = styled.button`
-  ${(props) => (props.checked ? styleChip['checked'] : styleChip['base'])}
+  ${(props) => (props.selected ? styleChip['selected'] : styleChip['base'])}
 
   display: flex;
   justify-content: center;
   align-items: center;
   width: 6.75rem;
   height: 2rem;
-  margin: 1rem 0.25rem 0;
+  margin: 0 0.25rem;
   padding: 0 1rem;
 
   font-size: 0.75rem;
@@ -68,7 +68,7 @@ export const Chip = styled.button`
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     width: 4.125rem;
     height: 1.625rem;
-    margin: 0.75rem 0.15rem 0;
+    margin: 0 0.15rem;
     padding: 0 0.625rem;
 
     font-size: 0.5rem;

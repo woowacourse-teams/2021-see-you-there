@@ -4,49 +4,68 @@ import { useState, useRef } from 'react';
 const IMAGE_SRC = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
 
 export const useMapView = () => {
-  let mapObj = useRef(null);
+  const mapObj = useRef(null);
   const mapViewRef = useRef(null);
-  /* eslint-disable-next-line no-unused-vars */
-  const [categoryMarkers, setCategoryMarkers] = useState({ restaurants: [], stations: [] });
 
   const showMapView = (midpoint) => {
     const { x, y, level = 3 } = midpoint;
     const options = { center: new kakao.maps.LatLng(y, x), level };
 
-    mapObj = new kakao.maps.Map(mapViewRef?.current, options);
+    mapObj.current = new kakao.maps.Map(mapViewRef?.current, options);
   };
 
-  const setMarker = (markerSpec, imageSrc = IMAGE_SRC) => {
-    const { x, y, name } = markerSpec;
-    const imageSize = new kakao.maps.Size(24, 36);
-    const image = new kakao.maps.MarkerImage(imageSrc, imageSize);
+  const getMarker = ({ markerSpec = {}, imageSpec = {} }) => {
+    const { x, y, placeName } = markerSpec;
+    const { width = 24, height = 34, src = IMAGE_SRC } = imageSpec;
+    const imageSize = new kakao.maps.Size(width, height);
     const position = new kakao.maps.LatLng(y, x);
-    const marker = new kakao.maps.Marker({ position, title: name, image });
+    const image = new kakao.maps.MarkerImage(src, imageSize);
 
-    marker.setMap(mapObj);
+    const marker = new kakao.maps.Marker({
+      position,
+      image,
+      title: placeName,
+    });
+
+    return marker;
+  };
+  const getMarkers = ({ markerSpecs = [], imageSpec = {} }) => {
+    return markerSpecs.map((markerSpec) => getMarker({ markerSpec, imageSpec }));
   };
 
-  const setMarkers = (markerSpecs, imageSrc) => {
-    markerSpecs.forEach((markerSpec) => setMarker(markerSpec, imageSrc));
-  };
+  const showMarker = (marker) => marker.setMap(mapObj.current);
+  const showMarkers = (markers) => markers.forEach((marker) => showMarker(marker));
 
-  const setBounds = (positions) => {
+  const hideMarker = (marker) => marker.setMap(null);
+  const hideMarkers = (markers) => markers.forEach((marker) => hideMarker(marker));
+
+  const showUpdatedBounds = (positions) => {
     const bounds = new kakao.maps.LatLngBounds();
     const points = positions.map(({ x, y }) => new kakao.maps.LatLng(y, x));
+    // TODO: position 별 상하좌우 padding 추가 (지도 level 별 padding 커스텀 필요)
 
     points.forEach((point) => bounds.extend(point));
-    mapObj.setBounds(bounds);
+    mapObj.current.setBounds(bounds);
   };
 
-  /* eslint-disable-next-line no-unused-vars */
-  const handleSelectCategory = (nextMarkers) => {
-    setCategoryMarkers((prevMarkers) => {
-      prevMarkers.forEach((marker) => marker.setMap(null));
-      nextMarkers.forEach((marker) => marker.setMap(map));
+  const showAroundPoint = (point, level = 3) => {
+    const { x, y } = point;
 
-      return nextMarkers;
-    });
+    mapObj.current.setLevel(level);
+    mapObj.current.setCenter(new kakao.maps.LatLng(y, x));
   };
 
-  return { mapViewRef, showMapView, setMarker, setMarkers, setBounds };
+  return {
+    mapObj,
+    mapViewRef,
+    getMarker,
+    getMarkers,
+    showMapView,
+    showMarker,
+    showMarkers,
+    hideMarker,
+    hideMarkers,
+    showUpdatedBounds,
+    showAroundPoint,
+  };
 };

@@ -24,6 +24,10 @@ export const ParticipantAddForm = () => {
       setNoticeMessage(MESSAGE.NOTICE_INCOMPLETE_FORM);
       return;
     }
+    if (isFullParticipants) {
+      // TODO: 스낵바 알림
+      return;
+    }
 
     const newParticipant = {
       id: getId(),

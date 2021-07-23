@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import seeuthere.goodday.auth.domain.EnableAuth;
-import seeuthere.goodday.auth.dto.ProfileDto;
+import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
@@ -26,10 +26,10 @@ public class MemberController {
     }
 
     @GetMapping
-    public ResponseEntity<ProfileDto> findMemberInfo(@EnableAuth String id) {
+    public ResponseEntity<ProfileResponse> findMemberInfo(@EnableAuth String id) {
         Member member = memberService.find(id);
         return ResponseEntity.ok()
-            .body(new ProfileDto(member.getId(), member.getName(), member.getProfileImage()));
+            .body(new ProfileResponse(member.getId(), member.getName(), member.getProfileImage()));
     }
 
     @PutMapping

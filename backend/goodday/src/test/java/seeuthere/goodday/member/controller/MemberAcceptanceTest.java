@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import seeuthere.goodday.AcceptanceTest;
-import seeuthere.goodday.auth.dto.ProfileDto;
+import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
 import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.dto.MemberRequest;
@@ -35,8 +35,8 @@ class MemberAcceptanceTest extends AcceptanceTest {
         String path = "/api/members";
         String token = jwtTokenProvider.createToken("1234");
 
-        ProfileDto response = getResponse("member/info", path, token)
-            .as(ProfileDto.class);
+        ProfileResponse response = getResponse("member/info", path, token)
+            .as(ProfileResponse.class);
 
         assertThat(response.getNickname()).isEqualTo("와이비");
     }

@@ -4,7 +4,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seeuthere.goodday.auth.dto.ProfileDto;
+import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.exception.AuthExceptionSet;
 import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.member.dao.MemberRepository;
@@ -21,7 +21,7 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Member add(ProfileDto profile) {
+    public Member add(ProfileResponse profile) {
         if (!memberRepository.existsById(profile.getId())) {
             String memberId = generateRandomMemberId();
             return memberRepository.save(

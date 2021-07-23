@@ -10,7 +10,6 @@
 :default-path: https://seeyouthere.o-r.kr/api/docs
 
 .API Docs
-.test4
 
 link:{default-path}/axis[Axis RestDocs]
 

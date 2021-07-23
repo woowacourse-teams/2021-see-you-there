@@ -33,7 +33,8 @@ public class MemberController {
     }
 
     @PutMapping
-    public ResponseEntity<MemberResponse> updateMember(@EnableAuth String id, @RequestBody MemberRequest request) {
+    public ResponseEntity<MemberResponse> updateMember(@EnableAuth String id,
+        @RequestBody MemberRequest request) {
         MemberResponse memberResponse = memberService.updateMemberInfo(id, request);
         return ResponseEntity.ok().body(memberResponse);
     }
@@ -57,6 +58,4 @@ public class MemberController {
     public ResponseEntity<Void> deleteMyAddress() {
         return ResponseEntity.ok().build();
     }
-
-
 }

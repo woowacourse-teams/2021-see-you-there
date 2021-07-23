@@ -25,10 +25,9 @@ import seeuthere.goodday.member.service.MemberService;
 class MemberAcceptanceTest extends AcceptanceTest {
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-
-    @Autowired
     MemberService memberService;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @DisplayName("멤버 정보 가져오기")
     @Test
@@ -45,16 +44,13 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("멤버 수정 테스트")
     @Test
     public void memberUpdate() {
-        //given
         String path = "/api/members";
 
         MemberRequest memberRequest = new MemberRequest("name", "changedImage", "123454");
         String token = jwtTokenProvider.createToken("1234");
 
-        // when
         getPutResponse("/member/update", path, memberRequest, token);
 
-        //then
         Member member = memberService.find("1234");
         assertThat(member.getName()).isEqualTo("name");
         assertThat(member.getProfileImage()).isEqualTo("changedImage");
@@ -76,7 +72,8 @@ class MemberAcceptanceTest extends AcceptanceTest {
             .extract();
     }
 
-    private void getPutResponse(String identifier, String path, MemberRequest memberRequest, String token) {
+    private void getPutResponse(String identifier, String path, MemberRequest memberRequest,
+        String token) {
         RestAssured.given(this.spec)
             .filter(
                 document(identifier,
@@ -90,6 +87,4 @@ class MemberAcceptanceTest extends AcceptanceTest {
             .when().put(path)
             .then().assertThat().statusCode(is(200));
     }
-
-
 }

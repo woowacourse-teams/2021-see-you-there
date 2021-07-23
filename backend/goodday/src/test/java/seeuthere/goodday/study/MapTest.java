@@ -15,7 +15,7 @@ import seeuthere.goodday.AcceptanceTest;
 
 public class MapTest extends AcceptanceTest {
 
-    private static String BASIC_ADDRESS = "전북 삼성동 100";
+    private static final String BASIC_ADDRESS = "전북 삼성동 100";
 
     @DisplayName("첫 테스트")
     @Test
@@ -27,7 +27,7 @@ public class MapTest extends AcceptanceTest {
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint()),
                     responseFields(
-                    subsectionWithPath("data").description("주소입니다.")
+                        subsectionWithPath("data").description("주소입니다.")
                     )
                 )
             )

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import seeuthere.goodday.auth.domain.EnableAuth;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.member.domain.Member;
+import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
 import seeuthere.goodday.member.service.MemberService;
@@ -40,7 +41,7 @@ public class MemberController {
     }
 
     @GetMapping("/address")
-    public ResponseEntity<Void> findMyAddress() {
+    public ResponseEntity<Void> findMyAddress(@EnableAuth String id) {
         return ResponseEntity.ok().build();
     }
 

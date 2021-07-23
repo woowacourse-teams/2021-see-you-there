@@ -7,8 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.exception.AuthExceptionSet;
 import seeuthere.goodday.exception.GoodDayException;
+import seeuthere.goodday.member.dao.AddressRepository;
 import seeuthere.goodday.member.dao.MemberRepository;
+import seeuthere.goodday.member.domain.Address;
 import seeuthere.goodday.member.domain.Member;
+import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
 
@@ -53,4 +56,11 @@ public class MemberService {
         member.update(request);
         return new MemberResponse(member);
     }
+
+//    @Transactional
+//    public void addAddress(String id, AddressRequest request) {
+//        Member member = find(id);
+//        Address address = new Address(request.getName(), request.getAddress(), member);
+//        addressRepository.save(address);
+//    }
 }

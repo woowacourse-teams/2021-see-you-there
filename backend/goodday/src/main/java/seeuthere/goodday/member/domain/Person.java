@@ -38,7 +38,4 @@ public abstract class Person {
         return profileImage;
     }
 
-    public String getAddress() {
-        return address;
-    }
 }

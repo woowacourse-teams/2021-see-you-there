@@ -1,17 +1,27 @@
 package seeuthere.goodday.member.domain;
 
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import seeuthere.goodday.member.dto.MemberRequest;
 
+@AttributeOverride(name = "id", column = @Column(name = "memberId"))
 @Entity
 public class Member extends Person {
 
     private String memberId;
 
     @OneToMany
-    private List<Member> friends;
+    @JoinColumn(name = "PERSON_ID")
+    private List<Member> friends = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Address> addresses = new ArrayList<>();
 
     public Member() {
     }
@@ -29,5 +39,10 @@ public class Member extends Person {
 
     public String getMemberId() {
         return memberId;
+    }
+
+    public void addAddress(Address address) {
+        address.setMember(this);
+        this.addresses.add(address);
     }
 }

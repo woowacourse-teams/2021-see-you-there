@@ -1,0 +1,20 @@
+= Rest Docs API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+:default-path: https://seeyouthere.o-r.kr/api/docs
+
+.API Docs
+
+link:{default-path}/axis[Axis RestDocs]
+
+link:{default-path}/coordinate[Coordinate RestDocs]
+
+link:{default-path}/keyword[Keyword RestDocs]
+
+link:{default-path}/midPoint[MidPoint RestDocs]

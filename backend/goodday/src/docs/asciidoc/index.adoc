@@ -18,3 +18,5 @@ link:{default-path}/coordinate[Coordinate RestDocs]
 link:{default-path}/keyword[Keyword RestDocs]
 
 link:{default-path}/midPoint[MidPoint RestDocs]
+
+link:{default-path}member[Member RestDocs]

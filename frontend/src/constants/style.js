@@ -43,6 +43,8 @@ export const LAYOUT = {
 
 export const Z_INDEX = {
   MAP: 0,
+  MAP_PIN: 1,
+  MAP_TOOLTIP: 2,
   MAP_CONTROLLER: 5,
   CONTENT: 10,
   NAVBAR: 20,

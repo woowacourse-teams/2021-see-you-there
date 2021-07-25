@@ -32,10 +32,7 @@ const config = ({ isDev }) => ({
         exclude: '/node_modules',
         loader: 'babel-loader',
         options: {
-          presets: [
-            ['@babel/preset-env', { targets: { esmodules: true, browsers: ['last 2 versions'] } }],
-            '@babel/preset-react',
-          ],
+          presets: [['@babel/preset-env', { targets: { esmodules: true } }], '@babel/preset-react'],
           plugins: [isDev && 'react-refresh/babel'].filter(Boolean),
         },
       },

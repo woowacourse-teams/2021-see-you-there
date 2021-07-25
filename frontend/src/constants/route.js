@@ -7,6 +7,7 @@ export const ROUTE = {
   LOGIN_NAVER: { NAME: '네이버 로그인', PATH: '/naver/callback' },
 
   LOGOUT: { NAME: '로그아웃', PATH: '/logout' },
+  WELCOME: { NAME: '최초 주소등록', PATH: '/welcome' },
   PROFILE: { NAME: '내 프로필', PATH: '/profile' },
   FOLLOWER: { NAME: '내 팔로워', PATH: '/follower' },
   FOLLOWING: { NAME: '내 팔로잉', PATH: '/following' },
@@ -20,6 +21,7 @@ export const ROUTES_WITH_MAP = [ROUTE.HOME, ROUTE.MIDPOINT];
 export const ROUTES_WITHOUT_MAP = [
   ROUTE.LOGIN,
   ROUTE.LOGOUT,
+  ROUTE.WELCOME,
   ROUTE.PROFILE,
   ROUTE.FOLLOWER,
   ROUTE.FOLLOWING,

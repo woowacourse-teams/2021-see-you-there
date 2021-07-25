@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useModal } from '../hooks';
 import { INPUT } from '../constants';
 
-export const ParticipantAddFormContext = createContext();
+export const AddFormContext = createContext();
 
 const INITIAL_STATE = {
   NAME: '',
@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   NOTICE_MESSAGE: '',
 };
 
-export const ParticipantAddFormContextProvider = ({ children }) => {
+export const AddFormContextProvider = ({ children }) => {
   const formRef = useRef(null);
   const [name, setName] = useState(INITIAL_STATE.NAME);
   const [address, setAddress] = useState(INITIAL_STATE.ADDRESS);
@@ -39,7 +39,7 @@ export const ParticipantAddFormContextProvider = ({ children }) => {
   };
 
   return (
-    <ParticipantAddFormContext.Provider
+    <AddFormContext.Provider
       value={{
         formRef,
         isComplete,
@@ -67,10 +67,11 @@ export const ParticipantAddFormContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </ParticipantAddFormContext.Provider>
+    </AddFormContext.Provider>
   );
 };
 
-ParticipantAddFormContextProvider.propTypes = {
+AddFormContextProvider.propTypes = {
+  Context: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
 };

@@ -1,19 +1,15 @@
 import React, { useContext } from 'react';
 
 import { Input, InputWithButton, ButtonRound, Icon, Modal, Notice } from '../../components';
-import { ParticipantContext, AddFormContext } from '../../contexts';
-import { useParticipantNameInput, useAddressInput, useAddressSearch } from '../../hooks';
+import { AddFormContext } from '../../contexts';
+import { useAddressNicknameInput, useAddressInput, useAddressSearch } from '../../hooks';
 import { COLOR, INPUT, MESSAGE } from '../../constants';
 import { AddForm, ButtonGroup, AddressSearchList, Top } from './style';
-import { getId, getAvatarKey } from '../../utils';
-import { Image } from '../../assets';
 
-export const ParticipantAddForm = () => {
-  const { addParticipant, isFullParticipants } = useContext(ParticipantContext);
-  const { formRef, resetForm, isComplete, noticeMessage, setNoticeMessage, isModalOpen, escapeModal } =
-    useContext(AddFormContext);
+export const UserAddressAddForm = () => {
+  const { formRef, isComplete, noticeMessage, setNoticeMessage, isModalOpen, escapeModal } = useContext(AddFormContext);
 
-  const { name, handleChangeName, handleBlurName, focusName } = useParticipantNameInput();
+  const { name, handleChangeName, handleBlurName } = useAddressNicknameInput();
   const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
   const { addressList, handleSubmitAddressKeyword, handleSelectAddressListItem } = useAddressSearch();
 
@@ -24,22 +20,8 @@ export const ParticipantAddForm = () => {
       setNoticeMessage(MESSAGE.NOTICE_INCOMPLETE_FORM);
       return;
     }
-    if (isFullParticipants) {
-      // TODO: 스낵바 알림
-      return;
-    }
 
-    const newParticipant = {
-      id: getId(),
-      avatar: Image[getAvatarKey()],
-      name,
-      ...address,
-    };
-
-    addParticipant(newParticipant);
-    resetForm();
-    // TODO: DEVICE_WIDTH_TABLET 이상일 경우에만 focus
-    focusName();
+    console.log({ name, ...address });
   };
 
   return (
@@ -66,25 +48,26 @@ export const ParticipantAddForm = () => {
           onClick={handleClickAddress}
           readOnly
         />
-
+        // TODO:AddressSearchModal을 molecule
         <Notice>{noticeMessage}</Notice>
-
         <ButtonGroup>
-          <ButtonRound type="button" size="small" Icon={<Icon.People width="18" />} color="gray">
-            팔로잉 목록에서 선택
+          <ButtonRound type="button" size="small" Icon={<Icon.SubmitRight width="18" />} color="gray">
+            다음에 등록 하기
           </ButtonRound>
           <ButtonRound
             type="submit"
             size="small"
             Icon={<Icon.SubmitRight width="18" color="#fff" />}
-            disabled={!isComplete || isFullParticipants}
+            disabled={!isComplete}
           >
-            만날 사람 추가
+            내 주소 등록
           </ButtonRound>
         </ButtonGroup>
       </AddForm>
 
       {isModalOpen && (
+        // <AddressSearchModal  escapeModal={escapeModal} setAddress={setAddress} />
+
         <Modal escape={escapeModal}>
           <Top>
             <span> ﹡ 현재 서비스 지역은 수도권 입니다.</span>

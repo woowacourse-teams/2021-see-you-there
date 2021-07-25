@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { useQuery } from 'react-query';
 
-import { ParticipantAddFormContext } from '../contexts';
+import { AddFormContext } from '../contexts';
 import { API_URL } from '../constants';
 import { httpRequest } from '../utils';
 
-export const useParticipantAddressSearch = () => {
-  const { addressKeyword, setAddressKeyword, setAddress, escapeModal } = useContext(ParticipantAddFormContext);
+export const useAddressSearch = () => {
+  const { addressKeyword, setAddressKeyword, setAddress, escapeModal } = useContext(AddFormContext);
 
   const fetchAddressSearch = async ({ queryKey }) => {
     const [_, keyword] = queryKey;

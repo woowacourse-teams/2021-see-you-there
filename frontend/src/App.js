@@ -16,6 +16,7 @@ export const App = () => {
       <UserContextProvider>
         <Router>
           <NavBar />
+          <ParticipantContextProvider>
             <Switch>
               <Route exact path={ROUTE.HOME.PATH}>
                 <HomePage />
@@ -38,6 +39,7 @@ export const App = () => {
                 <WelcomePage />
               </Route>
             </Switch>
+          </ParticipantContextProvider>
         </Router>
       </UserContextProvider>
       <ReactQueryDevtools panelProps={REACT_QUERY_DEV_TOOL} />

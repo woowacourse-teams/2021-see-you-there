@@ -1,6 +1,8 @@
 package seeuthere.goodday.member.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,7 @@ import seeuthere.goodday.member.dao.MemberRepository;
 import seeuthere.goodday.member.domain.Address;
 import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.dto.AddressRequest;
+import seeuthere.goodday.member.dto.AddressResponse;
 import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
 
@@ -19,9 +22,11 @@ import seeuthere.goodday.member.dto.MemberResponse;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final AddressRepository addressRepository;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, AddressRepository addressRepository) {
         this.memberRepository = memberRepository;
+        this.addressRepository = addressRepository;
     }
 
     public Member add(ProfileResponse profile) {
@@ -57,10 +62,20 @@ public class MemberService {
         return new MemberResponse(member);
     }
 
-//    @Transactional
-//    public void addAddress(String id, AddressRequest request) {
-//        Member member = find(id);
-//        Address address = new Address(request.getName(), request.getAddress(), member);
-//        addressRepository.save(address);
-//    }
+    @Transactional
+    public AddressResponse addAddress(String id, AddressRequest request) {
+        Member member = find(id);
+        Address address = new Address(request.getName(), request.getAddress());
+        member.addAddress(address);
+        Address savedAddress = addressRepository.save(address);
+        return new AddressResponse(savedAddress);
+    }
+
+    public List<AddressResponse> findAddress(String id) {
+        Member member = find(id);
+        List<Address> addresses = member.getAddresses();
+        return addresses.stream()
+            .map(AddressResponse::new)
+            .collect(Collectors.toList());
+    }
 }

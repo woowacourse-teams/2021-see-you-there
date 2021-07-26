@@ -7,6 +7,8 @@ spring:
   h2:
     console:
       enabled: true
+  jpa:
+    show-sql: true
 handlebars:
   suffix: .html
   enabled: true

@@ -3,7 +3,6 @@ package seeuthere.goodday;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
 import seeuthere.goodday.member.dao.AddressRepository;
 import seeuthere.goodday.member.dao.MemberRepository;
@@ -27,14 +26,14 @@ public class DataLoader implements CommandLineRunner {
     }
 
     @Override
-    @Transactional
     public void run(String... args) throws Exception {
         Member member = new Member("1234", "abcd", "와이비", "image");
         Address address = new Address("집", "서울특별시 어쩌구");
-//        String token = jwtTokenProvider.createToken(member.getId());
-//        System.out.println(token);
-        addressRepository.save(address);
         memberRepository.save(member);
         member.addAddress(address);
+        addressRepository.save(address);
+
+        String token = jwtTokenProvider.createToken(member.getId());
+        System.out.println(token);
     }
 }

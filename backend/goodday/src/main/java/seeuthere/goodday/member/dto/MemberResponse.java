@@ -5,13 +5,12 @@ import seeuthere.goodday.member.domain.Member;
 public class MemberResponse {
 
     private final String id;
+    private final String memberId;
     private final String name;
     private final String profileImage;
-    private final String memberId;
-
 
     public MemberResponse(Member member) {
-        this(member.getId(), member.getName(), member.getProfileImage(), member.getMemberId());
+        this(member.getId(), member.getMemberId(), member.getName(), member.getProfileImage());
     }
 
     public MemberResponse(String id, String name, String profileImage, String memberId) {

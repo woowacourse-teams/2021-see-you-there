@@ -1,5 +1,6 @@
 package seeuthere.goodday.member.controller;
 
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import seeuthere.goodday.auth.domain.EnableAuth;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.dto.AddressRequest;
+import seeuthere.goodday.member.dto.AddressResponse;
 import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
 import seeuthere.goodday.member.service.MemberService;
@@ -41,13 +43,16 @@ public class MemberController {
     }
 
     @GetMapping("/address")
-    public ResponseEntity<Void> findMyAddress(@EnableAuth String id) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<List<AddressResponse>> findMyAddress(@EnableAuth String id) {
+        List<AddressResponse> addressResponse = memberService.findAddress(id);
+        return ResponseEntity.ok().body(addressResponse);
     }
 
     @PostMapping("/address")
-    public ResponseEntity<Void> addMyAddress() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<AddressResponse> addMyAddress(@EnableAuth String id,
+        @RequestBody AddressRequest request) {
+        AddressResponse addressResponse = memberService.addAddress(id, request);
+        return ResponseEntity.ok().body(addressResponse);
     }
 
     @PutMapping("/address")

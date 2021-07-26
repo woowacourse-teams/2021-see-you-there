@@ -2,6 +2,7 @@ package seeuthere.goodday.member.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -10,7 +11,8 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Address {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "ADDRESS_ID")
     Long id;
 
@@ -18,8 +20,8 @@ public class Address {
 
     String address;
 
-    @ManyToOne
-    @JoinColumn(name = "PERSON_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_ID")
     Member member;
 
     public Address() {
@@ -34,6 +36,22 @@ public class Address {
 
     public Address(String name, String address) {
         this(null, name, address);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Member getMember() {
+        return member;
     }
 
     public void setMember(Member member) {

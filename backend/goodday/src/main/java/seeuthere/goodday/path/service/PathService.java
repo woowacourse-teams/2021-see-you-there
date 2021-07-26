@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.path.domain.requester.TransportRequester;
+import seeuthere.goodday.path.dto.api.response.APITransportResponse;
+import seeuthere.goodday.path.dto.response.PathsResponse;
+import seeuthere.goodday.path.util.TransportURL;
 
 @Service
 public class PathService {
@@ -15,8 +18,23 @@ public class PathService {
         this.webClient = webClient;
     }
 
-    public void findBusPath(Point start, Point end) {
+    public PathsResponse findBusPath(Point start, Point end) {
+        return getPathsResponse(start, end, TransportURL.BUS);
+    }
+
+    public PathsResponse findSubwayPath(Point start, Point end) {
+        return getPathsResponse(start, end, TransportURL.SUBWAY);
+    }
+
+    public PathsResponse findTransferPath(Point start, Point end) {
+        return getPathsResponse(start, end, TransportURL.BUS_AND_SUBWAY);
+    }
+
+    private PathsResponse getPathsResponse(Point start, Point end,
+        TransportURL transportURL) {
         TransportRequester transportRequester = new TransportRequester(webClient);
-        transportRequester.busPath(start, end);
+        APITransportResponse apiTransportResponse =
+            transportRequester.transportPath(start, end, transportURL);
+        return PathsResponse.valueOf(apiTransportResponse.getMsgBody());
     }
 }

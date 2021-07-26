@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.path.dto.response.PathsResponse;
 import seeuthere.goodday.path.service.PathService;
 
 @RestController
@@ -19,13 +20,33 @@ public class PathController {
     }
 
     @GetMapping("/bus")
-    public ResponseEntity<Void> busPath(@RequestParam double startX, @RequestParam double startY,
+    public ResponseEntity<PathsResponse> busPath(@RequestParam double startX,
+        @RequestParam double startY,
         @RequestParam double endX, @RequestParam double endY) {
 
         Point start = new Point(startX, startY);
         Point end = new Point(endX, endY);
-        pathService.findBusPath(start, end);
-        return null;
+        return ResponseEntity.ok(pathService.findBusPath(start, end));
+    }
+
+    @GetMapping("/subway")
+    public ResponseEntity<PathsResponse> subwayPath(@RequestParam double startX,
+        @RequestParam double startY,
+        @RequestParam double endX, @RequestParam double endY) {
+
+        Point start = new Point(startX, startY);
+        Point end = new Point(endX, endY);
+        return ResponseEntity.ok(pathService.findSubwayPath(start, end));
+    }
+
+    @GetMapping("/transfer")
+    public ResponseEntity<PathsResponse> transferPath(@RequestParam double startX,
+        @RequestParam double startY,
+        @RequestParam double endX, @RequestParam double endY) {
+
+        Point start = new Point(startX, startY);
+        Point end = new Point(endX, endY);
+        return ResponseEntity.ok(pathService.findTransferPath(start, end));
     }
 
 

@@ -1,7 +1,5 @@
 package seeuthere.goodday.path.util;
 
-import seeuthere.goodday.secret.SecretKey;
-
 public enum TransportURL {
 
     BUS("/getPathInfoByBus"),

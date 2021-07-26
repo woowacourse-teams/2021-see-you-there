@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import seeuthere.goodday.auth.domain.EnableAuth;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.member.domain.Member;
+import seeuthere.goodday.member.dto.AddressDeleteRequest;
 import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.AddressResponse;
+import seeuthere.goodday.member.dto.AddressUpdateRequest;
 import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
 import seeuthere.goodday.member.service.MemberService;
@@ -56,12 +58,16 @@ public class MemberController {
     }
 
     @PutMapping("/address")
-    public ResponseEntity<Void> updateMyAddress() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<AddressResponse> updateMyAddress(@EnableAuth String id,
+        @RequestBody AddressUpdateRequest request) {
+        AddressResponse addressResponse = memberService.updateAddress(id, request);
+        return ResponseEntity.ok().body(addressResponse);
     }
 
     @DeleteMapping("/address")
-    public ResponseEntity<Void> deleteMyAddress() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> deleteMyAddress(@EnableAuth String id,
+        @RequestBody AddressDeleteRequest request) {
+        memberService.deleteAddress(id, request);
+        return ResponseEntity.noContent().build();
     }
 }

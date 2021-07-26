@@ -13,8 +13,10 @@ import seeuthere.goodday.member.dao.AddressRepository;
 import seeuthere.goodday.member.dao.MemberRepository;
 import seeuthere.goodday.member.domain.Address;
 import seeuthere.goodday.member.domain.Member;
+import seeuthere.goodday.member.dto.AddressDeleteRequest;
 import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.AddressResponse;
+import seeuthere.goodday.member.dto.AddressUpdateRequest;
 import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
 
@@ -77,5 +79,22 @@ public class MemberService {
         return addresses.stream()
             .map(AddressResponse::new)
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public AddressResponse updateAddress(String id, AddressUpdateRequest request) {
+        Member findMember = find(id);
+        Address address = findMember
+            .updateAddress(request.getId(), request.getName(), request.getAddress());
+        return new AddressResponse(address);
+    }
+
+    @Transactional
+    public void deleteAddress(String id, AddressDeleteRequest request) {
+        Member member = find(id);
+        member.deleteAddress(request.getId());
+        addressRepository.deleteById(request.getId());
+
+
     }
 }

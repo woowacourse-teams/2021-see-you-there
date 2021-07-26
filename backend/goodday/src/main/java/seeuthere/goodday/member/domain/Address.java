@@ -38,6 +38,13 @@ public class Address {
         this(null, name, address);
     }
 
+    public Address update(String name, String address) {
+        this.name = name;
+        this.address = address;
+
+        return this;
+    }
+
     public Long getId() {
         return id;
     }

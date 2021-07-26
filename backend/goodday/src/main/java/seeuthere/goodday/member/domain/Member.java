@@ -13,6 +13,8 @@ import seeuthere.goodday.member.dto.MemberRequest;
 @Entity
 public class Member {
 
+    @OneToMany(mappedBy = "member")
+    private final List<Address> addresses = new ArrayList<>();
     protected String name;
     @Column(name = "PROFILE_IMAGE")
     protected String profileImage;
@@ -21,8 +23,6 @@ public class Member {
     private String id;
     @Column(name = "MEMBER_SEARCH_ID")
     private String memberId;
-    @OneToMany(mappedBy = "member")
-    private final List<Address> addresses = new ArrayList<>();
 
     public Member() {
     }
@@ -46,6 +46,15 @@ public class Member {
         this.addresses.add(address);
     }
 
+    public Address updateAddress(Long addressId, String name, String addressName) {
+        Address address = this.addresses.stream()
+            .filter(ad -> ad.getId().equals(addressId))
+            .findFirst()
+            .orElseThrow();
+
+        return address.update(name, addressName);
+    }
+
     public String getId() {
         return id;
     }
@@ -64,5 +73,9 @@ public class Member {
 
     public List<Address> getAddresses() {
         return addresses;
+    }
+
+    public void deleteAddress(Long id) {
+        this.addresses.removeIf(address -> address.getId().equals(id));
     }
 }

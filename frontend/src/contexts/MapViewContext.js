@@ -13,16 +13,16 @@ const MIDPOINT = '중간지점';
 const fetchMidpoint = async ({ queryKey }) => {
   const [_, participants] = queryKey;
   const locations = participants.map(({ x, y }) => ({ x, y }));
-  const res = await httpRequest.post(API_URL.MIDPOINT, { body: { locations } });
+  const response = await httpRequest.post(API_URL.MIDPOINT, { body: { locations } });
 
-  return await res.json();
+  return await response.json();
 };
 
 const fetchCategory = async ({ queryKey }) => {
   const [category, midpoint] = queryKey;
-  const res = await httpRequest.get(API_URL.CATEGORY(category, midpoint));
+  const response = await httpRequest.get(API_URL.CATEGORY(category, midpoint));
 
-  return await res.json();
+  return await response.json();
 };
 
 export const MapViewContext = createContext();

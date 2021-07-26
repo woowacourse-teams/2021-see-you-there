@@ -8,6 +8,8 @@ import { ParticipantContext, AddFormContextProvider } from '../../contexts';
 import { useConfirm, useMapViewApi } from '../../hooks';
 import { MESSAGE, ROUTE, POBI_POINT } from '../../constants';
 
+const formId = 'PARTICIPANT';
+
 export const HomePage = () => {
   const { participants, removeParticipant, isLackParticipants } = useContext(ParticipantContext);
   const mapObj = useRef(null);
@@ -39,7 +41,7 @@ export const HomePage = () => {
         <ContentArea>
           <AddSection>
             <h2>만날 사람을 추가해보세요.</h2>
-            <AddFormContextProvider>
+            <AddFormContextProvider formId={formId}>
               <ParticipantAddForm />
             </AddFormContextProvider>
           </AddSection>
@@ -66,7 +68,7 @@ export const HomePage = () => {
 
       {isConfirmOpen && (
         <Confirm onCancel={cancelConfirm} onApprove={approveConfirm}>
-          {MESSAGE.CONFIRM_PARTICIPANT_DELETE}
+          {MESSAGE[formId].CONFIRM_DELETE}
         </Confirm>
       )}
     </>

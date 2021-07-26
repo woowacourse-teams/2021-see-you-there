@@ -6,7 +6,7 @@ import { API_URL } from '../constants';
 import { httpRequest } from '../utils';
 
 export const useAddressSearch = () => {
-  const { addressKeyword, setAddressKeyword, setAddress, escapeModal } = useContext(AddFormContext);
+  const { addressKeyword, setAddressKeyword, setAddress } = useContext(AddFormContext);
 
   const fetchAddressSearch = async ({ queryKey }) => {
     const [_, keyword] = queryKey;
@@ -15,27 +15,14 @@ export const useAddressSearch = () => {
     return await res.json();
   };
 
-  const { data } = useQuery(['주소검색', addressKeyword], fetchAddressSearch, {
+  const { data: addressList } = useQuery(['주소검색', addressKeyword], fetchAddressSearch, {
     enabled: !!addressKeyword,
     staleTime: Infinity,
   });
 
-  const handleSubmitAddressKeyword = (e) => {
-    e.preventDefault();
-
-    const keyword = e.target['addressSearch'].value;
-
-    setAddressKeyword(keyword);
-  };
-
-  const handleSelectAddressListItem = (address) => {
-    setAddress(address);
-    escapeModal();
-  };
-
   return {
-    addressList: data,
-    handleSubmitAddressKeyword,
-    handleSelectAddressListItem,
+    addressList,
+    setAddressKeyword,
+    setAddress,
   };
 };

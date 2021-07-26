@@ -18,3 +18,9 @@ link:{default-path}/coordinate[Coordinate RestDocs]
 link:{default-path}/keyword[Keyword RestDocs]
 
 link:{default-path}/midPoint[MidPoint RestDocs]
+
+link:{default-path}/bus[Bus Path RestDocs]
+
+link:{default-path}/subway[Subway Path RestDocs]
+
+link:{default-path}/transfer[Transfer Path RestDocs]

@@ -9,4 +9,5 @@ export const API_URL = {
   CATEGORY: (category, { x, y }) => `${API_END_POINT}/location/utility/${category}?x=${x}&y=${y}`,
   LOGIN_KAKAO: `${API_END_POINT}/kakao/oauth`,
   LOGIN_NAVER: `${API_END_POINT}/naver/oauth`,
+  TOKEN_VALIDATION: `${API_END_POINT}/members`,
 };

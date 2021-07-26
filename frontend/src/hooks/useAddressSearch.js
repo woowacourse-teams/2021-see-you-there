@@ -10,9 +10,9 @@ export const useAddressSearch = () => {
 
   const fetchAddressSearch = async ({ queryKey }) => {
     const [_, keyword] = queryKey;
-    const res = await httpRequest.get(API_URL.ADDRESS_SEARCH(keyword));
+    const response = await httpRequest.get(API_URL.ADDRESS_SEARCH(keyword));
 
-    return await res.json();
+    return await response.json();
   };
 
   const { data: addressList } = useQuery(['주소검색', addressKeyword], fetchAddressSearch, {

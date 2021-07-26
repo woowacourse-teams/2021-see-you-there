@@ -1,14 +1,27 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { storage } from '../utils';
-import { STORAGE_KEY } from '../constants';
+import { httpRequest, storage } from '../utils';
+import { API_URL, STORAGE_KEY } from '../constants';
+import { useQuery } from 'react-query';
+
+const INITIAL_TOKEN = storage.local.get(STORAGE_KEY.TOKEN);
 
 const INITIAL_STATE = {
   id: null,
   nickname: null,
   profileImage: null,
   token: null,
+};
+
+const fetchUserInfo = async ({ queryKey }) => {
+  const [_, accessToken] = queryKey;
+  const response = await httpRequest.get(API_URL.TOKEN_VALIDATION, { accessToken });
+
+  if (response.status === 401) {
+    return 'INVALID_TOKEN_ERROR';
+  }
+  return await response.json();
 };
 
 export const UserContext = createContext();
@@ -27,6 +40,21 @@ export const UserContextProvider = ({ children }) => {
     storage.local.remove(STORAGE_KEY.TOKEN);
     setUser(INITIAL_STATE);
   };
+
+  const { data: userInfo, error } = useQuery(['토큰유효성검사', INITIAL_TOKEN], fetchUserInfo, {
+    enabled: !!INITIAL_TOKEN,
+    staleTime: Infinity,
+  });
+
+  useEffect(() => {
+    if (!userInfo) {
+      return;
+    }
+    if (userInfo === 'INVALID_TOKEN_ERROR') {
+      logout();
+    }
+    setUser({ ...userInfo, token: INITIAL_TOKEN });
+  }, [userInfo]);
 
   return (
     <UserContext.Provider

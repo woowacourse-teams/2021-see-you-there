@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import seeuthere.goodday.auth.dto.ProfileDto;
-import seeuthere.goodday.auth.dto.ProfileTokenDto;
+import seeuthere.goodday.auth.dto.ProfileResponse;
+import seeuthere.goodday.auth.dto.ProfileTokenResponse;
 import seeuthere.goodday.auth.service.AuthService;
 import seeuthere.goodday.auth.service.NaverService;
 import seeuthere.goodday.auth.utils.NaverUtil;
@@ -48,9 +48,9 @@ public class NaverController {
 
     @RequestMapping(value = "/callback", method = {RequestMethod.GET,
         RequestMethod.POST}, produces = "application/json")
-    public ResponseEntity<ProfileTokenDto> naverLogin(@RequestParam(value = "code") String code,
+    public ResponseEntity<ProfileTokenResponse> naverLogin(@RequestParam(value = "code") String code,
         @RequestParam(value = "state") String state) {
-        ProfileDto profile = naverService.getProfileWithToken(code, state);
+        ProfileResponse profile = naverService.getProfileWithToken(code, state);
         memberService.add(profile);
         return ResponseEntity.ok().body(authService.createToken(profile));
     }

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import seeuthere.goodday.auth.dto.ProfileDto;
-import seeuthere.goodday.auth.dto.ProfileTokenDto;
+import seeuthere.goodday.auth.dto.ProfileResponse;
+import seeuthere.goodday.auth.dto.ProfileTokenResponse;
 import seeuthere.goodday.auth.service.AuthService;
 import seeuthere.goodday.auth.service.KaKaoService;
 import seeuthere.goodday.auth.utils.KakaoUtil;
@@ -45,8 +45,8 @@ public class KakaoController {
 
     @RequestMapping(value = "/callback", produces = "application/json", method = {RequestMethod.GET,
         RequestMethod.POST})
-    public ResponseEntity<ProfileTokenDto> kakaoLogin(@RequestParam("code") String code) {
-        ProfileDto profile = kakaoService.getProfileWithToken(code);
+    public ResponseEntity<ProfileTokenResponse> kakaoLogin(@RequestParam("code") String code) {
+        ProfileResponse profile = kakaoService.getProfileWithToken(code);
         memberService.add(profile);
         return ResponseEntity.ok().body(authService.createToken(profile));
     }

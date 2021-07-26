@@ -56,6 +56,7 @@ public class AxisKeywordCombiner {
                     .y(utilityDocument.getY())
                     .address(utilityDocument.getAddressName())
                     .roadAddress(utilityDocument.getRoadAddressName())
+                    .placeUrl(utilityDocument.getPlaceUrl())
                     .name(utilityDocument.getPlaceName())
                     .build()
             );

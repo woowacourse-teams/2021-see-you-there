@@ -8,6 +8,7 @@ public class LocationResponse {
     private final double y;
     private final String address;
     private final String roadAddress;
+    private final String placeUrl;
     private final String name;
 
     public LocationResponse(Location location) {
@@ -15,6 +16,7 @@ public class LocationResponse {
         y = location.getY();
         address = location.getAddress();
         roadAddress = location.getRoadAddress();
+        placeUrl = location.getPlaceUrl();
         name = location.getName();
     }
 
@@ -32,6 +34,10 @@ public class LocationResponse {
 
     public String getRoadAddress() {
         return roadAddress;
+    }
+
+    public String getPlaceUrl() {
+        return placeUrl;
     }
 
     public String getName() {

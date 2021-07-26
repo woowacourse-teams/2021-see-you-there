@@ -2,7 +2,7 @@ package seeuthere.goodday.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class TokenDto {
+public class TokenResponse {
 
     @JsonProperty("access_token")
     private String accessToken;

@@ -13,6 +13,7 @@ export const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Router>
       <UserContextProvider>
         <Router>
           <NavBar />
@@ -42,6 +43,7 @@ export const App = () => {
           </ParticipantContextProvider>
         </Router>
       </UserContextProvider>
+      </Router>
       <ReactQueryDevtools panelProps={REACT_QUERY_DEV_TOOL} />
     </QueryClientProvider>
   );

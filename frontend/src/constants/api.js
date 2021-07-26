@@ -10,4 +10,7 @@ export const API_URL = {
   LOGIN_KAKAO: `${API_END_POINT}/kakao/oauth`,
   LOGIN_NAVER: `${API_END_POINT}/naver/oauth`,
   TOKEN_VALIDATION: `${API_END_POINT}/members`,
+
+export const STATUS = {
+  INVALID_TOKEN_ERROR: 401,
 };

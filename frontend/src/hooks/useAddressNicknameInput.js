@@ -1,10 +1,9 @@
 import { useContext } from 'react';
 
 import { AddFormContext } from '../contexts';
-import { INPUT, MESSAGE } from '../constants';
 
 export const useAddressNicknameInput = () => {
-  const { name, setName, focusName, setNoticeMessage, resetNoticeMessage } = useContext(AddFormContext);
+  const { INPUT, MESSAGE, name, setName, focusName, setNoticeMessage, resetNoticeMessage } = useContext(AddFormContext);
 
   const handleChangeName = (e) => {
     const name = e.target.value;

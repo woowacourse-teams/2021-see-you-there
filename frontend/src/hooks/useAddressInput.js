@@ -1,10 +1,9 @@
 import { useContext } from 'react';
 
 import { AddFormContext } from '../contexts';
-import { INPUT, MESSAGE } from '../constants';
 
 export const useAddressInput = () => {
-  const { address, name, focusName, setNoticeMessage, openModal } = useContext(AddFormContext);
+  const { INPUT, MESSAGE, address, name, focusName, setNoticeMessage, openModal } = useContext(AddFormContext);
 
   const openModalAfterValidation = () => {
     if (name.length < INPUT.NAME.MIN_LENGTH) {

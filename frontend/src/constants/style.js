@@ -16,6 +16,7 @@ export const COLOR = {
   BORDER_HOVER: '#CCC',
   BORDER_DARK: '#AAA',
   PLACEHOLDER: '#999',
+  ANCHOR: '#999',
 
   ICON: '#666',
   HEADING: '#555',
@@ -46,9 +47,11 @@ export const Z_INDEX = {
   MAP_PIN: 1,
   MAP_TOOLTIP: 2,
   MAP_CONTROLLER: 5,
+
   CONTENT: 10,
   NAVBAR: 20,
   HAMBURGER_MENU: 30,
+  ON_IMAGE: 50,
   MODAL: 100,
 };
 

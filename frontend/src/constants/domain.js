@@ -24,7 +24,7 @@ export const INPUT = {
     },
     ADDRESS: {
       KEY: 'address',
-      LABEL: '자주 사용하는 주소',
+      LABEL: '주소지',
       PLACEHOLDER: '주소지를 입력해주세요. ( Click )',
     },
   },

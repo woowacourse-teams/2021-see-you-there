@@ -9,6 +9,7 @@ import avatar8 from './avatar8.png';
 import avatar9 from './avatar9.png';
 import avatar10 from './avatar10.png';
 import drawingLogin from './drawingLogin.png';
+import drawingWelcome from './drawingWelcome.png';
 import logo from './logo.png';
 import logoKakao from './logoKakao.png';
 import logoNaver from './logoNaver.png';
@@ -25,6 +26,7 @@ export {
   avatar9,
   avatar10,
   drawingLogin,
+  drawingWelcome,
   logo,
   logoKakao,
   logoNaver,

@@ -1,13 +1,16 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { AddressSearchModal, ButtonRound, Icon, Input, Notice } from '../../components';
+import { ROUTE } from '../../constants';
 import { AddFormContext } from '../../contexts';
-import { useAddressNicknameInput, useAddressInput, useAddressSearch } from '../../hooks';
-import { AddForm, ButtonGroup } from './style';
+import { useAddressNicknameInput, useAddressInput } from '../../hooks';
+import { AddForm, Anchor } from './style';
 
 export const UserAddressAddForm = () => {
   const { INPUT, MESSAGE, formRef, isComplete, noticeMessage, setNoticeMessage } = useContext(AddFormContext);
 
+  const history = useHistory();
   const { name, handleChangeName, handleBlurName } = useAddressNicknameInput();
   const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
 
@@ -19,7 +22,9 @@ export const UserAddressAddForm = () => {
       return;
     }
 
-    console.log({ name, ...address });
+    // TODO: 웰컴페이지 주소 등록 기능 추가
+    // console.log({ name, ...address });
+    history.replace(ROUTE.HOME.PATH);
   };
 
   return (
@@ -48,19 +53,10 @@ export const UserAddressAddForm = () => {
       <AddressSearchModal />
       <Notice>{noticeMessage}</Notice>
 
-      <ButtonGroup>
-        <ButtonRound type="button" size="small" Icon={<Icon.SubmitRight width="18" />} color="gray">
-          다음에 등록 하기
-        </ButtonRound>
-        <ButtonRound
-          type="submit"
-          size="small"
-          Icon={<Icon.SubmitRight width="18" color="#fff" />}
-          disabled={!isComplete}
-        >
-          내 주소 등록
-        </ButtonRound>
-      </ButtonGroup>
+      <ButtonRound Icon={<Icon.SubmitRight color="#fff" />} onClick={handleSubmit}>
+        내 주소 등록
+      </ButtonRound>
+      <Anchor onClick={() => history.push(ROUTE.HOME.PATH)}>아쉽지만 다음에 등록할게요.</Anchor>
     </AddForm>
   );
 };

@@ -1,17 +1,15 @@
 package seeuthere.goodday.auth.dto;
 
-public class ProfileTokenDto {
+public class ProfileResponse {
 
     private String id;
     private String nickname;
     private String profileImage;
-    private String token;
 
-    public ProfileTokenDto(ProfileDto profile, String token) {
-        this.id = profile.getId();
-        this.nickname = profile.getNickname();
-        this.profileImage = profile.getProfileImage();
-        this.token = token;
+    public ProfileResponse(String id, String nickname, String profileImage) {
+        this.id = id;
+        this.nickname = nickname;
+        this.profileImage = profileImage;
     }
 
     public String getId() {
@@ -38,11 +36,4 @@ public class ProfileTokenDto {
         this.profileImage = profileImage;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 }

@@ -63,7 +63,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         // given
         String axisX = "128.9139734910702";
         String axisY = "37.94772297221625";
-        String path = "api/location/address?x="+axisX+"&y="+axisY;
+        String path = "api/location/address?x=" + axisX + "&y=" + axisY;
         String identifier = "axis";
         String description = "Axis";
 
@@ -81,7 +81,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         String category = "카페";
         String xAxis = "126.895318461208";
         String yAxis = "37.4798477003537";
-        String path = "/api/location/utility/"+category+"?x="+xAxis+"&y="+yAxis;
+        String path = "/api/location/utility/" + category + "?x=" + xAxis + "&y=" + yAxis;
         String identifier = "utility";
         String description = "Utility";
 
@@ -100,7 +100,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         String category = "없는거넣으면에러";
         String xAxis = "126.895318461208";
         String yAxis = "37.4798477003537";
-        String path = "/api/location/utility/"+category+"?x="+xAxis+"&y="+yAxis;
+        String path = "/api/location/utility/" + category + "?x=" + xAxis + "&y=" + yAxis;
 
         //when
         ExtractableResponse<Response> response = RestAssured.given(this.spec).log().all()
@@ -111,7 +111,8 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         ErrorResponse errorResponse = response.as(ErrorResponse.class);
-        assertThat(errorResponse.getMessage()).isEqualTo(LocationExceptionSet.NOT_FOUND_CATEGORY.getMessage());
+        assertThat(errorResponse.getMessage())
+            .isEqualTo(LocationExceptionSet.NOT_FOUND_CATEGORY.getMessage());
     }
 
     @Test

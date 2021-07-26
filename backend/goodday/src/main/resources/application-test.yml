@@ -7,6 +7,11 @@ spring:
   h2:
     console:
       enabled: true
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
 handlebars:
   suffix: .html
   enabled: true

@@ -19,14 +19,12 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 public class AcceptanceTest {
 
-    @LocalServerPort
-    int port;
-
     @RegisterExtension
     final RestDocumentationExtension restDocumentation = new RestDocumentationExtension(
         "build/generated-snippets");
-
     protected RequestSpecification spec;
+    @LocalServerPort
+    int port;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentation) {

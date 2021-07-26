@@ -1,4 +1,4 @@
-package seeuthere.goodday.auth.domain;
+package seeuthere.goodday.auth.utils;
 
 
 import java.math.BigInteger;
@@ -9,16 +9,16 @@ import org.json.simple.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
-import seeuthere.goodday.auth.dto.ProfileDto;
-import seeuthere.goodday.auth.dto.TokenDto;
+import seeuthere.goodday.auth.dto.ProfileResponse;
+import seeuthere.goodday.auth.dto.TokenResponse;
 import seeuthere.goodday.secret.SecretKey;
 
-public class Naver {
+public class NaverUtil {
 
     public static String NAVER_HOST_URI = "https://openapi.naver.com";
     public static String NAVER_AUTH_URI = "https://nid.naver.com";
 
-    private Naver() {
+    private NaverUtil() {
     }
 
     public static String generateState() {
@@ -26,7 +26,7 @@ public class Naver {
         return new BigInteger(130, random).toString(32);
     }
 
-    public static TokenDto getAccessToken(String code, String state) {
+    public static TokenResponse getAccessToken(String code, String state) {
         WebClient webclient = WebClient.builder()
             .baseUrl(NAVER_AUTH_URI)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -41,10 +41,10 @@ public class Naver {
                 .queryParam("state", state)
                 .queryParam("code", code)
                 .build())
-            .retrieve().bodyToMono(TokenDto.class).block();
+            .retrieve().bodyToMono(TokenResponse.class).block();
     }
 
-    public static ProfileDto getUserInfo(String accessToken) {
+    public static ProfileResponse getUserInfo(String accessToken) {
         WebClient webclient = WebClient.builder()
             .baseUrl(NAVER_HOST_URI)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -60,13 +60,13 @@ public class Naver {
         return convertToProfileDto(response);
     }
 
-    private static ProfileDto convertToProfileDto(JSONObject response) {
+    private static ProfileResponse convertToProfileDto(JSONObject response) {
         Map<String, Object> res = (LinkedHashMap<String, Object>) response.get("response");
 
         String id = (String) res.get("id");
         String nickName = (String) res.get("nickname");
         String profileImage = (String) res.get("profile_image");
 
-        return new ProfileDto(id, nickName, profileImage);
+        return new ProfileResponse(id, nickName, profileImage);
     }
 }

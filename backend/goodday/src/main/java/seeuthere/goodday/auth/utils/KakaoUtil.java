@@ -1,4 +1,4 @@
-package seeuthere.goodday.auth.domain;
+package seeuthere.goodday.auth.utils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -7,16 +7,16 @@ import org.json.simple.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
-import seeuthere.goodday.auth.dto.ProfileDto;
+import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.secret.SecretKey;
 
-public class Kakao {
+public class KakaoUtil {
 
     public static final String KAKAO_HOST_URI = "https://kapi.kakao.com";
     public static final String KAKAO_AUTH_URI = "https://kauth.kakao.com";
     public static final String DOMAIN_URI = "https://seeyouthere.o-r.kr";
 
-    public static ProfileDto getKakaoUserInfo(String access_token) {
+    public static ProfileResponse getKakaoUserInfo(String access_token) {
         WebClient webClient = WebClient.builder()
             .baseUrl(KAKAO_HOST_URI)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -29,14 +29,15 @@ public class Kakao {
         return convertToProfileDto(response);
     }
 
-    private static ProfileDto convertToProfileDto(JSONObject response) {
+    private static ProfileResponse convertToProfileDto(JSONObject response) {
         String id = String.valueOf(response.get("id"));
-        Map<String, Object> kakaoAccount = (LinkedHashMap<String, Object>) response.get("kakao_account");
+        Map<String, Object> kakaoAccount = (LinkedHashMap<String, Object>) response
+            .get("kakao_account");
         Map<String, Object> profile = (LinkedHashMap<String, Object>) kakaoAccount.get("profile");
         String nickName = (String) profile.get("nickname");
         String profileImage = (String) profile.get("thumbnail_image_url");
 
-        return new ProfileDto(id, nickName, profileImage);
+        return new ProfileResponse(id, nickName, profileImage);
     }
 
     public static String getKakaoAccessToken(String code) {

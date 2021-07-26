@@ -1,7 +1,7 @@
 package seeuthere.goodday.auth.controller;
 
-import static seeuthere.goodday.auth.domain.Kakao.DOMAIN_URI;
-import static seeuthere.goodday.auth.domain.Naver.NAVER_AUTH_URI;
+import static seeuthere.goodday.auth.utils.KakaoUtil.DOMAIN_URI;
+import static seeuthere.goodday.auth.utils.NaverUtil.NAVER_AUTH_URI;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import seeuthere.goodday.auth.domain.Naver;
-import seeuthere.goodday.auth.dto.ProfileDto;
-import seeuthere.goodday.auth.dto.ProfileTokenDto;
-import seeuthere.goodday.auth.dto.TokenDto;
+import seeuthere.goodday.auth.dto.ProfileResponse;
+import seeuthere.goodday.auth.dto.ProfileTokenResponse;
 import seeuthere.goodday.auth.service.AuthService;
+import seeuthere.goodday.auth.service.NaverService;
+import seeuthere.goodday.auth.utils.NaverUtil;
 import seeuthere.goodday.member.service.MemberService;
 import seeuthere.goodday.secret.SecretKey;
 
@@ -23,15 +23,18 @@ public class NaverController {
 
     private final MemberService memberService;
     private final AuthService authService;
+    private final NaverService naverService;
 
-    public NaverController(MemberService memberService, AuthService authService) {
+    public NaverController(MemberService memberService, AuthService authService,
+        NaverService naverService) {
         this.memberService = memberService;
         this.authService = authService;
+        this.naverService = naverService;
     }
 
     @GetMapping("/oauth")
     public String naverConnect() {
-        String state = Naver.generateState();
+        String state = NaverUtil.generateState();
 
         StringBuffer url = new StringBuffer();
         url.append(NAVER_AUTH_URI + "/oauth2.0/authorize?");
@@ -45,13 +48,10 @@ public class NaverController {
 
     @RequestMapping(value = "/callback", method = {RequestMethod.GET,
         RequestMethod.POST}, produces = "application/json")
-    public ResponseEntity<ProfileTokenDto> naverLogin(@RequestParam(value = "code") String code,
+    public ResponseEntity<ProfileTokenResponse> naverLogin(@RequestParam(value = "code") String code,
         @RequestParam(value = "state") String state) {
-        TokenDto response = Naver.getAccessToken(code, state);
-
-        ProfileDto profile = Naver.getUserInfo(response.getAccess_token());
+        ProfileResponse profile = naverService.getProfileWithToken(code, state);
         memberService.add(profile);
-        ProfileTokenDto profileTokenDto = authService.createToken(profile);
-        return ResponseEntity.ok().body(profileTokenDto);
+        return ResponseEntity.ok().body(authService.createToken(profile));
     }
 }

@@ -83,7 +83,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         String token = jwtTokenProvider.createToken("1234");
 
         AddressRequest addressRequest = new AddressRequest("회사", "서울시 송파구");
-        AddressResponse addressResponse = postResponse("member/add-address", path, addressRequest,
+        AddressResponse addressResponse = postResponse("member/address-add", path, addressRequest,
             token)
             .as(AddressResponse.class);
 

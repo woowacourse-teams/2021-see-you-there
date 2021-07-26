@@ -4,7 +4,7 @@ import { Input, InputWithButton, ButtonRound, Icon, Modal, Notice } from '../../
 import { ParticipantContext, ParticipantAddFormContext } from '../../contexts';
 import { useParticipantNameInput, useParticipantAddressInput, useParticipantAddressSearch } from '../../hooks';
 import { COLOR, INPUT, MESSAGE } from '../../constants';
-import { AddForm, ButtonGroup, ModalCloseButton, AddressSearchList } from './style';
+import { AddForm, ButtonGroup, AddressSearchList, Top } from './style';
 import { getId, getAvatarKey } from '../../utils';
 import { Image } from '../../assets';
 
@@ -22,6 +22,10 @@ export const ParticipantAddForm = () => {
 
     if (!isComplete) {
       setNoticeMessage(MESSAGE.NOTICE_INCOMPLETE_FORM);
+      return;
+    }
+    if (isFullParticipants) {
+      // TODO: 스낵바 알림
       return;
     }
 
@@ -82,9 +86,12 @@ export const ParticipantAddForm = () => {
 
       {isModalOpen && (
         <Modal escape={escapeModal}>
-          <ModalCloseButton onClick={escapeModal}>
-            <Icon.Close />
-          </ModalCloseButton>
+          <Top>
+            <span> ﹡ 현재 서비스 지역은 수도권 입니다.</span>
+            <button onClick={escapeModal}>
+              <Icon.Close />
+            </button>
+          </Top>
           <form onSubmit={handleSubmitAddressKeyword}>
             <InputWithButton
               name={INPUT.ADDRESS_SEARCH.KEY}

@@ -143,9 +143,21 @@ export const BottomSection = styled.section`
 
 /* 주소 검색 Modal */
 
-export const ModalCloseButton = styled.button`
-  width: fit-content;
-  align-self: flex-end;
+export const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  & > span {
+    font-size: 0.75rem;
+    letter-spacing: -0.03rem;
+    padding-left: 0.5rem;
+    color: ${COLOR.PRIMARY_LIGHT};
+  }
+
+  & > button {
+    width: fit-content;
+  }
 `;
 
 export const AddressSearchList = styled.ul`

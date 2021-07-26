@@ -8,6 +8,8 @@ export { Hamburger } from './hamburger';
 export { LocalBar } from './localBar';
 export { LocalCafe } from './localCafe';
 export { LocalDining } from './localDining';
+export { Map } from './map';
+export { LocalParty } from './localParty';
 export { People } from './people';
 export { Person } from './person';
 export { PersonCircle } from './personCircle';

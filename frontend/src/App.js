@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { HomePage, LoginPage, LogoutPage, MidpointPage, OAuthPage } from './pages';
 import { NavBar } from './components';
-import { UserContextProvider, ParticipantContextProvider } from './contexts';
+import { UserContextProvider, ParticipantContextProvider, MapViewContextProvider } from './contexts';
 import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
 
 export const App = () => {
@@ -24,7 +24,9 @@ export const App = () => {
             </Route>
             <Route exact path={ROUTE.MIDPOINT.PATH}>
               <ParticipantContextProvider>
-                <MidpointPage />
+                <MapViewContextProvider>
+                  <MidpointPage />
+                </MapViewContextProvider>
               </ParticipantContextProvider>
             </Route>
             <Route exact path={ROUTE.LOGIN.PATH}>

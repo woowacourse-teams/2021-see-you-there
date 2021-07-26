@@ -1,37 +1,82 @@
 import React, { useContext, useEffect } from 'react';
 
-import { ParticipantList } from '../../components';
-import { MapViewArea, MapView, ContentArea, ListSection, ResultSection } from './style';
-import { ParticipantContext } from '../../contexts';
-import { useMapView, useMidpoint } from '../../hooks';
+import { ParticipantList, Icon } from '../../components';
+import { MapViewArea, Chips, Chip, MapView, ContentArea, ListSection, ResultSection } from './style';
+import { ParticipantContext, MapViewContext } from '../../contexts';
+import { useMapViewApi, useMidpoint, useQueryMidpoint } from '../../hooks';
+import { COLOR } from '../../constants';
+
+const DEFAULT = '전체보기';
+const CAFE = '카페';
+const DINING = '음식점';
+const PARTY = '문화시설';
+
+const CHIP_LIST = [
+  { category: DEFAULT, categoryIcon: Icon.Map },
+  { category: CAFE, categoryIcon: Icon.LocalCafe },
+  { category: DINING, categoryIcon: Icon.LocalDining },
+  { category: PARTY, categoryIcon: Icon.LocalParty },
+];
 
 export const MidpointPage = () => {
   const { participants } = useContext(ParticipantContext);
-  const { mapViewRef, showMapView, setMarker, setMarkers, setBounds } = useMapView();
-  const { stations, closestStation } = useMidpoint();
+  const { mapObj, mapViewRef, midpoint, station, isMidpointLoading, isStationsLoading } = useContext(MapViewContext);
+
+  const { showMapView } = useMapViewApi({ mapObj, mapViewRef });
+  const { showDefaultBounds, showDefaultMarkers, showCategoryMarkers, hideCategoryMarkers, isSelected } = useMidpoint();
 
   useEffect(() => {
-    if (closestStation) {
-      const { x, y, placeName } = closestStation;
-
-      showMapView(closestStation);
-      setMarker({ x, y, name: placeName });
-      setMarkers(participants);
-      setBounds([closestStation, ...participants]);
+    if (isMidpointLoading || isStationsLoading) {
+      return;
     }
-  }, [stations]);
+    if (!station) {
+      showMapView(midpoint);
+      return;
+    }
+    showMapView(station);
+    showDefaultBounds();
+    showDefaultMarkers();
+  }, [station]);
+
+  const handleSelectChip = (nextCategory) => {
+    if (nextCategory === DEFAULT) {
+      hideCategoryMarkers();
+      showDefaultBounds();
+      return;
+    }
+    showCategoryMarkers(nextCategory);
+  };
 
   return (
     <>
       <main>
         <MapViewArea>
           <MapView ref={mapViewRef} />
+          <Chips>
+            {CHIP_LIST.map(({ category, categoryIcon }) => {
+              const isSelectedChip = isSelected(category);
+              const ChipIcon = isSelectedChip ? Icon.CheckCircle : categoryIcon;
+
+              return (
+                <li key={category}>
+                  <Chip selected={isSelectedChip} onClick={() => handleSelectChip(category)}>
+                    <ChipIcon width="18" color={isSelectedChip ? COLOR.PRIMARY : COLOR.BORDER_DARK} />
+                    <span>{category}</span>
+                  </Chip>
+                </li>
+              );
+            })}
+          </Chips>
         </MapViewArea>
         <ContentArea>
           <ResultSection>
-            <h2>
-              <span>{closestStation?.placeName}</span> 에서 만나요!
-            </h2>
+            {station ? (
+              <h2>
+                <span>{station.placeName}</span> 에서 만나요!
+              </h2>
+            ) : (
+              <h2>흑흑 못 만나요...</h2>
+            )}
           </ResultSection>
           <ListSection>
             <h2>

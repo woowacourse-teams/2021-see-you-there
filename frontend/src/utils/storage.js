@@ -12,7 +12,7 @@ export const storage = {
       }
     },
     set: (key, value) => localStorage.setItem(key, JSON.stringify(value)),
-    remove: (key, value) => localStorage.removeItem(key, JSON.stringify(value)),
+    remove: (key) => localStorage.removeItem(key),
   },
 
   session: {
@@ -28,6 +28,6 @@ export const storage = {
       }
     },
     set: (key, value) => sessionStorage.setItem(key, JSON.stringify(value)),
-    remove: (key, value) => sessionStorage.removeItem(key, JSON.stringify(value)),
+    remove: (key) => sessionStorage.removeItem(key),
   },
 };

@@ -18,10 +18,6 @@ public class AxisKeywordCombiner {
         this.locations = locations;
     }
 
-    public List<Location> getLocations() {
-        return new ArrayList<>(locations);
-    }
-
     public static AxisKeywordCombiner valueOf(List<APIAxisDocument> apiAxisDocuments,
         List<APIUtilityDocument> utilityDocuments) {
         List<Location> locations = new ArrayList<>();
@@ -82,5 +78,9 @@ public class AxisKeywordCombiner {
             return "";
         }
         return address.getAddressName();
+    }
+
+    public List<Location> getLocations() {
+        return new ArrayList<>(locations);
     }
 }

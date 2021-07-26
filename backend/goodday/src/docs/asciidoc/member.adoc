@@ -1,0 +1,27 @@
+= Rest Docs API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+:default-path: build/generated-snippets/member
+
+# 회원 정보 조회
+
+## request
+include::{default-path}/info/http-request.adoc[]
+
+## response
+include::{default-path}/info/http-response.adoc[]
+
+# 회원 정보 수정
+
+## request
+include::{default-path}/update/http-request.adoc[]
+
+## response
+include::{default-path}/update/http-response.adoc[]
+

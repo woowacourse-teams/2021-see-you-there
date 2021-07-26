@@ -11,19 +11,19 @@ import javax.persistence.InheritanceType;
 @DiscriminatorColumn(name = "type")
 public abstract class Person {
 
+    protected String name;
+    protected String profileImage;
+    protected String address;
     @Id
     private String id;
-
-    private String name;
-
-    private String address;
 
     public Person() {
     }
 
-    public Person(String id, String name) {
+    public Person(String id, String name, String profileImage) {
         this.id = id;
         this.name = name;
+        this.profileImage = profileImage;
     }
 
     public String getId() {
@@ -32,6 +32,10 @@ public abstract class Person {
 
     public String getName() {
         return name;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
     }
 
     public String getAddress() {

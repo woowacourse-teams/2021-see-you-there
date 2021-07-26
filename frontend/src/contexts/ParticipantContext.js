@@ -1,9 +1,10 @@
 import React, { useState, createContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { PARTICIPANT } from '../constants';
+import { storage } from '../utils';
+import { PARTICIPANT, STORAGE_KEY } from '../constants';
 
-const INITIAL_STATE = [];
+const INITIAL_STATE = storage.session.get(STORAGE_KEY.PARTICIPANT) ?? [];
 
 export const ParticipantContext = createContext();
 
@@ -11,11 +12,17 @@ export const ParticipantContextProvider = ({ children }) => {
   const [participants, setParticipants] = useState(INITIAL_STATE);
 
   const addParticipant = (participant) => {
-    setParticipants((participants) => [...participants, participant]);
+    const newParticipants = [...participants, participant];
+
+    storage.session.set(STORAGE_KEY.PARTICIPANT, newParticipants);
+    setParticipants(newParticipants);
   };
 
   const removeParticipant = (id) => {
-    setParticipants((participants) => participants.filter((v) => v.id !== id));
+    const newParticipants = participants.filter((v) => v.id !== id);
+
+    storage.session.set(STORAGE_KEY.PARTICIPANT, newParticipants);
+    setParticipants(newParticipants);
   };
 
   const isFullParticipants = participants.length === PARTICIPANT.MAX_LENGTH;

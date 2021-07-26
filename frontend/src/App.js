@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import { HomePage, LoginPage, LogoutPage, MidpointPage, OAuthPage, WelcomePage } from './pages';
+import { HomePage, LoginPage, LogoutPage, MidpointPage, OAuthPage, WelcomePage, AddressPage } from './pages';
 import { NavBar } from './components';
 import { UserContextProvider, ParticipantContextProvider, MapViewContextProvider } from './contexts';
 import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
@@ -14,8 +14,7 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-      <UserContextProvider>
-        <Router>
+        <UserContextProvider>
           <NavBar />
           <ParticipantContextProvider>
             <Switch>
@@ -39,10 +38,12 @@ export const App = () => {
               <Route exact path={ROUTE.WELCOME.PATH}>
                 <WelcomePage />
               </Route>
+              <Route exact path={ROUTE.ADDRESS.PATH}>
+                <AddressPage />
+              </Route>
             </Switch>
           </ParticipantContextProvider>
-        </Router>
-      </UserContextProvider>
+        </UserContextProvider>
       </Router>
       <ReactQueryDevtools panelProps={REACT_QUERY_DEV_TOOL} />
     </QueryClientProvider>

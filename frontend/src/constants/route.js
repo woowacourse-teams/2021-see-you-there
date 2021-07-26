@@ -1,16 +1,17 @@
 export const ROUTE = {
   HOME: { PATH: '/' },
   MIDPOINT: { NAME: '중간지점찾기', PATH: '/midpoint' },
-  LOGIN: { NAME: '로그인', PATH: '/login' },
 
+  LOGIN: { NAME: '로그인', PATH: '/login' },
   LOGIN_KAKAO: { NAME: '카카오 로그인', PATH: '/kakao/callback' },
   LOGIN_NAVER: { NAME: '네이버 로그인', PATH: '/naver/callback' },
-
   LOGOUT: { NAME: '로그아웃', PATH: '/logout' },
+
   WELCOME: { NAME: '최초 주소등록', PATH: '/welcome' },
+
   PROFILE: { NAME: '내 프로필', PATH: '/profile' },
-  FOLLOWER: { NAME: '내 팔로워', PATH: '/follower' },
-  FOLLOWING: { NAME: '내 팔로잉', PATH: '/following' },
+  ADDRESS: { NAME: '내 주소관리', PATH: '/address' },
+  FRIEND: { NAME: '내 친구관리', PATH: '/friend' },
   HISTORY: { NAME: '검색 히스토리', PATH: '/history' },
 };
 
@@ -25,7 +26,7 @@ export const ROUTES_WITHOUT_MAP = [
   ROUTE.LOGOUT,
   ROUTE.WELCOME,
   ROUTE.PROFILE,
-  ROUTE.FOLLOWER,
-  ROUTE.FOLLOWING,
+  ROUTE.ADDRESS,
+  ROUTE.FRIEND,
   ROUTE.HISTORY,
 ];

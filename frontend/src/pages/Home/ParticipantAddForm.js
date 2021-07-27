@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { AddressSearchModal, ButtonRound, Icon, Input, Notice } from '../../components';
 import { AddFormContext, ParticipantContext } from '../../contexts';
-import { useParticipantNameInput, useAddressInput, useAddressSearch } from '../../hooks';
+import { useParticipantNameInput, useAddressInput } from '../../hooks';
 import { AddForm, ButtonGroup } from './style';
 import { getId, getAvatarKey } from '../../utils';
 import { Image } from '../../assets';

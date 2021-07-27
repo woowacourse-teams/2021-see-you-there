@@ -52,7 +52,7 @@ export const AddressSearchModal = () => {
           autoFocus
         />
         <AddressSearchList>
-          {addressList?.data.map((item, index) => {
+          {addressList?.map((item, index) => {
             const { x, y, name: addressName, address: fullAddress } = item;
 
             return (

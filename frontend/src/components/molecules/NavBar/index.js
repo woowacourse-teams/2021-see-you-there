@@ -29,6 +29,7 @@ export const NavBar = () => {
         </LeftButton>
       )}
 
+      {/* 로고 선택링크 너비 축소 */}
       <NavLink to={ROUTE.HOME.PATH}>
         <Title>
           <img src={Image.logo} width="24" alt="logo" />

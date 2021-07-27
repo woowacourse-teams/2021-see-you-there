@@ -114,5 +114,4 @@ export const Anchor = styled.a`
   border-bottom: 1px solid ${COLOR.ANCHOR};
   color: ${COLOR.ANCHOR};
   font-size: 0.75rem;
-  letter-spacing: -0.03rem;
 `;

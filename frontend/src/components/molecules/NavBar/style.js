@@ -48,10 +48,11 @@ export const Title = styled.div`
   height: 100%;
 `;
 
-export const TitleText = styled.span`
+export const TitleText = styled.h2`
   margin-top: 0.3rem;
   margin-left: 0.25rem;
   min-width: 7.5rem;
+  padding: 0;
 
   font-family: 'yg-jal-nan';
   font-size: 1.25rem;

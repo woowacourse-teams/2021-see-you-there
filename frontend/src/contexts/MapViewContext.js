@@ -36,19 +36,16 @@ export const MapViewContextProvider = ({ children }) => {
 
   const { data: midpoint, isLoading: isMidpointLoading } = useQuery([MIDPOINT, participants], fetchMidpoint, {
     enabled: pathname === '/midpoint',
-    staleTime: Infinity,
   });
 
   const { data: stations, isLoading: isStationsLoading } = useQuery([STATION, midpoint], fetchCategory, {
     enabled: !!midpoint,
-    staleTime: Infinity,
   });
 
   const [station] = stations?.data || [];
 
   const { data: categoryPlace, isLoading: isCategoryPlaceLoading } = useQuery([category, station], fetchCategory, {
     enabled: !!station && !!category,
-    staleTime: Infinity,
   });
 
   return (

@@ -52,7 +52,6 @@ export const UserContextProvider = ({ children }) => {
 
   const { data: userInfo, error } = useQuery(['토큰유효성검사', INITIAL_TOKEN], fetchUserInfo, {
     enabled: !!INITIAL_TOKEN,
-    staleTime: Infinity,
   });
 
   useEffect(() => {

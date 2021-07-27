@@ -17,7 +17,6 @@ export const useAddressSearch = () => {
 
   const { data: addressList } = useQuery(['주소검색', addressKeyword], fetchAddressSearch, {
     enabled: !!addressKeyword,
-    staleTime: Infinity,
   });
 
   return {

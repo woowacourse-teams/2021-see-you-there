@@ -20,7 +20,6 @@ export const OAuthPage = () => {
 
   const { data: userInfo } = useQuery(['소셜로그인', pathname, search], fetchUserInfo, {
     enabled: pathname === ROUTE.LOGIN_KAKAO.PATH,
-    staleTime: Infinity,
   });
 
   useEffect(() => {

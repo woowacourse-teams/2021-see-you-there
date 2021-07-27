@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
 import { httpRequest, storage } from '../utils';
-import { API_URL, STORAGE_KEY, ROUTE, STATUS, PUBLIC_PATHS } from '../constants';
+import { API_URL, STORAGE_KEY, ROUTE, STATUS, PUBLIC_PATHS, QUERY_KEY } from '../constants';
 
 const INITIAL_TOKEN = storage.local.get(STORAGE_KEY.TOKEN);
 
@@ -50,15 +50,15 @@ export const UserContextProvider = ({ children }) => {
     history.push(ROUTE.LOGIN.PATH);
   };
 
-  const { data: userInfo, error } = useQuery(['토큰유효성검사', INITIAL_TOKEN], fetchUserInfo, {
+  const { data: userInfo, error } = useQuery([QUERY_KEY.TOKEN_VALIDATION, INITIAL_TOKEN], fetchUserInfo, {
     enabled: !!INITIAL_TOKEN,
   });
 
   useEffect(() => {
-    if (PUBLIC_PATHS.map((v) => v.PATH).includes(pathname)) {
-      return;
-    }
-    forceLogout();
+    // if (PUBLIC_PATHS.map((v) => v.PATH).includes(pathname)) {
+    //   return;
+    // }
+    // forceLogout();
   }, []);
 
   useEffect(() => {

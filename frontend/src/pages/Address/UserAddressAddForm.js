@@ -19,7 +19,8 @@ export const UserAddressAddForm = () => {
       return;
     }
 
-    console.log({ name, ...address });
+    // TODO: 내 주소관리 기능 추가
+    // console.log({ name, ...address });
   };
 
   return (

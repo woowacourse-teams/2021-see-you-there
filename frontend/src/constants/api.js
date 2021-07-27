@@ -16,3 +16,19 @@ export const API_URL = {
 export const STATUS = {
   INVALID_TOKEN_ERROR: 401,
 };
+
+export const QUERY_KEY = {
+  MIDPOINT: '중간지점',
+  STATION: '지하철역',
+  DEFAULT: '전체보기',
+  CAFE: '카페',
+  DINING: '음식점',
+  PARTY: '문화시설',
+
+  ADDRESS_SEARCH: '주소검색',
+
+  TOKEN_VALIDATION: '토큰 유효성검사',
+  O_AUTH: '소셜로그인',
+
+  ADDRESS: '내 주소목록',
+};

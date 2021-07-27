@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { AddressSearchModal, ButtonRound, Icon, Input, Notice } from '../../components';
 import { ROUTE } from '../../constants';
 import { AddFormContext } from '../../contexts';
-import { useAddressNicknameInput, useAddressInput } from '../../hooks';
+import { useAddressNicknameInput, useAddressInput, useMutateAddress } from '../../hooks';
 import { AddForm, Anchor } from './style';
 
 export const UserAddressAddForm = () => {
@@ -14,6 +14,8 @@ export const UserAddressAddForm = () => {
   const { name, handleChangeName, handleBlurName } = useAddressNicknameInput();
   const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
 
+  const { createAddress } = useMutateAddress();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -22,9 +24,8 @@ export const UserAddressAddForm = () => {
       return;
     }
 
-    // TODO: 웰컴페이지 주소 등록 기능 추가
-    // console.log({ name, ...address });
-    history.replace(ROUTE.HOME.PATH);
+    createAddress({ name, ...address });
+    history.replace(ROUTE.ADDRESS.PATH);
   };
 
   return (

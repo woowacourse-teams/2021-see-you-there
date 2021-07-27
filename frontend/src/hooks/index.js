@@ -7,3 +7,5 @@ export { useAddressSearch } from './useAddressSearch';
 export { useAddressInput } from './useAddressInput';
 export { useParticipantNameInput } from './useParticipantNameInput';
 export { useAddressNicknameInput } from './useAddressNicknameInput';
+
+export { useMutateAddress } from './useMutateAddress';

@@ -10,11 +10,11 @@ import seeuthere.goodday.location.domain.requester.SearchRequester;
 import seeuthere.goodday.location.domain.requester.UtilityRequester;
 
 @Configuration
-public class RequestConfig {
+public class LocationRequestConfig {
 
     private final WebClient kakaoWebClient;
 
-    public RequestConfig(@Qualifier("KakaoWebClient") WebClient kakaoWebClient) {
+    public LocationRequestConfig(@Qualifier("KakaoWebClient") WebClient kakaoWebClient) {
         this.kakaoWebClient = kakaoWebClient;
     }
 

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.location.domain.requester.UtilityRequester;
 import seeuthere.goodday.path.domain.requester.TransportRequester;
 import seeuthere.goodday.path.dto.api.response.APITransportResponse;
 import seeuthere.goodday.path.dto.response.PathsResponse;
@@ -12,10 +13,10 @@ import seeuthere.goodday.path.util.TransportURL;
 @Service
 public class PathService {
 
-    private final WebClient webClient;
+    private final TransportRequester transportRequester;
 
-    public PathService(@Qualifier("TransportWebClient") WebClient webClient) {
-        this.webClient = webClient;
+    public PathService(TransportRequester transportRequester) {
+        this.transportRequester = transportRequester;
     }
 
     public PathsResponse findBusPath(Point start, Point end) {
@@ -32,7 +33,6 @@ public class PathService {
 
     private PathsResponse getPathsResponse(Point start, Point end,
         TransportURL transportURL) {
-        TransportRequester transportRequester = new TransportRequester(webClient);
         APITransportResponse apiTransportResponse =
             transportRequester.transportPath(start, end, transportURL);
         return PathsResponse.valueOf(apiTransportResponse.getMsgBody());

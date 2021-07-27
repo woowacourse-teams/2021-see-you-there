@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { AddressSearchModal, ButtonRound, Icon, Input, Notice } from '../../components';
 import { AddFormContext } from '../../contexts';
-import { useAddressNicknameInput, useAddressInput, useAddressSearch } from '../../hooks';
+import { useAddressNicknameInput, useAddressInput } from '../../hooks';
 import { AddForm, ButtonGroup } from './style';
 
 export const UserAddressAddForm = () => {

@@ -60,7 +60,7 @@ export const REACT_QUERY_DEV_TOOL = {
     backgroundColor: '#d0d0d0',
     height: '100%',
     maxHeight: '100%',
-    width: '360px',
+    width: '480px',
     left: '0',
     fontSize: '0.75rem',
   },

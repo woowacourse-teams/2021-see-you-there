@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { ParticipantList, Icon } from '../../components';
 import { MapViewArea, Chips, Chip, MapView, ContentArea, ListSection, ResultSection } from './style';
 import { ParticipantContext, MapViewContext } from '../../contexts';
-import { useMapViewApi, useMidpoint, useQuery } from '../../hooks';
+import { useMapViewApi, useMidpoint } from '../../hooks';
 import { COLOR, QUERY_KEY } from '../../constants';
 
 const DEFAULT = QUERY_KEY.DEFAULT;

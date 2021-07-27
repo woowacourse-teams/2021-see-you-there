@@ -1,10 +1,10 @@
 import React, { useState, createContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
 import { httpRequest, storage } from '../utils';
-import { API_URL, STORAGE_KEY, ROUTE, STATUS, PUBLIC_PATHS, QUERY_KEY } from '../constants';
+import { API_URL, STORAGE_KEY, ROUTE, STATUS, QUERY_KEY } from '../constants';
 
 const INITIAL_TOKEN = storage.local.get(STORAGE_KEY.TOKEN);
 
@@ -15,8 +15,17 @@ const INITIAL_STATE = {
   token: null,
 };
 
-const fetchUserInfo = async ({ queryKey }) => {
-  const [_, accessToken] = queryKey;
+const fetchUserAddressList = async (accessToken) => {
+  const response = await httpRequest.get(API_URL.ADDRESS, { accessToken });
+
+  // TODO: 에러 처리
+  if (response.status === 401) {
+    throw new Error(STATUS.INVALID_TOKEN_ERROR);
+  }
+  return await response.json();
+};
+
+const fetchUserInfo = async (accessToken) => {
   const response = await httpRequest.get(API_URL.TOKEN_VALIDATION, { accessToken });
 
   if (response.status === 401) {
@@ -29,7 +38,6 @@ export const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
   const history = useHistory();
-  const { pathname } = useLocation();
   const [user, setUser] = useState(INITIAL_STATE);
   const { id, nickname, profileImage, token } = user;
   const isLogin = !!token;
@@ -50,16 +58,23 @@ export const UserContextProvider = ({ children }) => {
     history.push(ROUTE.LOGIN.PATH);
   };
 
-  const { data: userInfo, error } = useQuery([QUERY_KEY.TOKEN_VALIDATION, INITIAL_TOKEN], fetchUserInfo, {
-    enabled: !!INITIAL_TOKEN,
-  });
+  const { data: userInfo, errorTokenValidation } = useQuery(
+    QUERY_KEY.TOKEN_VALIDATION,
+    () => fetchUserInfo(INITIAL_TOKEN),
+    {
+      enabled: !!INITIAL_TOKEN,
+    }
+  );
 
-  useEffect(() => {
-    // if (PUBLIC_PATHS.map((v) => v.PATH).includes(pathname)) {
-    //   return;
-    // }
-    // forceLogout();
-  }, []);
+  const { data: userAddressList, errorUserAddressList } = useQuery(
+    QUERY_KEY.ADDRESS,
+    () => fetchUserAddressList(token),
+    {
+      enabled: isLogin,
+    }
+  );
+
+  // TODO: 접근제한 페이지 관리 추가하기
 
   useEffect(() => {
     if (!userInfo) {
@@ -69,13 +84,14 @@ export const UserContextProvider = ({ children }) => {
   }, [userInfo]);
 
   useEffect(() => {
-    if (!error) {
-      return;
-    }
-    if (error.message === STATUS.INVALID_TOKEN_ERROR) {
+    const hasInvalidTokenError = [errorTokenValidation, errorUserAddressList]
+      .map((error) => error?.message)
+      .includes(STATUS.INVALID_TOKEN_ERROR);
+
+    if (hasInvalidTokenError) {
       forceLogout();
     }
-  }, [error]);
+  }, [errorTokenValidation, errorUserAddressList]);
 
   return (
     <UserContext.Provider
@@ -87,11 +103,11 @@ export const UserContextProvider = ({ children }) => {
         nickname,
         profileImage,
         token,
-
-        isLogin,
+        userAddressList,
 
         login,
         logout,
+        isLogin,
       }}
     >
       {children}

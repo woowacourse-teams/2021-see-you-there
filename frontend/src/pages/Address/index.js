@@ -1,41 +1,15 @@
-import React, { useContext, useEffect } from 'react';
-import { useQuery } from 'react-query';
+import React, { useContext } from 'react';
 
 import { UserAddressAddForm } from './UserAddressAddForm';
 import { ContentArea } from './style';
 import { AddFormContextProvider, UserContext } from '../../contexts';
-import { httpRequest } from '../../utils';
-import { API_URL, ROUTE, STATUS, QUERY_KEY } from '../../constants';
+import { useMutateAddress } from '../../hooks';
 
 const formId = 'USER_ADDRESS';
 
-const fetchAddressList = async ({ queryKey }) => {
-  const [_, accessToken] = queryKey;
-  const response = await httpRequest.get(API_URL.ADDRESS, { accessToken });
-
-  // TODO: 에러 처리
-  if (response.status === 401) {
-    throw new Error(STATUS.INVALID_TOKEN_ERROR);
-  }
-  return await response.json();
-};
-
 export const AddressPage = () => {
-  const { token, forceLogout } = useContext(UserContext);
-
-  // TODO: UserContext 안으로 이동
-  const { data: addressList, error } = useQuery([QUERY_KEY.ADDRESS_SEARCH, token], fetchAddressList, {
-    enabled: !!token,
-  });
-
-  useEffect(() => {
-    if (!error) {
-      return;
-    }
-    if (error.message === STATUS.INVALID_TOKEN_ERROR) {
-      forceLogout();
-    }
-  }, [error]);
+  const { userAddressList } = useContext(UserContext);
+  const { deleteAddress } = useMutateAddress();
 
   return (
     <main>
@@ -45,10 +19,12 @@ export const AddressPage = () => {
           <UserAddressAddForm />
         </AddFormContextProvider>
         <ul>
-          {addressList?.map((address) => (
+          {userAddressList?.map((address) => (
             <li key={address.id}>
-              <span>{address.name}</span>
-              <span>{address.address}</span>
+              <button onClick={() => deleteAddress(address.id)}>
+                <span>{address.name}</span>
+                <span>{address.address}</span>
+              </button>
             </li>
           ))}
         </ul>

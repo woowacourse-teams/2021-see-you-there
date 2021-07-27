@@ -6,6 +6,7 @@ public class Location {
     private final double y;
     private final String address;
     private final String roadAddress;
+    private final String placeUrl;
     private final String name;
 
     private Location(Builder builder) {
@@ -13,6 +14,7 @@ public class Location {
         y = builder.y;
         address = builder.address;
         roadAddress = builder.roadAddress;
+        placeUrl = builder.placeUrl;
         name = builder.name;
     }
 
@@ -32,6 +34,10 @@ public class Location {
         return roadAddress;
     }
 
+    public String getPlaceUrl() {
+        return placeUrl;
+    }
+
     public String getName() {
         return name;
     }
@@ -42,6 +48,7 @@ public class Location {
         private double y = 0;
         private String address = "";
         private String roadAddress = "";
+        private String placeUrl = "";
         private String name = "";
 
         public Builder() {
@@ -64,6 +71,11 @@ public class Location {
 
         public Builder roadAddress(String roadAddress) {
             this.roadAddress = roadAddress;
+            return this;
+        }
+
+        public Builder placeUrl(String placeUrl) {
+            this.placeUrl = placeUrl;
             return this;
         }
 

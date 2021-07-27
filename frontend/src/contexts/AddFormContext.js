@@ -32,7 +32,6 @@ export const AddFormContextProvider = ({ formId, children }) => {
 
   const { data: addressList } = useQuery(['주소검색', addressKeyword], fetchAddressSearch, {
     enabled: !!addressKeyword,
-    staleTime: Infinity,
   });
 
   const isComplete = name && address.addressName && address.x && address.y && !noticeMessage;

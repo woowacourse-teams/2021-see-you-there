@@ -11,6 +11,12 @@ import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
 export const App = () => {
   const queryClient = new QueryClient();
 
+  queryClient.setDefaultOptions({
+    queries: {
+      staleTime: Infinity,
+    },
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
       <Router>

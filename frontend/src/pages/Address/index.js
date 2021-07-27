@@ -25,7 +25,6 @@ export const AddressPage = () => {
 
   const { data: addressList, error } = useQuery(['주소목록', token], fetchAddressList, {
     enabled: !!token,
-    staleTime: Infinity,
   });
 
   useEffect(() => {

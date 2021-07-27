@@ -1,0 +1,36 @@
+= Rest Docs API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+:default-path: build/generated-snippets
+
+.API Docs
+
+# 버스 경로
+
+## request
+include::{default-path}/bus/http-request.adoc[]
+
+## response
+include::{default-path}/bus/http-response.adoc[]
+
+# 지하철 경로
+
+## request
+include::{default-path}/subway/http-request.adoc[]
+
+## response
+include::{default-path}/subway/http-response.adoc[]
+
+# 버스-지하철 환승 경로
+
+## request
+include::{default-path}/transfer/http-request.adoc[]
+
+## response
+include::{default-path}/transfer/http-response.adoc[]

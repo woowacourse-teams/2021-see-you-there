@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 
 import { UserContext } from '../../contexts';
 import { httpRequest } from '../../utils';
-import { API_END_POINT, ROUTE } from '../../constants';
+import { API_END_POINT, QUERY_KEY, ROUTE } from '../../constants';
 
 const fetchUserInfo = async ({ queryKey }) => {
   const [_, pathname, search] = queryKey;
@@ -18,7 +18,7 @@ export const OAuthPage = () => {
   const { pathname, search } = useLocation();
   const history = useHistory();
 
-  const { data: userInfo } = useQuery(['소셜로그인', pathname, search], fetchUserInfo, {
+  const { data: userInfo } = useQuery([QUERY_KEY.O_AUTH, pathname, search], fetchUserInfo, {
     enabled: pathname === ROUTE.LOGIN_KAKAO.PATH,
   });
 

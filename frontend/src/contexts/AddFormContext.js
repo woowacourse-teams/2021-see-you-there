@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 
 import { useModal } from '../hooks';
 import { httpRequest } from '../utils';
-import { API_URL, INPUT, MESSAGE } from '../constants';
+import { API_URL, INPUT, MESSAGE, QUERY_KEY } from '../constants';
 
 export const AddFormContext = createContext();
 
@@ -30,7 +30,7 @@ export const AddFormContextProvider = ({ formId, children }) => {
   const [noticeMessage, setNoticeMessage] = useState(INITIAL_STATE.NOTICE_MESSAGE);
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { data: addressList } = useQuery(['주소검색', addressKeyword], fetchAddressSearch, {
+  const { data: addressList } = useQuery([QUERY_KEY.ADDRESS_SEARCH, addressKeyword], fetchAddressSearch, {
     enabled: !!addressKeyword,
   });
 

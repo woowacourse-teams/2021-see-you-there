@@ -5,7 +5,7 @@ import { UserAddressAddForm } from './UserAddressAddForm';
 import { ContentArea } from './style';
 import { AddFormContextProvider, UserContext } from '../../contexts';
 import { httpRequest } from '../../utils';
-import { API_URL, ROUTE, STATUS } from '../../constants';
+import { API_URL, ROUTE, STATUS, QUERY_KEY } from '../../constants';
 
 const formId = 'USER_ADDRESS';
 
@@ -23,7 +23,8 @@ const fetchAddressList = async ({ queryKey }) => {
 export const AddressPage = () => {
   const { token, forceLogout } = useContext(UserContext);
 
-  const { data: addressList, error } = useQuery(['주소목록', token], fetchAddressList, {
+  // TODO: UserContext 안으로 이동
+  const { data: addressList, error } = useQuery([QUERY_KEY.ADDRESS_SEARCH, token], fetchAddressList, {
     enabled: !!token,
   });
 
@@ -35,8 +36,6 @@ export const AddressPage = () => {
       forceLogout();
     }
   }, [error]);
-
-  console.log(addressList);
 
   return (
     <main>

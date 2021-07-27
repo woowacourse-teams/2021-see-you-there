@@ -1,4 +1,4 @@
-export { API_DOMAIN, API_END_POINT, API_URL, STATUS } from './api';
+export { API_DOMAIN, API_END_POINT, API_URL, STATUS, QUERY_KEY } from './api';
 export { INPUT, MESSAGE, PARTICIPANT, POBI_POINT, STORAGE_KEY } from './domain';
 export { HTML, PIN_Y_ANCHOR, MAP_BOUNDS_DIFFS, MAP_BOUNDS_PADDING } from './kakaoMap';
 export { MOCK_PARTICIPANT_LIST, MOCK_ADDRESS_LIST, MOCK_MIDPOINT } from './mock';

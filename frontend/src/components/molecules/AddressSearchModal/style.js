@@ -9,7 +9,6 @@ export const Top = styled.div`
 
   & > span {
     font-size: 0.75rem;
-    letter-spacing: -0.03rem;
     padding-left: 0.5rem;
     color: ${COLOR.PRIMARY_LIGHT};
   }

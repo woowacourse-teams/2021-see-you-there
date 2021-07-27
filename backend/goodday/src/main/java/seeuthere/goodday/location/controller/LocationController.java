@@ -18,7 +18,7 @@ import seeuthere.goodday.location.dto.response.UtilityResponse;
 import seeuthere.goodday.location.service.LocationService;
 
 @RestController
-@RequestMapping("/api/location")
+@RequestMapping("/api/locations")
 public class LocationController {
 
     private final LocationService locationService;

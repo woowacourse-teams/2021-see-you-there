@@ -31,7 +31,7 @@ public class MapTest extends AcceptanceTest {
                     )
                 )
             )
-            .when().get("api/location/coordinate?address=" + BASIC_ADDRESS)
+            .when().get("api/locations/coordinate?address=" + BASIC_ADDRESS)
             .then().assertThat().statusCode(200);
     }
 

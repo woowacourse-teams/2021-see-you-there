@@ -11,18 +11,8 @@
 
 .API Docs
 
-link:{default-path}/axis[Axis RestDocs]
+link:{default-path}/location[Location RestDocs]
 
-link:{default-path}/coordinate[Coordinate RestDocs]
-
-link:{default-path}/keyword[Keyword RestDocs]
-
-link:{default-path}/midPoint[MidPoint RestDocs]
-
-link:{default-path}/bus[Bus Path RestDocs]
-
-link:{default-path}/subway[Subway Path RestDocs]
-
-link:{default-path}/transfer[Transfer Path RestDocs]
+link:{default-path}/path[Path RestDocs]
 
 link:{default-path}member[Member RestDocs]

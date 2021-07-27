@@ -135,7 +135,7 @@ export const useMidpoint = () => {
       return;
     }
 
-    const markers = categoryPlace.data.map(({ x, y, placeName: title, url }) => {
+    const markers = categoryPlace.map(({ x, y, placeName: title, url }) => {
       return getMarker({
         x,
         y,

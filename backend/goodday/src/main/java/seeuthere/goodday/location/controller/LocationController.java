@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import seeuthere.goodday.location.dto.request.LocationsRequest;
 import seeuthere.goodday.location.dto.response.LocationResponse;
 import seeuthere.goodday.location.dto.response.MiddlePointResponse;
-import seeuthere.goodday.location.dto.response.ResponseFormat;
 import seeuthere.goodday.location.dto.response.SpecificLocationResponse;
 import seeuthere.goodday.location.dto.response.UtilityResponse;
 import seeuthere.goodday.location.service.LocationService;
@@ -28,31 +27,31 @@ public class LocationController {
     }
 
     @GetMapping("/address")
-    public ResponseEntity<ResponseFormat<SpecificLocationResponse>> findAddress(
+    public ResponseEntity<List<SpecificLocationResponse>> findAddress(
         @RequestParam double x, @RequestParam double y) {
         List<SpecificLocationResponse> apiLocationDocuments = locationService.findAddress(x, y);
-        return ResponseEntity.ok(new ResponseFormat<>(apiLocationDocuments));
+        return ResponseEntity.ok(apiLocationDocuments);
     }
 
     @GetMapping("/coordinate")
-    public ResponseEntity<ResponseFormat<LocationResponse>> findAxis(@RequestParam String address) {
+    public ResponseEntity<List<LocationResponse>> findAxis(@RequestParam String address) {
         List<LocationResponse> locations = locationService.findAxis(address);
-        return ResponseEntity.ok(new ResponseFormat<>(locations));
+        return ResponseEntity.ok(locations);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ResponseFormat<UtilityResponse>> findBasicUtility(
+    public ResponseEntity<List<UtilityResponse>> findBasicUtility(
         @RequestParam String keyword) {
         List<UtilityResponse> documents = locationService.findSearch(keyword);
-        return ResponseEntity.ok(new ResponseFormat<>(documents));
+        return ResponseEntity.ok(documents);
     }
 
     @GetMapping("/utility/{category}")
-    public ResponseEntity<ResponseFormat<UtilityResponse>> findUtility(
+    public ResponseEntity<List<UtilityResponse>> findUtility(
         @PathVariable String category,
         @RequestParam double x, @RequestParam double y) {
         List<UtilityResponse> documents = locationService.findUtility(category, x, y);
-        return ResponseEntity.ok(new ResponseFormat<>(documents));
+        return ResponseEntity.ok(documents);
     }
 
     @PostMapping("/midPoint")

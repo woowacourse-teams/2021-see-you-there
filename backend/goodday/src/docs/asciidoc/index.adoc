@@ -11,8 +11,8 @@
 
 .API Docs
 
-link:{default-path}/location[Location RestDocs]
+link:{default-path}/locations[Locations RestDocs]
 
-link:{default-path}/path[Path RestDocs]
+link:{default-path}/paths[Paths RestDocs]
 
 link:{default-path}member[Member RestDocs]

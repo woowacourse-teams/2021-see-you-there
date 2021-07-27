@@ -146,10 +146,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
             .filter(
                 document(identifier,
                     preprocessRequest(prettyPrint()),
-                    preprocessResponse(prettyPrint()),
-                    responseFields(
-                        subsectionWithPath("data").description(description)
-                    )
+                    preprocessResponse(prettyPrint())
                 )
             )
             .when().get(path)

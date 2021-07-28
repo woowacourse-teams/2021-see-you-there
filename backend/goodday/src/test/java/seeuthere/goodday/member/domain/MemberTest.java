@@ -124,7 +124,7 @@ class MemberTest {
 
         assertThat(friends.size()).isEqualTo(2);
         assertThat(friends.stream()
-            .map(FriendResponse::getName)
+            .map(FriendResponse::getNickname)
             .collect(Collectors.toList()
             ).containsAll(Arrays.asList(심바.getName(), 멍토.getName()))).isTrue();
     }

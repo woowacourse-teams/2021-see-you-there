@@ -138,7 +138,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         FriendResponse response = postResponse("member/friend-add", FRIEND_API_PATH, request)
             .as(FriendResponse.class);
 
-        assertThat(response.getName()).isEqualTo(하루.getName());
+        assertThat(response.getNickname()).isEqualTo(하루.getName());
         assertThat(response.getProfileImage()).isEqualTo(하루.getProfileImage());
     }
 
@@ -151,7 +151,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
         assertThat(response.size()).isEqualTo(2);
         assertThat(response.stream()
-            .map(FriendResponse::getName)
+            .map(FriendResponse::getNickname)
             .collect(Collectors.toList())
             .containsAll(Arrays.asList(멍토.getName(), 심바.getName()))).isTrue();
     }

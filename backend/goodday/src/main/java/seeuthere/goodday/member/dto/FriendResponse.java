@@ -7,7 +7,7 @@ import seeuthere.goodday.member.domain.Member;
 public class FriendResponse {
 
     private String memberId;
-    private String name;
+    private String nickname;
     private String profileImage;
     private List<Address> addresses;
 
@@ -20,10 +20,10 @@ public class FriendResponse {
             friend.getAddresses());
     }
 
-    public FriendResponse(String memberId, String name, String profileImage,
+    public FriendResponse(String memberId, String nickname, String profileImage,
         List<Address> addresses) {
         this.memberId = memberId;
-        this.name = name;
+        this.nickname = nickname;
         this.profileImage = profileImage;
         this.addresses = addresses;
     }
@@ -32,8 +32,8 @@ public class FriendResponse {
         return memberId;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
     public String getProfileImage() {

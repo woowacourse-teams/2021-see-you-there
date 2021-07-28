@@ -1,10 +1,12 @@
 import React, { useState, createContext, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 
 import { useModal } from '../hooks';
-import { INPUT } from '../constants';
+import { httpRequest } from '../utils';
+import { API_URL, INPUT, MESSAGE, QUERY_KEY } from '../constants';
 
-export const ParticipantAddFormContext = createContext();
+export const AddFormContext = createContext();
 
 const INITIAL_STATE = {
   NAME: '',
@@ -13,7 +15,14 @@ const INITIAL_STATE = {
   NOTICE_MESSAGE: '',
 };
 
-export const ParticipantAddFormContextProvider = ({ children }) => {
+const fetchAddressSearch = async ({ queryKey }) => {
+  const [_, keyword] = queryKey;
+  const response = await httpRequest.get(API_URL.ADDRESS_SEARCH(keyword));
+
+  return await response.json();
+};
+
+export const AddFormContextProvider = ({ formId, children }) => {
   const formRef = useRef(null);
   const [name, setName] = useState(INITIAL_STATE.NAME);
   const [address, setAddress] = useState(INITIAL_STATE.ADDRESS);
@@ -21,10 +30,14 @@ export const ParticipantAddFormContextProvider = ({ children }) => {
   const [noticeMessage, setNoticeMessage] = useState(INITIAL_STATE.NOTICE_MESSAGE);
   const { isModalOpen, openModal, closeModal } = useModal();
 
+  const { data: addressList } = useQuery([QUERY_KEY.ADDRESS_SEARCH, addressKeyword], fetchAddressSearch, {
+    enabled: !!addressKeyword,
+  });
+
   const isComplete = name && address.addressName && address.x && address.y && !noticeMessage;
 
-  const focusName = () => formRef.current[INPUT.NAME.KEY].focus();
-  const focusAddress = () => formRef.current[INPUT.ADDRESS.KEY].focus();
+  const focusName = () => formRef.current[INPUT[formId].NAME.KEY].focus();
+  const focusAddress = () => formRef.current[INPUT[formId].ADDRESS.KEY].focus();
 
   const escapeModal = () => {
     focusAddress();
@@ -39,8 +52,11 @@ export const ParticipantAddFormContextProvider = ({ children }) => {
   };
 
   return (
-    <ParticipantAddFormContext.Provider
+    <AddFormContext.Provider
       value={{
+        INPUT: INPUT[formId],
+        MESSAGE: MESSAGE[formId],
+
         formRef,
         isComplete,
         resetForm,
@@ -55,6 +71,7 @@ export const ParticipantAddFormContextProvider = ({ children }) => {
 
         addressKeyword,
         setAddressKeyword,
+        addressList,
 
         noticeMessage,
         setNoticeMessage,
@@ -67,10 +84,11 @@ export const ParticipantAddFormContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </ParticipantAddFormContext.Provider>
+    </AddFormContext.Provider>
   );
 };
 
-ParticipantAddFormContextProvider.propTypes = {
+AddFormContextProvider.propTypes = {
+  formId: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };

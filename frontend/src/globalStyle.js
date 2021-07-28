@@ -30,7 +30,7 @@ const GlobalStyle = createGlobalStyle`
 
     font-family: 'NanumSquareRound', sans-serif;
     color: ${COLOR.PARAGRAPH};
-    letter-spacing: -0.01rem;
+    letter-spacing: -0.03rem;
   }
 
   html, body {
@@ -66,7 +66,6 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.1rem;
     color: ${COLOR.HEADING};
     text-align: center;
-    letter-spacing: -0.05rem;
   }
 
   ul {
@@ -123,7 +122,6 @@ const GlobalStyle = createGlobalStyle`
       padding: 0.25rem 0.75rem;
       font-size: 0.75rem;
       color: ${COLOR.PARAGRAPH};
-      letter-spacing: -0.03rem;
     }
   }
 
@@ -163,7 +161,6 @@ const GlobalStyle = createGlobalStyle`
       padding: 0.25rem 0.5rem;
       color: ${COLOR.PARAGRAPH};
       font-size: 0.5rem;
-      letter-spacing: -0.03rem;
 
       &::before {
         content: "";

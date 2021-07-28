@@ -3,13 +3,13 @@ import React, { useContext, useEffect } from 'react';
 import { ParticipantList, Icon } from '../../components';
 import { MapViewArea, Chips, Chip, MapView, ContentArea, ListSection, ResultSection } from './style';
 import { ParticipantContext, MapViewContext } from '../../contexts';
-import { useMapViewApi, useMidpoint, useQueryMidpoint } from '../../hooks';
-import { COLOR } from '../../constants';
+import { useMapViewApi, useMidpoint } from '../../hooks';
+import { COLOR, QUERY_KEY } from '../../constants';
 
-const DEFAULT = '전체보기';
-const CAFE = '카페';
-const DINING = '음식점';
-const PARTY = '문화시설';
+const DEFAULT = QUERY_KEY.DEFAULT;
+const CAFE = QUERY_KEY.CAFE;
+const DINING = QUERY_KEY.DINING;
+const PARTY = QUERY_KEY.PARTY;
 
 const CHIP_LIST = [
   { category: DEFAULT, categoryIcon: Icon.Map },

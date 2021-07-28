@@ -14,11 +14,17 @@ public class Address {
     @Id
     @GeneratedValue
     @Column(name = "ADDRESS_ID")
-    Long id;
+    private Long id;
 
-    String name;
+    private String nickname;
 
-    String address;
+    private String addressName;
+
+    private String fullAddress;
+
+    private Double x;
+
+    private Double y;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
@@ -28,19 +34,26 @@ public class Address {
 
     }
 
-    public Address(Long id, String name, String address) {
+    public Address(String nickname, String addressName, String fullAddress, Double x, Double y) {
+        this(null, nickname, addressName, fullAddress, x, y);
+    }
+
+    public Address(Long id, String nickname, String addressName, String fullAddress, Double x,
+        Double y) {
         this.id = id;
-        this.name = name;
-        this.address = address;
+        this.nickname = nickname;
+        this.addressName = addressName;
+        this.fullAddress = fullAddress;
+        this.x = x;
+        this.y = y;
     }
 
-    public Address(String name, String address) {
-        this(null, name, address);
-    }
-
-    public Address update(String name, String address) {
-        this.name = name;
-        this.address = address;
+    public Address update(Address address) {
+        this.nickname = address.getNickname();
+        this.addressName = address.getAddressName();
+        this.fullAddress = address.getFullAddress();
+        this.x = address.getX();
+        this.y = address.getY();
 
         return this;
     }
@@ -49,16 +62,24 @@ public class Address {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAddressName() {
+        return addressName;
     }
 
-    public Member getMember() {
-        return member;
+    public String getFullAddress() {
+        return fullAddress;
+    }
+
+    public Double getX() {
+        return x;
+    }
+
+    public Double getY() {
+        return y;
     }
 
     public void setMember(Member member) {

@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import seeuthere.goodday.AcceptanceTest;
@@ -69,7 +70,8 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("멤버 수정 테스트")
     @Test
     public void memberUpdate() {
-        MemberRequest request = new MemberRequest("달라진 와이비", "changedImage", 와이비.getMemberId());
+        MemberRequest request =
+            new MemberRequest("달라진 와이비", "changedImage", 와이비.getMemberId());
 
         putResponse("member/update", MEMBER_API_PATH, request);
 
@@ -82,44 +84,48 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("멤버의 주소를 조회한다.")
     @Test
     public void getAddress() {
-        List<AddressResponse> responses = getResponse("member/address-info", ADDRESS_API_PATH)
+        List<AddressResponse> responses =
+            getResponse("member/address-info", ADDRESS_API_PATH)
             .body().jsonPath().getList(".", AddressResponse.class);
 
         assertThat(responses.size()).isEqualTo(1);
-        assertThat(responses.get(0).getName()).isEqualTo(와이비집.getName());
-        assertThat(responses.get(0).getAddress()).isEqualTo(와이비집.getAddress());
+        assertThat(responses.get(0).getNickname()).isEqualTo(와이비집.getNickname());
+        assertThat(responses.get(0).getAddressName()).isEqualTo(와이비집.getAddressName());
     }
 
     @DisplayName("멤버의 주소를 추가한다")
     @Test
     @Transactional
     public void addAddress() {
-        AddressRequest request = new AddressRequest("회사", "서울시 송파구");
+        AddressRequest request = new AddressRequest("회사",
+            "서울시 송파구", "서울시 송파구 어쩌구", 123.33, 567.89);
         postResponse("member/address-add", ADDRESS_API_PATH,
             request)
             .as(AddressResponse.class);
 
         Member member = memberService.find(와이비.getId());
         Address expectAddress = member.getAddresses().stream()
-            .filter(a -> a.getName().equals(request.getName()))
+            .filter(a -> a.getNickname().equals(request.getNickname()))
             .findFirst()
             .orElseThrow();
 
         assertThat(expectAddress.getId()).isEqualTo(2L);
-        assertThat(expectAddress.getName()).isEqualTo(request.getName());
-        assertThat(expectAddress.getAddress()).isEqualTo(request.getAddress());
+        assertThat(expectAddress.getNickname()).isEqualTo(request.getNickname());
+        assertThat(expectAddress.getAddressName()).isEqualTo(request.getAddressName());
     }
 
     @DisplayName("멤버의 주소를 수정한다.")
     @Test
     public void updateAddress() {
-        AddressUpdateRequest request = new AddressUpdateRequest(1L, "이사간 집", "이사간 주소");
+        AddressUpdateRequest request = new AddressUpdateRequest(
+            1L, "이사간 집", "이사간 주소",
+            "이사간 주소 디테일", 123.4, 123.7);
         AddressResponse response = putResponse("member/address-update", ADDRESS_API_PATH, request)
             .as(AddressResponse.class);
 
         assertThat(response.getId()).isEqualTo(request.getId());
-        assertThat(response.getName()).isEqualTo(request.getName());
-        assertThat(response.getAddress()).isEqualTo(request.getAddress());
+        assertThat(response.getNickname()).isEqualTo(request.getNickname());
+        assertThat(response.getAddressName()).isEqualTo(request.getAddressName());
     }
 
     @DisplayName("멤버의 주소를 삭제한다.")
@@ -209,7 +215,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     preprocessResponse(prettyPrint())
                 )
             )
-            .header("Authorization", "Bearer " + TOKEN)
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE);
     }
 }

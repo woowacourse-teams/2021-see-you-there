@@ -5,31 +5,51 @@ import seeuthere.goodday.member.domain.Address;
 public class AddressResponse {
 
     private Long id;
-    private String name;
-    private String address;
+    private String nickname;
+    private String addressName;
+    private String fullAddress;
+    private Double x;
+    private Double y;
 
     public AddressResponse() {
     }
 
     public AddressResponse(Address address) {
-        this(address.getId(), address.getName(), address.getAddress());
+        this(address.getId(), address.getNickname(), address.getAddressName(),
+            address.getFullAddress(), address.getX(), address.getY());
     }
 
-    public AddressResponse(Long id, String name, String address) {
+    public AddressResponse(Long id, String nickname, String addressName, String fullAddress, Double x,
+        Double y) {
         this.id = id;
-        this.name = name;
-        this.address = address;
+        this.nickname = nickname;
+        this.addressName = addressName;
+        this.fullAddress = fullAddress;
+        this.x = x;
+        this.y = y;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAddressName() {
+        return addressName;
+    }
+
+    public String getFullAddress() {
+        return fullAddress;
+    }
+
+    public Double getX() {
+        return x;
+    }
+
+    public Double getY() {
+        return y;
     }
 }

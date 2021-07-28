@@ -17,6 +17,8 @@ import seeuthere.goodday.member.dto.AddressDeleteRequest;
 import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.AddressResponse;
 import seeuthere.goodday.member.dto.AddressUpdateRequest;
+import seeuthere.goodday.member.dto.FriendRequest;
+import seeuthere.goodday.member.dto.FriendResponse;
 import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
 
@@ -94,7 +96,27 @@ public class MemberService {
         Member member = find(id);
         member.deleteAddress(request.getId());
         addressRepository.deleteById(request.getId());
+    }
 
+    @Transactional
+    public void addFriend(String id, FriendRequest friendRequest) {
+        Member member = find(id);
+        Member friend = find(friendRequest.getId());
+        member.addFriend(friend);
+    }
 
+    @Transactional(readOnly = true)
+    public List<FriendResponse> findFriends(String id) {
+        Member member = find(id);
+        return member.getMemberFriends().stream()
+            .map(FriendResponse::new)
+            .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteFriend(String id, FriendRequest request) {
+        Member member = find(id);
+        Member friend = find(request.getId());
+        member.deleteFriend(friend);
     }
 }

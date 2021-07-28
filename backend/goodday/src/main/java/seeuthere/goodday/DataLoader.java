@@ -8,6 +8,8 @@ import seeuthere.goodday.member.dao.AddressRepository;
 import seeuthere.goodday.member.dao.MemberRepository;
 import seeuthere.goodday.member.domain.Address;
 import seeuthere.goodday.member.domain.Member;
+import seeuthere.goodday.member.dto.FriendRequest;
+import seeuthere.goodday.member.service.MemberService;
 
 @Component
 @Profile("test")
@@ -16,13 +18,15 @@ public class DataLoader implements CommandLineRunner {
     private final MemberRepository memberRepository;
     private final AddressRepository addressRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final MemberService memberService;
 
     public DataLoader(MemberRepository memberRepository,
         AddressRepository addressRepository,
-        JwtTokenProvider jwtTokenProvider) {
+        JwtTokenProvider jwtTokenProvider, MemberService memberService) {
         this.memberRepository = memberRepository;
         this.addressRepository = addressRepository;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.memberService = memberService;
     }
 
     @Override
@@ -33,7 +37,16 @@ public class DataLoader implements CommandLineRunner {
         member.addAddress(address);
         addressRepository.save(address);
 
-        String token = jwtTokenProvider.createToken(member.getId());
-        System.out.println(token);
+        Member member2 = new Member("12", "ab", "멍토", "image2");
+        Member member3 = new Member("123", "abc", "심바", "image3");
+        Member member4 = new Member("1", "a", "하루", "image4");
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+        memberRepository.save(member4);
+
+        System.out.println(jwtTokenProvider.createToken("1234"));
+
+        memberService.addFriend("1234", new FriendRequest("12"));
+        memberService.addFriend("1234", new FriendRequest("123"));
     }
 }

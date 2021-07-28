@@ -2,7 +2,9 @@ package seeuthere.goodday.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import seeuthere.goodday.member.dto.AddressDeleteRequest;
 import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.AddressResponse;
 import seeuthere.goodday.member.dto.AddressUpdateRequest;
+import seeuthere.goodday.member.dto.FriendRequest;
+import seeuthere.goodday.member.dto.FriendResponse;
 import seeuthere.goodday.member.service.MemberService;
 
 
@@ -90,5 +94,43 @@ class MemberTest {
 
         List<AddressResponse> addresses = memberService.findAddress("1234");
         assertThat(addresses.size()).isEqualTo(0);
+    }
+
+    @DisplayName("친구를 추가한다.")
+    @Test
+    void addFriend() {
+        FriendRequest request = new FriendRequest("1");
+        memberService.addFriend("1234", request);
+
+        Member member = memberService.find("1234");
+        Member friendMember = memberService.find("1");
+
+        assertThat(member.getFriends().size()).isEqualTo(2);
+        assertThat(
+            friendMember.getFriends().stream()
+                .anyMatch(friendShip -> friendShip.getFriend().getId().equals("1234"))
+        ).isTrue();
+    }
+
+    @DisplayName("친구를 조회한다")
+    @Test
+    void findFriends() {
+        List<FriendResponse> friends = memberService.findFriends("1234");
+
+        assertThat(friends.size()).isEqualTo(2);
+        assertThat(friends.stream()
+            .map(FriendResponse::getName)
+            .collect(Collectors.toList()
+            ).containsAll(Arrays.asList("심바", "멍토"))).isTrue();
+    }
+
+    @DisplayName("친구를 삭제한다")
+    @Test
+    void deleteFriend() {
+        memberService.deleteFriend("1234", new FriendRequest("12"));
+
+        Member member = memberService.find("1234");
+
+        assertThat(member.getMemberFriends().size()).isEqualTo(1);
     }
 }

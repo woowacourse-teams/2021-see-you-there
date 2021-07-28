@@ -17,3 +17,4 @@ export { Place } from './place';
 export { RemoveCircle } from './removeCircle';
 export { Search } from './search';
 export { SubmitRight } from './submitRight';
+export { Star } from './star';

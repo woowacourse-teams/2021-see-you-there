@@ -22,10 +22,10 @@ const fetchAddressSearch = async ({ queryKey }) => {
   return await response.json();
 };
 
-export const AddFormContextProvider = ({ formId, children }) => {
+export const AddFormContextProvider = ({ initialName, initialAddress, formId, children }) => {
   const formRef = useRef(null);
-  const [name, setName] = useState(INITIAL_STATE.NAME);
-  const [address, setAddress] = useState(INITIAL_STATE.ADDRESS);
+  const [name, setName] = useState(initialName ?? INITIAL_STATE.NAME);
+  const [address, setAddress] = useState(initialAddress ?? INITIAL_STATE.ADDRESS);
   const [addressKeyword, setAddressKeyword] = useState(INITIAL_STATE.ADDRESS_KEYWORD);
   const [noticeMessage, setNoticeMessage] = useState(INITIAL_STATE.NOTICE_MESSAGE);
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -89,6 +89,12 @@ export const AddFormContextProvider = ({ formId, children }) => {
 };
 
 AddFormContextProvider.propTypes = {
-  formId: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  formId: PropTypes.string.isRequired,
+  initialAddress: PropTypes.shape({
+    addressName: PropTypes.string,
+    x: PropTypes.number,
+    y: PropTypes.number,
+  }),
+  initialName: PropTypes.string,
 };

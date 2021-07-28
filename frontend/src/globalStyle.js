@@ -91,7 +91,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: transparent;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: ${COLOR.BORDER_HOVER};
+    background-color: ${COLOR.BORDER_LIGHT};
   }
 
   .tooltip-default {

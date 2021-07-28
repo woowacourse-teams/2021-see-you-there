@@ -23,8 +23,8 @@ export const useMutateAddress = () => {
     onError: forceLogout,
   });
 
-  const createAddress = ({ name, addressName }) => {
-    creation.mutate({ name, address: addressName });
+  const createAddress = ({ nickname, address }) => {
+    creation.mutate({ nickname, ...address });
   };
 
   /* 수정 */
@@ -41,8 +41,8 @@ export const useMutateAddress = () => {
     onError: forceLogout,
   });
 
-  const updateAddress = ({ id, name, addressName }) => {
-    update.mutate({ id, name, address: addressName });
+  const updateAddress = ({ id, nickname, address }) => {
+    update.mutate({ id, nickname, ...address });
   };
 
   /* 삭제 */

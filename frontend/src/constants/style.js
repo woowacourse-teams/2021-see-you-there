@@ -13,7 +13,7 @@ export const COLOR = {
   ON_PRIMARY: '#FFF',
   ON_ERROR: '#333',
   BORDER: '#EEE',
-  BORDER_HOVER: '#CCC',
+  BORDER_LIGHT: '#CCC',
   BORDER_DARK: '#AAA',
   PLACEHOLDER: '#999',
   ANCHOR: '#999',

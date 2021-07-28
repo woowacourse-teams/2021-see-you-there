@@ -1,15 +1,20 @@
+import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 
-import { AddressSearchModal, ButtonRound, Icon, Input, Notice } from '../../components';
+import { AddressSearchModal, Icon, InputUnderline, Notice } from '../../components';
 import { AddFormContext } from '../../contexts';
-import { useAddressNicknameInput, useAddressInput } from '../../hooks';
+import { useAddressNicknameInput, useAddressInput, useMutateAddress } from '../../hooks';
 import { AddForm, ButtonGroup } from './style';
 
-export const UserAddressAddForm = () => {
+export const UserAddressAddForm = (props) => {
+  const { editAddressId, handleCancel } = props;
   const { INPUT, MESSAGE, formRef, isComplete, noticeMessage, setNoticeMessage } = useContext(AddFormContext);
+  const { createAddress, updateAddress } = useMutateAddress();
 
-  const { name, handleChangeName, handleBlurName } = useAddressNicknameInput();
+  const { name: nickname, handleChangeName, handleBlurName } = useAddressNicknameInput();
   const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
+
+  const isEditing = !!editAddressId;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,29 +23,35 @@ export const UserAddressAddForm = () => {
       setNoticeMessage(MESSAGE.NOTICE_INCOMPLETE_FORM);
       return;
     }
-
-    // TODO: 내 주소관리 기능 추가
-    // console.log({ name, ...address });
+    if (isEditing) {
+      // TODO: 변경사항이 있을 경우에만 처리
+      // props로 original 내려주고 originalName === name, originalAddress 객체 === address 객체
+      // console.log({ id: editAddressId, nickname, address });
+      updateAddress({ id: editAddressId, nickname, address });
+    } else {
+      // console.log({ nickname, address });
+      createAddress({ nickname, address });
+    }
   };
 
   return (
-    <AddForm ref={formRef} onSubmit={handleSubmit}>
-      <Input
+    <AddForm ref={formRef}>
+      <InputUnderline
         name={INPUT.NAME.KEY}
         label={INPUT.NAME.LABEL}
-        value={name}
+        value={nickname}
         onChange={handleChangeName}
         onBlur={handleBlurName}
         placeholder={INPUT.NAME.PLACEHOLDER}
-        Icon={<Icon.Person />}
+        Icon={<Icon.Star width="18" />}
         autoFocus
       />
-      <Input
+      <InputUnderline
         name={INPUT.ADDRESS.KEY}
         label={INPUT.ADDRESS.LABEL}
         value={address.addressName}
         placeholder={INPUT.ADDRESS.PLACEHOLDER}
-        Icon={<Icon.Place />}
+        Icon={<Icon.Place width="18" />}
         onKeyPress={handleKeyPressAddress}
         onFocus={handleFocusAddress}
         onClick={handleClickAddress}
@@ -48,20 +59,19 @@ export const UserAddressAddForm = () => {
       />
       <AddressSearchModal />
       <Notice>{noticeMessage}</Notice>
-
       <ButtonGroup>
-        <ButtonRound type="button" size="small" Icon={<Icon.SubmitRight width="18" />} color="gray">
-          다음에 등록 하기
-        </ButtonRound>
-        <ButtonRound
-          type="submit"
-          size="small"
-          Icon={<Icon.SubmitRight width="18" color="#fff" />}
-          disabled={!isComplete}
-        >
-          내 주소 등록
-        </ButtonRound>
+        <button type="button" onClick={handleCancel}>
+          취소
+        </button>
+        <button type="submit" onClick={handleSubmit}>
+          확정
+        </button>
       </ButtonGroup>
     </AddForm>
   );
+};
+
+UserAddressAddForm.propTypes = {
+  editAddressId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  handleCancel: PropTypes.func.isRequired,
 };

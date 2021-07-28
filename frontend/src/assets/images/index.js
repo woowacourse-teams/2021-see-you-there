@@ -13,6 +13,8 @@ import drawingWelcome from './drawingWelcome.png';
 import logo from './logo.png';
 import logoKakao from './logoKakao.png';
 import logoNaver from './logoNaver.png';
+import home1 from './home1.png';
+import home2 from './home2.png';
 
 export {
   avatar1,
@@ -30,4 +32,6 @@ export {
   logo,
   logoKakao,
   logoNaver,
+  home1,
+  home2,
 };

@@ -28,7 +28,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
     void coordinate() {
         //given
         String basicAddress = "전북 삼성동 100";
-        String path = "api/location/coordinate?address=" + basicAddress;
+        String path = "api/locations/coordinate?address=" + basicAddress;
         String identifier = "coordinate";
         String description = "Coordinate";
 
@@ -45,7 +45,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
     void keyword() {
         // given
         String basicKeyword = "루터회관";
-        String path = "api/location/search?keyword=";
+        String path = "api/locations/search?keyword=";
         String identifier = "keyword";
         String description = "Keyword";
 
@@ -63,7 +63,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         // given
         String axisX = "128.9139734910702";
         String axisY = "37.94772297221625";
-        String path = "api/location/address?x=" + axisX + "&y=" + axisY;
+        String path = "api/locations/address?x=" + axisX + "&y=" + axisY;
         String identifier = "axis";
         String description = "Axis";
 
@@ -81,7 +81,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         String category = "카페";
         String xAxis = "126.895318461208";
         String yAxis = "37.4798477003537";
-        String path = "/api/location/utility/" + category + "?x=" + xAxis + "&y=" + yAxis;
+        String path = "/api/locations/utility/" + category + "?x=" + xAxis + "&y=" + yAxis;
         String identifier = "utility";
         String description = "Utility";
 
@@ -100,7 +100,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         String category = "없는거넣으면에러";
         String xAxis = "126.895318461208";
         String yAxis = "37.4798477003537";
-        String path = "/api/location/utility/" + category + "?x=" + xAxis + "&y=" + yAxis;
+        String path = "/api/locations/utility/" + category + "?x=" + xAxis + "&y=" + yAxis;
 
         //when
         ExtractableResponse<Response> response = RestAssured.given(this.spec).log().all()
@@ -119,7 +119,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
     @DisplayName("midPoint 테스트")
     void midPoint() {
         //given
-        String path = "/api/location/midPoint";
+        String path = "/api/locations/midPoint";
         LocationsDto locations = new LocationsDto();
         locations.add(new Point(126.93103838968054, 37.488456683299155));
         locations.add(new Point(126.8951914712376, 37.48025238823605));
@@ -146,10 +146,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
             .filter(
                 document(identifier,
                     preprocessRequest(prettyPrint()),
-                    preprocessResponse(prettyPrint()),
-                    responseFields(
-                        subsectionWithPath("data").description(description)
-                    )
+                    preprocessResponse(prettyPrint())
                 )
             )
             .when().get(path)

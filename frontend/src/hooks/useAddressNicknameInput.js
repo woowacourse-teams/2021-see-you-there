@@ -1,9 +1,8 @@
 import { useContext } from 'react';
 
-import { AddFormContext, ParticipantContext } from '../contexts';
+import { AddFormContext } from '../contexts';
 
-export const useParticipantNameInput = () => {
-  const { isLackParticipants } = useContext(ParticipantContext);
+export const useAddressNicknameInput = () => {
   const { INPUT, MESSAGE, name, setName, focusName, setNoticeMessage, resetNoticeMessage } = useContext(AddFormContext);
 
   const handleChangeName = (e) => {
@@ -25,7 +24,7 @@ export const useParticipantNameInput = () => {
     const name = e.target.value;
     const trimmedName = name.trim();
 
-    if (!trimmedName && !isLackParticipants) {
+    if (!trimmedName) {
       return;
     }
     resetNoticeMessage();

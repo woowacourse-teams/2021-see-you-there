@@ -56,7 +56,6 @@ export const Chip = styled.button`
 
   font-size: 0.75rem;
   border-radius: 2rem;
-  letter-spacing: -0.03rem;
   background-color: ${COLOR.BACKGROUND};
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 

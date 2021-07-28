@@ -4,7 +4,7 @@
   "description": "여기서만나(프론트엔드)",
   "main": "index.js",
   "scripts": {
-    "start": "eslint ./src/*.js && webpack serve --mode=development",
+    "start": "eslint src && webpack serve --mode=development",
     "build": "webpack --mode=production"
   },
   "contributors": [

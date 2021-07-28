@@ -1,18 +1,14 @@
 import React, { useContext } from 'react';
 
 import { AddressSearchModal, ButtonRound, Icon, Input, Notice } from '../../components';
-import { AddFormContext, ParticipantContext } from '../../contexts';
-import { useParticipantNameInput, useAddressInput } from '../../hooks';
+import { AddFormContext } from '../../contexts';
+import { useAddressNicknameInput, useAddressInput } from '../../hooks';
 import { AddForm, ButtonGroup } from './style';
-import { getId, getAvatarKey } from '../../utils';
-import { Image } from '../../assets';
 
-export const ParticipantAddForm = () => {
-  const { addParticipant, isFullParticipants } = useContext(ParticipantContext);
-  const { INPUT, MESSAGE, formRef, resetForm, isComplete, noticeMessage, setNoticeMessage } =
-    useContext(AddFormContext);
+export const UserAddressAddForm = () => {
+  const { INPUT, MESSAGE, formRef, isComplete, noticeMessage, setNoticeMessage } = useContext(AddFormContext);
 
-  const { name, handleChangeName, handleBlurName, focusName } = useParticipantNameInput();
+  const { name, handleChangeName, handleBlurName } = useAddressNicknameInput();
   const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
 
   const handleSubmit = (e) => {
@@ -22,22 +18,9 @@ export const ParticipantAddForm = () => {
       setNoticeMessage(MESSAGE.NOTICE_INCOMPLETE_FORM);
       return;
     }
-    if (isFullParticipants) {
-      // TODO: 스낵바 알림
-      return;
-    }
 
-    const newParticipant = {
-      id: getId(),
-      avatar: Image[getAvatarKey()],
-      name,
-      ...address,
-    };
-
-    addParticipant(newParticipant);
-    resetForm();
-    // TODO: DEVICE_WIDTH_TABLET 이상일 경우에만 focus
-    focusName();
+    // TODO: 내 주소관리 기능 추가
+    // console.log({ name, ...address });
   };
 
   return (
@@ -67,16 +50,16 @@ export const ParticipantAddForm = () => {
       <Notice>{noticeMessage}</Notice>
 
       <ButtonGroup>
-        <ButtonRound type="button" size="small" Icon={<Icon.People width="18" />} color="gray">
-          팔로잉 목록에서 선택
+        <ButtonRound type="button" size="small" Icon={<Icon.SubmitRight width="18" />} color="gray">
+          다음에 등록 하기
         </ButtonRound>
         <ButtonRound
           type="submit"
           size="small"
           Icon={<Icon.SubmitRight width="18" color="#fff" />}
-          disabled={!isComplete || isFullParticipants}
+          disabled={!isComplete}
         >
-          만날 사람 추가
+          내 주소 등록
         </ButtonRound>
       </ButtonGroup>
     </AddForm>

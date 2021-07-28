@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import { HomePage, LoginPage, LogoutPage, MidpointPage, OAuthPage } from './pages';
+import { HomePage, LoginPage, LogoutPage, MidpointPage, OAuthPage, WelcomePage, AddressPage } from './pages';
 import { NavBar } from './components';
 import { UserContextProvider, ParticipantContextProvider, MapViewContextProvider } from './contexts';
 import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
@@ -11,36 +11,46 @@ import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
 export const App = () => {
   const queryClient = new QueryClient();
 
+  queryClient.setDefaultOptions({
+    queries: {
+      staleTime: Infinity,
+    },
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
-      <UserContextProvider>
-        <Router>
+      <Router>
+        <UserContextProvider>
           <NavBar />
-          <Switch>
-            <Route exact path={ROUTE.HOME.PATH}>
-              <ParticipantContextProvider>
+          <ParticipantContextProvider>
+            <Switch>
+              <Route exact path={ROUTE.HOME.PATH}>
                 <HomePage />
-              </ParticipantContextProvider>
-            </Route>
-            <Route exact path={ROUTE.MIDPOINT.PATH}>
-              <ParticipantContextProvider>
+              </Route>
+              <Route exact path={ROUTE.MIDPOINT.PATH}>
                 <MapViewContextProvider>
                   <MidpointPage />
                 </MapViewContextProvider>
-              </ParticipantContextProvider>
-            </Route>
-            <Route exact path={ROUTE.LOGIN.PATH}>
-              <LoginPage />
-            </Route>
-            <Route exact path={ROUTE.LOGOUT.PATH}>
-              <LogoutPage />
-            </Route>
-            <Route path={[ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGIN_NAVER.PATH]}>
-              <OAuthPage />
-            </Route>
-          </Switch>
-        </Router>
-      </UserContextProvider>
+              </Route>
+              <Route exact path={ROUTE.LOGIN.PATH}>
+                <LoginPage />
+              </Route>
+              <Route exact path={ROUTE.LOGOUT.PATH}>
+                <LogoutPage />
+              </Route>
+              <Route path={[ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGIN_NAVER.PATH]}>
+                <OAuthPage />
+              </Route>
+              <Route exact path={ROUTE.WELCOME.PATH}>
+                <WelcomePage />
+              </Route>
+              <Route exact path={ROUTE.ADDRESS.PATH}>
+                <AddressPage />
+              </Route>
+            </Switch>
+          </ParticipantContextProvider>
+        </UserContextProvider>
+      </Router>
       <ReactQueryDevtools panelProps={REACT_QUERY_DEV_TOOL} />
     </QueryClientProvider>
   );

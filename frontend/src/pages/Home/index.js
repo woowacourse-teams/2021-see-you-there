@@ -4,9 +4,11 @@ import { useHistory } from 'react-router-dom';
 import { ParticipantAddForm } from './ParticipantAddForm';
 import { MapViewArea, MapView, ContentArea, AddSection, ListSection, BottomSection } from './style';
 import { ButtonRound, Icon, Confirm, ParticipantList } from '../../components';
-import { ParticipantContext, ParticipantAddFormContextProvider } from '../../contexts';
+import { ParticipantContext, AddFormContextProvider } from '../../contexts';
 import { useConfirm, useMapViewApi } from '../../hooks';
 import { MESSAGE, ROUTE, POBI_POINT } from '../../constants';
+
+const formId = 'PARTICIPANT';
 
 export const HomePage = () => {
   const { participants, removeParticipant, isLackParticipants } = useContext(ParticipantContext);
@@ -39,9 +41,9 @@ export const HomePage = () => {
         <ContentArea>
           <AddSection>
             <h2>만날 사람을 추가해보세요.</h2>
-            <ParticipantAddFormContextProvider>
+            <AddFormContextProvider formId={formId}>
               <ParticipantAddForm />
-            </ParticipantAddFormContextProvider>
+            </AddFormContextProvider>
           </AddSection>
 
           <ListSection>
@@ -66,7 +68,7 @@ export const HomePage = () => {
 
       {isConfirmOpen && (
         <Confirm onCancel={cancelConfirm} onApprove={approveConfirm}>
-          {MESSAGE.CONFIRM_PARTICIPANT_DELETE}
+          {MESSAGE[formId].CONFIRM_DELETE}
         </Confirm>
       )}
     </>

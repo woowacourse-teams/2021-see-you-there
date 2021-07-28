@@ -5,24 +5,21 @@ import { useQuery } from 'react-query';
 
 import { ParticipantContext } from '.';
 import { httpRequest } from '../utils';
-import { API_URL } from '../constants';
-
-const STATION = '지하철역';
-const MIDPOINT = '중간지점';
+import { API_URL, QUERY_KEY } from '../constants';
 
 const fetchMidpoint = async ({ queryKey }) => {
   const [_, participants] = queryKey;
   const locations = participants.map(({ x, y }) => ({ x, y }));
-  const res = await httpRequest.post(API_URL.MIDPOINT, { body: { locations } });
+  const response = await httpRequest.post(API_URL.MIDPOINT, { body: { locations } });
 
-  return await res.json();
+  return await response.json();
 };
 
 const fetchCategory = async ({ queryKey }) => {
   const [category, midpoint] = queryKey;
-  const res = await httpRequest.get(API_URL.CATEGORY(category, midpoint));
+  const response = await httpRequest.get(API_URL.CATEGORY(category, midpoint));
 
-  return await res.json();
+  return await response.json();
 };
 
 export const MapViewContext = createContext();
@@ -34,21 +31,18 @@ export const MapViewContextProvider = ({ children }) => {
   const mapViewRef = useRef(null);
   const [category, setCategory] = useState(null);
 
-  const { data: midpoint, isLoading: isMidpointLoading } = useQuery([MIDPOINT, participants], fetchMidpoint, {
+  const { data: midpoint, isLoading: isMidpointLoading } = useQuery([QUERY_KEY.MIDPOINT, participants], fetchMidpoint, {
     enabled: pathname === '/midpoint',
-    staleTime: Infinity,
   });
 
-  const { data: stations, isLoading: isStationsLoading } = useQuery([STATION, midpoint], fetchCategory, {
+  const { data: stations, isLoading: isStationsLoading } = useQuery([QUERY_KEY.STATION, midpoint], fetchCategory, {
     enabled: !!midpoint,
-    staleTime: Infinity,
   });
 
   const [station] = stations?.data || [];
 
   const { data: categoryPlace, isLoading: isCategoryPlaceLoading } = useQuery([category, station], fetchCategory, {
     enabled: !!station && !!category,
-    staleTime: Infinity,
   });
 
   return (

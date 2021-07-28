@@ -6,6 +6,7 @@ public class APIUtilityDocument {
     private String distance;
     private String addressName;
     private String roadAddressName;
+    private String placeUrl;
     private double x;
     private double y;
 
@@ -27,6 +28,10 @@ public class APIUtilityDocument {
 
     public String getRoadAddressName() {
         return roadAddressName;
+    }
+
+    public String getPlaceUrl() {
+        return placeUrl;
     }
 
     public double getX() {

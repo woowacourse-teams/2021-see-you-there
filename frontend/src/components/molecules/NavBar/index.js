@@ -14,8 +14,11 @@ export const NavBar = () => {
   const { pathname } = useLocation();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
-  const isOAuth = [ROUTE.LOGIN.PATH, ROUTE.LOGOUT.PATH, ROUTE.LOGIN_KAKAO.PATH].includes(pathname);
-  const canGoBack = ![ROUTE.HOME.PATH, ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGOUT.PATH].includes(pathname);
+  // TODO: isOAuth, canGoBack => route.js 내 상수로 분리
+  const isOAuth = [ROUTE.LOGIN.PATH, ROUTE.LOGOUT.PATH, ROUTE.LOGIN_KAKAO.PATH, ROUTE.WELCOME.PATH].includes(pathname);
+  const canGoBack = ![ROUTE.HOME.PATH, ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGOUT.PATH, ROUTE.WELCOME.PATH].includes(
+    pathname
+  );
   const hasMapView = ROUTES_WITHOUT_MAP.map((ROUTE) => ROUTE.PATH).includes(pathname);
 
   return (
@@ -26,6 +29,7 @@ export const NavBar = () => {
         </LeftButton>
       )}
 
+      {/* 로고 선택링크 너비 축소 */}
       <NavLink to={ROUTE.HOME.PATH}>
         <Title>
           <img src={Image.logo} width="24" alt="logo" />

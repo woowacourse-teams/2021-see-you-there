@@ -8,6 +8,7 @@ public class UtilityResponse {
     private final String distance;
     private final String addressName;
     private final String roadAddressName;
+    private final String placeUrl;
     private final double x;
     private final double y;
 
@@ -16,6 +17,7 @@ public class UtilityResponse {
         this.distance = apiUtilityDocument.getDistance();
         this.addressName = apiUtilityDocument.getAddressName();
         this.roadAddressName = apiUtilityDocument.getRoadAddressName();
+        this.placeUrl = apiUtilityDocument.getPlaceUrl();
         this.x = apiUtilityDocument.getX();
         this.y = apiUtilityDocument.getY();
     }
@@ -34,6 +36,10 @@ public class UtilityResponse {
 
     public String getRoadAddressName() {
         return roadAddressName;
+    }
+
+    public String getPlaceUrl() {
+        return placeUrl;
     }
 
     public double getX() {

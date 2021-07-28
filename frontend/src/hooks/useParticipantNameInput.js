@@ -1,11 +1,10 @@
 import { useContext } from 'react';
 
-import { ParticipantAddFormContext, ParticipantContext } from '../contexts';
-import { INPUT, MESSAGE } from '../constants';
+import { AddFormContext, ParticipantContext } from '../contexts';
 
 export const useParticipantNameInput = () => {
   const { isLackParticipants } = useContext(ParticipantContext);
-  const { name, setName, focusName, setNoticeMessage, resetNoticeMessage } = useContext(ParticipantAddFormContext);
+  const { INPUT, MESSAGE, name, setName, focusName, setNoticeMessage, resetNoticeMessage } = useContext(AddFormContext);
 
   const handleChangeName = (e) => {
     const name = e.target.value;

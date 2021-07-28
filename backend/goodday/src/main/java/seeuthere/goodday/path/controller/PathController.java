@@ -48,6 +48,4 @@ public class PathController {
         Point end = new Point(endX, endY);
         return ResponseEntity.ok(pathService.findTransferPath(start, end));
     }
-
-
 }

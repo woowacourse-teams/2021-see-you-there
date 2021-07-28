@@ -6,7 +6,7 @@ public class Distance {
 
     int distance;
 
-    public Distance(int distance) {
+    private Distance(int distance) {
         this.distance = distance;
     }
 

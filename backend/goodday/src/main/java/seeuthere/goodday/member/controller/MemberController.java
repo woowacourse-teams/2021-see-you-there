@@ -74,10 +74,10 @@ public class MemberController {
     }
 
     @PostMapping("/friends")
-    public ResponseEntity<Void> addFriends(@EnableAuth String id,
+    public ResponseEntity<FriendResponse> addFriends(@EnableAuth String id,
         @RequestBody FriendRequest friendRequest) {
-        memberService.addFriend(id, friendRequest);
-        return ResponseEntity.ok().build();
+        FriendResponse friendResponse = memberService.addFriend(id, friendRequest);
+        return ResponseEntity.ok().body(friendResponse);
     }
 
     @GetMapping("/friends")

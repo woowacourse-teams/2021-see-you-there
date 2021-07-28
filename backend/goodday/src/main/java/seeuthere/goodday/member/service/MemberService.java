@@ -71,8 +71,7 @@ public class MemberService {
         Member member = find(id);
         Address address = new Address(request.getName(), request.getAddress());
         member.addAddress(address);
-        Address savedAddress = addressRepository.save(address);
-        return new AddressResponse(savedAddress);
+        return new AddressResponse(address);
     }
 
     public List<AddressResponse> findAddress(String id) {
@@ -99,10 +98,11 @@ public class MemberService {
     }
 
     @Transactional
-    public void addFriend(String id, FriendRequest friendRequest) {
+    public FriendResponse addFriend(String id, FriendRequest friendRequest) {
         Member member = find(id);
         Member friend = memberRepository.findByMemberId(friendRequest.getMemberId());
         member.addFriend(friend);
+        return new FriendResponse(friend);
     }
 
     @Transactional(readOnly = true)

@@ -12,22 +12,27 @@
 # 회원 정보 조회
 
 ## request
+
 include::{default-path}/info/http-request.adoc[]
 
 ## response
+
 include::{default-path}/info/http-response.adoc[]
 
 # 회원 정보 수정
 
 ## request
+
 include::{default-path}/update/http-request.adoc[]
 
 ## response
+
 include::{default-path}/update/http-response.adoc[]
 
 # 회원 주소 조회
 
 ## reqeust
+
 include::{default-path}/address-info/http-reqeust.adoc[]
 
 include::{default-path}/address-info/http-response.adoc[]
@@ -35,23 +40,59 @@ include::{default-path}/address-info/http-response.adoc[]
 # 회원 주소 추가
 
 ## request
+
 include::{default-path}/address-add/http-request.adoc[]
 
 ## response
+
 include::{default-path}/address-add/http-response.adoc[]
 
 # 회원 주소 수정
 
 ## request
+
 include::{default-path}/address-update/http-request.adoc[]
 
 ## response
+
 include::{default-path}/address-update/http-response.adoc[]
 
 # 회원 주소 삭제
 
 ## request
+
 include::{default-path}/address-delete/http-request.adoc[]
 
 ## response
+
 include::{default-path}/address-delete/http-response.adoc[]
+
+# 회원 친구 추가
+
+## request
+
+include::{default-path}/friend-add/http-request.adoc[]
+
+## response
+
+include::{default-path}/friend-add/http-response.adoc[]
+
+# 회원 친구 조회
+
+## request
+
+include::{default-path}/friend-find/http-request.adoc[]
+
+## response
+
+include::{default-path}/friend-find/http-response.adoc[]
+
+# 회원 친구 삭제
+
+## request
+
+include::{default-path}/friend-delete/http-request.adoc[]
+
+## response
+
+include::{default-path}/friend-delete/http-response.adoc[]

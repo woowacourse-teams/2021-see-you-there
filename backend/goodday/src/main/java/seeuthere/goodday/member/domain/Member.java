@@ -15,8 +15,10 @@ import seeuthere.goodday.member.dto.MemberRequest;
 @Entity
 public class Member {
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Address> addresses = new ArrayList<>();
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final Set<FriendShip> friends = new HashSet<>();
     protected String name;
     @Column(name = "PROFILE_IMAGE")
     protected String profileImage;
@@ -25,8 +27,6 @@ public class Member {
     private String id;
     @Column(name = "MEMBER_SEARCH_ID")
     private String memberId;
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final Set<FriendShip> friends = new HashSet<>();
 
     public Member() {
     }

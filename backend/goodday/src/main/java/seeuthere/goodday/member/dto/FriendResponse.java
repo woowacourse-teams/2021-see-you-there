@@ -6,10 +6,14 @@ import seeuthere.goodday.member.domain.Member;
 
 public class FriendResponse {
 
-    private final String memberId;
-    private final String name;
-    private final String profileImage;
-    private final List<Address> addresses;
+    private String memberId;
+    private String name;
+    private String profileImage;
+    private List<Address> addresses;
+
+    public FriendResponse() {
+
+    }
 
     public FriendResponse(Member friend) {
         this(friend.getMemberId(), friend.getName(), friend.getProfileImage(),

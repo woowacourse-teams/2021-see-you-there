@@ -4,10 +4,13 @@ import seeuthere.goodday.member.domain.Member;
 
 public class MemberResponse {
 
-    private final String id;
-    private final String memberId;
-    private final String name;
-    private final String profileImage;
+    private String id;
+    private String memberId;
+    private String name;
+    private String profileImage;
+
+    public MemberResponse() {
+    }
 
     public MemberResponse(Member member) {
         this(member.getId(), member.getMemberId(), member.getName(), member.getProfileImage());

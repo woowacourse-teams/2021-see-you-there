@@ -2,8 +2,11 @@ package seeuthere.goodday.member.dto;
 
 public class AddressRequest {
 
-    private final String name;
-    private final String address;
+    private String name;
+    private String address;
+
+    public AddressRequest() {
+    }
 
     public AddressRequest(String name, String address) {
         this.name = name;

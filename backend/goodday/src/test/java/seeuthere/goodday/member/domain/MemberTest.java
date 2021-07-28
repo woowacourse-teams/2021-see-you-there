@@ -99,13 +99,13 @@ class MemberTest {
     @DisplayName("친구를 추가한다.")
     @Test
     void addFriend() {
-        FriendRequest request = new FriendRequest("1");
+        FriendRequest request = new FriendRequest("a");
         memberService.addFriend("1234", request);
 
         Member member = memberService.find("1234");
         Member friendMember = memberService.find("1");
 
-        assertThat(member.getFriends().size()).isEqualTo(2);
+        assertThat(member.getFriends().size()).isEqualTo(3);
         assertThat(
             friendMember.getFriends().stream()
                 .anyMatch(friendShip -> friendShip.getFriend().getId().equals("1234"))
@@ -127,7 +127,7 @@ class MemberTest {
     @DisplayName("친구를 삭제한다")
     @Test
     void deleteFriend() {
-        memberService.deleteFriend("1234", new FriendRequest("12"));
+        memberService.deleteFriend("1234", new FriendRequest("ab"));
 
         Member member = memberService.find("1234");
 

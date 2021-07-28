@@ -2,17 +2,17 @@ package seeuthere.goodday.member.dto;
 
 public class FriendRequest {
 
-    private String id;
+    private String memberId;
 
     public FriendRequest() {
 
     }
 
-    public FriendRequest(String id) {
-        this.id = id;
+    public FriendRequest(String memberId) {
+        this.memberId = memberId;
     }
 
-    public String getId() {
-        return id;
+    public String getMemberId() {
+        return memberId;
     }
 }

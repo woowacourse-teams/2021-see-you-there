@@ -101,7 +101,7 @@ public class MemberService {
     @Transactional
     public void addFriend(String id, FriendRequest friendRequest) {
         Member member = find(id);
-        Member friend = find(friendRequest.getId());
+        Member friend = memberRepository.findByMemberId(friendRequest.getMemberId());
         member.addFriend(friend);
     }
 
@@ -116,7 +116,7 @@ public class MemberService {
     @Transactional
     public void deleteFriend(String id, FriendRequest request) {
         Member member = find(id);
-        Member friend = find(request.getId());
+        Member friend = memberRepository.findByMemberId(request.getMemberId());
         member.deleteFriend(friend);
     }
 }

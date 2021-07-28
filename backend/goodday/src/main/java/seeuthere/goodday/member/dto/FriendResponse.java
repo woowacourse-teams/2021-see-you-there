@@ -6,28 +6,22 @@ import seeuthere.goodday.member.domain.Member;
 
 public class FriendResponse {
 
-    private final String id;
     private final String memberId;
     private final String name;
     private final String profileImage;
     private final List<Address> addresses;
 
     public FriendResponse(Member friend) {
-        this(friend.getId(), friend.getMemberId(), friend.getName(), friend.getProfileImage(),
+        this(friend.getMemberId(), friend.getName(), friend.getProfileImage(),
             friend.getAddresses());
     }
 
-    public FriendResponse(String id, String memberId, String name, String profileImage,
+    public FriendResponse(String memberId, String name, String profileImage,
         List<Address> addresses) {
-        this.id = id;
         this.memberId = memberId;
         this.name = name;
         this.profileImage = profileImage;
         this.addresses = addresses;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getMemberId() {

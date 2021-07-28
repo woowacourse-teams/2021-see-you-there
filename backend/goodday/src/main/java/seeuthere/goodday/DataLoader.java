@@ -46,7 +46,7 @@ public class DataLoader implements CommandLineRunner {
 
         System.out.println(jwtTokenProvider.createToken("1234"));
 
-        memberService.addFriend("1234", new FriendRequest("12"));
-        memberService.addFriend("1234", new FriendRequest("123"));
+        memberService.addFriend("1234", new FriendRequest("abc"));
+        memberService.addFriend("1234", new FriendRequest("ab"));
     }
 }

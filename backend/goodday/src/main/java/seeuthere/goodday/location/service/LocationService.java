@@ -3,9 +3,7 @@ package seeuthere.goodday.location.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.location.domain.combiner.AxisKeywordCombiner;
 import seeuthere.goodday.location.domain.location.MiddlePoint;
 import seeuthere.goodday.location.domain.location.Point;
@@ -27,14 +25,21 @@ import seeuthere.goodday.location.util.LocationCategory;
 @Service
 public class LocationService {
 
-    private final WebClient webClient;
+    private final CoordinateRequester coordinateRequester;
+    private final LocationRequester locationRequester;
+    private final SearchRequester searchRequester;
+    private final UtilityRequester utilityRequester;
 
-    public LocationService(@Qualifier("KakaoWebClient") WebClient webClient) {
-        this.webClient = webClient;
+    public LocationService(CoordinateRequester coordinateRequester,
+        LocationRequester locationRequester, SearchRequester searchRequester,
+        UtilityRequester utilityRequester) {
+        this.coordinateRequester = coordinateRequester;
+        this.locationRequester = locationRequester;
+        this.searchRequester = searchRequester;
+        this.utilityRequester = utilityRequester;
     }
 
     public List<SpecificLocationResponse> findAddress(double x, double y) {
-        LocationRequester locationRequester = new LocationRequester(webClient);
         List<APILocationDocument> apiLocationDocuments = locationRequester.requestAddress(x, y);
 
         return toSpecificLocationResponse(apiLocationDocuments);
@@ -48,9 +53,6 @@ public class LocationService {
     }
 
     public List<LocationResponse> findAxis(String address) {
-        CoordinateRequester coordinateRequester = new CoordinateRequester(webClient);
-        SearchRequester searchRequester = new SearchRequester(webClient);
-
         AxisKeywordCombiner axisKeywordCombiner = combinedAxisKeywordCombiner(
             address, coordinateRequester, searchRequester);
 
@@ -74,16 +76,13 @@ public class LocationService {
     }
 
     public List<UtilityResponse> findUtility(String category, double x, double y) {
-
         String categoryCode = LocationCategory.translatedCode(category);
-        UtilityRequester utilityRequester = new UtilityRequester(webClient);
         List<APIUtilityDocument> apiUtilityDocuments = utilityRequester
             .requestUtility(categoryCode, x, y);
         return toUtilityResponse(apiUtilityDocuments);
     }
 
     public List<UtilityResponse> findSearch(String keyword) {
-        SearchRequester searchRequester = new SearchRequester(webClient);
         List<APIUtilityDocument> apiUtilityDocuments = searchRequester.requestSearch(keyword);
         return toUtilityResponse(apiUtilityDocuments);
     }

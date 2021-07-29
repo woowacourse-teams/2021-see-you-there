@@ -2,6 +2,7 @@ package seeuthere.goodday.path.dto.response;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import seeuthere.goodday.path.domain.Paths;
 import seeuthere.goodday.path.dto.api.response.APIMsgBodyResponse;
 
 public class PathsResponse {
@@ -12,8 +13,13 @@ public class PathsResponse {
         this.paths = paths;
     }
 
-    public List<PathResponse> getPaths() {
-        return paths;
+    public static PathsResponse valueOf(Paths paths) {
+        return new PathsResponse(
+            paths.getPaths()
+                .stream()
+                .map(PathResponse::valueOf)
+                .collect(Collectors.toList())
+        );
     }
 
     public static PathsResponse valueOf(APIMsgBodyResponse apiMsgBodyResponse) {
@@ -23,5 +29,17 @@ public class PathsResponse {
                 .map(PathResponse::valueOf)
                 .collect(Collectors.toList())
         );
+    }
+
+    public Paths toPaths() {
+        return new Paths(paths.stream()
+            .map(PathResponse::toPath)
+            .collect(Collectors.toList())
+        );
+    }
+
+
+    public List<PathResponse> getPaths() {
+        return paths;
     }
 }

@@ -1,9 +1,6 @@
-package seeuthere.goodday.path.dto.response;
+package seeuthere.goodday.path.domain;
 
-import seeuthere.goodday.path.domain.Route;
-import seeuthere.goodday.path.dto.api.response.APIPathListResponse;
-
-public class RouteResponse {
+public class Route {
 
     private final double startX;
     private final double startY;
@@ -13,18 +10,7 @@ public class RouteResponse {
     private final double endY;
     private final String endName;
 
-    public RouteResponse(double startX, double startY, String startName, String routeName,
-        double endX, double endY, String endName) {
-        this.startX = startX;
-        this.startY = startY;
-        this.startName = startName;
-        this.routeName = routeName;
-        this.endX = endX;
-        this.endY = endY;
-        this.endName = endName;
-    }
-
-    public RouteResponse(Builder builder) {
+    private Route(Builder builder) {
         this.startX = builder.startX;
         this.startY = builder.startY;
         this.startName = builder.startName;
@@ -32,17 +18,6 @@ public class RouteResponse {
         this.endX = builder.endX;
         this.endY = builder.endY;
         this.endName = builder.endName;
-    }
-
-    public static RouteResponse valueOf(APIPathListResponse apiPathListResponse) {
-        double startX = apiPathListResponse.getStartX();
-        double startY = apiPathListResponse.getStartY();
-        String startName = apiPathListResponse.getStartName();
-        String routeName = apiPathListResponse.getRouteName();
-        double endX = apiPathListResponse.getEndX();
-        double endY = apiPathListResponse.getEndY();
-        String endName = apiPathListResponse.getEndName();
-        return new RouteResponse(startX, startY, startName, routeName, endX, endY, endName);
     }
 
     public static class Builder {
@@ -93,33 +68,9 @@ public class RouteResponse {
             return this;
         }
 
-        public RouteResponse build() {
-            return new RouteResponse(this);
+        public Route build() {
+            return new Route(this);
         }
-    }
-
-    public static RouteResponse valueOf(Route route) {
-        return new Builder()
-            .startX(route.getStartX())
-            .startY(route.getStartY())
-            .startName(route.getStartName())
-            .routeName(route.getRouteName())
-            .endX(route.getEndX())
-            .endY(route.getEndY())
-            .endName(route.getEndName())
-            .build();
-    }
-
-    public Route toRoute() {
-        return new Route.Builder()
-            .startX(startX)
-            .startY(startY)
-            .startName(startName)
-            .routeName(routeName)
-            .endX(endX)
-            .endY(endY)
-            .endName(endName)
-            .build();
     }
 
     public double getStartX() {

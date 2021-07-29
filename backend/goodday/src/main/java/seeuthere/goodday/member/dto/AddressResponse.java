@@ -4,9 +4,12 @@ import seeuthere.goodday.member.domain.Address;
 
 public class AddressResponse {
 
-    private final Long id;
-    private final String name;
-    private final String address;
+    private Long id;
+    private String name;
+    private String address;
+
+    public AddressResponse() {
+    }
 
     public AddressResponse(Address address) {
         this(address.getId(), address.getName(), address.getAddress());

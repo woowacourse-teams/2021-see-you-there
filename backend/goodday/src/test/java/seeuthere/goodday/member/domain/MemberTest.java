@@ -1,8 +1,15 @@
 package seeuthere.goodday.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static seeuthere.goodday.DataLoader.멍토;
+import static seeuthere.goodday.DataLoader.심바;
+import static seeuthere.goodday.DataLoader.와이비;
+import static seeuthere.goodday.DataLoader.와이비집;
+import static seeuthere.goodday.DataLoader.하루;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +22,8 @@ import seeuthere.goodday.member.dto.AddressDeleteRequest;
 import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.AddressResponse;
 import seeuthere.goodday.member.dto.AddressUpdateRequest;
+import seeuthere.goodday.member.dto.FriendRequest;
+import seeuthere.goodday.member.dto.FriendResponse;
 import seeuthere.goodday.member.service.MemberService;
 
 
@@ -51,29 +60,29 @@ class MemberTest {
     @Test
     void addAddress() {
         AddressRequest request = new AddressRequest("회사", "서울시 송파구");
-        AddressResponse addressResponse = memberService.addAddress("1234", request);
+        AddressResponse response = memberService.addAddress(와이비.getId(), request);
 
-        Member findMember = memberService.find("1234");
+        Member findMember = memberService.find(와이비.getId());
         assertThat(findMember.getAddresses().size()).isEqualTo(2);
-        assertThat(addressResponse.getName()).isEqualTo("회사");
+        assertThat(response.getName()).isEqualTo(request.getName());
     }
 
     @DisplayName("회원의 주소 목록을 불러온다")
     @Test
     void findAddress() {
-        List<AddressResponse> addresses = memberService.findAddress("1234");
+        List<AddressResponse> addresses = memberService.findAddress(와이비.getId());
 
         assertThat(addresses.size()).isEqualTo(1);
-        assertThat(addresses.get(0).getName()).isEqualTo("집");
+        assertThat(addresses.get(0).getName()).isEqualTo(와이비집.getName());
     }
 
     @DisplayName("회원의 주소를 수정한다.")
     @Test
     void updateAddress() {
         AddressUpdateRequest request = new AddressUpdateRequest(1L, "이사간 집", "성남시 판교");
-        memberService.updateAddress("1234", request);
+        memberService.updateAddress(와이비.getId(), request);
 
-        List<AddressResponse> addresses = memberService.findAddress("1234");
+        List<AddressResponse> addresses = memberService.findAddress(와이비.getId());
         AddressResponse response = addresses.get(0);
 
         assertThat(response.getName()).isEqualTo("이사간 집");
@@ -85,10 +94,48 @@ class MemberTest {
     @Test
     void deleteAddress() {
         AddressDeleteRequest request = new AddressDeleteRequest(1L);
-        memberService.deleteAddress("1234", request);
+        memberService.deleteAddress(와이비.getId(), request);
         addressRepository.flush();
 
-        List<AddressResponse> addresses = memberService.findAddress("1234");
+        List<AddressResponse> addresses = memberService.findAddress(와이비.getId());
         assertThat(addresses.size()).isEqualTo(0);
+    }
+
+    @DisplayName("친구를 추가한다.")
+    @Test
+    void addFriend() {
+        FriendRequest request = new FriendRequest(하루.getMemberId());
+        memberService.addFriend(와이비.getId(), request);
+
+        Member member = memberService.find(와이비.getId());
+        Member friendMember = memberService.find(하루.getId());
+
+        assertThat(member.getFriends().size()).isEqualTo(3);
+        assertThat(
+            friendMember.getFriends().stream()
+                .anyMatch(friendShip -> friendShip.getFriend().getId().equals(와이비.getId()))
+        ).isTrue();
+    }
+
+    @DisplayName("친구를 조회한다")
+    @Test
+    void findFriends() {
+        List<FriendResponse> friends = memberService.findFriends(와이비.getId());
+
+        assertThat(friends.size()).isEqualTo(2);
+        assertThat(friends.stream()
+            .map(FriendResponse::getNickname)
+            .collect(Collectors.toList()
+            ).containsAll(Arrays.asList(심바.getName(), 멍토.getName()))).isTrue();
+    }
+
+    @DisplayName("친구를 삭제한다")
+    @Test
+    void deleteFriend() {
+        memberService.deleteFriend(와이비.getId(), new FriendRequest(멍토.getMemberId()));
+
+        Member member = memberService.find(와이비.getId());
+
+        assertThat(member.getMemberFriends().size()).isEqualTo(1);
     }
 }

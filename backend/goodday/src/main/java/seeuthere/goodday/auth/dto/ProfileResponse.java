@@ -6,6 +6,10 @@ public class ProfileResponse {
     private String nickname;
     private String profileImage;
 
+    public ProfileResponse() {
+
+    }
+
     public ProfileResponse(String id, String nickname, String profileImage) {
         this.id = id;
         this.nickname = nickname;

@@ -2,9 +2,13 @@ package seeuthere.goodday.member.dto;
 
 public class AddressUpdateRequest {
 
-    private final Long id;
-    private final String name;
-    private final String address;
+    private Long id;
+    private String name;
+    private String address;
+
+    public AddressUpdateRequest() {
+
+    }
 
     public AddressUpdateRequest(Long id, String name, String address) {
         this.id = id;

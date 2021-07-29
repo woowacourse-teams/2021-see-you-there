@@ -2,9 +2,12 @@ package seeuthere.goodday.member.dto;
 
 public class MemberRequest {
 
-    private final String name;
-    private final String profileImage;
-    private final String memberId;
+    private String name;
+    private String profileImage;
+    private String memberId;
+
+    public MemberRequest() {
+    }
 
     public MemberRequest(String name, String profileImage, String memberId) {
         this.name = name;

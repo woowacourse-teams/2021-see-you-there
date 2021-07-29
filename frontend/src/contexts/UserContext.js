@@ -15,8 +15,8 @@ const INITIAL_STATE = {
   token: null,
 };
 
-const fetchUserAddressList = async (accessToken) => {
-  const response = await httpRequest.get(API_URL.ADDRESS, { accessToken });
+const fetchUserAddressList = async (token) => {
+  const response = await httpRequest.get(API_URL.ADDRESS, { token });
 
   // TODO: 에러 처리
   if (response.status === 401) {
@@ -25,8 +25,8 @@ const fetchUserAddressList = async (accessToken) => {
   return await response.json();
 };
 
-const fetchUserInfo = async (accessToken) => {
-  const response = await httpRequest.get(API_URL.TOKEN_VALIDATION, { accessToken });
+const fetchUserInfo = async (token) => {
+  const response = await httpRequest.get(API_URL.TOKEN_VALIDATION, { token });
 
   if (response.status === 401) {
     throw new Error(STATUS.INVALID_TOKEN_ERROR);

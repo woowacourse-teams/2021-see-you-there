@@ -6,12 +6,12 @@ import { httpRequest } from '../utils';
 import { QUERY_KEY, API_URL, STATUS } from '../constants';
 
 export const useMutateAddress = () => {
-  const { token: accessToken, forceLogout } = useContext(UserContext);
+  const { token, forceLogout } = useContext(UserContext);
   const queryClient = useQueryClient();
 
   /* 추가 */
   const fetchCreation = async (body) => {
-    const response = await httpRequest.post(API_URL.ADDRESS, { accessToken, body });
+    const response = await httpRequest.post(API_URL.ADDRESS, { token, body });
 
     if (response.status === 401) {
       throw new Error(STATUS.INVALID_TOKEN_ERROR);
@@ -29,7 +29,7 @@ export const useMutateAddress = () => {
 
   /* 수정 */
   const fetchUpdate = async (body) => {
-    const response = await httpRequest.delete(API_URL.ADDRESS, { accessToken, body });
+    const response = await httpRequest.delete(API_URL.ADDRESS, { token, body });
 
     if (response.status === 401) {
       throw new Error(STATUS.INVALID_TOKEN_ERROR);
@@ -47,7 +47,7 @@ export const useMutateAddress = () => {
 
   /* 삭제 */
   const fetchDeletion = async (body) => {
-    const response = await httpRequest.delete(API_URL.ADDRESS, { accessToken, body });
+    const response = await httpRequest.delete(API_URL.ADDRESS, { token, body });
 
     if (response.status === 401) {
       throw new Error(STATUS.INVALID_TOKEN_ERROR);

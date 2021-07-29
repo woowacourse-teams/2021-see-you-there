@@ -59,12 +59,12 @@ class MemberTest {
     @DisplayName("회원의 주소를 저장한다")
     @Test
     void addAddress() {
-        AddressRequest request = new AddressRequest("회사", "서울시 송파구");
+        AddressRequest request = new AddressRequest("회사", "루터회관", "서울시 송파구 루터회관", 123.12, 123.4);
         AddressResponse response = memberService.addAddress(와이비.getId(), request);
 
         Member findMember = memberService.find(와이비.getId());
         assertThat(findMember.getAddresses().size()).isEqualTo(2);
-        assertThat(response.getName()).isEqualTo(request.getName());
+        assertThat(response.getNickname()).isEqualTo(request.getNickname());
     }
 
     @DisplayName("회원의 주소 목록을 불러온다")
@@ -73,21 +73,21 @@ class MemberTest {
         List<AddressResponse> addresses = memberService.findAddress(와이비.getId());
 
         assertThat(addresses.size()).isEqualTo(1);
-        assertThat(addresses.get(0).getName()).isEqualTo(와이비집.getName());
+        assertThat(addresses.get(0).getNickname()).isEqualTo(와이비집.getNickname());
     }
 
     @DisplayName("회원의 주소를 수정한다.")
     @Test
     void updateAddress() {
-        AddressUpdateRequest request = new AddressUpdateRequest(1L, "이사간 집", "성남시 판교");
+        AddressUpdateRequest request = new AddressUpdateRequest(1L, "이사간 집", "성남시 판교", "성남시 판교 이사간 집", 123.1, 23.1);
         memberService.updateAddress(와이비.getId(), request);
 
         List<AddressResponse> addresses = memberService.findAddress(와이비.getId());
         AddressResponse response = addresses.get(0);
 
-        assertThat(response.getName()).isEqualTo("이사간 집");
+        assertThat(response.getNickname()).isEqualTo("이사간 집");
         assertThat(response.getId()).isEqualTo(1L);
-        assertThat(response.getAddress()).isEqualTo("성남시 판교");
+        assertThat(response.getAddressName()).isEqualTo("성남시 판교");
     }
 
     @DisplayName("회원의 주소를 삭제한다.")

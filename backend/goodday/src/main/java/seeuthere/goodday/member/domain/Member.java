@@ -49,13 +49,13 @@ public class Member {
         this.addresses.add(address);
     }
 
-    public Address updateAddress(Long addressId, String name, String addressName) {
+    public Address updateAddress(Address newAddress) {
         Address address = this.addresses.stream()
-            .filter(ad -> ad.getId().equals(addressId))
+            .filter(ad -> ad.getId().equals(newAddress.getId()))
             .findFirst()
             .orElseThrow();
 
-        return address.update(name, addressName);
+        return address.update(newAddress);
     }
 
     public void deleteAddress(Long id) {
@@ -109,4 +109,6 @@ public class Member {
     public Set<FriendShip> getFriends() {
         return friends;
     }
+
+
 }

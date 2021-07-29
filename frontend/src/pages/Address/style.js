@@ -41,10 +41,14 @@ export const ButtonGroup = styled.div`
   justify-content: space-between;
 
   width: 3.75rem;
-  color: ${COLOR.PARAGRAPH};
 
   & > button {
     font-size: 0.75rem;
+    color: ${COLOR.PARAGRAPH_LIGHT};
+
+    &:hover {
+      color: ${COLOR.PARAGRAPH};
+    }
   }
 `;
 

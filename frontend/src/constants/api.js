@@ -14,6 +14,7 @@ export const API_URL = {
 
   ADDRESS: `${API_END_POINT}/members/address`,
   FRIEND: `${API_END_POINT}/members/friends`,
+  FRIEND_SEARCH: `${API_END_POINT}/members/friends`, //TODO: API 생성 후 확인 필요
 };
 
 export const QUERY_KEY = {

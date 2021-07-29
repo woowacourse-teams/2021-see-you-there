@@ -34,6 +34,12 @@ export const INPUT = {
     LABEL: '주소검색',
     PLACEHOLDER: '예) 여기동 42-1 또는 만나아파트',
   },
+
+  FRIEND_SEARCH: {
+    KEY: 'friendSearch',
+    LABEL: '친구 아이디 검색',
+    PLACEHOLDER: '친구의 아이디를 입력해주세요.',
+  },
 };
 
 // TODO: 백엔드분들과 상의 후 MAX_LENGTH 유지할지 결정
@@ -59,6 +65,10 @@ export const MESSAGE = {
     NOTICE_INCOMPLETE_FORM: '주소 정보를 입력해주세요.',
 
     CONFIRM_DELETE: '해당 주소를 삭제하시겠습니까?',
+  },
+
+  USER_FRIEND: {
+    CONFIRM_DELETE: '해당 친구를 삭제하시겠습니까?',
   },
 };
 

@@ -8,4 +8,7 @@ export { useAddressInput } from './useAddressInput';
 export { useParticipantNameInput } from './useParticipantNameInput';
 export { useAddressNicknameInput } from './useAddressNicknameInput';
 
+export { useFriendSearch } from './useFriendSearch';
+
 export { useMutateAddress } from './useMutateAddress';
+export { useMutateFriend } from './useMutateFriend';

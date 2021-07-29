@@ -157,3 +157,60 @@ export const FullAddress = styled.span`
   color: ${COLOR.PARAGRAPH_LIGHT};
   font-size: 0.625rem;
 `;
+
+/* 친구 ID 검색 모달 */
+
+export const Top = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  & > button {
+    width: fit-content;
+  }
+`;
+
+export const ResultSection = styled.section`
+  height: 16rem;
+`;
+
+export const SearchResult = styled.p`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: ${LAYOUT.PADDING};
+  height: 100%;
+
+  background-color: ${COLOR.BACKGROUND};
+
+  & > ${ProfileImage} {
+    margin: 0;
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  & > ${FriendInfo} {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0 1.75rem;
+  }
+`;
+
+export const NoResult = styled.p`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  font-size: 0.875rem;
+  line-height: 1.75;
+
+  & strong {
+    color: ${COLOR.PRIMARY_LIGHT};
+  }
+`;

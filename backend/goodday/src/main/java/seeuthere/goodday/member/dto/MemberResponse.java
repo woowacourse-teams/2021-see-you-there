@@ -16,11 +16,12 @@ public class MemberResponse {
         this(member.getId(), member.getMemberId(), member.getName(), member.getProfileImage());
     }
 
-    public MemberResponse(String id, String name, String profileImage, String memberId) {
+    public MemberResponse(String id, String memberId, String name, String profileImage) {
         this.id = id;
+        this.memberId = memberId;
         this.name = name;
         this.profileImage = profileImage;
-        this.memberId = memberId;
+
     }
 
     public String getId() {

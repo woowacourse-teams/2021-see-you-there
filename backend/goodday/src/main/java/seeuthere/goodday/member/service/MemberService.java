@@ -100,7 +100,7 @@ public class MemberService {
                 .fullAddress(request.getFullAddress())
                 .x(request.getX())
                 .y(request.getY())
-            .build()
+                .build()
         );
         return AddressResponse.valueOf(address);
     }
@@ -133,5 +133,13 @@ public class MemberService {
         Member member = find(id);
         Member friend = memberRepository.findByMemberId(request.getMemberId());
         member.deleteFriend(friend);
+    }
+
+    public List<MemberResponse> searchFriend(String id, String searchWord) {
+        List<Member> findMembers = memberRepository.findMembersContainingWord(searchWord);
+        findMembers.removeIf(member -> member.getId().equals(id));
+        return findMembers.stream()
+            .map(MemberResponse::new)
+            .collect(Collectors.toList());
     }
 }

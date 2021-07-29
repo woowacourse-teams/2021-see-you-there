@@ -24,6 +24,7 @@ import seeuthere.goodday.member.dto.AddressResponse;
 import seeuthere.goodday.member.dto.AddressUpdateRequest;
 import seeuthere.goodday.member.dto.FriendRequest;
 import seeuthere.goodday.member.dto.FriendResponse;
+import seeuthere.goodday.member.dto.MemberResponse;
 import seeuthere.goodday.member.service.MemberService;
 
 
@@ -79,7 +80,8 @@ class MemberTest {
     @DisplayName("회원의 주소를 수정한다.")
     @Test
     void updateAddress() {
-        AddressUpdateRequest request = new AddressUpdateRequest(1L, "이사간 집", "성남시 판교", "성남시 판교 이사간 집", 123.1, 23.1);
+        AddressUpdateRequest request = new AddressUpdateRequest(1L, "이사간 집", "성남시 판교",
+            "성남시 판교 이사간 집", 123.1, 23.1);
         memberService.updateAddress(와이비.getId(), request);
 
         List<AddressResponse> addresses = memberService.findAddress(와이비.getId());
@@ -137,5 +139,17 @@ class MemberTest {
         Member member = memberService.find(와이비.getId());
 
         assertThat(member.getMemberFriends().size()).isEqualTo(1);
+    }
+
+    @DisplayName("추가할 친구를 검색한다.")
+    @Test
+    void searchFriend() {
+        String aForAll = "a";
+        List<MemberResponse> searchedMembers = memberService.searchFriend(와이비.getId(), aForAll);
+
+        assertThat(searchedMembers.stream()
+            .map(MemberResponse::getMemberId)
+            .collect(Collectors.toList()))
+            .containsExactly("a", "ab", "abc");
     }
 }

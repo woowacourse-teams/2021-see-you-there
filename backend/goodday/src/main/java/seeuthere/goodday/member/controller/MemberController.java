@@ -16,6 +16,8 @@ import seeuthere.goodday.member.dto.AddressDeleteRequest;
 import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.AddressResponse;
 import seeuthere.goodday.member.dto.AddressUpdateRequest;
+import seeuthere.goodday.member.dto.FriendRequest;
+import seeuthere.goodday.member.dto.FriendResponse;
 import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
 import seeuthere.goodday.member.service.MemberService;
@@ -68,6 +70,26 @@ public class MemberController {
     public ResponseEntity<Void> deleteMyAddress(@EnableAuth String id,
         @RequestBody AddressDeleteRequest request) {
         memberService.deleteAddress(id, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/friends")
+    public ResponseEntity<FriendResponse> addFriends(@EnableAuth String id,
+        @RequestBody FriendRequest friendRequest) {
+        FriendResponse friendResponse = memberService.addFriend(id, friendRequest);
+        return ResponseEntity.ok().body(friendResponse);
+    }
+
+    @GetMapping("/friends")
+    public ResponseEntity<List<FriendResponse>> findFriends(@EnableAuth String id) {
+        List<FriendResponse> friends = memberService.findFriends(id);
+        return ResponseEntity.ok().body(friends);
+    }
+
+    @DeleteMapping("/friends")
+    public ResponseEntity<Void> deleteFriend(@EnableAuth String id,
+        @RequestBody FriendRequest request) {
+        memberService.deleteFriend(id, request);
         return ResponseEntity.noContent().build();
     }
 }

@@ -9,7 +9,7 @@ logging:
     file: "%d %-5level [%thread] &logger : %msg%n"
   logback:
     rollingpolicy:
-      max-file-size: 15MB
+      max-file-size: 100MB
       max-history: 10
   level:
     root: info

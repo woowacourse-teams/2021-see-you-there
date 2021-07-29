@@ -24,6 +24,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import seeuthere.goodday.AcceptanceTest;
@@ -179,7 +180,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
     private ExtractableResponse<Response> getResponse(String identifier, String path) {
         return makeResponse(identifier).get(path)
-            .then().statusCode(is(200))
+            .then().statusCode(is(HttpStatus.OK.value()))
             .extract();
     }
 
@@ -188,7 +189,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         return makeResponse(identifier)
             .body(request)
             .when().put(path)
-            .then().assertThat().statusCode(is(200))
+            .then().assertThat().statusCode(is(HttpStatus.OK.value()))
             .extract();
     }
 
@@ -197,14 +198,14 @@ class MemberAcceptanceTest extends AcceptanceTest {
         return makeResponse(identifier)
             .body(request)
             .when().post(path)
-            .then().assertThat().statusCode(is(200))
+            .then().assertThat().statusCode(is(HttpStatus.OK.value()))
             .extract();
     }
 
     private void deleteResponse(String identifier, String path, Object request) {
         makeResponse(identifier).body(request)
             .when().delete(path)
-            .then().statusCode(is(204));
+            .then().statusCode(is(HttpStatus.NO_CONTENT.value()));
     }
 
     private RequestSpecification makeResponse(String identifier) {

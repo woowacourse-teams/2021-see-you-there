@@ -6,7 +6,7 @@ export const ContentArea = styled.section`
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: ${LAYOUT.PADDING};
+  padding: ${LAYOUT.PADDING} 0;
   padding-top: 4rem;
   width: 100%;
   height: calc(100vh - ${LAYOUT.NAV_HEIGHT});
@@ -25,14 +25,15 @@ export const ContentArea = styled.section`
 const itemStyle = css`
   margin-bottom: ${LAYOUT.MARGIN};
   padding: ${LAYOUT.PADDING};
-  width: 20rem;
+  width: ${LAYOUT.CONTENT_WIDTH_MAX};
   height: 11rem;
 
   box-shadow: 5px 5px 14px rgba(0, 0, 0, 0.12);
   border-radius: 10px;
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    width: 17.5rem;
+    width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
+    max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
   }
 `;
 
@@ -96,7 +97,12 @@ export const FullAddress = styled.span`
 export const AddSection = styled.div`
   & > button {
     margin-top: 1rem;
-    width: 20rem;
+    width: calc(${LAYOUT.CONTENT_WIDTH_MAX} - 1.5rem);
+
+    @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+      width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
+      max-width: calc(${LAYOUT.CONTENT_WIDTH_MAX} - 1.5rem);
+    }
   }
 `;
 

@@ -11,7 +11,8 @@ export const List = styled.ul`
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     grid-template-columns: repeat(2, 1fr);
-    width: ${LAYOUT.CONTENT_WIDTH};
+    width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
+    max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
   }
 `;
 

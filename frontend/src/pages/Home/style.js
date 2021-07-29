@@ -41,7 +41,8 @@ export const AddForm = styled.form`
   width: ${LAYOUT.CONTENT_WIDTH_RIGHT};
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    width: ${LAYOUT.CONTENT_WIDTH};
+    width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
+    max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
   }
 `;
 

@@ -103,7 +103,8 @@ export const AddForm = styled.form`
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    width: ${LAYOUT.CONTENT_WIDTH};
+    width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
+    max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
   }
 `;
 

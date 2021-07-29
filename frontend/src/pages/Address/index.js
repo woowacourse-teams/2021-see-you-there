@@ -10,24 +10,24 @@ import { Image } from '../../assets';
 
 const formId = 'USER_ADDRESS';
 
-// const mockAddressList = [
-//   {
-//     id: 1,
-//     nickname: '사무실',
-//     addressName: '위워크 선릉점',
-//     fullAddress: '서울특별시 강남구 테헤란로 1111',
-//     x: 127.333333,
-//     y: 27.333333,
-//   },
-//   {
-//     id: 2,
-//     nickname: '자택',
-//     addressName: '잠실 포스코더샵',
-//     fullAddress: '서울특별시 송파구 올림픽로 444',
-//     x: 127.333333,
-//     y: 27.333333,
-//   },
-// ];
+const mockAddressList = [
+  {
+    id: 1,
+    nickname: '사무실',
+    addressName: '위워크 선릉점',
+    fullAddress: '서울특별시 강남구 테헤란로 1111',
+    x: 127.333333,
+    y: 27.333333,
+  },
+  {
+    id: 2,
+    nickname: '자택',
+    addressName: '잠실 포스코더샵',
+    fullAddress: '서울특별시 송파구 올림픽로 444',
+    x: 127.333333,
+    y: 27.333333,
+  },
+];
 
 const INITIAL_STATE = null;
 
@@ -52,8 +52,8 @@ export const AddressPage = () => {
       <ContentArea>
         <h2>내 주소를 관리해보아요.</h2>
         <ul>
-          {/* {mockAddressList.map((address) => { */}
-          {userAddressList.map((address, index) => {
+          {mockAddressList.map((address, index) => {
+            // {userAddressList?.map((address, index) => {
             const { id, nickname, addressName, fullAddress } = address;
 
             if (editAddressId === id) {
@@ -76,14 +76,14 @@ export const AddressPage = () => {
                     <button onClick={() => handleClickEditButton(id)}>수정</button>
                     <button onClick={() => openConfirm(id)}>삭제</button>
                   </ButtonGroup>
-                  <Confirm isConfirmOpen={isConfirmOpen} onCancel={cancelConfirm} onApprove={approveConfirm}>
-                    {MESSAGE[formId].CONFIRM_DELETE}
-                  </Confirm>
                 </ListItem>
               </>
             );
           })}
         </ul>
+        <Confirm isConfirmOpen={isConfirmOpen} onCancel={cancelConfirm} onApprove={approveConfirm}>
+          {MESSAGE[formId].CONFIRM_DELETE}
+        </Confirm>
         <AddSection>
           {isAdding ? (
             <AddFormContextProvider formId={formId}>

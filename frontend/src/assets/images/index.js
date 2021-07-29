@@ -8,6 +8,7 @@ import avatar7 from './avatar7.png';
 import avatar8 from './avatar8.png';
 import avatar9 from './avatar9.png';
 import avatar10 from './avatar10.png';
+import drawingFriend from './drawingFriend.png';
 import drawingLogin from './drawingLogin.png';
 import drawingWelcome from './drawingWelcome.png';
 import logo from './logo.png';
@@ -27,6 +28,7 @@ export {
   avatar8,
   avatar9,
   avatar10,
+  drawingFriend,
   drawingLogin,
   drawingWelcome,
   logo,

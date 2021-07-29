@@ -67,12 +67,12 @@ export const ParticipantAddForm = () => {
       <Notice>{noticeMessage}</Notice>
 
       <ButtonGroup>
-        <ButtonRound type="button" size="small" Icon={<Icon.People width="18" />} color="gray">
+        <ButtonRound type="button" size="sm" Icon={<Icon.People width="18" />} color="gray">
           팔로잉 목록에서 선택
         </ButtonRound>
         <ButtonRound
           type="submit"
-          size="small"
+          size="sm"
           Icon={<Icon.SubmitRight width="18" color="#fff" />}
           disabled={!isComplete || isFullParticipants}
         >

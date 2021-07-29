@@ -7,7 +7,12 @@ const styleSize = {
     height: 3rem;
     font-size: 1rem;
   `,
-  small: css`
+  xs: css`
+    width: 6rem;
+    height: 1.625rem;
+    font-size: 0.75rem;
+  `,
+  sm: css`
     width: 8.75rem;
     height: 2rem;
     font-size: 0.75rem;

@@ -9,7 +9,7 @@ export const Confirm = (props) => {
 
   return (
     isConfirmOpen && (
-      <Modal size="small">
+      <Modal size="sm">
         <Container>
           {children}
           <ButtonGroup>

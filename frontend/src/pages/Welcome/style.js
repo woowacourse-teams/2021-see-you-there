@@ -13,7 +13,7 @@ export const ContentArea = styled.section`
   align-items: center;
   padding-top: calc((100vh - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT} - ${LOGIN_BOX_HEIGHT}) / 2);
   height: calc(100vh - ${LAYOUT.NAV_HEIGHT});
-  overflow: hidden;
+  overflow-x: hidden;
 
   z-index: ${Z_INDEX.CONTENT};
 
@@ -23,7 +23,7 @@ export const ContentArea = styled.section`
   }
 
   & > img {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 70rem;
   }
@@ -112,7 +112,8 @@ export const Anchor = styled.a`
   margin-top: 1.5rem;
   padding: 0.5px 2px;
 
-  border-bottom: 1px solid ${COLOR.ANCHOR};
+  background-color: ${COLOR.BACKGROUND};
   color: ${COLOR.ANCHOR};
   font-size: 0.75rem;
+  border-bottom: 1px solid ${COLOR.ANCHOR};
 `;

@@ -3,7 +3,16 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import { HomePage, LoginPage, LogoutPage, MidpointPage, OAuthPage, WelcomePage, AddressPage } from './pages';
+import {
+  HomePage,
+  LoginPage,
+  LogoutPage,
+  MidpointPage,
+  OAuthPage,
+  WelcomePage,
+  AddressPage,
+  FriendPage,
+} from './pages';
 import { NavBar } from './components';
 import { UserContextProvider, ParticipantContextProvider, MapViewContextProvider } from './contexts';
 import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
@@ -46,6 +55,9 @@ export const App = () => {
               </Route>
               <Route exact path={ROUTE.ADDRESS.PATH}>
                 <AddressPage />
+              </Route>
+              <Route exact path={ROUTE.FRIEND.PATH}>
+                <FriendPage />
               </Route>
             </Switch>
           </ParticipantContextProvider>

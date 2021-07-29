@@ -51,9 +51,9 @@ export const Z_INDEX = {
   MAP_CONTROLLER: 5,
 
   CONTENT: 10,
+  ON_IMAGE: 15,
   NAVBAR: 20,
   HAMBURGER_MENU: 30,
-  ON_IMAGE: 50,
   MODAL: 100,
 };
 

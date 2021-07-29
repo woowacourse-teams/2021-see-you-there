@@ -5,14 +5,13 @@ public class AddressRequest {
     private String nickname;
     private String addressName;
     private String fullAddress;
-    private double x;
-    private double y;
+    private Double x;
+    private Double y;
 
-    public AddressRequest() {
-    }
+    public AddressRequest() {}
 
-    public AddressRequest(String nickname, String addressName, String fullAddress, double x,
-        double y) {
+    public AddressRequest(String nickname, String addressName, String fullAddress, Double x,
+        Double y) {
         this.nickname = nickname;
         this.addressName = addressName;
         this.fullAddress = fullAddress;
@@ -32,11 +31,11 @@ public class AddressRequest {
         return fullAddress;
     }
 
-    public double getX() {
+    public Double getX() {
         return x;
     }
 
-    public double getY() {
+    public Double getY() {
         return y;
     }
 }

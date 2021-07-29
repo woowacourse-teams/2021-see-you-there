@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import seeuthere.goodday.member.dto.AddressUpdateRequest;
 import seeuthere.goodday.member.dto.MemberRequest;
 
 @Entity
@@ -110,4 +109,6 @@ public class Member {
     public Set<FriendShip> getFriends() {
         return friends;
     }
+
+
 }

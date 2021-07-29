@@ -78,14 +78,14 @@ public class MemberService {
             .build();
 
         member.addAddress(address);
-        return new AddressResponse(address);
+        return AddressResponse.valueOf(address);
     }
 
     public List<AddressResponse> findAddress(String id) {
         Member member = find(id);
         List<Address> addresses = member.getAddresses();
         return addresses.stream()
-            .map(AddressResponse::new)
+            .map(AddressResponse::valueOf)
             .collect(Collectors.toList());
     }
 

@@ -6,7 +6,7 @@ import { ButtonRound, Confirm } from '../../components';
 import { AddFormContextProvider, UserContext } from '../../contexts';
 import { useConfirm, useMutateAddress } from '../../hooks';
 import { MESSAGE } from '../../constants';
-import { home1, home2 } from '../../assets/images';
+import { Image } from '../../assets';
 
 const formId = 'USER_ADDRESS';
 
@@ -68,7 +68,7 @@ export const AddressPage = () => {
             return (
               <>
                 <ListItem key={id} isButtonVisible={!isEditing && !isAdding}>
-                  <img src={index % 2 ? home1 : home2} alt="내 주소 일러스트" />
+                  <img src={index % 2 ? Image.home1 : Image.home2} alt="내 주소 일러스트" />
                   <Nickname>{nickname}</Nickname>
                   <AddressName>{addressName}</AddressName>
                   <FullAddress>{fullAddress}</FullAddress>

@@ -43,7 +43,7 @@ class MemberTest {
     @DisplayName("첫 로그인시 멤버를 저장한다.")
     @Test
     public void firstLoginSave() {
-        ProfileResponse profile = new ProfileResponse("12345", "영범허", "imageLink");
+        ProfileResponse profile = new ProfileResponse("12345", "abcd", "영범허", "imageLink");
         Member member = memberService.add(profile);
         assertThat(memberService.find("12345")).isEqualTo(member);
     }
@@ -51,7 +51,7 @@ class MemberTest {
     @DisplayName("첫 로그인이 아닐 시 멤버를 저장하지 않는다.")
     @Test
     public void alreadyMemberNotSave() {
-        ProfileResponse profile = new ProfileResponse("12345", "영범허", "imageLink");
+        ProfileResponse profile = new ProfileResponse("12345", "abcd", "영범허", "imageLink");
         memberService.add(profile);
         Member member = memberService.add(profile);
         assertThat(member).isNull();
@@ -128,7 +128,7 @@ class MemberTest {
         assertThat(friends.stream()
             .map(FriendResponse::getNickname)
             .collect(Collectors.toList()
-            ).containsAll(Arrays.asList(심바.getName(), 멍토.getName()))).isTrue();
+            ).containsAll(Arrays.asList(심바.getNickname(), 멍토.getNickname()))).isTrue();
     }
 
     @DisplayName("친구를 삭제한다")

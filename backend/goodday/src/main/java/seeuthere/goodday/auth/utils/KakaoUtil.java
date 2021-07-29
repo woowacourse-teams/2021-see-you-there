@@ -16,7 +16,7 @@ public class KakaoUtil {
     public static final String KAKAO_AUTH_URI = "https://kauth.kakao.com";
     public static final String DOMAIN_URI = "https://seeyouthere.o-r.kr";
 
-    public static ProfileResponse getKakaoUserInfo(String access_token) {
+    public static ProfileResponse getKakaoUserInfo(String accessToken, String memberId) {
         WebClient webClient = WebClient.builder()
             .baseUrl(KAKAO_HOST_URI)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -24,12 +24,12 @@ public class KakaoUtil {
 
         JSONObject response = webClient.post()
             .uri(uriBuilder -> uriBuilder.path("/v2/user/me").build())
-            .header("Authorization", "Bearer " + access_token)
+            .header("Authorization", "Bearer " + accessToken)
             .retrieve().bodyToMono(JSONObject.class).block();
-        return convertToProfileDto(response);
+        return convertToProfileDto(response, memberId);
     }
 
-    private static ProfileResponse convertToProfileDto(JSONObject response) {
+    private static ProfileResponse convertToProfileDto(JSONObject response, String memberId) {
         String id = String.valueOf(response.get("id"));
         Map<String, Object> kakaoAccount = (LinkedHashMap<String, Object>) response
             .get("kakao_account");
@@ -37,7 +37,7 @@ public class KakaoUtil {
         String nickName = (String) profile.get("nickname");
         String profileImage = (String) profile.get("thumbnail_image_url");
 
-        return new ProfileResponse(id, nickName, profileImage);
+        return new ProfileResponse(id, memberId, nickName, profileImage);
     }
 
     public static String getKakaoAccessToken(String code) {

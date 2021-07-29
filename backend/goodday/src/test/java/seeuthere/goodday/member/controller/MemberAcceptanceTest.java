@@ -65,7 +65,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         ProfileResponse response = getResponse("member/info", MEMBER_API_PATH)
             .as(ProfileResponse.class);
 
-        assertThat(response.getNickname()).isEqualTo(와이비.getName());
+        assertThat(response.getNickname()).isEqualTo(와이비.getNickname());
     }
 
     @DisplayName("멤버 수정 테스트")
@@ -77,7 +77,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         putResponse("member/update", MEMBER_API_PATH, request);
 
         Member member = memberService.find(와이비.getId());
-        assertThat(member.getName()).isEqualTo(request.getName());
+        assertThat(member.getNickname()).isEqualTo(request.getNickname());
         assertThat(member.getProfileImage()).isEqualTo(request.getProfileImage());
         assertThat(member.getMemberId()).isEqualTo(request.getMemberId());
     }
@@ -145,7 +145,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         FriendResponse response = postResponse("member/friend-add", FRIEND_API_PATH, request)
             .as(FriendResponse.class);
 
-        assertThat(response.getNickname()).isEqualTo(하루.getName());
+        assertThat(response.getNickname()).isEqualTo(하루.getNickname());
         assertThat(response.getProfileImage()).isEqualTo(하루.getProfileImage());
     }
 
@@ -160,7 +160,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         assertThat(response.stream()
             .map(FriendResponse::getNickname)
             .collect(Collectors.toList())
-            .containsAll(Arrays.asList(멍토.getName(), 심바.getName()))).isTrue();
+            .containsAll(Arrays.asList(멍토.getNickname(), 심바.getNickname()))).isTrue();
     }
 
     @DisplayName("멤버의 친구를 삭제한다.")
@@ -174,8 +174,8 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
         assertThat(findMember.getMemberFriends().size()).isEqualTo(1);
         assertThat(findMember.getMemberFriends().stream()
-            .map(Member::getName)
-            .collect(Collectors.toList()).contains(멍토.getName())).isFalse();
+            .map(Member::getNickname)
+            .collect(Collectors.toList()).contains(멍토.getNickname())).isFalse();
     }
 
     @DisplayName("추가할 친구를 검색한다")

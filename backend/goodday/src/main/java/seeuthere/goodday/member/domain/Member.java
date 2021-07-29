@@ -19,9 +19,9 @@ public class Member {
     private final List<Address> addresses = new ArrayList<>();
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<FriendShip> friends = new HashSet<>();
-    protected String name;
+    private String nickname;
     @Column(name = "PROFILE_IMAGE")
-    protected String profileImage;
+    private String profileImage;
     @Id
     @Column(name = "MEMBER_ID")
     private String id;
@@ -31,15 +31,15 @@ public class Member {
     public Member() {
     }
 
-    public Member(String id, String memberId, String name, String profileImage) {
+    public Member(String id, String memberId, String nickname, String profileImage) {
         this.id = id;
         this.memberId = memberId;
-        this.name = name;
+        this.nickname = nickname;
         this.profileImage = profileImage;
     }
 
     public void update(MemberRequest request) {
-        this.name = request.getName();
+        this.nickname = request.getNickname();
         this.profileImage = request.getProfileImage();
         this.memberId = request.getMemberId();
     }
@@ -94,8 +94,8 @@ public class Member {
         return memberId;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
     public String getProfileImage() {

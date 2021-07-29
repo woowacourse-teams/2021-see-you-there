@@ -34,7 +34,8 @@ public class MemberController {
     public ResponseEntity<ProfileResponse> findMemberInfo(@EnableAuth String id) {
         Member member = memberService.find(id);
         return ResponseEntity.ok()
-            .body(new ProfileResponse(member.getId(), member.getName(), member.getProfileImage()));
+            .body(new ProfileResponse(member.getId(), member.getMemberId(), member.getNickname(),
+                member.getProfileImage()));
     }
 
     @PutMapping

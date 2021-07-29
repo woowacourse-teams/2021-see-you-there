@@ -142,4 +142,12 @@ public class MemberService {
             .map(MemberResponse::new)
             .collect(Collectors.toList());
     }
+
+    public String createRandomMemberId() {
+        String memberId = RandomStringUtils.randomAlphanumeric(8);
+        if(memberRepository.existsByMemberId(memberId)){
+            createRandomMemberId();
+        }
+        return memberId;
+    }
 }

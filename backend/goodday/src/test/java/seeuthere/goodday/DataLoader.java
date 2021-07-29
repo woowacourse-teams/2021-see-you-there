@@ -20,7 +20,13 @@ public class DataLoader implements CommandLineRunner {
     public static final Member 멍토 = new Member("12", "ab", "멍토", "image2");
     public static final Member 심바 = new Member("123", "abc", "심바", "image3");
     public static final Member 하루 = new Member("1", "a", "하루", "image4");
-    public static final Address 와이비집 = new Address("집", "어쩌구", "서울특별시 어쩌구", 123.123, 32.124);
+    public static final Address 와이비집 = new Address.Builder()
+        .nickname("집")
+        .addressName("어쩌구")
+        .fullAddress("서울특별시 어쩌구")
+        .x(123.123)
+        .y(32.124)
+        .build();
 
     private final MemberRepository memberRepository;
     private final AddressRepository addressRepository;

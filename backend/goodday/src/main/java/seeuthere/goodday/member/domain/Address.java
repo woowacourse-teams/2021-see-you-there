@@ -31,7 +31,6 @@ public class Address {
     Member member;
 
     public Address() {
-
     }
 
     public Address(String nickname, String addressName, String fullAddress, Double x, Double y) {
@@ -46,6 +45,15 @@ public class Address {
         this.fullAddress = fullAddress;
         this.x = x;
         this.y = y;
+    }
+
+    public Address(Builder builder) {
+        this.id = builder.id;
+        this.nickname = builder.nickname;
+        this.addressName = builder.addressName;
+        this.fullAddress = builder. fullAddress;
+        this.x = builder.x;
+        this.y = builder.y;
     }
 
     public Address update(Address address) {
@@ -84,5 +92,52 @@ public class Address {
 
     public void setMember(Member member) {
         this.member = member;
+    }
+
+    public static class Builder {
+
+        private Long id;
+        private String nickname;
+        private String addressName;
+        private String fullAddress;
+        private Double x;
+        private Double y;
+
+        public Builder() {
+        }
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder nickname(String nickname) {
+            this.nickname = nickname;
+            return this;
+        }
+
+        public Builder addressName(String addressName) {
+            this.addressName = addressName;
+            return this;
+        }
+
+        public Builder fullAddress(String fullAddress) {
+            this.fullAddress = fullAddress;
+            return this;
+        }
+
+        public Builder x(Double x) {
+            this.x = x;
+            return this;
+        }
+
+        public Builder y(Double y) {
+            this.y = y;
+            return this;
+        }
+
+        public Address build() {
+            return new Address(this);
+        }
     }
 }

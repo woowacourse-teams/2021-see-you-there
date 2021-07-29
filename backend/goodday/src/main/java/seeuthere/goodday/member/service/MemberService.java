@@ -69,7 +69,14 @@ public class MemberService {
     @Transactional
     public AddressResponse addAddress(String id, AddressRequest request) {
         Member member = find(id);
-        Address address = new Address(request.getNickname(), request.getAddressName(), request.getFullAddress(), request.getX(), request.getY());
+        Address address = new Address.Builder()
+            .nickname(request.getNickname())
+            .addressName(request.getAddressName())
+            .fullAddress(request.getFullAddress())
+            .x(request.getX())
+            .y(request.getY())
+            .build();
+
         member.addAddress(address);
         return new AddressResponse(address);
     }
@@ -86,10 +93,16 @@ public class MemberService {
     public AddressResponse updateAddress(String id, AddressUpdateRequest request) {
         Member findMember = find(id);
         Address address = findMember.updateAddress(
-            new Address(request.getId(), request.getNickname(), request.getAddressName(),
-                request.getFullAddress(), request.getX(), request.getY())
+            new Address.Builder()
+                .id(request.getId())
+                .nickname(request.getNickname())
+                .addressName(request.getAddressName())
+                .fullAddress(request.getFullAddress())
+                .x(request.getX())
+                .y(request.getY())
+            .build()
         );
-        return new AddressResponse(address);
+        return AddressResponse.valueOf(address);
     }
 
     @Transactional

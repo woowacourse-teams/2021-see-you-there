@@ -10,7 +10,6 @@ public class AddressUpdateRequest {
     private Double y;
 
     public AddressUpdateRequest() {
-
     }
 
     public AddressUpdateRequest(Long id, String nickname, String addressName,
@@ -46,4 +45,5 @@ public class AddressUpdateRequest {
     public Double getY() {
         return y;
     }
+
 }

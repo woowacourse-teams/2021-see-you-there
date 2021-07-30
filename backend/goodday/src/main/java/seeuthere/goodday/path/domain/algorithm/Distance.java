@@ -1,8 +1,12 @@
 package seeuthere.goodday.path.domain.algorithm;
 
+import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.path.exception.PathExceptionSet;
 
 public class Distance {
+
+    private static final int MAX_WALK_TIME = 15;
 
     int distance;
 
@@ -36,6 +40,12 @@ public class Distance {
     }
 
     public int walkTime() {
-        return (int) (distance / 66.6) + 1;
+        int value = (int) (distance / 66.6) + 1;
+
+        if (value > MAX_WALK_TIME) {
+            throw new GoodDayException(PathExceptionSet.OVER_WALK_TIME);
+        }
+
+        return value;
     }
 }

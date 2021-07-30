@@ -1,10 +1,5 @@
 package seeuthere.goodday.location.domain.location;
 
-import java.util.List;
-import java.util.Objects;
-import seeuthere.goodday.exception.GoodDayException;
-import seeuthere.goodday.location.exception.LocationExceptionSet;
-
 public class MiddlePoint {
 
     private final double x;
@@ -15,21 +10,14 @@ public class MiddlePoint {
         this.y = point.getY();
     }
 
-    public static MiddlePoint valueOf(List<Point> points) {
-        validation(points);
+    public static MiddlePoint valueOf(Points points) {
         return new MiddlePoint(calculation(points));
     }
 
-    private static void validation(List<Point> points) {
-        if (Objects.isNull(points) || points.size() <= 1) {
-            throw new GoodDayException(LocationExceptionSet.NOT_ENOUGH_LOCATION);
-        }
-    }
-
-    private static Point calculation(List<Point> points) {
+    private static Point calculation(Points points) {
         double sumX = 0;
         double sumY = 0;
-        for (Point point : points) {
+        for (Point point : points.getPoints()) {
             sumX += point.getX();
             sumY += point.getY();
         }

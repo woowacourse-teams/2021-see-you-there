@@ -18,11 +18,19 @@ export const EasyAddModal = (props) => {
   const hasNoFriend = userFriendList?.length === 0;
   const hasNoFriendWithAddress = userFriendList?.every((friend) => friend.addresses.length === 0);
   const noItemMessage = hasNoneOfMyAddress
-    ? { situation: `아직 주소를 추가하지 않으셨군요!`, subject: '나의 첫 주소', action: '를 추가하고' }
+    ? {
+        situation: `아직 ${user.nickname}님의 주소를 등록하지 않으셨군요!`,
+        subject: '나의 첫 주소',
+        action: '를 등록해두고',
+      }
     : hasNoFriend
-    ? { situation: '아직 친구를 추가하지 않으셨군요!', subject: '친구 아이디', action: '로 친구 추가하고' }
+    ? { situation: '아직 친구를 등록하지 않으셨군요!', subject: '친구 아이디', action: '로 친구 등록해두고' }
     : hasNoFriendWithAddress
-    ? { situation: '친구분들이 아직 주소를 등록하지 않았군요!', subject: '더 많은 친구 아이디', action: '를 추가하고' }
+    ? {
+        situation: '친구분들이 아직 주소를 등록하지 않았군요!',
+        subject: '더 많은 친구 아이디',
+        action: '를 등록해두고',
+      }
     : null;
 
   const escapeModal = () => {

@@ -89,6 +89,7 @@ export const UserContextProvider = ({ children }) => {
     () => fetchUserFriendList(token),
     {
       enabled: isLogin,
+      staleTime: 60_000,
     }
   );
 

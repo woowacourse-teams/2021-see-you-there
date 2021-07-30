@@ -174,7 +174,7 @@ export const ResultSection = styled.section`
   height: 16rem;
 `;
 
-export const SearchResult = styled.p`
+export const SearchResult = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -200,7 +200,7 @@ export const SearchResult = styled.p`
   }
 `;
 
-export const NoResult = styled.p`
+export const NoResult = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

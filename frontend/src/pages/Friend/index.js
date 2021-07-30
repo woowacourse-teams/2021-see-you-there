@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { FriendSearchModal } from './FriendSearchModal';
 import {
@@ -13,43 +13,16 @@ import {
   FriendInfo,
 } from './style';
 import { ButtonRound, Confirm, Icon } from '../../components';
+import { UserContext } from '../../contexts';
 import { useConfirm, useModal, useMutateFriend } from '../../hooks';
-import { getAvatarKey } from '../../utils';
+
 import { Image } from '../../assets';
 import { COLOR, MESSAGE } from '../../constants';
 
 const formId = 'USER_FRIEND';
 
-const mockFriendList = [
-  {
-    memberId: '365kim',
-    nickname: '365kim',
-    profileImage: Image[getAvatarKey()],
-    addresses: [],
-  },
-  {
-    memberId: '0imbean0',
-    nickname: '임심바',
-    profileImage: Image[getAvatarKey()],
-    addresses: [],
-  },
-  {
-    memberId: 'daum7766',
-    nickname: '김멍토',
-    profileImage: Image[getAvatarKey()],
-    addresses: [],
-  },
-  {
-    memberId: 'hybeom0720',
-    nickname: '와이빛',
-    profileImage: Image[getAvatarKey()],
-    addresses: [],
-  },
-];
-
-const memberId = '검색용 ID 준비중';
-
 export const FriendPage = () => {
+  const { memberId, userFriendList } = useContext(UserContext);
   const { deleteFriend } = useMutateFriend();
   const { isModalOpen, openModal, closeModal } = useModal();
   const [isMemberIdCopied, setIsMemberIdCopied] = useState(false);
@@ -59,8 +32,7 @@ export const FriendPage = () => {
   };
 
   const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useConfirm({
-    // approve: deleteFriend,
-    approve: (id) => console.log('delete', id),
+    approve: deleteFriend,
   });
 
   return (
@@ -70,7 +42,11 @@ export const FriendPage = () => {
         <MyMemberId>
           <span>내 아이디: {memberId}</span>
           <button onClick={handleClickCopyButton}>
-            {isMemberIdCopied ? <Icon.Check width="16" color={COLOR.PRIMARY_LIGHT} /> : <Icon.Copy width="16" />}
+            {isMemberIdCopied ? (
+              <Icon.Check width="16" color={COLOR.PRIMARY_LIGHT} />
+            ) : (
+              <Icon.Copy width="16" hoverColor={COLOR.PRIMARY_LIGHT} />
+            )}
           </button>
         </MyMemberId>
         <ButtonSection>
@@ -85,8 +61,9 @@ export const FriendPage = () => {
           </ButtonRound>
           <FriendSearchModal isModalOpen={isModalOpen} closeModal={closeModal} />
         </ButtonSection>
+
         <List>
-          {mockFriendList.map((friend) => {
+          {userFriendList?.map((friend) => {
             const { profileImage, memberId, nickname } = friend;
 
             return (
@@ -104,6 +81,7 @@ export const FriendPage = () => {
         <Confirm isConfirmOpen={isConfirmOpen} onCancel={cancelConfirm} onApprove={approveConfirm}>
           {MESSAGE[formId].CONFIRM_DELETE}
         </Confirm>
+
         <img src={Image.drawingFriend} alt="내 친구목록 페이지 일러스트" />
       </ContentArea>
     </main>

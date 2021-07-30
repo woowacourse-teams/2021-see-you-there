@@ -14,7 +14,7 @@ export const API_URL = {
 
   ADDRESS: `${API_END_POINT}/members/address`,
   FRIEND: `${API_END_POINT}/members/friends`,
-  FRIEND_SEARCH: `${API_END_POINT}/members/friends`, //TODO: API 생성 후 확인 필요
+  FRIEND_SEARCH: (keyword) => `${API_END_POINT}/members/friends/search?searchWord=${keyword}`,
 };
 
 export const QUERY_KEY = {
@@ -32,6 +32,7 @@ export const QUERY_KEY = {
 
   ADDRESS: '내 주소목록',
   FRIEND: '내 친구목록',
+  FRIEND_SEARCH: '친구 ID검색',
 };
 
 export const STATUS = {

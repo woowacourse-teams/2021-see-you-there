@@ -1,3 +1,4 @@
+import { getAvatarKey } from '../utils';
 import { Image } from '../assets';
 
 export const MOCK_PARTICIPANT_LIST = [
@@ -80,5 +81,32 @@ export const MOCK_MY_ADDRESS_LIST = [
     fullAddress: '서울특별시 송파구 올림픽로 444',
     x: 127.333333,
     y: 27.333333,
+  },
+];
+
+export const MOCK_FRIEND_LIST = [
+  {
+    memberId: '365kim',
+    nickname: '365kim',
+    profileImage: Image[getAvatarKey()],
+    addresses: [],
+  },
+  {
+    memberId: '0imbean0',
+    nickname: '임심바',
+    profileImage: Image[getAvatarKey()],
+    addresses: [],
+  },
+  {
+    memberId: 'daum7766',
+    nickname: '김멍토',
+    profileImage: Image[getAvatarKey()],
+    addresses: [],
+  },
+  {
+    memberId: 'hybeom0720',
+    nickname: '와이빛',
+    profileImage: Image[getAvatarKey()],
+    addresses: [],
   },
 ];

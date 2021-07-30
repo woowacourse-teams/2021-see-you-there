@@ -1,16 +1,16 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 import { InputWithButton, Icon, Modal, ButtonRound } from '../../components';
 import { Top, SearchResult, Nickname, MemberId, ProfileImage, FriendInfo, NoResult, ResultSection } from './style';
-// import { useFriendSearch, useMutateFriend } from '../../hooks';
-import { useFriendSearch } from '../../hooks';
+import { useFriendSearch, useMutateFriend } from '../../hooks';
 import { INPUT } from '../../constants';
 
 export const FriendSearchModal = (props) => {
   const { isModalOpen, closeModal } = props;
   const [memberIdInput, setMemberIdInput] = useState('');
   const { searchResult, memberIdKeyword, setMemberIdKeyword } = useFriendSearch();
-  // const { createFriend } = useMutateFriend();
+  const { createFriend } = useMutateFriend();
 
   const escapeModal = () => {
     setMemberIdInput('');
@@ -33,9 +33,8 @@ export const FriendSearchModal = (props) => {
     setMemberIdKeyword(memberIdInput);
   };
 
-  const handleClickAddButton = (address) => {
-    // createFriend(memberIdInput);
-    console.log('create', memberIdInput);
+  const handleClickAddButton = () => {
+    createFriend(memberIdInput);
     escapeModal();
   };
 
@@ -91,4 +90,9 @@ export const FriendSearchModal = (props) => {
       </Modal>
     )
   );
+};
+
+FriendSearchModal.propTypes = {
+  isModalOpen: PropTypes.bool,
+  closeModal: PropTypes.func,
 };

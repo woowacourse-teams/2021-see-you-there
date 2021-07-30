@@ -3,6 +3,7 @@ package seeuthere.goodday.auth.dto;
 public class ProfileResponse {
 
     private String id;
+    private String memberId;
     private String nickname;
     private String profileImage;
 
@@ -10,8 +11,9 @@ public class ProfileResponse {
 
     }
 
-    public ProfileResponse(String id, String nickname, String profileImage) {
+    public ProfileResponse(String id, String memberId, String nickname, String profileImage) {
         this.id = id;
+        this.memberId = memberId;
         this.nickname = nickname;
         this.profileImage = profileImage;
     }
@@ -20,24 +22,14 @@ public class ProfileResponse {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String getMemberId() {return memberId;}
 
     public String getNickname() {
         return nickname;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public String getProfileImage() {
         return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
     }
 
 }

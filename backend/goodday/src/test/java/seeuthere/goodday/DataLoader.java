@@ -4,7 +4,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
-import seeuthere.goodday.member.dao.AddressRepository;
 import seeuthere.goodday.member.dao.MemberRepository;
 import seeuthere.goodday.member.domain.Address;
 import seeuthere.goodday.member.domain.Member;
@@ -29,15 +28,12 @@ public class DataLoader implements CommandLineRunner {
         .build();
 
     private final MemberRepository memberRepository;
-    private final AddressRepository addressRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberService memberService;
 
     public DataLoader(MemberRepository memberRepository,
-        AddressRepository addressRepository,
         JwtTokenProvider jwtTokenProvider, MemberService memberService) {
         this.memberRepository = memberRepository;
-        this.addressRepository = addressRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.memberService = memberService;
     }

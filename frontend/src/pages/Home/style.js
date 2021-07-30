@@ -220,7 +220,7 @@ export const FriendInfo = styled.div`
   padding-left: 1rem;
 
   text-align: start;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: ${COLOR.PARAGRAPH};
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
@@ -230,6 +230,7 @@ export const FriendInfo = styled.div`
 `;
 
 export const AddressName = styled.span`
+  margin-left: 0.1rem;
   color: ${COLOR.PRIMARY_LIGHT};
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {

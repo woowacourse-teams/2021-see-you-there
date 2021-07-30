@@ -29,6 +29,23 @@ export const INPUT = {
     },
   },
 
+  USER_PROFILE: {
+    NICKNAME: {
+      KEY: 'nickname',
+      LABEL: '별명',
+      PLACEHOLDER: '1 ~ 10자로 입력해주세요.',
+      MIN_LENGTH: 1,
+      MAX_LENGTH: 10,
+    },
+    MEMBER_ID: {
+      KEY: 'memberId',
+      LABEL: '아이디',
+      PLACEHOLDER: '아이디를 입력해주세요.',
+      MIN_LENGTH: 1,
+      MAX_LENGTH: 10,
+    },
+  },
+
   ADDRESS_SEARCH: {
     KEY: 'addressSearch',
     LABEL: '주소검색',
@@ -69,6 +86,19 @@ export const MESSAGE = {
 
   USER_FRIEND: {
     CONFIRM_DELETE: '해당 친구를 삭제하시겠습니까?',
+  },
+
+  USER_PROFILE: {
+    NOTICE_NICKNAME_TOO_LONG: `별명을 ${INPUT.USER_PROFILE.NICKNAME.MAX_LENGTH}자 이하로만 입력 가능합니다.`,
+    NOTICE_NICKNAME_TOO_SHORT: `별명을 ${INPUT.USER_PROFILE.NICKNAME.MIN_LENGTH}자 이상으로 입력해주세요.`,
+    NOTICE_NICKNAME_EMPTY: '별명을 입력해주세요.',
+
+    NOTICE_MEMBER_ID_TOO_LONG: `아이디을 ${INPUT.USER_PROFILE.MEMBER_ID.MAX_LENGTH}자 이하로만 입력 가능합니다.`,
+    NOTICE_MEMBER_ID_TOO_SHORT: `아이디을 ${INPUT.USER_PROFILE.MEMBER_ID.MIN_LENGTH}자 이상으로 입력해주세요.`,
+    NOTICE_MEMBER_ID_EMPTY: '아이디을 입력해주세요.',
+
+    NOTICE_INCOMPLETE_FORM: '프로필 정보를 입력해주세요.',
+    NOTICE_UNUPDATED_FORM: '변경된 정보가 없습니다.',
   },
 };
 

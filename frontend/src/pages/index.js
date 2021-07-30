@@ -6,4 +6,5 @@ export { LogoutPage } from './Logout';
 export { MidpointPage } from './Midpoint';
 export { NotFoundPage } from './NotFound';
 export { OAuthPage } from './OAuth';
+export { ProfilePage } from './Profile';
 export { WelcomePage } from './Welcome';

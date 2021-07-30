@@ -13,6 +13,8 @@ export const ROUTE = {
   ADDRESS: { NAME: '내 주소관리', PATH: '/address' },
   FRIEND: { NAME: '내 친구관리', PATH: '/friend' },
   HISTORY: { NAME: '검색 히스토리', PATH: '/history' },
+
+  NOT_FOUND: { NAME: '404 페이지', PATH: '*' },
 };
 
 export const PUBLIC_ROUTES = [ROUTE.HOME, ROUTE.MIDPOINT, ROUTE.LOGIN];

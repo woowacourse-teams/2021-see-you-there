@@ -16,7 +16,7 @@ const INITIAL_STATE = {
 };
 
 const fetchUserInfo = async (token) => {
-  const response = await httpRequest.get(API_URL.TOKEN_VALIDATION, { token });
+  const response = await httpRequest.get(API_URL.USER, { token });
 
   if (response.status === 401) {
     throw new Error(STATUS.INVALID_TOKEN_ERROR);
@@ -68,13 +68,9 @@ export const UserContextProvider = ({ children }) => {
     history.push(ROUTE.LOGIN.PATH);
   };
 
-  const { data: userInfo, error: errorTokenValidation } = useQuery(
-    QUERY_KEY.TOKEN_VALIDATION,
-    () => fetchUserInfo(INITIAL_TOKEN),
-    {
-      enabled: !!INITIAL_TOKEN,
-    }
-  );
+  const { data: userInfo, error: errorTokenValidation } = useQuery(QUERY_KEY.USER, () => fetchUserInfo(INITIAL_TOKEN), {
+    enabled: !!INITIAL_TOKEN,
+  });
 
   const { data: userAddressList, error: errorUserAddressList } = useQuery(
     QUERY_KEY.ADDRESS,
@@ -92,8 +88,6 @@ export const UserContextProvider = ({ children }) => {
       staleTime: 60_000,
     }
   );
-
-  // TODO: 접근제한 페이지 관리 추가하기
 
   useEffect(() => {
     if (!userInfo) {

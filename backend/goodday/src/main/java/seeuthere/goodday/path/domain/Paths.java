@@ -1,5 +1,6 @@
 package seeuthere.goodday.path.domain;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import seeuthere.goodday.location.domain.location.Point;
@@ -17,9 +18,16 @@ public class Paths {
     }
 
     public Paths pathsWithWalk(Point start, Point end) {
-        List<Path> pathsWithWalk = paths.stream()
+        if (paths.isEmpty()) {
+            return onlyWalkPath(start, end);
+        }
+        return new Paths(paths.stream()
             .map(path -> path.addWalkRoute(start, end))
-            .collect(Collectors.toList());
-        return new Paths(pathsWithWalk);
+            .collect(Collectors.toList()));
+    }
+
+    private Paths onlyWalkPath(Point start, Point end) {
+        Path path = Path.walkPath(start, end);
+        return new Paths(Collections.singletonList(path));
     }
 }

@@ -63,9 +63,9 @@ export const App = () => {
               <Route path={[ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGIN_NAVER.PATH]}>
                 <OAuthPage />
               </Route>
-              <AuthRoute path={ROUTE.LOGOUT.PATH}>
+              <Route path={ROUTE.LOGOUT.PATH}>
                 <LogoutPage />
-              </AuthRoute>
+              </Route>
 
               <Route exact path={ROUTE.NOT_FOUND.PATH}>
                 <NotFoundPage />

@@ -12,11 +12,16 @@ import avatar10 from './avatar10.png';
 import drawingFriend from './drawingFriend.png';
 import drawingLogin from './drawingLogin.png';
 import drawingWelcome from './drawingWelcome.png';
+import home1 from './home1.png';
+import home2 from './home2.png';
 import logo from './logo.png';
 import logoKakao from './logoKakao.png';
 import logoNaver from './logoNaver.png';
-import home1 from './home1.png';
-import home2 from './home2.png';
+import pinCafe from './pinCafe.png';
+import pinDining from './pinDining.png';
+import pinParticipant from './pinParticipant.png';
+import pinParty from './pinParty.png';
+import pinStation from './pinStation.png';
 
 export {
   avatarWonder,
@@ -33,9 +38,14 @@ export {
   drawingFriend,
   drawingLogin,
   drawingWelcome,
+  home1,
+  home2,
   logo,
   logoKakao,
   logoNaver,
-  home1,
-  home2,
+  pinCafe,
+  pinDining,
+  pinParticipant,
+  pinParty,
+  pinStation,
 };

@@ -48,6 +48,10 @@ export const Container = styled.div`
     &:focus {
       border-color: ${COLOR.PRIMARY};
       border-width: 2px;
+
+      & ~ svg > path {
+        fill: ${COLOR.PRIMARY};
+      }
     }
 
     &:read-only {

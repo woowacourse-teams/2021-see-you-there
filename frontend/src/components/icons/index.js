@@ -3,6 +3,7 @@ export { Check } from './check';
 export { CheckCircle } from './checkCircle';
 export { Close } from './close';
 export { Copy } from './copy';
+export { Dropdown } from './dropdown';
 export { Enter } from './enter';
 export { ErrorCircle } from './errorCircle';
 export { Hamburger } from './hamburger';

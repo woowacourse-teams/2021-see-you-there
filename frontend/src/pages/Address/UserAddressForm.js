@@ -6,8 +6,8 @@ import { AddFormContext } from '../../contexts';
 import { useAddressNicknameInput, useAddressInput, useMutateAddress } from '../../hooks';
 import { AddForm, ButtonGroup } from './style';
 
-export const UserAddressAddForm = (props) => {
-  const { editAddressId, handleCancel } = props;
+export const UserAddressForm = (props) => {
+  const { editAddressId, closeForm } = props;
   const { INPUT, MESSAGE, formRef, isComplete, noticeMessage, setNoticeMessage } = useContext(AddFormContext);
   const { createAddress, updateAddress } = useMutateAddress();
 
@@ -25,13 +25,11 @@ export const UserAddressAddForm = (props) => {
     }
     if (isEditing) {
       // TODO: 변경사항이 있을 경우에만 처리
-      // props로 original 내려주고 originalName === name, originalAddress 객체 === address 객체
-      // console.log({ id: editAddressId, nickname, address });
       updateAddress({ id: editAddressId, nickname, address });
     } else {
-      // console.log({ nickname, address });
       createAddress({ nickname, address });
     }
+    closeForm();
   };
 
   return (
@@ -60,7 +58,7 @@ export const UserAddressAddForm = (props) => {
       <AddressSearchModal />
       <Notice>{noticeMessage}</Notice>
       <ButtonGroup>
-        <button type="button" onClick={handleCancel}>
+        <button type="button" onClick={closeForm}>
           취소
         </button>
         <button type="submit" onClick={handleSubmit}>
@@ -71,7 +69,7 @@ export const UserAddressAddForm = (props) => {
   );
 };
 
-UserAddressAddForm.propTypes = {
+UserAddressForm.propTypes = {
   editAddressId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  handleCancel: PropTypes.func.isRequired,
+  closeForm: PropTypes.func.isRequired,
 };

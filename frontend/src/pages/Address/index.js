@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 
-import { UserAddressAddForm } from './UserAddressAddForm';
+import { UserAddressForm } from './UserAddressForm';
 import { ContentArea, ButtonGroup, Nickname, AddressName, FullAddress, ListItem, AddSection } from './style';
 import { ButtonRound, Confirm } from '../../components';
 import { AddFormContextProvider, UserContext } from '../../contexts';
@@ -9,27 +9,6 @@ import { MESSAGE } from '../../constants';
 import { Image } from '../../assets';
 
 const formId = 'USER_ADDRESS';
-
-const mockAddressList = [
-  {
-    id: 1,
-    nickname: '사무실',
-    addressName: '위워크 선릉점',
-    fullAddress: '서울특별시 강남구 테헤란로 1111',
-    x: 127.333333,
-    y: 27.333333,
-  },
-  {
-    id: 2,
-    nickname: '자택',
-    addressName: '잠실 포스코더샵',
-    fullAddress: '서울특별시 송파구 올림픽로 444',
-    x: 127.333333,
-    y: 27.333333,
-  },
-];
-
-const INITIAL_STATE = null;
 
 export const AddressPage = () => {
   const { userAddressList } = useContext(UserContext);
@@ -52,42 +31,40 @@ export const AddressPage = () => {
       <ContentArea>
         <h2>내 주소를 관리해보아요.</h2>
         <ul>
-          {mockAddressList.map((address, index) => {
-            // {userAddressList?.map((address, index) => {
+          {userAddressList?.map((address, index) => {
             const { id, nickname, addressName, fullAddress } = address;
 
             if (editAddressId === id) {
               return (
                 <li key={id}>
                   <AddFormContextProvider formId={formId} initialName={nickname} initialAddress={address}>
-                    <UserAddressAddForm editAddressId={id} handleCancel={finishEditing} />
+                    <UserAddressForm editAddressId={id} closeForm={finishEditing} />
                   </AddFormContextProvider>
                 </li>
               );
             }
             return (
-              <>
-                <ListItem key={id} isButtonVisible={!isEditing && !isAdding}>
-                  <img src={index % 2 ? Image.home1 : Image.home2} alt="내 주소 일러스트" />
-                  <Nickname>{nickname}</Nickname>
-                  <AddressName>{addressName}</AddressName>
-                  <FullAddress>{fullAddress}</FullAddress>
-                  <ButtonGroup>
-                    <button onClick={() => handleClickEditButton(id)}>수정</button>
-                    <button onClick={() => openConfirm(id)}>삭제</button>
-                  </ButtonGroup>
-                </ListItem>
-              </>
+              <ListItem key={id} isButtonVisible={!isEditing && !isAdding}>
+                <img src={index % 2 ? Image.home1 : Image.home2} alt="내 주소 일러스트" />
+                <Nickname>{nickname}</Nickname>
+                <AddressName>{addressName}</AddressName>
+                <FullAddress>{fullAddress}</FullAddress>
+                <ButtonGroup>
+                  <button onClick={() => handleClickEditButton(id)}>수정</button>
+                  <button onClick={() => openConfirm(id)}>삭제</button>
+                </ButtonGroup>
+              </ListItem>
             );
           })}
         </ul>
         <Confirm isConfirmOpen={isConfirmOpen} onCancel={cancelConfirm} onApprove={approveConfirm}>
           {MESSAGE[formId].CONFIRM_DELETE}
         </Confirm>
+
         <AddSection>
           {isAdding ? (
             <AddFormContextProvider formId={formId}>
-              <UserAddressAddForm handleCancel={() => setIsAdding(false)} />
+              <UserAddressForm closeForm={() => setIsAdding(false)} />
             </AddFormContextProvider>
           ) : (
             <ButtonRound onClick={() => setIsAdding(true)} disabled={isEditing}>

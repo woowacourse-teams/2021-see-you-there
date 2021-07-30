@@ -29,7 +29,7 @@ export const useMutateAddress = () => {
 
   /* 수정 */
   const fetchUpdate = async (body) => {
-    const response = await httpRequest.delete(API_URL.ADDRESS, { token, body });
+    const response = await httpRequest.put(API_URL.ADDRESS, { token, body });
 
     if (response.status === 401) {
       throw new Error(STATUS.INVALID_TOKEN_ERROR);

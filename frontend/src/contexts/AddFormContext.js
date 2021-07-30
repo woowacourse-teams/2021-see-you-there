@@ -10,7 +10,7 @@ export const AddFormContext = createContext();
 
 const INITIAL_STATE = {
   NAME: '',
-  ADDRESS: { addressName: '', x: 0, y: 0 },
+  ADDRESS: { id: null, x: 0, y: 0, addressName: '', fullAddress: '' },
   ADDRESS_KEYWORD: '',
   NOTICE_MESSAGE: '',
 };

@@ -1,3 +1,4 @@
+import avatarWonder from './avatarWonder.png';
 import avatar1 from './avatar1.png';
 import avatar2 from './avatar2.png';
 import avatar3 from './avatar3.png';
@@ -18,6 +19,7 @@ import home1 from './home1.png';
 import home2 from './home2.png';
 
 export {
+  avatarWonder,
   avatar1,
   avatar2,
   avatar3,

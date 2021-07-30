@@ -1,19 +1,33 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
+import { EasyAddModal } from './EasyAddModal';
 import { AddressSearchModal, ButtonRound, Icon, Input, Notice } from '../../components';
-import { AddFormContext, ParticipantContext } from '../../contexts';
-import { useParticipantNameInput, useAddressInput } from '../../hooks';
+import { UserContext, AddFormContext, ParticipantContext } from '../../contexts';
+import { useModal, useParticipantNameInput, useAddressInput } from '../../hooks';
 import { AddForm, ButtonGroup } from './style';
 import { getId, getAvatarKey } from '../../utils';
+import { ROUTE } from '../../constants';
 import { Image } from '../../assets';
 
 export const ParticipantAddForm = () => {
+  const { isLogin } = useContext(UserContext);
   const { addParticipant, isFullParticipants } = useContext(ParticipantContext);
   const { INPUT, MESSAGE, formRef, resetForm, isComplete, noticeMessage, setNoticeMessage } =
     useContext(AddFormContext);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const history = useHistory();
 
   const { name, handleChangeName, handleBlurName, focusName } = useParticipantNameInput();
   const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
+
+  const handleClickFriendButton = () => {
+    if (!isLogin) {
+      history.push(ROUTE.FRIEND.PATH);
+      return;
+    }
+    openModal();
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,9 +81,16 @@ export const ParticipantAddForm = () => {
       <Notice>{noticeMessage}</Notice>
 
       <ButtonGroup>
-        <ButtonRound type="button" size="sm" Icon={<Icon.People width="18" />} color="gray">
-          친구 목록에서 선택
+        <ButtonRound
+          type="button"
+          size="sm"
+          Icon={<Icon.People width="18" />}
+          color="gray"
+          onClick={handleClickFriendButton}
+        >
+          {isLogin ? '간편 추가' : '로그인하고 간편추가'}
         </ButtonRound>
+        <EasyAddModal isModalOpen={isModalOpen} closeModal={closeModal} />
         <ButtonRound
           type="submit"
           size="sm"

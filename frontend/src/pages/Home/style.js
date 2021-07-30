@@ -141,3 +141,135 @@ export const BottomSection = styled.section`
     }
   }
 `;
+
+/* 간편추가 모달 */
+
+export const Top = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  & > button {
+    width: fit-content;
+  }
+`;
+
+export const ModalListSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 20rem;
+  margin: 1.25rem 0;
+  overflow-y: auto;
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    margin: 1rem 0;
+    height: 16rem;
+  }
+`;
+
+export const List = styled.ul`
+  width: 100%;
+
+  /* 스크롤 공간 확보 */
+  margin-right: 0;
+  padding-right: 1rem;
+
+  z-index: ${Z_INDEX.ON_IMAGE};
+
+  & > li {
+    width: 100%;
+    border-bottom: 1px solid ${COLOR.BORDER};
+
+    & > button {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      font-size: 0.75rem;
+
+      & svg {
+        margin-right: 0.75rem;
+        visibility: hidden;
+      }
+
+      &:hover:not(:disabled) {
+        background-color: ${COLOR.PRIMARY_BACKGROUND};
+
+        & svg {
+          visibility: visible;
+        }
+      }
+    }
+  }
+`;
+
+export const ProfileImage = styled.img`
+  width: 1.75rem;
+  height: 1.75rem;
+
+  background-color: #bbb;
+  border-radius: 50%;
+  padding: 0.125rem;
+`;
+
+export const FriendInfo = styled.div`
+  flex-grow: 1;
+  padding-left: 1rem;
+
+  text-align: start;
+  font-size: 0.9rem;
+  color: ${COLOR.PARAGRAPH};
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    padding-left: 0.75rem;
+    font-size: 0.75rem;
+  }
+`;
+
+export const AddressName = styled.span`
+  color: ${COLOR.PRIMARY_LIGHT};
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    display: block;
+  }
+`;
+
+export const NoItem = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1.75;
+
+  & > span:first-child {
+    font-size: 0.875rem;
+  }
+
+  & strong {
+    color: ${COLOR.PARAGRAPH_LIGHT};
+  }
+
+  & > img {
+    margin: 0.5rem;
+    width: 4rem;
+  }
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    font-size: 0.625rem;
+
+    & > span:first-child {
+      font-size: 0.75rem;
+    }
+
+    & > img {
+      width: 2rem;
+    }
+  }
+`;

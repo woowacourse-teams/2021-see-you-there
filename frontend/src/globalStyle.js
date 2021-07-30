@@ -31,6 +31,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'NanumSquareRound', sans-serif;
     color: ${COLOR.PARAGRAPH};
     letter-spacing: -0.03rem;
+    white-space: nowrap;
   }
 
   html, body {
@@ -46,6 +47,7 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
     text-decoration: none;
     outline: none;
+    cursor: pointer;
 
     &:link,
     &:visited,

@@ -1,5 +1,6 @@
 package seeuthere.goodday.member.dao;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +17,7 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     @Query("SELECT m FROM Member m WHERE m.memberId = :memberId")
     Member findByMemberId(@Param("memberId") String memberId);
+
+    @Query("SELECT m FROM Member m WHERE m.memberId LIKE %:searchWord% ORDER BY m.memberId")
+    List<Member> findMembersContainingWord(@Param("searchWord") String searchWord);
 }

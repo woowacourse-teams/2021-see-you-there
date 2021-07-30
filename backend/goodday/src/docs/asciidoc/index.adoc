@@ -10,9 +10,8 @@
 :default-path: https://seeyouthere.o-r.kr/api/docs
 
 .API Docs
-
 link:{default-path}/locations[Locations RestDocs]
 
 link:{default-path}/paths[Paths RestDocs]
 
-link:{default-path}member[Member RestDocs]
+link:{default-path}/member[Member RestDocs]

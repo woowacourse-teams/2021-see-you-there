@@ -6,29 +6,30 @@ public class MemberResponse {
 
     private String id;
     private String memberId;
-    private String name;
+    private String nickname;
     private String profileImage;
 
     public MemberResponse() {
     }
 
     public MemberResponse(Member member) {
-        this(member.getId(), member.getMemberId(), member.getName(), member.getProfileImage());
+        this(member.getId(), member.getMemberId(), member.getNickname(), member.getProfileImage());
     }
 
-    public MemberResponse(String id, String name, String profileImage, String memberId) {
+    public MemberResponse(String id, String memberId, String nickname, String profileImage) {
         this.id = id;
-        this.name = name;
-        this.profileImage = profileImage;
         this.memberId = memberId;
+        this.nickname = nickname;
+        this.profileImage = profileImage;
+
     }
 
     public String getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
     public String getProfileImage() {

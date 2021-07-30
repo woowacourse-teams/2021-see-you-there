@@ -96,3 +96,13 @@ include::{default-path}/friend-delete/http-request.adoc[]
 ## response
 
 include::{default-path}/friend-delete/http-response.adoc[]
+
+# 회원 검색
+
+## request
+
+include::{default-path}/friend-search/http-request.adoc[]
+
+## response
+
+include::{default-path}/friend-search/http-response.adoc[]

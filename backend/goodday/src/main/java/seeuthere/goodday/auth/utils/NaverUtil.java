@@ -44,7 +44,7 @@ public class NaverUtil {
             .retrieve().bodyToMono(TokenResponse.class).block();
     }
 
-    public static ProfileResponse getUserInfo(String accessToken) {
+    public static ProfileResponse getUserInfo(String accessToken, String memberId) {
         WebClient webclient = WebClient.builder()
             .baseUrl(NAVER_HOST_URI)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -57,16 +57,16 @@ public class NaverUtil {
             .header("Authorization", "Bearer " + accessToken)
             .retrieve()
             .bodyToMono(JSONObject.class).block();
-        return convertToProfileDto(response);
+        return convertToProfileDto(response, memberId);
     }
 
-    private static ProfileResponse convertToProfileDto(JSONObject response) {
+    private static ProfileResponse convertToProfileDto(JSONObject response, String memberId) {
         Map<String, Object> res = (LinkedHashMap<String, Object>) response.get("response");
 
         String id = (String) res.get("id");
         String nickName = (String) res.get("nickname");
         String profileImage = (String) res.get("profile_image");
 
-        return new ProfileResponse(id, nickName, profileImage);
+        return new ProfileResponse(id, memberId, nickName, profileImage);
     }
 }

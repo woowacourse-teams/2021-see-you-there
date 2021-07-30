@@ -3,28 +3,47 @@ package seeuthere.goodday.member.dto;
 public class AddressUpdateRequest {
 
     private Long id;
-    private String name;
-    private String address;
+    private String nickname;
+    private String addressName;
+    private String fullAddress;
+    private Double x;
+    private Double y;
 
     public AddressUpdateRequest() {
-
     }
 
-    public AddressUpdateRequest(Long id, String name, String address) {
+    public AddressUpdateRequest(Long id, String nickname, String addressName,
+        String fullAddress, Double x, Double y) {
         this.id = id;
-        this.name = name;
-        this.address = address;
+        this.nickname = nickname;
+        this.addressName = addressName;
+        this.fullAddress = fullAddress;
+        this.x = x;
+        this.y = y;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAddressName() {
+        return addressName;
     }
+
+    public String getFullAddress() {
+        return fullAddress;
+    }
+
+    public Double getX() {
+        return x;
+    }
+
+    public Double getY() {
+        return y;
+    }
+
 }

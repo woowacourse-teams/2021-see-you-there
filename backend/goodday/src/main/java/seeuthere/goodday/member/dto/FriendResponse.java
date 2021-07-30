@@ -16,7 +16,7 @@ public class FriendResponse {
     }
 
     public FriendResponse(Member friend) {
-        this(friend.getMemberId(), friend.getName(), friend.getProfileImage(),
+        this(friend.getMemberId(), friend.getNickname(), friend.getProfileImage(),
             friend.getAddresses());
     }
 

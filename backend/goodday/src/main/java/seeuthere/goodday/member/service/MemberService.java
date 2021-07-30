@@ -69,25 +69,40 @@ public class MemberService {
     @Transactional
     public AddressResponse addAddress(String id, AddressRequest request) {
         Member member = find(id);
-        Address address = new Address(request.getName(), request.getAddress());
+        Address address = new Address.Builder()
+            .nickname(request.getNickname())
+            .addressName(request.getAddressName())
+            .fullAddress(request.getFullAddress())
+            .x(request.getX())
+            .y(request.getY())
+            .build();
+
         member.addAddress(address);
-        return new AddressResponse(address);
+        return AddressResponse.valueOf(address);
     }
 
     public List<AddressResponse> findAddress(String id) {
         Member member = find(id);
         List<Address> addresses = member.getAddresses();
         return addresses.stream()
-            .map(AddressResponse::new)
+            .map(AddressResponse::valueOf)
             .collect(Collectors.toList());
     }
 
     @Transactional
     public AddressResponse updateAddress(String id, AddressUpdateRequest request) {
         Member findMember = find(id);
-        Address address = findMember
-            .updateAddress(request.getId(), request.getName(), request.getAddress());
-        return new AddressResponse(address);
+        Address address = findMember.updateAddress(
+            new Address.Builder()
+                .id(request.getId())
+                .nickname(request.getNickname())
+                .addressName(request.getAddressName())
+                .fullAddress(request.getFullAddress())
+                .x(request.getX())
+                .y(request.getY())
+                .build()
+        );
+        return AddressResponse.valueOf(address);
     }
 
     @Transactional
@@ -118,5 +133,21 @@ public class MemberService {
         Member member = find(id);
         Member friend = memberRepository.findByMemberId(request.getMemberId());
         member.deleteFriend(friend);
+    }
+
+    public List<MemberResponse> searchFriend(String id, String searchWord) {
+        List<Member> findMembers = memberRepository.findMembersContainingWord(searchWord);
+        findMembers.removeIf(member -> member.getId().equals(id));
+        return findMembers.stream()
+            .map(MemberResponse::new)
+            .collect(Collectors.toList());
+    }
+
+    public String createRandomMemberId() {
+        String memberId = RandomStringUtils.randomAlphanumeric(8);
+        if(memberRepository.existsByMemberId(memberId)){
+            createRandomMemberId();
+        }
+        return memberId;
     }
 }

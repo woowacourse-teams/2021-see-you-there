@@ -23,6 +23,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import seeuthere.goodday.AcceptanceTest;
@@ -37,16 +39,16 @@ import seeuthere.goodday.member.dto.AddressUpdateRequest;
 import seeuthere.goodday.member.dto.FriendRequest;
 import seeuthere.goodday.member.dto.FriendResponse;
 import seeuthere.goodday.member.dto.MemberRequest;
+import seeuthere.goodday.member.dto.MemberResponse;
 import seeuthere.goodday.member.service.MemberService;
 
 @DisplayName("멤버 관리 인수 테스트")
 class MemberAcceptanceTest extends AcceptanceTest {
 
-    private static String TOKEN;
     private static final String MEMBER_API_PATH = "/api/members";
     private static final String ADDRESS_API_PATH = MEMBER_API_PATH + "/address";
     private static final String FRIEND_API_PATH = MEMBER_API_PATH + "/friends";
-
+    private static String TOKEN;
     @Autowired
     MemberService memberService;
     @Autowired
@@ -63,18 +65,19 @@ class MemberAcceptanceTest extends AcceptanceTest {
         ProfileResponse response = getResponse("member/info", MEMBER_API_PATH)
             .as(ProfileResponse.class);
 
-        assertThat(response.getNickname()).isEqualTo(와이비.getName());
+        assertThat(response.getNickname()).isEqualTo(와이비.getNickname());
     }
 
     @DisplayName("멤버 수정 테스트")
     @Test
     public void memberUpdate() {
-        MemberRequest request = new MemberRequest("달라진 와이비", "changedImage", 와이비.getMemberId());
+        MemberRequest request =
+            new MemberRequest("달라진 와이비", "changedImage", 와이비.getMemberId());
 
         putResponse("member/update", MEMBER_API_PATH, request);
 
         Member member = memberService.find(와이비.getId());
-        assertThat(member.getName()).isEqualTo(request.getName());
+        assertThat(member.getNickname()).isEqualTo(request.getNickname());
         assertThat(member.getProfileImage()).isEqualTo(request.getProfileImage());
         assertThat(member.getMemberId()).isEqualTo(request.getMemberId());
     }
@@ -82,44 +85,48 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("멤버의 주소를 조회한다.")
     @Test
     public void getAddress() {
-        List<AddressResponse> responses = getResponse("member/address-info", ADDRESS_API_PATH)
-            .body().jsonPath().getList(".", AddressResponse.class);
+        List<AddressResponse> responses =
+            getResponse("member/address-info", ADDRESS_API_PATH)
+                .body().jsonPath().getList(".", AddressResponse.class);
 
         assertThat(responses.size()).isEqualTo(1);
-        assertThat(responses.get(0).getName()).isEqualTo(와이비집.getName());
-        assertThat(responses.get(0).getAddress()).isEqualTo(와이비집.getAddress());
+        assertThat(responses.get(0).getNickname()).isEqualTo(와이비집.getNickname());
+        assertThat(responses.get(0).getAddressName()).isEqualTo(와이비집.getAddressName());
     }
 
     @DisplayName("멤버의 주소를 추가한다")
     @Test
     @Transactional
     public void addAddress() {
-        AddressRequest request = new AddressRequest("회사", "서울시 송파구");
+        AddressRequest request = new AddressRequest("회사",
+            "서울시 송파구", "서울시 송파구 어쩌구", 123.33, 567.89);
         postResponse("member/address-add", ADDRESS_API_PATH,
             request)
             .as(AddressResponse.class);
 
         Member member = memberService.find(와이비.getId());
         Address expectAddress = member.getAddresses().stream()
-            .filter(a -> a.getName().equals(request.getName()))
+            .filter(a -> a.getNickname().equals(request.getNickname()))
             .findFirst()
             .orElseThrow();
 
         assertThat(expectAddress.getId()).isEqualTo(2L);
-        assertThat(expectAddress.getName()).isEqualTo(request.getName());
-        assertThat(expectAddress.getAddress()).isEqualTo(request.getAddress());
+        assertThat(expectAddress.getNickname()).isEqualTo(request.getNickname());
+        assertThat(expectAddress.getAddressName()).isEqualTo(request.getAddressName());
     }
 
     @DisplayName("멤버의 주소를 수정한다.")
     @Test
     public void updateAddress() {
-        AddressUpdateRequest request = new AddressUpdateRequest(1L, "이사간 집", "이사간 주소");
+        AddressUpdateRequest request = new AddressUpdateRequest(
+            1L, "이사간 집", "이사간 주소",
+            "이사간 주소 디테일", 123.4, 123.7);
         AddressResponse response = putResponse("member/address-update", ADDRESS_API_PATH, request)
             .as(AddressResponse.class);
 
         assertThat(response.getId()).isEqualTo(request.getId());
-        assertThat(response.getName()).isEqualTo(request.getName());
-        assertThat(response.getAddress()).isEqualTo(request.getAddress());
+        assertThat(response.getNickname()).isEqualTo(request.getNickname());
+        assertThat(response.getAddressName()).isEqualTo(request.getAddressName());
     }
 
     @DisplayName("멤버의 주소를 삭제한다.")
@@ -138,7 +145,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         FriendResponse response = postResponse("member/friend-add", FRIEND_API_PATH, request)
             .as(FriendResponse.class);
 
-        assertThat(response.getNickname()).isEqualTo(하루.getName());
+        assertThat(response.getNickname()).isEqualTo(하루.getNickname());
         assertThat(response.getProfileImage()).isEqualTo(하루.getProfileImage());
     }
 
@@ -153,7 +160,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         assertThat(response.stream()
             .map(FriendResponse::getNickname)
             .collect(Collectors.toList())
-            .containsAll(Arrays.asList(멍토.getName(), 심바.getName()))).isTrue();
+            .containsAll(Arrays.asList(멍토.getNickname(), 심바.getNickname()))).isTrue();
     }
 
     @DisplayName("멤버의 친구를 삭제한다.")
@@ -167,13 +174,30 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
         assertThat(findMember.getMemberFriends().size()).isEqualTo(1);
         assertThat(findMember.getMemberFriends().stream()
-            .map(Member::getName)
-            .collect(Collectors.toList()).contains(멍토.getName())).isFalse();
+            .map(Member::getNickname)
+            .collect(Collectors.toList()).contains(멍토.getNickname())).isFalse();
+    }
+
+    @DisplayName("추가할 친구를 검색한다")
+    @Test
+    public void searchFriend() {
+
+        String identifier = "member/friend-search";
+        List<MemberResponse> response = makeResponse(identifier)
+            .param("searchWord", "a")
+            .when().get(FRIEND_API_PATH + "/search")
+            .then().statusCode(is(HttpStatus.OK.value()))
+            .extract().body().jsonPath().getList(".", MemberResponse.class);
+
+        assertThat(response.stream()
+            .map(MemberResponse::getMemberId)
+            .collect(Collectors.toList()))
+            .containsExactly("a", "ab", "abc");
     }
 
     private ExtractableResponse<Response> getResponse(String identifier, String path) {
         return makeResponse(identifier).get(path)
-            .then().statusCode(is(200))
+            .then().statusCode(is(HttpStatus.OK.value()))
             .extract();
     }
 
@@ -182,7 +206,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         return makeResponse(identifier)
             .body(request)
             .when().put(path)
-            .then().assertThat().statusCode(is(200))
+            .then().statusCode(is(HttpStatus.OK.value()))
             .extract();
     }
 
@@ -191,14 +215,14 @@ class MemberAcceptanceTest extends AcceptanceTest {
         return makeResponse(identifier)
             .body(request)
             .when().post(path)
-            .then().assertThat().statusCode(is(200))
+            .then().statusCode(is(HttpStatus.OK.value()))
             .extract();
     }
 
     private void deleteResponse(String identifier, String path, Object request) {
         makeResponse(identifier).body(request)
             .when().delete(path)
-            .then().statusCode(is(204));
+            .then().statusCode(is(HttpStatus.NO_CONTENT.value()));
     }
 
     private RequestSpecification makeResponse(String identifier) {
@@ -209,7 +233,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     preprocessResponse(prettyPrint())
                 )
             )
-            .header("Authorization", "Bearer " + TOKEN)
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + TOKEN)
             .contentType(MediaType.APPLICATION_JSON_VALUE);
     }
 }

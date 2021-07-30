@@ -2,21 +2,21 @@ package seeuthere.goodday.member.dto;
 
 public class MemberRequest {
 
-    private String name;
+    private String nickname;
     private String profileImage;
     private String memberId;
 
     public MemberRequest() {
     }
 
-    public MemberRequest(String name, String profileImage, String memberId) {
-        this.name = name;
+    public MemberRequest(String nickname, String profileImage, String memberId) {
+        this.nickname = nickname;
         this.profileImage = profileImage;
         this.memberId = memberId;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
     public String getProfileImage() {

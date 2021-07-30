@@ -24,6 +24,7 @@ import seeuthere.goodday.member.dto.AddressResponse;
 import seeuthere.goodday.member.dto.AddressUpdateRequest;
 import seeuthere.goodday.member.dto.FriendRequest;
 import seeuthere.goodday.member.dto.FriendResponse;
+import seeuthere.goodday.member.dto.MemberResponse;
 import seeuthere.goodday.member.service.MemberService;
 
 
@@ -42,7 +43,7 @@ class MemberTest {
     @DisplayName("첫 로그인시 멤버를 저장한다.")
     @Test
     public void firstLoginSave() {
-        ProfileResponse profile = new ProfileResponse("12345", "영범허", "imageLink");
+        ProfileResponse profile = new ProfileResponse("12345", "abcd", "영범허", "imageLink");
         Member member = memberService.add(profile);
         assertThat(memberService.find("12345")).isEqualTo(member);
     }
@@ -50,7 +51,7 @@ class MemberTest {
     @DisplayName("첫 로그인이 아닐 시 멤버를 저장하지 않는다.")
     @Test
     public void alreadyMemberNotSave() {
-        ProfileResponse profile = new ProfileResponse("12345", "영범허", "imageLink");
+        ProfileResponse profile = new ProfileResponse("12345", "abcd", "영범허", "imageLink");
         memberService.add(profile);
         Member member = memberService.add(profile);
         assertThat(member).isNull();
@@ -59,12 +60,12 @@ class MemberTest {
     @DisplayName("회원의 주소를 저장한다")
     @Test
     void addAddress() {
-        AddressRequest request = new AddressRequest("회사", "서울시 송파구");
+        AddressRequest request = new AddressRequest("회사", "루터회관", "서울시 송파구 루터회관", 123.12, 123.4);
         AddressResponse response = memberService.addAddress(와이비.getId(), request);
 
         Member findMember = memberService.find(와이비.getId());
         assertThat(findMember.getAddresses().size()).isEqualTo(2);
-        assertThat(response.getName()).isEqualTo(request.getName());
+        assertThat(response.getNickname()).isEqualTo(request.getNickname());
     }
 
     @DisplayName("회원의 주소 목록을 불러온다")
@@ -73,21 +74,22 @@ class MemberTest {
         List<AddressResponse> addresses = memberService.findAddress(와이비.getId());
 
         assertThat(addresses.size()).isEqualTo(1);
-        assertThat(addresses.get(0).getName()).isEqualTo(와이비집.getName());
+        assertThat(addresses.get(0).getNickname()).isEqualTo(와이비집.getNickname());
     }
 
     @DisplayName("회원의 주소를 수정한다.")
     @Test
     void updateAddress() {
-        AddressUpdateRequest request = new AddressUpdateRequest(1L, "이사간 집", "성남시 판교");
+        AddressUpdateRequest request = new AddressUpdateRequest(1L, "이사간 집", "성남시 판교",
+            "성남시 판교 이사간 집", 123.1, 23.1);
         memberService.updateAddress(와이비.getId(), request);
 
         List<AddressResponse> addresses = memberService.findAddress(와이비.getId());
         AddressResponse response = addresses.get(0);
 
-        assertThat(response.getName()).isEqualTo("이사간 집");
+        assertThat(response.getNickname()).isEqualTo("이사간 집");
         assertThat(response.getId()).isEqualTo(1L);
-        assertThat(response.getAddress()).isEqualTo("성남시 판교");
+        assertThat(response.getAddressName()).isEqualTo("성남시 판교");
     }
 
     @DisplayName("회원의 주소를 삭제한다.")
@@ -126,7 +128,7 @@ class MemberTest {
         assertThat(friends.stream()
             .map(FriendResponse::getNickname)
             .collect(Collectors.toList()
-            ).containsAll(Arrays.asList(심바.getName(), 멍토.getName()))).isTrue();
+            ).containsAll(Arrays.asList(심바.getNickname(), 멍토.getNickname()))).isTrue();
     }
 
     @DisplayName("친구를 삭제한다")
@@ -137,5 +139,17 @@ class MemberTest {
         Member member = memberService.find(와이비.getId());
 
         assertThat(member.getMemberFriends().size()).isEqualTo(1);
+    }
+
+    @DisplayName("추가할 친구를 검색한다.")
+    @Test
+    void searchFriend() {
+        String aForAll = "a";
+        List<MemberResponse> searchedMembers = memberService.searchFriend(와이비.getId(), aForAll);
+
+        assertThat(searchedMembers.stream()
+            .map(MemberResponse::getMemberId)
+            .collect(Collectors.toList()))
+            .containsExactly("a", "ab", "abc");
     }
 }

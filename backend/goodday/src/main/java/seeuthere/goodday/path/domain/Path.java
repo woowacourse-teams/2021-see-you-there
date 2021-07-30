@@ -1,5 +1,6 @@
 package seeuthere.goodday.path.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.path.domain.algorithm.Distance;
@@ -16,16 +17,20 @@ public class Path {
         this.time = time;
     }
 
-    public List<Route> getRoutes() {
-        return routes;
-    }
-
-    public int getDistance() {
-        return distance;
-    }
-
-    public int getTime() {
-        return time;
+    public static Path walkPath(Point start, Point end) {
+        Distance distance = Distance.calculate(start, end);
+        List<Route> routes = new ArrayList<>();
+        routes.add(new Route.Builder()
+            .startX(start.getX())
+            .startY(start.getY())
+            .startName("출발점")
+            .routeName("걷기")
+            .endX(end.getX())
+            .endY(end.getY())
+            .endName("도착점")
+            .build()
+        );
+        return new Path(routes, distance.value(), distance.walkTime());
     }
 
     public Path addWalkRoute(Point start, Point end) {
@@ -86,5 +91,17 @@ public class Path {
             .endY(end.getY())
             .endName("도착점")
             .build();
+    }
+
+    public List<Route> getRoutes() {
+        return routes;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public int getTime() {
+        return time;
     }
 }

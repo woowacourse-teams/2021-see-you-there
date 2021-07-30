@@ -27,7 +27,7 @@ export const fadeOut = css`
 `;
 
 export const Nav = styled.nav`
-  ${(props) => (props.hasMapView ? styleNavFull : styleNavRight)};
+  ${(props) => (props.hasMapView ? styleNavRight : styleNavFull)};
 
   margin: 0 auto;
   height: ${LAYOUT.NAV_HEIGHT};
@@ -63,7 +63,7 @@ export const Nav = styled.nav`
       }
     }
 
-    & > button {
+    & button {
       display: flex;
       align-items: center;
       padding: 0.5rem;

@@ -27,7 +27,7 @@ export const ContentArea = styled.section`
     width: 70rem;
   }
 
-  @media (max-height: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     padding-top: 2.5rem;
 
     & > img {
@@ -67,16 +67,15 @@ export const ButtonSection = styled.div`
 
 export const List = styled.ul`
   display: grid;
+  grid-template-columns: repeat(1, 1fr);
   row-gap: 1.25rem;
   column-gap: 1.25rem;
-  grid-template-columns: repeat(2, 1fr);
-  width: ${LAYOUT.CONTENT_WIDTH_MAX};
   margin: 1.25rem 0;
+  width: ${LAYOUT.CONTENT_WIDTH_MAX};
 
   z-index: ${Z_INDEX.ON_IMAGE};
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    grid-template-columns: repeat(1, 1fr);
     width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
     max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
   }
@@ -85,26 +84,22 @@ export const List = styled.ul`
 export const Item = styled.li`
   position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   padding: ${LAYOUT.PADDING};
 
   background-color: ${COLOR.BACKGROUND};
   box-shadow: 5px 5px 14px rgba(0, 0, 0, 0.12);
   border-radius: 10px;
 
-  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    flex-direction: row;
-    justify-content: flex-start;
-  }
-
   > button {
-    position: absolute;
-    top: ${LAYOUT.MARGIN};
-    right: ${LAYOUT.MARGIN};
-
     font-size: 0.75rem;
     color: ${COLOR.PARAGRAPH_LIGHT};
+
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
 
     &:hover {
       color: ${COLOR.PARAGRAPH};
@@ -113,35 +108,26 @@ export const Item = styled.li`
 `;
 
 export const ProfileImage = styled.img`
-  margin-left: -0.3rem;
-  margin-bottom: 0.75rem;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 3.5rem;
+  height: 3.5rem;
 
-  /* 임시로 동그랗게 만드는 코드 */
+  margin-bottom: 0rem;
+  margin-right: 0.75rem;
+
   background-color: #bbb;
   border-radius: 100%;
   padding: 0.25rem;
-
-  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    margin-bottom: 0rem;
-    margin-right: 0.75rem;
-  }
 `;
 
 export const FriendInfo = styled.div`
   display: flex;
   flex-direction: column;
-
-  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    justify-content: center;
-  }
+  justify-content: center;
 `;
 
 export const Nickname = styled.span`
   font-size: 0.9rem;
   color: ${COLOR.PARAGRAPH};
-  letter-spacing: 0.03rem;
 `;
 
 export const MemberId = styled.span`
@@ -149,13 +135,6 @@ export const MemberId = styled.span`
 
   color: ${COLOR.PRIMARY_LIGHT};
   font-size: 0.75rem;
-`;
-
-export const FullAddress = styled.span`
-  margin: 0.375rem 0;
-
-  color: ${COLOR.PARAGRAPH_LIGHT};
-  font-size: 0.625rem;
 `;
 
 /* 친구 ID 검색 모달 */

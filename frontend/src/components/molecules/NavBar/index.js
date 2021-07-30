@@ -15,7 +15,7 @@ export const NavBar = () => {
 
   const isOAuthPage = PATHS.OAUTH.includes(pathname);
   const canGoBack = !PATHS.CANNOT_GO_BACK.includes(pathname);
-  const hasMapView = PATHS.NO_MAP_VIEW.includes(pathname);
+  const hasMapView = PATHS.MAP_VIEW.includes(pathname);
 
   return (
     <Nav hasMapView={hasMapView}>

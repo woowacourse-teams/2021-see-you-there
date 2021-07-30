@@ -78,7 +78,6 @@ export const Nickname = styled.span`
   margin-bottom: 0.75rem;
 
   color: ${COLOR.PARAGRAPH};
-  letter-spacing: 0.03rem;
 `;
 
 export const AddressName = styled.span`

@@ -28,7 +28,7 @@ export const ContentArea = styled.section`
     width: 70rem;
   }
 
-  @media (max-height: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     padding-top: calc((100vh - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT_TABLET} - ${LOGIN_BOX_HEIGHT}) / 2);
 
     & > img {

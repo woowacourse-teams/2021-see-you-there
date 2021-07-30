@@ -9,6 +9,7 @@ export { InputWithButton } from './atoms/InputWithButton';
 export { Modal } from './atoms/Modal';
 
 export { AddressSearchModal } from './molecules/AddressSearchModal';
+export { AuthRoute } from './molecules/AuthRoute';
 export { NavBar } from './molecules/NavBar';
 export { Confirm } from './molecules/Confirm';
 export { ParticipantList } from './molecules/ParticipantList';

@@ -4,5 +4,6 @@ export { HomePage } from './Home';
 export { LoginPage } from './Login';
 export { LogoutPage } from './Logout';
 export { MidpointPage } from './Midpoint';
+export { NotFoundPage } from './NotFound';
 export { OAuthPage } from './OAuth';
 export { WelcomePage } from './Welcome';

@@ -12,6 +12,7 @@ import {
   WelcomePage,
   AddressPage,
   FriendPage,
+  NotFoundPage,
 } from './pages';
 import { NavBar } from './components';
 import { UserContextProvider, ParticipantContextProvider, MapViewContextProvider } from './contexts';
@@ -50,14 +51,9 @@ export const App = () => {
               <Route path={[ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGIN_NAVER.PATH]}>
                 <OAuthPage />
               </Route>
-              <Route exact path={ROUTE.WELCOME.PATH}>
-                <WelcomePage />
-              </Route>
-              <Route exact path={ROUTE.ADDRESS.PATH}>
-                <AddressPage />
-              </Route>
-              <Route exact path={ROUTE.FRIEND.PATH}>
-                <FriendPage />
+
+              <Route exact path={ROUTE.NOT_FOUND.PATH}>
+                <NotFoundPage />
               </Route>
             </Switch>
           </ParticipantContextProvider>

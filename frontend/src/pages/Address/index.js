@@ -17,7 +17,6 @@ export const AddressPage = () => {
   const [isAdding, setIsAdding] = useState(false);
   const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useConfirm({
     approve: deleteAddress,
-    // approve: (id) => console.log('delete', id),
   });
   const isEditing = !!editAddressId;
   const finishEditing = () => setEditAddressId(null);

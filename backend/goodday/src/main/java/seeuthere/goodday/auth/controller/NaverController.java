@@ -51,7 +51,6 @@ public class NaverController {
     public ResponseEntity<ProfileTokenResponse> naverLogin(@RequestParam(value = "code") String code,
         @RequestParam(value = "state") String state) {
         ProfileResponse profile = naverService.getProfileWithToken(code, state);
-        memberService.add(profile);
-        return ResponseEntity.ok().body(authService.createToken(profile));
+        return ResponseEntity.ok().body(authService.createToken(memberService.add(profile)));
     }
 }

@@ -48,13 +48,12 @@ class MemberTest {
         assertThat(memberService.find("12345")).isEqualTo(member);
     }
 
-    @DisplayName("첫 로그인이 아닐 시 멤버를 저장하지 않는다.")
+    @DisplayName("첫 로그인이 아닐 시 기존의 멤버를 반환한다.")
     @Test
     public void alreadyMemberNotSave() {
-        ProfileResponse profile = new ProfileResponse("12345", "abcd", "영범허", "imageLink");
-        memberService.add(profile);
+        ProfileResponse profile = new ProfileResponse(와이비.getId(), "absscd", 와이비.getNickname(), 와이비.getProfileImage());
         Member member = memberService.add(profile);
-        assertThat(member).isNull();
+        assertThat(member.getMemberId()).isEqualTo(와이비.getMemberId());
     }
 
     @DisplayName("회원의 주소를 저장한다")

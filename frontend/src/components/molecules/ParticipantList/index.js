@@ -14,7 +14,7 @@ export const ParticipantList = (props) => {
         <Item key={id}>
           {onClickToDelete && (
             <DeleteButton onClick={() => onClickToDelete(id)}>
-              <Icon.RemoveCircle width="20" color={COLOR.PRIMARY} />
+              <Icon.RemoveCircle width="20" color={COLOR.PRIMARY} hoverColor={COLOR.PRIMARY_DARK} />
             </DeleteButton>
           )}
           <Avatar>

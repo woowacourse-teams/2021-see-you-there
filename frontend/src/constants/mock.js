@@ -1,3 +1,4 @@
+import { getAvatarKey } from '../utils';
 import { Image } from '../assets';
 
 export const MOCK_PARTICIPANT_LIST = [
@@ -63,3 +64,49 @@ export const MOCK_ADDRESS_LIST = [
 ];
 
 export const MOCK_MIDPOINT = { x: 127.06302321147605, y: 37.508822740225305, name: '여기서만나' };
+
+export const MOCK_MY_ADDRESS_LIST = [
+  {
+    id: 1,
+    nickname: '사무실',
+    addressName: '위워크 선릉점',
+    fullAddress: '서울특별시 강남구 테헤란로 1111',
+    x: 127.333333,
+    y: 27.333333,
+  },
+  {
+    id: 2,
+    nickname: '자택',
+    addressName: '잠실 포스코더샵',
+    fullAddress: '서울특별시 송파구 올림픽로 444',
+    x: 127.333333,
+    y: 27.333333,
+  },
+];
+
+export const MOCK_FRIEND_LIST = [
+  {
+    memberId: '365kim',
+    nickname: '365kim',
+    profileImage: Image[getAvatarKey()],
+    addresses: [],
+  },
+  {
+    memberId: '0imbean0',
+    nickname: '임심바',
+    profileImage: Image[getAvatarKey()],
+    addresses: [],
+  },
+  {
+    memberId: 'daum7766',
+    nickname: '김멍토',
+    profileImage: Image[getAvatarKey()],
+    addresses: [],
+  },
+  {
+    memberId: 'hybeom0720',
+    nickname: '와이빛',
+    profileImage: Image[getAvatarKey()],
+    addresses: [],
+  },
+];

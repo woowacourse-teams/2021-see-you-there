@@ -42,12 +42,16 @@ export const Container = styled.div`
     }
 
     &:hover {
-      border-color: ${COLOR.BORDER_HOVER};
+      border-color: ${COLOR.BORDER_LIGHT};
     }
 
     &:focus {
       border-color: ${COLOR.PRIMARY};
       border-width: 2px;
+
+      & ~ svg > path {
+        fill: ${COLOR.PRIMARY};
+      }
     }
 
     &:read-only {

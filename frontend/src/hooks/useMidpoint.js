@@ -3,38 +3,19 @@ import { useState, useEffect, useContext } from 'react';
 import { MapViewContext, ParticipantContext } from '../contexts';
 import { useMapViewApi } from './useMapViewApi';
 import { QUERY_KEY } from '../constants';
+import { Image } from '../assets';
 
 const DEFAULT = QUERY_KEY.DEFAULT;
 const CAFE = QUERY_KEY.CAFE;
 const DINING = QUERY_KEY.DINING;
 const PARTY = QUERY_KEY.PARTY;
 
-const IMAGE = {
-  STATION: {
-    w: 60,
-    h: 80,
-    src: 'https://user-images.githubusercontent.com/60066472/126741199-930aa831-7b0e-439c-93a0-663127454405.png',
-  },
-  PARTICIPANT: {
-    w: 45,
-    h: 45,
-    src: 'https://user-images.githubusercontent.com/60066472/126744345-9dc017dd-0479-41f8-9a83-ea6e23a0bec1.png',
-  },
-  [CAFE]: {
-    w: 36,
-    h: 48,
-    src: 'https://user-images.githubusercontent.com/60066472/126784127-12fc7e45-556f-4db5-9dd3-18d3c1b05807.png',
-  },
-  [DINING]: {
-    w: 36,
-    h: 48,
-    src: 'https://user-images.githubusercontent.com/60066472/126784123-02148908-c16c-45d5-9e5f-5eee3ee42f5a.png',
-  },
-  [PARTY]: {
-    w: 36,
-    h: 48,
-    src: 'https://user-images.githubusercontent.com/60066472/126784120-64ee8d0d-8c0b-4911-b8aa-bd58507ed407.png',
-  },
+const PIN_IMAGE = {
+  STATION: { w: 60, h: 80, src: Image.pinStation },
+  PARTICIPANT: { w: 45, h: 45, src: Image.pinParticipant },
+  [CAFE]: { w: 36, h: 48, src: Image.pinCafe },
+  [DINING]: { w: 36, h: 48, src: Image.pinDining },
+  [PARTY]: { w: 36, h: 48, src: Image.pinParty },
 };
 
 const INITIAL_STATE = {
@@ -45,8 +26,6 @@ const INITIAL_STATE = {
     [PARTY]: false,
   },
 };
-
-/* 카테고리 마커 */
 
 export const useMidpoint = () => {
   const { participants } = useContext(ParticipantContext);
@@ -67,26 +46,24 @@ export const useMidpoint = () => {
 
   /* 마커 */
   const showStationMarker = () => {
-    const { x, y, placeName: title, url } = station;
+    const { x, y, placeName: title } = station;
     const marker = getMarker({
       x,
       y,
       title,
-      url,
-      image: IMAGE.STATION,
+      image: PIN_IMAGE.STATION,
     });
 
     showMarker(marker);
   };
 
   const showParticipantsMarkers = () => {
-    const participantMarkers = participants.map(({ x, y, name: title, url }) => {
+    const participantMarkers = participants.map(({ x, y, name: title }) => {
       return getMarker({
         x,
         y,
         title,
-        url,
-        image: IMAGE.PARTICIPANT,
+        image: PIN_IMAGE.PARTICIPANT,
       });
     });
 
@@ -135,13 +112,13 @@ export const useMidpoint = () => {
       return;
     }
 
-    const markers = categoryPlace.map(({ x, y, placeName: title, url }) => {
+    const markers = categoryPlace.map(({ x, y, placeName: title, placeUrl }) => {
       return getMarker({
         x,
         y,
         title,
-        url,
-        image: IMAGE[category],
+        url: placeUrl,
+        image: PIN_IMAGE[category],
         isInteractive: true,
       });
     });

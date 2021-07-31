@@ -13,7 +13,7 @@ const styleSize = {
       width: 90%;
     }
   `,
-  small: css`
+  sm: css`
     min-width: 21.5rem;
     min-height: 7.5rem;
 

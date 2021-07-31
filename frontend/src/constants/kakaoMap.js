@@ -1,5 +1,3 @@
-const DEFAULT_URL = 'https://place.map.kakao.com/23913503';
-
 export const PIN_Y_ANCHOR = 0.9;
 export const HTML = {
   PIN: {
@@ -9,7 +7,7 @@ export const HTML = {
         <img src=${image.src} alt=${title} width=${image.w} height=${image.h} />
       </div>
     `,
-    INTERACTIVE: ({ title, image, url = DEFAULT_URL }) =>
+    INTERACTIVE: ({ title, image, url }) =>
       `
       <a href=${url} target="_blank" rel="noreferrer" >
         <img src=${image.src} alt=${title} width=${image.w} height=${image.h} />
@@ -23,7 +21,7 @@ export const HTML = {
         <span>${title}</span>
       </div>
     `,
-    INTERACTIVE: ({ title, pinSize, url = DEFAULT_URL }) =>
+    INTERACTIVE: ({ title, pinSize, url }) =>
       `
       <div class="tooltip-interactive" style="bottom: ${pinSize * PIN_Y_ANCHOR + 8}px;">
         <a href="${url}" target="_blank" rel="noreferrer">

@@ -52,6 +52,9 @@ export const HomePage = () => {
             </h2>
             {isLackParticipants && <span>만날 사람을 추가해 중간지점을 확인해보세요.</span>}
             <ParticipantList items={participants} onClickToDelete={(id) => openConfirm(id)} />
+            <Confirm isConfirmOpen={isConfirmOpen} onCancel={cancelConfirm} onApprove={approveConfirm}>
+              {MESSAGE[formId].CONFIRM_DELETE}
+            </Confirm>
           </ListSection>
 
           <BottomSection>
@@ -65,12 +68,6 @@ export const HomePage = () => {
           </BottomSection>
         </ContentArea>
       </main>
-
-      {isConfirmOpen && (
-        <Confirm onCancel={cancelConfirm} onApprove={approveConfirm}>
-          {MESSAGE[formId].CONFIRM_DELETE}
-        </Confirm>
-      )}
     </>
   );
 };

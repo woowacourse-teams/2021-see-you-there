@@ -9,7 +9,7 @@ import { getId } from '../../utils';
 import { COLOR } from '../../constants';
 import { Image } from '../../assets';
 
-export const EasyAddModal = (props) => {
+export const QuickAddModal = (props) => {
   const { isModalOpen, closeModal } = props;
   const { userFriendList = [], userAddressList, user } = useContext(UserContext);
   const { addParticipant, participants, isFullParticipants } = useContext(ParticipantContext);
@@ -116,7 +116,7 @@ export const EasyAddModal = (props) => {
   );
 };
 
-EasyAddModal.propTypes = {
+QuickAddModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   isModalOpen: PropTypes.bool.isRequired,
 };

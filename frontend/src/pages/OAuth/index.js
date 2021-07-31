@@ -26,10 +26,8 @@ export const OAuthPage = () => {
       return;
     }
     login(userInfo);
-    // history.replace(ROUTE.HOME.PATH);
   }, [userInfo]);
 
-  // TODO: 개발서버에서 동작 확인 필요
   useEffect(() => {
     if (!userAddressList) {
       return;

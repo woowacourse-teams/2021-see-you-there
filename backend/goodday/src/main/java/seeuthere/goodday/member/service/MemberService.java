@@ -40,7 +40,7 @@ public class MemberService {
                 new Member(profile.getId(), memberId, profile.getNickname(),
                     profile.getProfileImage()));
         }
-        return null;
+        return find(profile.getId());
     }
 
     private String generateRandomMemberId() {

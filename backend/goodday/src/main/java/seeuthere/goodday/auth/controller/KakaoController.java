@@ -47,7 +47,7 @@ public class KakaoController {
         RequestMethod.POST})
     public ResponseEntity<ProfileTokenResponse> kakaoLogin(@RequestParam("code") String code) {
         ProfileResponse profile = kakaoService.getProfileWithToken(code);
-        memberService.add(profile);
-        return ResponseEntity.ok().body(authService.createToken(profile));
+
+        return ResponseEntity.ok().body(authService.createToken(memberService.add(profile)));
     }
 }

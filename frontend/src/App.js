@@ -3,8 +3,19 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import { HomePage, LoginPage, LogoutPage, MidpointPage, OAuthPage, WelcomePage, AddressPage } from './pages';
-import { NavBar } from './components';
+import {
+  HomePage,
+  MidpointPage,
+  WelcomePage,
+  ProfilePage,
+  AddressPage,
+  FriendPage,
+  LoginPage,
+  OAuthPage,
+  LogoutPage,
+  NotFoundPage,
+} from './pages';
+import { AuthRoute, NavBar } from './components';
 import { UserContextProvider, ParticipantContextProvider, MapViewContextProvider } from './contexts';
 import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
 
@@ -32,20 +43,32 @@ export const App = () => {
                   <MidpointPage />
                 </MapViewContextProvider>
               </Route>
+
+              <AuthRoute path={ROUTE.WELCOME.PATH}>
+                <WelcomePage />
+              </AuthRoute>
+              <AuthRoute path={ROUTE.PROFILE.PATH}>
+                <ProfilePage />
+              </AuthRoute>
+              <AuthRoute path={ROUTE.ADDRESS.PATH}>
+                <AddressPage />
+              </AuthRoute>
+              <AuthRoute path={ROUTE.FRIEND.PATH}>
+                <FriendPage />
+              </AuthRoute>
+
               <Route exact path={ROUTE.LOGIN.PATH}>
                 <LoginPage />
-              </Route>
-              <Route exact path={ROUTE.LOGOUT.PATH}>
-                <LogoutPage />
               </Route>
               <Route path={[ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGIN_NAVER.PATH]}>
                 <OAuthPage />
               </Route>
-              <Route exact path={ROUTE.WELCOME.PATH}>
-                <WelcomePage />
+              <Route path={ROUTE.LOGOUT.PATH}>
+                <LogoutPage />
               </Route>
-              <Route exact path={ROUTE.ADDRESS.PATH}>
-                <AddressPage />
+
+              <Route exact path={ROUTE.NOT_FOUND.PATH}>
+                <NotFoundPage />
               </Route>
             </Switch>
           </ParticipantContextProvider>

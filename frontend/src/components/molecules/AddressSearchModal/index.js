@@ -57,7 +57,7 @@ export const AddressSearchModal = () => {
 
             return (
               <li key={index}>
-                <button onClick={() => handleSelectAddressListItem({ x, y, addressName })}>
+                <button onClick={() => handleSelectAddressListItem({ x, y, addressName, fullAddress })}>
                   {addressName} <span>{addressName !== fullAddress && fullAddress}</span>
                   <Icon.Check color={COLOR.PRIMARY} width="20" />
                 </button>

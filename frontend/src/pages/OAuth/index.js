@@ -26,20 +26,20 @@ export const OAuthPage = () => {
       return;
     }
     login(userInfo);
-    history.replace(ROUTE.HOME.PATH);
+    // history.replace(ROUTE.HOME.PATH);
   }, [userInfo]);
 
-  // TODO: 내 주소목록이 없으면 WelcomePage로 이동
-  // useEffect(() => {
-  //   if (!userAddressList) {
-  //     return;
-  //   }
-  //   if (userAddressList.length === 0) {
-  //     history.replace(ROUTE.WELCOME.PATH);
-  //     return;
-  //   }
-  //   history.replace(ROUTE.HOME.PATH);
-  // }, [userAddressList]);
+  // TODO: 개발서버에서 동작 확인 필요
+  useEffect(() => {
+    if (!userAddressList) {
+      return;
+    }
+    if (userAddressList.length === 0) {
+      history.replace(ROUTE.WELCOME.PATH);
+      return;
+    }
+    history.replace(ROUTE.HOME.PATH);
+  }, [userAddressList]);
 
   return null;
 };

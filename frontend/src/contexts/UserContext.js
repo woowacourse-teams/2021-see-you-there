@@ -15,8 +15,17 @@ const INITIAL_STATE = {
   token: null,
 };
 
-const fetchUserAddressList = async (accessToken) => {
-  const response = await httpRequest.get(API_URL.ADDRESS, { accessToken });
+const fetchUserInfo = async (token) => {
+  const response = await httpRequest.get(API_URL.USER, { token });
+
+  if (response.status === 401) {
+    throw new Error(STATUS.INVALID_TOKEN_ERROR);
+  }
+  return await response.json();
+};
+
+const fetchUserAddressList = async (token) => {
+  const response = await httpRequest.get(API_URL.ADDRESS, { token });
 
   // TODO: 에러 처리
   if (response.status === 401) {
@@ -25,9 +34,10 @@ const fetchUserAddressList = async (accessToken) => {
   return await response.json();
 };
 
-const fetchUserInfo = async (accessToken) => {
-  const response = await httpRequest.get(API_URL.TOKEN_VALIDATION, { accessToken });
+const fetchUserFriendList = async (token) => {
+  const response = await httpRequest.get(API_URL.FRIEND, { token });
 
+  // TODO: 에러 처리
   if (response.status === 401) {
     throw new Error(STATUS.INVALID_TOKEN_ERROR);
   }
@@ -39,7 +49,7 @@ export const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
   const history = useHistory();
   const [user, setUser] = useState(INITIAL_STATE);
-  const { id, nickname, profileImage, token } = user;
+  const { id, memberId, nickname, profileImage, token } = user;
   const isLogin = !!token;
 
   const login = (userInfo) => {
@@ -58,15 +68,11 @@ export const UserContextProvider = ({ children }) => {
     history.push(ROUTE.LOGIN.PATH);
   };
 
-  const { data: userInfo, errorTokenValidation } = useQuery(
-    QUERY_KEY.TOKEN_VALIDATION,
-    () => fetchUserInfo(INITIAL_TOKEN),
-    {
-      enabled: !!INITIAL_TOKEN,
-    }
-  );
+  const { data: userInfo, error: errorTokenValidation } = useQuery(QUERY_KEY.USER, () => fetchUserInfo(INITIAL_TOKEN), {
+    enabled: !!INITIAL_TOKEN,
+  });
 
-  const { data: userAddressList, errorUserAddressList } = useQuery(
+  const { data: userAddressList, error: errorUserAddressList } = useQuery(
     QUERY_KEY.ADDRESS,
     () => fetchUserAddressList(token),
     {
@@ -74,7 +80,14 @@ export const UserContextProvider = ({ children }) => {
     }
   );
 
-  // TODO: 접근제한 페이지 관리 추가하기
+  const { data: userFriendList, error: errorUserFriendList } = useQuery(
+    QUERY_KEY.FRIEND,
+    () => fetchUserFriendList(token),
+    {
+      enabled: isLogin,
+      staleTime: 60_000,
+    }
+  );
 
   useEffect(() => {
     if (!userInfo) {
@@ -83,15 +96,15 @@ export const UserContextProvider = ({ children }) => {
     setUser({ ...userInfo, token: INITIAL_TOKEN });
   }, [userInfo]);
 
+  const errors = [errorTokenValidation, errorUserAddressList, errorUserFriendList];
+
   useEffect(() => {
-    const hasInvalidTokenError = [errorTokenValidation, errorUserAddressList]
-      .map((error) => error?.message)
-      .includes(STATUS.INVALID_TOKEN_ERROR);
+    const hasInvalidTokenError = errors.map((error) => error?.message).includes(STATUS.INVALID_TOKEN_ERROR);
 
     if (hasInvalidTokenError) {
       forceLogout();
     }
-  }, [errorTokenValidation, errorUserAddressList]);
+  }, errors);
 
   return (
     <UserContext.Provider
@@ -100,10 +113,12 @@ export const UserContextProvider = ({ children }) => {
         setUser,
 
         id,
+        memberId,
         nickname,
         profileImage,
         token,
         userAddressList,
+        userFriendList,
 
         login,
         logout,

@@ -13,7 +13,7 @@ export const ContentArea = styled.section`
   padding-top: calc((100vh - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT} - ${LOGIN_BOX_HEIGHT}) / 2);
   align-items: center;
   height: calc(100vh - ${LAYOUT.NAV_HEIGHT});
-  overflow: hidden;
+  overflow-x: hidden;
 
   z-index: ${Z_INDEX.CONTENT};
 
@@ -23,12 +23,12 @@ export const ContentArea = styled.section`
   }
 
   & > img {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 70rem;
   }
 
-  @media (max-height: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     padding-top: calc((100vh - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT_TABLET} - ${LOGIN_BOX_HEIGHT}) / 2);
 
     & > img {

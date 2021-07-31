@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { EasyAddModal } from './EasyAddModal';
+import { QuickAddModal } from './QuickAddModal';
 import { AddressSearchModal, ButtonRound, Icon, Input, Notice } from '../../components';
 import { UserContext, AddFormContext, ParticipantContext } from '../../contexts';
 import { useModal, useParticipantNameInput, useAddressInput } from '../../hooks';
@@ -90,7 +90,7 @@ export const ParticipantAddForm = () => {
         >
           {isLogin ? '간편 추가' : '로그인하고 간편추가'}
         </ButtonRound>
-        <EasyAddModal isModalOpen={isModalOpen} closeModal={closeModal} />
+        <QuickAddModal isModalOpen={isModalOpen} closeModal={closeModal} />
         <ButtonRound
           type="submit"
           size="sm"

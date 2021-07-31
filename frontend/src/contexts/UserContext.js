@@ -68,7 +68,11 @@ export const UserContextProvider = ({ children }) => {
     history.push(ROUTE.LOGIN.PATH);
   };
 
-  const { data: userInfo, error: errorTokenValidation } = useQuery(QUERY_KEY.USER, () => fetchUserInfo(INITIAL_TOKEN), {
+  const {
+    data: userInfo,
+    isLoading: isUserInfoLoading,
+    error: errorTokenValidation,
+  } = useQuery(QUERY_KEY.USER, () => fetchUserInfo(INITIAL_TOKEN), {
     enabled: !!INITIAL_TOKEN,
   });
 
@@ -123,6 +127,9 @@ export const UserContextProvider = ({ children }) => {
         login,
         logout,
         isLogin,
+
+        userInfo,
+        isUserInfoLoading,
       }}
     >
       {children}

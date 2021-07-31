@@ -7,7 +7,7 @@ import { ROUTE } from '../../../constants';
 
 export const AuthRoute = (props) => {
   const { path, children } = props;
-  const { userInfo, isUserInfoLoading } = useContext(UserContext);
+  const { isUserInfoLoading, isLogin } = useContext(UserContext);
 
   if (isUserInfoLoading) {
     return null;
@@ -15,7 +15,7 @@ export const AuthRoute = (props) => {
 
   return (
     <Route exact path={path}>
-      {!!userInfo ? children : <Redirect to={ROUTE.LOGIN.PATH} />}
+      {isLogin ? children : <Redirect to={ROUTE.LOGIN.PATH} />}
     </Route>
   );
 };

@@ -1,9 +1,12 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { ContentArea, Anchor } from './style';
 import { ROUTE } from '../../constants';
 
 export const NotFoundPage = () => {
+  const history = useHistory();
+
   return (
     <main>
       <ContentArea>

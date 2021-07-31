@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -7,11 +7,15 @@ import { ROUTE } from '../../../constants';
 
 export const AuthRoute = (props) => {
   const { path, children } = props;
-  const { isLogin } = useContext(UserContext);
+  const { userInfo, isUserInfoLoading } = useContext(UserContext);
+
+  if (isUserInfoLoading) {
+    return null;
+  }
 
   return (
     <Route exact path={path}>
-      {isLogin ? children : <Redirect to={ROUTE.LOGIN.PATH} />}
+      {!!userInfo ? children : <Redirect to={ROUTE.LOGIN.PATH} />}
     </Route>
   );
 };

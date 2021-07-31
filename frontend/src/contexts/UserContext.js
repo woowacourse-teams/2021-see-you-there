@@ -50,7 +50,6 @@ export const UserContextProvider = ({ children }) => {
   const history = useHistory();
   const [user, setUser] = useState(INITIAL_STATE);
   const { id, memberId, nickname, profileImage, token } = user;
-  const isLogin = !!token;
 
   const login = (userInfo) => {
     storage.local.set(STORAGE_KEY.TOKEN, userInfo.token);
@@ -80,7 +79,7 @@ export const UserContextProvider = ({ children }) => {
     QUERY_KEY.ADDRESS,
     () => fetchUserAddressList(token),
     {
-      enabled: isLogin,
+      enabled: !!token,
     }
   );
 
@@ -88,8 +87,8 @@ export const UserContextProvider = ({ children }) => {
     QUERY_KEY.FRIEND,
     () => fetchUserFriendList(token),
     {
-      enabled: isLogin,
-      staleTime: 60_000,
+      enabled: !!token,
+      staleTime: 3_000,
     }
   );
 
@@ -126,7 +125,7 @@ export const UserContextProvider = ({ children }) => {
 
         login,
         logout,
-        isLogin,
+        isLogin: userInfo || token,
 
         userInfo,
         isUserInfoLoading,

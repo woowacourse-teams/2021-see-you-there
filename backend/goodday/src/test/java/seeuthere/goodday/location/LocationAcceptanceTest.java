@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import io.restassured.RestAssured;
@@ -30,11 +28,10 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         String basicAddress = "전북 삼성동 100";
         String path = "api/locations/coordinate?address=" + basicAddress;
         String identifier = "coordinate";
-        String description = "Coordinate";
 
         //when
         ExtractableResponse<Response> response
-            = getResponse(path + basicAddress, identifier, description);
+            = getResponse(path + basicAddress, identifier);
 
         //then
         validateResponse(response);
@@ -47,11 +44,10 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         String basicKeyword = "루터회관";
         String path = "api/locations/search?keyword=";
         String identifier = "keyword";
-        String description = "Keyword";
 
         // when
         ExtractableResponse<Response> response
-            = getResponse(path + basicKeyword, identifier, description);
+            = getResponse(path + basicKeyword, identifier);
 
         // then
         validateResponse(response);
@@ -65,10 +61,9 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         String axisY = "37.94772297221625";
         String path = "api/locations/address?x=" + axisX + "&y=" + axisY;
         String identifier = "axis";
-        String description = "Axis";
 
         // when
-        ExtractableResponse<Response> response = getResponse(path, identifier, description);
+        ExtractableResponse<Response> response = getResponse(path, identifier);
 
         // then
         validateResponse(response);
@@ -83,11 +78,10 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         String yAxis = "37.4798477003537";
         String path = "/api/locations/utility/" + category + "?x=" + xAxis + "&y=" + yAxis;
         String identifier = "utility";
-        String description = "Utility";
 
         // when
         ExtractableResponse<Response> response
-            = getResponse(path, identifier, description);
+            = getResponse(path, identifier);
 
         // then
         validateResponse(response);
@@ -123,15 +117,12 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         LocationsDto locations = new LocationsDto();
         locations.add(new Point(126.93103838968054, 37.488456683299155));
         locations.add(new Point(126.8951914712376, 37.48025238823605));
-        MiddlePointResponse answer = new MiddlePointResponse(126.91311493045907, 37.48435453576761);
 
         //when
         ExtractableResponse<Response> response = getPostResponse(path, locations);
 
         //then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        MiddlePointResponse middlePointResponse = response.as(MiddlePointResponse.class);
-        assertThat(middlePointResponse).usingRecursiveComparison().isEqualTo(answer);
+        validateResponse(response);
     }
 
     private void validateResponse(ExtractableResponse<Response> response) {
@@ -139,8 +130,7 @@ public class LocationAcceptanceTest extends AcceptanceTest {
         assertThat(response.body()).isNotNull();
     }
 
-    private ExtractableResponse<Response> getResponse(String path, String identifier,
-        String description) {
+    private ExtractableResponse<Response> getResponse(String path, String identifier) {
         return RestAssured.given(this.spec)
             .accept(MediaType.APPLICATION_JSON_VALUE)
             .filter(

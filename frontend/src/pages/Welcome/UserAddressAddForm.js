@@ -11,7 +11,7 @@ export const UserAddressAddForm = () => {
   const { INPUT, MESSAGE, formRef, isComplete, noticeMessage, setNoticeMessage } = useContext(AddFormContext);
 
   const history = useHistory();
-  const { name, handleChangeName, handleBlurName } = useAddressNicknameInput();
+  const { name: nickname, handleChangeName, handleBlurName } = useAddressNicknameInput();
   const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
 
   const { createAddress } = useMutateAddress();
@@ -24,7 +24,7 @@ export const UserAddressAddForm = () => {
       return;
     }
 
-    createAddress({ name, ...address });
+    createAddress({ nickname, address });
     history.replace(ROUTE.ADDRESS.PATH);
   };
 
@@ -33,7 +33,7 @@ export const UserAddressAddForm = () => {
       <Input
         name={INPUT.NAME.KEY}
         label={INPUT.NAME.LABEL}
-        value={name}
+        value={nickname}
         onChange={handleChangeName}
         onBlur={handleBlurName}
         placeholder={INPUT.NAME.PLACEHOLDER}

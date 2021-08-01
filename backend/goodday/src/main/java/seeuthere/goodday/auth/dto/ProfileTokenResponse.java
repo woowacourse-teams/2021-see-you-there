@@ -1,5 +1,7 @@
 package seeuthere.goodday.auth.dto;
 
+import seeuthere.goodday.member.domain.Member;
+
 public class ProfileTokenResponse {
 
     private String id;
@@ -8,11 +10,11 @@ public class ProfileTokenResponse {
     private String profileImage;
     private String token;
 
-    public ProfileTokenResponse(ProfileResponse profile, String token) {
-        this.id = profile.getId();
-        this.memberId = profile.getMemberId();
-        this.nickname = profile.getNickname();
-        this.profileImage = profile.getProfileImage();
+    public ProfileTokenResponse(Member member, String token) {
+        this.id = member.getId();
+        this.memberId = member.getMemberId();
+        this.nickname = member.getNickname();
+        this.profileImage = member.getProfileImage();
         this.token = token;
     }
 

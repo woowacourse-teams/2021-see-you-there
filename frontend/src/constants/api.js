@@ -7,14 +7,14 @@ export const API_URL = {
   ADDRESS_SEARCH: (keyword) => `${API_END_POINT}/locations/coordinate?address=${keyword}`,
   MIDPOINT: `${API_END_POINT}/locations/midPoint`,
   CATEGORY: (category, { x, y }) => `${API_END_POINT}/locations/utility/${category}?x=${x}&y=${y}`,
+
   LOGIN_KAKAO: `${API_END_POINT}/kakao/oauth`,
   LOGIN_NAVER: `${API_END_POINT}/naver/oauth`,
-  TOKEN_VALIDATION: `${API_END_POINT}/members`,
-  ADDRESS: `${API_END_POINT}/members/address`,
-};
+  USER: `${API_END_POINT}/members`,
 
-export const STATUS = {
-  INVALID_TOKEN_ERROR: 401,
+  ADDRESS: `${API_END_POINT}/members/address`,
+  FRIEND: `${API_END_POINT}/members/friends`,
+  FRIEND_SEARCH: (keyword) => `${API_END_POINT}/members/friends/search?searchWord=${keyword}`,
 };
 
 export const QUERY_KEY = {
@@ -27,8 +27,15 @@ export const QUERY_KEY = {
 
   ADDRESS_SEARCH: '주소검색',
 
-  TOKEN_VALIDATION: '토큰 유효성검사',
+  USER: '유저정보',
   O_AUTH: '소셜로그인',
 
   ADDRESS: '내 주소목록',
+  FRIEND: '내 친구목록',
+  FRIEND_SEARCH: '친구 ID검색',
+  PROFILE: '내 프로필',
+};
+
+export const STATUS = {
+  INVALID_TOKEN_ERROR: 401,
 };

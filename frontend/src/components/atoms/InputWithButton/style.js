@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { Container as InputContainer } from '../Input/style';
+import { COLOR } from '../../../constants';
 
 export const Container = styled(InputContainer)`
   & > button {
@@ -8,5 +9,9 @@ export const Container = styled(InputContainer)`
     bottom: 0.8rem;
     right: 0.95rem;
     margin-left: 0.875rem;
+  }
+
+  & > input:focus ~ button > svg > path {
+    stroke: ${COLOR.PRIMARY};
   }
 `;

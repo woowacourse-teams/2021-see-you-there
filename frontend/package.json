@@ -1,11 +1,13 @@
 {
   "name": "see-you-there-frontend",
-  "version": "0.1.0",
+  "version": "2.3.4",
   "description": "여기서만나(프론트엔드)",
   "main": "index.js",
   "scripts": {
-    "start": "eslint src && webpack serve --mode=development",
-    "build": "webpack --mode=production"
+    "start": "webpack serve --mode=development",
+    "lint": "eslint src",
+    "build": "webpack --mode=production",
+    "cypress": "cypress open --config watchForFileChanges=false --config pluginsFile=false --config-file false"
   },
   "contributors": [
     {
@@ -95,6 +97,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "babel-loader": "8.2.2",
     "clean-webpack-plugin": "4.0.0-alpha.0",
+    "cypress": "8.1.0",
     "eslint": "7.31.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-jsx-a11y": "6.4.1",

@@ -46,10 +46,10 @@ export const useMapViewApi = ({ mapObj, mapViewRef }) => {
   };
 
   /* 마커 API */
-  const getTooltip = ({ position, title, url, pinSize, isInteractive }) => {
+  const getTooltip = ({ position, title, url, key, isInteractive }) => {
     const $tooltip = document.createElement('button');
     const KEY = isInteractive ? 'INTERACTIVE' : 'DEFAULT';
-    $tooltip.innerHTML = HTML.TOOLTIP[KEY]({ title, url, pinSize });
+    $tooltip.innerHTML = HTML.TOOLTIP[KEY]({ title, url, key });
 
     const tooltip = new kakao.maps.CustomOverlay({
       position,
@@ -61,10 +61,10 @@ export const useMapViewApi = ({ mapObj, mapViewRef }) => {
     return { $tooltip, tooltip };
   };
 
-  const getPin = ({ position, title, url, image, isInteractive }) => {
+  const getPin = ({ position, title, url, key, isInteractive }) => {
     const $pin = document.createElement('button');
     const KEY = isInteractive ? 'INTERACTIVE' : 'DEFAULT';
-    $pin.innerHTML = HTML.PIN[KEY]({ title, url, image });
+    $pin.innerHTML = HTML.PIN[KEY]({ title, url, key });
 
     const pin = new kakao.maps.CustomOverlay({
       position,
@@ -107,10 +107,10 @@ export const useMapViewApi = ({ mapObj, mapViewRef }) => {
   };
 
   const getMarker = (markerSpec) => {
-    const { x, y, title, url, image, isInteractive } = markerSpec;
+    const { x, y, title, url, key, isInteractive } = markerSpec;
     const position = new kakao.maps.LatLng(y, x);
-    const { tooltip, $tooltip } = getTooltip({ position, title, url, pinSize: image.h, isInteractive });
-    const { $pin, pin } = getPin({ position, title, url, image, isInteractive });
+    const { tooltip, $tooltip } = getTooltip({ position, title, url, key, isInteractive });
+    const { $pin, pin } = getPin({ position, title, url, key, isInteractive });
 
     if (isInteractive) {
       addEventListeners({ $pin, $tooltip, tooltip });

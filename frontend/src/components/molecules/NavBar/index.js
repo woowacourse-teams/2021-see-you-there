@@ -1,62 +1,68 @@
 import React, { useState, useContext } from 'react';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 
-import { Nav, Title, TitleText, LeftButton, RightButton, MenuList } from './style';
+import { Nav, Button, Title, ProfileImage, MenuList, Greeting, Divider } from './style';
 import { Icon } from '../../';
 import { UserContext } from '../../../contexts';
-import { COLOR, LAYOUT, ROUTE, ROUTES_WITHOUT_MAP, PRIVATE_ROUTES } from '../../../constants';
+import { COLOR, LAYOUT, ROUTE, PRIVATE_ROUTES, PATHS } from '../../../constants';
 import { Image } from '../../../assets';
 
 export const NavBar = () => {
-  /* eslint-disable-next-line no-unused-vars */
   const { user, isLogin } = useContext(UserContext);
   const history = useHistory();
   const { pathname } = useLocation();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
-  // TODO: isOAuth, canGoBack => route.js 내 상수로 분리
-  const isOAuth = [ROUTE.LOGIN.PATH, ROUTE.LOGOUT.PATH, ROUTE.LOGIN_KAKAO.PATH, ROUTE.WELCOME.PATH].includes(pathname);
-  const canGoBack = ![ROUTE.HOME.PATH, ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGOUT.PATH, ROUTE.WELCOME.PATH].includes(
-    pathname
-  );
-  const hasMapView = ROUTES_WITHOUT_MAP.map((ROUTE) => ROUTE.PATH).includes(pathname);
+  const isOAuthPage = PATHS.OAUTH.includes(pathname);
+  const canGoBack = !PATHS.CANNOT_GO_BACK.includes(pathname);
+  const hasMapView = PATHS.MAP_VIEW.includes(pathname);
 
   return (
     <Nav hasMapView={hasMapView}>
-      {canGoBack && (
-        <LeftButton onClick={() => history.goBack()}>
+      <div>
+        <Button isVisible={canGoBack} onClick={() => history.goBack()}>
           <Icon.ArrowLeft width={LAYOUT.NAV_ICON_SIZE} color={COLOR.ON_PRIMARY} />
-        </LeftButton>
-      )}
+        </Button>
 
-      {/* 로고 선택링크 너비 축소 */}
-      <NavLink to={ROUTE.HOME.PATH}>
-        <Title>
-          <img src={Image.logo} width="24" alt="logo" />
-          <TitleText>여기서만나</TitleText>
-        </Title>
-      </NavLink>
-
-      {isOAuth ? null : isLogin ? (
-        <RightButton onClick={() => setIsMenuVisible((isMenuVisible) => !isMenuVisible)}>
-          <Icon.Hamburger width={LAYOUT.NAV_ICON_SIZE} color={COLOR.ON_PRIMARY} />
-        </RightButton>
-      ) : (
-        <NavLink to={ROUTE.LOGIN.PATH}>
-          <RightButton>
-            <Icon.PersonCircle width={LAYOUT.NAV_ICON_SIZE} color={COLOR.ON_PRIMARY} />
-          </RightButton>
+        <NavLink to={ROUTE.HOME.PATH}>
+          <Title>
+            <img src={Image.logo} width="24" alt="logo" />
+            <h2>여기서만나</h2>
+          </Title>
         </NavLink>
-      )}
 
-      <MenuList isVisible={isMenuVisible} onClick={() => setIsMenuVisible(false)}>
-        {PRIVATE_ROUTES.map((ROUTE, index) => (
-          <li key={index}>{ROUTE.NAME}</li>
-        ))}
-        <li>
-          <button onClick={() => history.push(ROUTE.LOGOUT.PATH)}>{ROUTE.LOGOUT.NAME}</button>
-        </li>
-      </MenuList>
+        {isLogin ? (
+          <Button isVisible={!isOAuthPage} onClick={() => setIsMenuVisible((isMenuVisible) => !isMenuVisible)}>
+            <ProfileImage src={user.profileImage} />
+            <Icon.Dropdown width="10" color={COLOR.ON_PRIMARY} />
+          </Button>
+        ) : (
+          <NavLink to={ROUTE.LOGIN.PATH}>
+            <Button isVisible={!isOAuthPage}>
+              <Icon.PersonCircle width={LAYOUT.NAV_ICON_SIZE} color={COLOR.ON_PRIMARY} />
+            </Button>
+          </NavLink>
+        )}
+
+        <MenuList isVisible={isMenuVisible} onClick={() => setIsMenuVisible(false)}>
+          <Greeting>
+            <strong>{user.nickname}</strong> 님 안녕하세요!
+          </Greeting>
+          <Divider />
+          {PRIVATE_ROUTES.map((ROUTE, index) => (
+            <li key={index}>
+              <NavLink to={ROUTE.PATH}>{ROUTE.NAME}</NavLink>
+            </li>
+          ))}
+          <Divider />
+          <li>
+            <button onClick={() => history.push(ROUTE.LOGOUT.PATH)}>
+              로그아웃
+              <Icon.Enter width="20" />
+            </button>
+          </li>
+        </MenuList>
+      </div>
     </Nav>
   );
 };

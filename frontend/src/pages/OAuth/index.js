@@ -13,7 +13,7 @@ const fetchUserInfo = async (pathname, search) => {
 };
 
 export const OAuthPage = () => {
-  const { login } = useContext(UserContext);
+  const { login, userAddressList } = useContext(UserContext);
   const { pathname, search } = useLocation();
   const history = useHistory();
 
@@ -26,20 +26,18 @@ export const OAuthPage = () => {
       return;
     }
     login(userInfo);
-    history.replace(ROUTE.HOME.PATH);
   }, [userInfo]);
 
-  // TODO: 내 주소목록이 없으면 WelcomePage로 이동
-  // useEffect(() => {
-  //   if (!userAddressList) {
-  //     return;
-  //   }
-  //   if (userAddressList.length === 0) {
-  //     history.replace(ROUTE.WELCOME.PATH);
-  //     return;
-  //   }
-  //   history.replace(ROUTE.HOME.PATH);
-  // }, [userAddressList]);
+  useEffect(() => {
+    if (!userAddressList) {
+      return;
+    }
+    if (userAddressList.length === 0) {
+      history.replace(ROUTE.WELCOME.PATH);
+      return;
+    }
+    history.replace(ROUTE.HOME.PATH);
+  }, [userAddressList]);
 
   return null;
 };

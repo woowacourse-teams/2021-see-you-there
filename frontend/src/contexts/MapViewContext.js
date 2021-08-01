@@ -39,7 +39,7 @@ export const MapViewContextProvider = ({ children }) => {
     enabled: !!midpoint,
   });
 
-  const [station] = stations?.data || [];
+  const [station] = stations || [];
 
   const { data: categoryPlace, isLoading: isCategoryPlaceLoading } = useQuery([category, station], fetchCategory, {
     enabled: !!station && !!category,

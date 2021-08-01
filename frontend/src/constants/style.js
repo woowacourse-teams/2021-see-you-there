@@ -13,7 +13,7 @@ export const COLOR = {
   ON_PRIMARY: '#FFF',
   ON_ERROR: '#333',
   BORDER: '#EEE',
-  BORDER_HOVER: '#CCC',
+  BORDER_LIGHT: '#CCC',
   BORDER_DARK: '#AAA',
   PLACEHOLDER: '#999',
   ANCHOR: '#999',
@@ -31,7 +31,9 @@ export const LAYOUT = {
   NAV_WIDTH_RIGHT: '26rem',
   NAV_ICON_SIZE: '1.75rem',
 
-  CONTENT_WIDTH: '18rem',
+  CONTENT_WIDTH_RESPONSIVE: '90vw',
+  CONTENT_WIDTH_MAX: '20rem',
+
   CONTENT_WIDTH_RIGHT: '20rem',
   CONTENT_FIRST_BOX_HEIGHT: '22.5rem',
   CONTENT_BOTTOM_HEIGHT: '6.5rem',
@@ -49,9 +51,9 @@ export const Z_INDEX = {
   MAP_CONTROLLER: 5,
 
   CONTENT: 10,
+  ON_IMAGE: 15,
   NAVBAR: 20,
   HAMBURGER_MENU: 30,
-  ON_IMAGE: 50,
   MODAL: 100,
 };
 

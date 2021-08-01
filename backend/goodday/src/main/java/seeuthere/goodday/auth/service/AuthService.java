@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.dto.ProfileTokenResponse;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
+import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.service.MemberService;
 
 @Service
@@ -17,9 +18,9 @@ public class AuthService {
         this.memberService = memberService;
     }
 
-    public ProfileTokenResponse createToken(ProfileResponse profile) {
-        String token = jwtTokenProvider.createToken(profile.getId());
-        return new ProfileTokenResponse(profile, token);
+    public ProfileTokenResponse createToken(Member member) {
+        String token = jwtTokenProvider.createToken(member.getId());
+        return new ProfileTokenResponse(member, token);
     }
 
     public void validate(String token) {

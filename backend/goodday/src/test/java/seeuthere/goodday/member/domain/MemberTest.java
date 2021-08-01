@@ -51,7 +51,8 @@ class MemberTest {
     @DisplayName("첫 로그인이 아닐 시 기존의 멤버를 반환한다.")
     @Test
     public void alreadyMemberNotSave() {
-        ProfileResponse profile = new ProfileResponse(와이비.getId(), "absscd", 와이비.getNickname(), 와이비.getProfileImage());
+        ProfileResponse profile = new ProfileResponse(와이비.getId(), "absscd", 와이비.getNickname(),
+            와이비.getProfileImage());
         Member member = memberService.add(profile);
         assertThat(member.getMemberId()).isEqualTo(와이비.getMemberId());
     }

@@ -6,7 +6,7 @@ import { httpRequest } from '../utils';
 import { QUERY_KEY, API_URL, STATUS } from '../constants';
 
 export const useMutateProfile = () => {
-  const { token, forceLogout, profileImage } = useContext(UserContext);
+  const { token, forceLogout, memberId, profileImage } = useContext(UserContext);
   const queryClient = useQueryClient();
 
   /* 수정 */
@@ -23,7 +23,7 @@ export const useMutateProfile = () => {
     onError: forceLogout,
   });
 
-  const updateProfile = ({ nickname, memberId }) => {
+  const updateProfile = ({ nickname }) => {
     update.mutate({ nickname, memberId, profileImage });
   };
 

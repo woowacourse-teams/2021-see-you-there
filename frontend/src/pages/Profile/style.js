@@ -31,10 +31,11 @@ export const ContentArea = styled.section`
 export const ProfileSection = styled.section`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: ${LAYOUT.PADDING};
   width: ${LAYOUT.CONTENT_WIDTH_MAX};
+  height: 20rem;
 
   background-color: ${COLOR.BACKGROUND};
   box-shadow: 5px 5px 14px rgba(0, 0, 0, 0.12);
@@ -42,11 +43,12 @@ export const ProfileSection = styled.section`
 `;
 
 export const ProfileImage = styled.img`
-  width: 6rem;
-  height: 6rem;
+  margin-top: 1.5rem;
+  width: 7rem;
+  height: 7rem;
 
-  background-color: #bbb;
-  border-radius: 100%;
+  background-color: #ccc;
+  border-radius: 50%;
   padding: 0.25rem;
 `;
 
@@ -56,10 +58,9 @@ export const Info = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-  height: 9.625rem;
 
   & > button {
-    margin: 2rem 0 1rem;
+    margin: 1rem 0;
 
     background-color: ${COLOR.BACKGROUND};
     font-size: 0.75rem;
@@ -79,7 +80,7 @@ export const MemberId = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0.5rem;
+  margin: 0.5rem 0 1rem;
 
   & > span {
     color: ${COLOR.PRIMARY_LIGHT};
@@ -109,11 +110,12 @@ export const ButtonSection = styled.section`
 /* 수정 폼 */
 export const EditForm = styled.form`
   padding: 0 ${LAYOUT.PADDING} ${LAYOUT.PADDING};
-  width: ${LAYOUT.CONTENT_WIDTH_MAX};
+  width: 98%;
 
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 
   & > ${ButtonGroup} {

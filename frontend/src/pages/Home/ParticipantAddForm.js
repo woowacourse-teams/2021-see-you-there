@@ -23,7 +23,7 @@ export const ParticipantAddForm = () => {
 
   const handleClickFriendButton = () => {
     if (!isLogin) {
-      history.push(ROUTE.FRIEND.PATH);
+      history.push(ROUTE.LOGIN.PATH);
       return;
     }
     openModal();

@@ -51,7 +51,7 @@ export const useMidpoint = () => {
       x,
       y,
       title,
-      image: PIN_IMAGE.STATION,
+      key: 'STATION',
     });
 
     showMarker(marker);
@@ -63,7 +63,7 @@ export const useMidpoint = () => {
         x,
         y,
         title,
-        image: PIN_IMAGE.PARTICIPANT,
+        key: 'PARTICIPANT',
       });
     });
 
@@ -118,7 +118,7 @@ export const useMidpoint = () => {
         y,
         title,
         url: placeUrl,
-        image: PIN_IMAGE[category],
+        key: category,
         isInteractive: true,
       });
     });

@@ -58,7 +58,7 @@ export const MidpointPage = () => {
               const ChipIcon = isSelectedChip ? Icon.CheckCircle : categoryIcon;
 
               return (
-                <li key={category}>
+                <li key={category} data-testid={category}>
                   <Chip selected={isSelectedChip} onClick={() => handleSelectChip(category)}>
                     <ChipIcon width="18" color={isSelectedChip ? COLOR.PRIMARY : COLOR.BORDER_DARK} />
                     <span>{category}</span>

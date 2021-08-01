@@ -1,29 +1,49 @@
+import { QUERY_KEY } from './api';
+import { ID } from './test';
+import { Image } from '../assets';
+
+const PIN_IMAGE = {
+  STATION: { w: 60, h: 80, src: Image.pinStation },
+  PARTICIPANT: { w: 45, h: 45, src: Image.pinParticipant },
+  [QUERY_KEY.CAFE]: { w: 36, h: 48, src: Image.pinCafe },
+  [QUERY_KEY.DINING]: { w: 36, h: 48, src: Image.pinDining },
+  [QUERY_KEY.PARTY]: { w: 36, h: 48, src: Image.pinParty },
+};
+
+const TEST_ID = {
+  STATION: ID.PIN_STATION,
+  PARTICIPANT: ID.PIN_PARTICIPANT,
+  [QUERY_KEY.CAFE]: ID.PIN_CAFE,
+  [QUERY_KEY.DINING]: ID.PIN_DINING,
+  [QUERY_KEY.PARTY]: ID.PIN_PARTY,
+};
+
 export const PIN_Y_ANCHOR = 0.9;
 export const HTML = {
   PIN: {
-    DEFAULT: ({ title, image }) =>
+    DEFAULT: ({ title, key }) =>
       `
-      <div style="cursor: default;">
-        <img src=${image.src} alt=${title} width=${image.w} height=${image.h} />
+      <div style="cursor: default;" data-testid=${TEST_ID[key]} >
+        <img src=${PIN_IMAGE[key].src} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
       </div>
     `,
-    INTERACTIVE: ({ title, image, url }) =>
+    INTERACTIVE: ({ title, key, url }) =>
       `
-      <a href=${url} target="_blank" rel="noreferrer" >
-        <img src=${image.src} alt=${title} width=${image.w} height=${image.h} />
+      <a href=${url} target="_blank" rel="noreferrer" data-testid=${TEST_ID[key]} >
+        <img src=${PIN_IMAGE[key].src} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
       </a>
     `,
   },
   TOOLTIP: {
-    DEFAULT: ({ title, pinSize }) =>
+    DEFAULT: ({ title, key }) =>
       `
-      <div class="tooltip-default" style="bottom: ${pinSize * PIN_Y_ANCHOR + 8}px; cursor: default;">
+      <div class="tooltip-default" style="bottom: ${PIN_IMAGE[key].h * PIN_Y_ANCHOR + 8}px; cursor: default;">
         <span>${title}</span>
       </div>
     `,
-    INTERACTIVE: ({ title, pinSize, url }) =>
+    INTERACTIVE: ({ title, key, url }) =>
       `
-      <div class="tooltip-interactive" style="bottom: ${pinSize * PIN_Y_ANCHOR + 8}px;">
+      <div class="tooltip-interactive" style="bottom: ${PIN_IMAGE[key].h * PIN_Y_ANCHOR + 8}px;">
         <a href="${url}" target="_blank" rel="noreferrer">
           <span>${title}</span>
         </a>

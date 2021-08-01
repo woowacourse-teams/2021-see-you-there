@@ -1,0 +1,137 @@
+[
+  {
+    "placeName": "어까페푸드",
+    "distance": "103",
+    "addressName": "서울 강남구 대치동 514-3",
+    "roadAddressName": "서울 강남구 남부순환로 지하 3104",
+    "placeUrl": "http://place.map.kakao.com/19032316",
+    "x": 127.072070703449,
+    "y": 37.4962863813717
+  },
+  {
+    "placeName": "카페스토리",
+    "distance": "131",
+    "addressName": "서울 강남구 대치동 66",
+    "roadAddressName": "서울 강남구 영동대로 210",
+    "placeUrl": "http://place.map.kakao.com/19032315",
+    "x": 127.070009304042,
+    "y": 37.4976283185127
+  },
+  {
+    "placeName": "칸트의시간 대치점",
+    "distance": "207",
+    "addressName": "서울 강남구 대치동 62-11",
+    "roadAddressName": "서울 강남구 영동대로50길 10",
+    "placeUrl": "http://place.map.kakao.com/18948117",
+    "x": 127.070078011059,
+    "y": 37.4985437001177
+  },
+  {
+    "placeName": "식스플로어",
+    "distance": "221",
+    "addressName": "서울 강남구 대치동 994-14",
+    "roadAddressName": "서울 강남구 영동대로 211",
+    "placeUrl": "http://place.map.kakao.com/1080116463",
+    "x": 127.068812795036,
+    "y": 37.4975641490727
+  },
+  {
+    "placeName": "스타벅스 학여울역점",
+    "distance": "263",
+    "addressName": "서울 강남구 대치동 994-10",
+    "roadAddressName": "서울 강남구 영동대로 215",
+    "placeUrl": "http://place.map.kakao.com/7962298",
+    "x": 127.068539522508,
+    "y": 37.4979967909577
+  },
+  {
+    "placeName": "커피랑도서관 대치1호점",
+    "distance": "265",
+    "addressName": "서울 강남구 대치동 994-10",
+    "roadAddressName": "서울 강남구 영동대로 215",
+    "placeUrl": "http://place.map.kakao.com/827125591",
+    "x": 127.068507864868,
+    "y": 37.4980040173707
+  },
+  {
+    "placeName": "아므네",
+    "distance": "467",
+    "addressName": "서울 강남구 대치동 511",
+    "roadAddressName": "서울 강남구 삼성로 150",
+    "placeUrl": "http://place.map.kakao.com/319227340",
+    "x": 127.066571247422,
+    "y": 37.4948083534453
+  },
+  {
+    "placeName": "카페바라",
+    "distance": "469",
+    "addressName": "서울 강남구 대치동 511",
+    "roadAddressName": "서울 강남구 삼성로 150",
+    "placeUrl": "http://place.map.kakao.com/19037054",
+    "x": 127.066609605582,
+    "y": 37.4947074190662
+  },
+  {
+    "placeName": "126카페",
+    "distance": "474",
+    "addressName": "서울 강남구 대치동 511",
+    "roadAddressName": "서울 강남구 삼성로 150",
+    "placeUrl": "http://place.map.kakao.com/2021105476",
+    "x": 127.06632832890705,
+    "y": 37.495042751834056
+  },
+  {
+    "placeName": "스타벅스 대치삼성프라자점",
+    "distance": "521",
+    "addressName": "서울 강남구 대치동 993-2",
+    "roadAddressName": "서울 강남구 영동대로 237",
+    "placeUrl": "http://place.map.kakao.com/31409473",
+    "x": 127.0672332562037,
+    "y": 37.50038971276607
+  },
+  {
+    "placeName": "씨스쿨컨설팅카페",
+    "distance": "554",
+    "addressName": "서울 강남구 대치동 316",
+    "roadAddressName": "서울 강남구 삼성로 212",
+    "placeUrl": "http://place.map.kakao.com/2140322652",
+    "x": 127.06591733759,
+    "y": 37.4996164902446
+  },
+  {
+    "placeName": "커피팟",
+    "distance": "561",
+    "addressName": "서울 강남구 개포동 12",
+    "roadAddressName": "서울 강남구 개포로109길 21",
+    "placeUrl": "http://place.map.kakao.com/21224076",
+    "x": 127.075817688128,
+    "y": 37.4934368548699
+  },
+  {
+    "placeName": "리즈앤틱",
+    "distance": "565",
+    "addressName": "서울 강남구 개포동 12-2",
+    "roadAddressName": "서울 강남구 개포로109길 69",
+    "placeUrl": "http://place.map.kakao.com/22044277",
+    "x": 127.077484986628,
+    "y": 37.4961135650358
+  },
+  {
+    "placeName": "카페아에르",
+    "distance": "590",
+    "addressName": "서울 강남구 대치동 992-2",
+    "roadAddressName": "서울 강남구 도곡로 538",
+    "placeUrl": "http://place.map.kakao.com/709876220",
+    "x": 127.06598801093963,
+    "y": 37.50025075899808
+  },
+  {
+    "placeName": "카페톡톡",
+    "distance": "609",
+    "addressName": "서울 강남구 개포동 12-4",
+    "roadAddressName": "서울 강남구 개포로 615",
+    "placeUrl": "http://place.map.kakao.com/21158484",
+    "x": 127.075626965765,
+    "y": 37.4926945473622
+  }
+]

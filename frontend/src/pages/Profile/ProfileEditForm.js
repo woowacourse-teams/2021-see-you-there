@@ -46,7 +46,7 @@ export const ProfileEditForm = (props) => {
         placeholder={INPUT.MEMBER_ID.PLACEHOLDER}
         value={memberId}
         onChange={handleChangeMemberId}
-        Icon={<Icon.Place width="18" />}
+        Icon={<Icon.ID width="18" />}
       />
       <Notice>{noticeMessage}</Notice>
       <ButtonGroup>

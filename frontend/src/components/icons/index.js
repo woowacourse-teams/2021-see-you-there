@@ -7,6 +7,7 @@ export { Dropdown } from './dropdown';
 export { Enter } from './enter';
 export { ErrorCircle } from './errorCircle';
 export { Hamburger } from './hamburger';
+export { ID } from './id';
 export { LocalBar } from './localBar';
 export { LocalCafe } from './localCafe';
 export { LocalDining } from './localDining';

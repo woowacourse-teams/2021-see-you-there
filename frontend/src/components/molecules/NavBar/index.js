@@ -46,7 +46,7 @@ export const NavBar = () => {
 
         <MenuList isVisible={isMenuVisible} onClick={() => setIsMenuVisible(false)}>
           <Greeting>
-            <strong>{user.nickname}님</strong> 안녕하세요!
+            <strong>{user.nickname}</strong> 님 안녕하세요!
           </Greeting>
           <Divider />
           {PRIVATE_ROUTES.map((ROUTE, index) => (

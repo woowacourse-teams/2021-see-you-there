@@ -17,7 +17,7 @@ export const useProfileNicknameInput = () => {
 
     setNickname(trimmedNickname);
 
-    if (trimmedNickname.length <= INPUT.NICKNAME.MIN_LENGTH) {
+    if (trimmedNickname.length < INPUT.NICKNAME.MIN_LENGTH) {
       setNoticeMessage(MESSAGE.NOTICE_NICKNAME_EMPTY);
       return;
     }

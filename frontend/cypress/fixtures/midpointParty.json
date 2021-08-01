@@ -1,0 +1,65 @@
+[
+  {
+    "placeName": "SETEC 제1전시실",
+    "distance": "103",
+    "addressName": "서울 강남구 대치동 514",
+    "roadAddressName": "서울 강남구 남부순환로 3104",
+    "placeUrl": "http://place.map.kakao.com/17581441",
+    "x": 127.072034495821,
+    "y": 37.4962647792989
+  },
+  {
+    "placeName": "SETEC",
+    "distance": "142",
+    "addressName": "서울 강남구 대치동 514",
+    "roadAddressName": "서울 강남구 남부순환로 3104",
+    "placeUrl": "http://place.map.kakao.com/8360965",
+    "x": 127.072196986216,
+    "y": 37.4959006734666
+  },
+  {
+    "placeName": "SETEC 제2전시실",
+    "distance": "164",
+    "addressName": "서울 강남구 대치동 514",
+    "roadAddressName": "서울 강남구 남부순환로 3104",
+    "placeUrl": "http://place.map.kakao.com/17581452",
+    "x": 127.072214850512,
+    "y": 37.4956627968098
+  },
+  {
+    "placeName": "SETEC 제3전시실",
+    "distance": "184",
+    "addressName": "서울 강남구 대치동 514",
+    "roadAddressName": "서울 강남구 남부순환로 3104",
+    "placeUrl": "http://place.map.kakao.com/17579314",
+    "x": 127.071558573704,
+    "y": 37.4952487331016
+  },
+  {
+    "placeName": "소품박물관",
+    "distance": "659",
+    "addressName": "서울 강남구 대치동 316",
+    "roadAddressName": "서울 강남구 삼성로 212",
+    "placeUrl": "http://place.map.kakao.com/16678341",
+    "x": 127.063955003556,
+    "y": 37.4953576108274
+  },
+  {
+    "placeName": "강남구민회관 대공연장",
+    "distance": "689",
+    "addressName": "서울 강남구 대치동 509-2",
+    "roadAddressName": "서울 강남구 삼성로 154",
+    "placeUrl": "http://place.map.kakao.com/1333789265",
+    "x": 127.064300951879,
+    "y": 37.493940139349
+  },
+  {
+    "placeName": "마리아칼라스홀",
+    "distance": "766",
+    "addressName": "서울 강남구 대치동 983-10",
+    "roadAddressName": "서울 강남구 영동대로 315",
+    "placeUrl": "http://place.map.kakao.com/11953136",
+    "x": 127.066064603127,
+    "y": 37.5024671903626
+  }
+]

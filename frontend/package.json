@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack serve --mode=development",
     "lint": "eslint src",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "cypress": "cypress open"
   },
   "contributors": [
     {
@@ -96,6 +97,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "babel-loader": "8.2.2",
     "clean-webpack-plugin": "4.0.0-alpha.0",
+    "cypress": "8.1.0",
     "eslint": "7.31.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-jsx-a11y": "6.4.1",

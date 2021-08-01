@@ -4,8 +4,8 @@
 /node_modules
 **/jspm_packages/
 
-#test
-/test
+# cypress
+/cypress/examples
 
 # production
 /dist

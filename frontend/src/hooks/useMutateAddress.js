@@ -42,7 +42,8 @@ export const useMutateAddress = () => {
   });
 
   const updateAddress = ({ id, nickname, address }) => {
-    update.mutate({ id, nickname, ...address });
+    // TODO: react-query ISSUE 답변 결과보고 수정
+    update.mutate({ ...address, id, nickname });
   };
 
   /* 삭제 */

@@ -14,3 +14,4 @@ export {
   ROUTES_WITHOUT_MAP,
 } from './route';
 export { COLOR, LAYOUT, Z_INDEX, REACT_QUERY_DEV_TOOL } from './style';
+export { ID } from './test';

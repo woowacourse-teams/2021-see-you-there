@@ -6,7 +6,7 @@ import { MapViewArea, MapView, ContentArea, AddSection, ListSection, BottomSecti
 import { ButtonRound, Icon, Confirm, ParticipantList } from '../../components';
 import { ParticipantContext, AddFormContextProvider } from '../../contexts';
 import { useConfirm, useMapViewApi } from '../../hooks';
-import { MESSAGE, ROUTE, POBI_POINT } from '../../constants';
+import { MESSAGE, ROUTE, POBI_POINT, ID } from '../../constants';
 
 const formId = 'PARTICIPANT';
 
@@ -62,6 +62,7 @@ export const HomePage = () => {
               Icon={<Icon.Search color="#fff" />}
               onClick={handleClickGetMiddlePoint}
               disabled={isLackParticipants}
+              data-testid={ID.MIDPOINT_FINDER}
             >
               중간지점 찾기
             </ButtonRound>

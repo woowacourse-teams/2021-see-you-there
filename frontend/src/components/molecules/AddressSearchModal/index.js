@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { InputWithButton, Icon, Modal } from '../../../components';
 import { AddressSearchList, Top } from './style';
 import { AddFormContext } from '../../../contexts';
-import { COLOR, INPUT } from '../../../constants';
+import { COLOR, INPUT, ID } from '../../../constants';
 
 export const AddressSearchModal = () => {
   const [keywordInput, setKeywordInput] = useState('');
@@ -50,8 +50,9 @@ export const AddressSearchModal = () => {
           onClickButton={handleClickButton}
           buttonIcon={<Icon.Search width="20" />}
           autoFocus
+          data-testid={ID.ADDRESS_SEARCH}
         />
-        <AddressSearchList>
+        <AddressSearchList data-testid={ID.ADDRESS_SEARCH}>
           {addressList?.map((item, index) => {
             const { x, y, name: addressName, address: fullAddress } = item;
 

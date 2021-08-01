@@ -7,7 +7,7 @@ import { UserContext, AddFormContext, ParticipantContext } from '../../contexts'
 import { useModal, useParticipantNameInput, useAddressInput } from '../../hooks';
 import { AddForm, ButtonGroup } from './style';
 import { getId, getAvatarKey } from '../../utils';
-import { ROUTE } from '../../constants';
+import { ROUTE, ID } from '../../constants';
 import { Image } from '../../assets';
 
 export const ParticipantAddForm = () => {
@@ -23,7 +23,7 @@ export const ParticipantAddForm = () => {
 
   const handleClickFriendButton = () => {
     if (!isLogin) {
-      history.push(ROUTE.FRIEND.PATH);
+      history.push(ROUTE.LOGIN.PATH);
       return;
     }
     openModal();
@@ -65,6 +65,7 @@ export const ParticipantAddForm = () => {
         placeholder={INPUT.NAME.PLACEHOLDER}
         Icon={<Icon.Person />}
         autoFocus
+        data-testid={ID.PARTICIPANT_NAME}
       />
       <Input
         name={INPUT.ADDRESS.KEY}
@@ -76,6 +77,7 @@ export const ParticipantAddForm = () => {
         onFocus={handleFocusAddress}
         onClick={handleClickAddress}
         readOnly
+        data-testid={ID.PARTICIPANT_ADDRESS}
       />
       <AddressSearchModal />
       <Notice>{noticeMessage}</Notice>
@@ -96,6 +98,7 @@ export const ParticipantAddForm = () => {
           size="sm"
           Icon={<Icon.SubmitRight width="18" color="#fff" />}
           disabled={!isComplete || isFullParticipants}
+          data-testid={ID.PARTICIPANT_ADD_BUTTON}
         >
           만날 사람 추가
         </ButtonRound>

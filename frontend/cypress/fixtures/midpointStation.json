@@ -1,0 +1,20 @@
+[
+  {
+    "placeName": "학여울역 3호선",
+    "distance": "644",
+    "addressName": "서울 강남구 대치동 514-3",
+    "roadAddressName": "서울 강남구 남부순환로 지하 3104",
+    "placeUrl": "http://place.map.kakao.com/21160548",
+    "x": 127.071166599707,
+    "y": 37.4968851977644
+  },
+  {
+    "placeName": "종합운동장역 2호선",
+    "distance": "955",
+    "addressName": "서울 송파구 잠실동 122",
+    "roadAddressName": "서울 송파구 올림픽로 지하 23",
+    "placeUrl": "http://place.map.kakao.com/21160812",
+    "x": 127.073849447402,
+    "y": 37.5111446632705
+  }
+]

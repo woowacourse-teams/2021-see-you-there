@@ -1,0 +1,137 @@
+[
+  {
+    "placeName": "쌍용정육점식당",
+    "distance": "131",
+    "addressName": "서울 강남구 대치동 66",
+    "roadAddressName": "서울 강남구 영동대로 210",
+    "placeUrl": "http://place.map.kakao.com/23386361",
+    "x": 127.069995723635,
+    "y": 37.4976175144841
+  },
+  {
+    "placeName": "장독대",
+    "distance": "132",
+    "addressName": "서울 강남구 대치동 66",
+    "roadAddressName": "서울 강남구 영동대로 210",
+    "placeUrl": "http://place.map.kakao.com/16734080",
+    "x": 127.070013851034,
+    "y": 37.4976535439946
+  },
+  {
+    "placeName": "만나식당",
+    "distance": "135",
+    "addressName": "서울 강남구 대치동 66",
+    "roadAddressName": "서울 강남구 영동대로 210",
+    "placeUrl": "http://place.map.kakao.com/21413898",
+    "x": 127.070004827704,
+    "y": 37.4976787775186
+  },
+  {
+    "placeName": "김가네 학여울역점",
+    "distance": "218",
+    "addressName": "서울 강남구 대치동 994-14",
+    "roadAddressName": "서울 강남구 영동대로 211",
+    "placeUrl": "http://place.map.kakao.com/21656687",
+    "x": 127.06883538491745,
+    "y": 37.497534402703195
+  },
+  {
+    "placeName": "삼석식품",
+    "distance": "219",
+    "addressName": "서울 강남구 대치동 994-14",
+    "roadAddressName": "서울 강남구 영동대로 211",
+    "placeUrl": "http://place.map.kakao.com/20885025",
+    "x": 127.068824090392,
+    "y": 37.4975497263914
+  },
+  {
+    "placeName": "더해봉",
+    "distance": "226",
+    "addressName": "서울 강남구 대치동 50-45",
+    "roadAddressName": "서울 강남구 영동대로 216",
+    "placeUrl": "http://place.map.kakao.com/23393753",
+    "x": 127.069462685725,
+    "y": 37.4984035065649
+  },
+  {
+    "placeName": "을지로골뱅이",
+    "distance": "239",
+    "addressName": "서울 강남구 대치동 994-12",
+    "roadAddressName": "서울 강남구 영동대로 213",
+    "placeUrl": "http://place.map.kakao.com/12424749",
+    "x": 127.068688582142,
+    "y": 37.4977624427493
+  },
+  {
+    "placeName": "잇브레드",
+    "distance": "280",
+    "addressName": "서울 강남구 대치동 994-9",
+    "roadAddressName": "",
+    "placeUrl": "http://place.map.kakao.com/21528222",
+    "x": 127.068417527167,
+    "y": 37.4981482307244
+  },
+  {
+    "placeName": "미소야 대치1호점",
+    "distance": "289",
+    "addressName": "서울 강남구 대치동 994-16",
+    "roadAddressName": "서울 강남구 영동대로 219",
+    "placeUrl": "http://place.map.kakao.com/7889948",
+    "x": 127.06840407839353,
+    "y": 37.49828158743464
+  },
+  {
+    "placeName": "별을품은곱창 대치점",
+    "distance": "301",
+    "addressName": "서울 강남구 대치동 994-16",
+    "roadAddressName": "서울 강남구 영동대로 219",
+    "placeUrl": "http://place.map.kakao.com/1937314382",
+    "x": 127.06829558385,
+    "y": 37.4983573347291
+  },
+  {
+    "placeName": "명동부대찌개 대치은마점",
+    "distance": "333",
+    "addressName": "서울 강남구 대치동 994-8",
+    "roadAddressName": "서울 강남구 영동대로 221",
+    "placeUrl": "http://place.map.kakao.com/942860667",
+    "x": 127.068119439757,
+    "y": 37.4986565704839
+  },
+  {
+    "placeName": "돌깨마을참도시락",
+    "distance": "333",
+    "addressName": "서울 강남구 대치동 994-8",
+    "roadAddressName": "서울 강남구 영동대로 221",
+    "placeUrl": "http://place.map.kakao.com/850764435",
+    "x": 127.068112654506,
+    "y": 37.4986565743963
+  },
+  {
+    "placeName": "남경반점",
+    "distance": "334",
+    "addressName": "서울 강남구 대치동 994-8",
+    "roadAddressName": "서울 강남구 영동대로 221",
+    "placeUrl": "http://place.map.kakao.com/8249923",
+    "x": 127.06811266105277,
+    "y": 37.4986637824418
+  },
+  {
+    "placeName": "백년그집",
+    "distance": "334",
+    "addressName": "서울 강남구 대치동 994-8",
+    "roadAddressName": "서울 강남구 영동대로 221",
+    "placeUrl": "http://place.map.kakao.com/424073481",
+    "x": 127.068114922803,
+    "y": 37.4986637811377
+  },
+  {
+    "placeName": "다낭월남쌈",
+    "distance": "339",
+    "addressName": "서울 강남구 대치동 994-8",
+    "roadAddressName": "서울 강남구 영동대로 221",
+    "placeUrl": "http://place.map.kakao.com/8856913",
+    "x": 127.068151212348,
+    "y": 37.4987754849712
+  }
+]

@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
 import { httpRequest, storage } from '../utils';
@@ -48,6 +48,7 @@ export const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
   const history = useHistory();
+  const { pathname } = useLocation();
   const [user, setUser] = useState(INITIAL_STATE);
   const { id, memberId, nickname, profileImage, token } = user;
 
@@ -88,7 +89,7 @@ export const UserContextProvider = ({ children }) => {
     () => fetchUserFriendList(token),
     {
       enabled: !!token,
-      staleTime: 3_000,
+      refetchInterval: pathname === ROUTE.FRIEND.PATH ? 3_000 : 300_000,
     }
   );
 

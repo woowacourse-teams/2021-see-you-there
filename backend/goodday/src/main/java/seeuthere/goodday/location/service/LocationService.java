@@ -103,17 +103,17 @@ public class LocationService {
         Points points = Points.valueOf(locationsRequest);
         MiddlePoint middlePoint = MiddlePoint.valueOf(points);
 
-        List<UtilityResponse> utilityResponses = findUtility(LocationCategory.SW8.getDescription(),
-            middlePoint.getX(), middlePoint.getY());
-
-        Map<Point, Map<Point, PathsResponse>> responsesFromPoint
-            = getPointsToPath(points, utilityResponses);
-
-        StationGrades stationGrades
-            = StationGrades.valueOf(points, utilityResponses, responsesFromPoint);
-
-        UtilityResponse finalResponse = stationGrades.finalUtilityResponse();
-        return new MiddlePointResponse(finalResponse.getX(), finalResponse.getY());
+//        List<UtilityResponse> utilityResponses = findUtility(LocationCategory.SW8.getDescription(),
+//            middlePoint.getX(), middlePoint.getY());
+//
+//        Map<Point, Map<Point, PathsResponse>> responsesFromPoint
+//            = getPointsToPath(points, utilityResponses);
+//
+//        StationGrades stationGrades
+//            = StationGrades.valueOf(points, utilityResponses, responsesFromPoint);
+//
+//        UtilityResponse finalResponse = stationGrades.finalUtilityResponse();
+        return new MiddlePointResponse(middlePoint.getX(), middlePoint.getY());
     }
 
     private Map<Point, Map<Point, PathsResponse>> getPointsToPath(Points points,

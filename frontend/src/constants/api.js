@@ -27,6 +27,7 @@ export const QUERY_KEY = {
 
   ADDRESS_SEARCH: '주소검색',
 
+  TOKEN_VALIDATION: '토큰유효성',
   USER: '유저정보',
   O_AUTH: '소셜로그인',
 
@@ -37,5 +38,5 @@ export const QUERY_KEY = {
 };
 
 export const STATUS = {
-  INVALID_TOKEN_ERROR: 401,
+  INVALID_TOKEN_ERROR: '401',
 };

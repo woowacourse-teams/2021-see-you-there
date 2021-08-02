@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
 import { httpRequest, storage } from '../utils';
-import { API_URL, STORAGE_KEY, ROUTE, STATUS, QUERY_KEY } from '../constants';
+import { API_URL, STORAGE_KEY, PATHS, ROUTE, STATUS, QUERY_KEY } from '../constants';
 
 const INITIAL_TOKEN = storage.local.get(STORAGE_KEY.TOKEN);
 
@@ -12,7 +12,7 @@ const INITIAL_STATE = {
   id: null,
   nickname: null,
   profileImage: null,
-  token: null,
+  memberId: null,
 };
 
 const fetchUserInfo = async (token) => {
@@ -49,30 +49,39 @@ export const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
   const history = useHistory();
   const { pathname } = useLocation();
+  const [token, setToken] = useState(null);
   const [user, setUser] = useState(INITIAL_STATE);
-  const { id, memberId, nickname, profileImage, token } = user;
+  const { id, memberId, nickname, profileImage } = user;
 
   const login = (userInfo) => {
-    storage.local.set(STORAGE_KEY.TOKEN, userInfo.token);
-    setUser(userInfo);
+    const { token, ...rest } = userInfo;
+
+    storage.local.set(STORAGE_KEY.TOKEN, token);
+    setUser({ ...rest });
+    setToken(token);
   };
 
   const logout = () => {
     storage.local.remove(STORAGE_KEY.TOKEN);
     setUser(INITIAL_STATE);
+    setToken(null);
   };
 
   const forceLogout = () => {
     storage.local.remove(STORAGE_KEY.TOKEN);
     setUser(INITIAL_STATE);
-    history.push(ROUTE.LOGIN.PATH);
+    setToken(null);
+
+    if (PATHS.PRIVATE.includes(pathname)) {
+      history.push(ROUTE.LOGIN.PATH);
+    }
   };
 
   const {
     data: userInfo,
     isLoading: isUserInfoLoading,
     error: errorTokenValidation,
-  } = useQuery(QUERY_KEY.USER, () => fetchUserInfo(INITIAL_TOKEN), {
+  } = useQuery(QUERY_KEY.TOKEN_VALIDATION, () => fetchUserInfo(INITIAL_TOKEN), {
     enabled: !!INITIAL_TOKEN,
   });
 
@@ -97,7 +106,8 @@ export const UserContextProvider = ({ children }) => {
     if (!userInfo) {
       return;
     }
-    setUser({ ...userInfo, token: INITIAL_TOKEN });
+    setUser({ ...userInfo });
+    setToken(INITIAL_TOKEN);
   }, [userInfo]);
 
   const errors = [errorTokenValidation, errorUserAddressList, errorUserFriendList];
@@ -126,7 +136,7 @@ export const UserContextProvider = ({ children }) => {
 
         login,
         logout,
-        isLogin: userInfo || token,
+        isLogin: !!token,
 
         userInfo,
         isUserInfoLoading,

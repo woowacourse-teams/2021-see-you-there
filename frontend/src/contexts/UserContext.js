@@ -73,7 +73,7 @@ export const UserContextProvider = ({ children }) => {
     isLoading: isUserInfoLoading,
     error: errorTokenValidation,
   } = useQuery(QUERY_KEY.USER, () => fetchUserInfo(INITIAL_TOKEN), {
-    enabled: !!INITIAL_TOKEN || !!token,
+    enabled: !!INITIAL_TOKEN,
   });
 
   const { data: userAddressList, error: errorUserAddressList } = useQuery(

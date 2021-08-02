@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import seeuthere.goodday.AcceptanceTest;
 import seeuthere.goodday.exception.ErrorResponse;
 import seeuthere.goodday.location.domain.location.Point;
-import seeuthere.goodday.location.dto.response.MiddlePointResponse;
 import seeuthere.goodday.location.exception.LocationExceptionSet;
 
 public class LocationAcceptanceTest extends AcceptanceTest {

@@ -1,13 +1,12 @@
 import { useContext } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 
 import { UserContext } from '../contexts';
 import { httpRequest } from '../utils';
-import { QUERY_KEY, API_URL, STATUS } from '../constants';
+import { API_URL, STATUS } from '../constants';
 
 export const useMutateProfile = () => {
-  const { token, forceLogout, memberId, profileImage } = useContext(UserContext);
-  const queryClient = useQueryClient();
+  const { token, forceLogout, memberId, profileImage, setUser } = useContext(UserContext);
 
   /* 수정 */
   const fetchUpdate = async (body) => {
@@ -16,10 +15,11 @@ export const useMutateProfile = () => {
     if (response.status === 401) {
       throw new Error(STATUS.INVALID_TOKEN_ERROR);
     }
+    return await response.json();
   };
 
   const update = useMutation((body) => fetchUpdate(body), {
-    onSuccess: () => queryClient.invalidateQueries(QUERY_KEY.USER),
+    onSuccess: (data) => setUser((prevState) => ({ ...prevState, ...data })),
     onError: forceLogout,
   });
 

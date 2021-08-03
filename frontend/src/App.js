@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import * as Page from './pages';
 import { AuthRoute, NavBar } from './components';
 import { UserContextProvider, ParticipantContextProvider, MapViewContextProvider } from './contexts';
-import { ROUTE, STATUS, REACT_QUERY_DEV_TOOL } from './constants';
+import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
 
 export const App = () => {
   const queryClient = new QueryClient();

@@ -17,7 +17,7 @@ import {
 } from './pages';
 import { AuthRoute, NavBar } from './components';
 import { UserContextProvider, ParticipantContextProvider, MapViewContextProvider } from './contexts';
-import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
+import { ROUTE, STATUS, REACT_QUERY_DEV_TOOL } from './constants';
 
 export const App = () => {
   const queryClient = new QueryClient();
@@ -25,6 +25,7 @@ export const App = () => {
   queryClient.setDefaultOptions({
     queries: {
       staleTime: Infinity,
+      retry: (_, error) => (error.message.includes(STATUS.INVALID_TOKEN_ERROR) ? 0 : 3),
     },
   });
 

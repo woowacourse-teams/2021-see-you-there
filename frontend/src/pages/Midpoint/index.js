@@ -20,7 +20,16 @@ const CHIP_LIST = [
 
 export const Midpoint = () => {
   const { participants } = useContext(ParticipantContext);
-  const { mapObj, mapViewRef, midpoint, station, isMidpointLoading, isStationsLoading } = useContext(MapViewContext);
+  const {
+    mapObj,
+    mapViewRef,
+    midpoint,
+    station,
+    isMidpointLoading,
+    isMidpointError,
+    isStationsLoading,
+    isStationError,
+  } = useContext(MapViewContext);
 
   const { showMapView } = useMapViewApi({ mapObj, mapViewRef });
   const { showDefaultBounds, showDefaultMarkers, showCategoryMarkers, hideCategoryMarkers, isSelected } = useMidpoint();
@@ -70,13 +79,17 @@ export const Midpoint = () => {
         </MapViewArea>
         <ContentArea>
           <ResultSection>
-            {station ? (
-              <h2>
-                <span>{station.placeName}</span> 에서 만나요!
-              </h2>
-            ) : (
-              <h2>흑흑 못 만나요...</h2>
-            )}
+            <h2>
+              {isMidpointError
+                ? '흑흑 네트워크 문제로 중간지점을 찾지 못했어요...'
+                : isStationError
+                ? '흑흑 중간지점 반경 1km 이내에는 역이 없네요...'
+                : station && (
+                    <>
+                      <span>{station?.placeName}</span> 에서 만나요!
+                    </>
+                  )}
+            </h2>
           </ResultSection>
           <ListSection>
             <h2>

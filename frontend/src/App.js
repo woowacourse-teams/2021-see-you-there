@@ -14,7 +14,7 @@ export const App = () => {
   queryClient.setDefaultOptions({
     queries: {
       staleTime: Infinity,
-      retry: (_, error) => (error.message.includes(STATUS.INVALID_TOKEN_ERROR) ? 0 : 3),
+      retry: 0,
     },
   });
 

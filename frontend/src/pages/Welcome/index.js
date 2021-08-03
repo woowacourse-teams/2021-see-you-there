@@ -7,7 +7,7 @@ import { Image } from '../../assets';
 
 const formId = 'USER_ADDRESS';
 
-export const WelcomePage = () => {
+export const Welcome = () => {
   return (
     <main>
       <ContentArea>

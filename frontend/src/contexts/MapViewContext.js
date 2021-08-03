@@ -39,6 +39,7 @@ export const MapViewContextProvider = ({ children }) => {
     enabled: !!midpoint,
   });
 
+  // TODO: 에러 처리
   const [station] = stations || [];
 
   const { data: categoryPlace, isLoading: isCategoryPlaceLoading } = useQuery([category, station], fetchCategory, {

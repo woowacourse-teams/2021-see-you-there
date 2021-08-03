@@ -7,7 +7,7 @@ import { ContentArea, ProfileSection, ProfileImage, Info, Nickname, MemberId, Bu
 import { ProfileFormContextProvider, UserContext } from '../../contexts';
 import { COLOR, ROUTE } from '../../constants';
 
-export const ProfilePage = () => {
+export const Profile = () => {
   const { memberId, nickname, profileImage } = useContext(UserContext);
   const history = useHistory();
   const [isEditing, setIsEditing] = useState(false);

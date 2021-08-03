@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { ContentArea, Anchor } from './style';
 import { ROUTE } from '../../constants';
 
-export const NotFoundPage = () => {
+export const NotFound = () => {
   const history = useHistory();
 
   return (

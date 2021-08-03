@@ -18,7 +18,7 @@ const CHIP_LIST = [
   { category: PARTY, categoryIcon: Icon.LocalParty },
 ];
 
-export const MidpointPage = () => {
+export const Midpoint = () => {
   const { participants } = useContext(ParticipantContext);
   const { mapObj, mapViewRef, midpoint, station, isMidpointLoading, isStationsLoading } = useContext(MapViewContext);
 

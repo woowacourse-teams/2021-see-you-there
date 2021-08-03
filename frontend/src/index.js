@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import { App } from './App';
 import GlobalStyle from './globalStyle';
 
+document.querySelector('#version').innerText = `version: ${VERSION}`;
+
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle />

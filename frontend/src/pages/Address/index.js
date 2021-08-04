@@ -10,7 +10,7 @@ import { Image } from '../../assets';
 
 const formId = 'USER_ADDRESS';
 
-export const AddressPage = () => {
+export const Address = () => {
   const { userAddressList } = useContext(UserContext);
   const { deleteAddress } = useMutateAddress();
   const [editAddressId, setEditAddressId] = useState(null);

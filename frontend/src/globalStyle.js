@@ -198,6 +198,10 @@ const GlobalStyle = createGlobalStyle`
       overflow: hidden;
     }
   }
+
+  #version {
+    display: none;
+  }
 `;
 
 export default GlobalStyle;

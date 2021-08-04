@@ -39,4 +39,7 @@ export const QUERY_KEY = {
 
 export const STATUS = {
   INVALID_TOKEN_ERROR: '401',
+  NO_MIDPOINT: '400',
+  NO_CATEGORY: '400',
+  NETWORK_ERROR: '500',
 };

@@ -9,7 +9,7 @@ const companies = [
   { name: '네이버', imgSrc: Image.logoNaver, backgroundColor: '#FFFFFF', url: API_URL.LOGIN_NAVER },
 ];
 
-export const LoginPage = () => {
+export const Login = () => {
   return (
     <main>
       <ContentArea>

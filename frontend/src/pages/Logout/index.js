@@ -14,7 +14,7 @@ const logoutUrl = {
   naver: 'http://nid.naver.com/nidlogin.logout',
 };
 
-export const LogoutPage = () => {
+export const Logout = () => {
   const { logout } = useContext(UserContext);
   const history = useHistory();
 

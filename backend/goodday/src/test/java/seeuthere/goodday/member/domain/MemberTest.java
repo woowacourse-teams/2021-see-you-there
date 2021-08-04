@@ -127,8 +127,8 @@ class MemberTest {
         assertThat(friends.size()).isEqualTo(2);
         assertThat(friends.stream()
             .map(FriendResponse::getNickname)
-            .collect(Collectors.toList()
-            ).containsAll(Arrays.asList(심바.getNickname(), 멍토.getNickname()))).isTrue();
+            .collect(Collectors.toList()))
+            .containsExactly(멍토.getNickname(), 심바.getNickname());
     }
 
     @DisplayName("친구를 삭제한다")

@@ -5,21 +5,37 @@ import { useQuery } from 'react-query';
 
 import { ParticipantContext } from '.';
 import { httpRequest } from '../utils';
-import { API_URL, QUERY_KEY } from '../constants';
+import { API_URL, QUERY_KEY, STATUS } from '../constants';
 
 const fetchMidpoint = async ({ queryKey }) => {
   const [_, participants] = queryKey;
   const locations = participants.map(({ x, y }) => ({ x, y }));
   const response = await httpRequest.post(API_URL.MIDPOINT, { body: { locations } });
+  const body = await response.json();
 
-  return await response.json();
+  if (response.status === 400) {
+    console.log('midpoint GET 응답에러:', body.message);
+    throw Error(STATUS.NO_MIDPOINT);
+  }
+  if (!response.ok) {
+    throw Error(response.status);
+  }
+  return body;
 };
 
 const fetchCategory = async ({ queryKey }) => {
   const [category, midpoint] = queryKey;
   const response = await httpRequest.get(API_URL.CATEGORY(category, midpoint));
+  const body = await response.json();
 
-  return await response.json();
+  if (response.status === 200 && body.length === 0) {
+    console.log(`${category} GET 응답에러:`, body.message);
+    throw Error(STATUS.NO_CATEGORY);
+  }
+  if (!response.ok) {
+    throw Error(response.status);
+  }
+  return body;
 };
 
 export const MapViewContext = createContext();
@@ -31,12 +47,20 @@ export const MapViewContextProvider = ({ children }) => {
   const mapViewRef = useRef(null);
   const [category, setCategory] = useState(null);
 
-  const { data: midpoint, isLoading: isMidpointLoading } = useQuery([QUERY_KEY.MIDPOINT, participants], fetchMidpoint, {
+  const {
+    data: midpoint,
+    isLoading: isMidpointLoading,
+    isError: isMidpointError,
+  } = useQuery([QUERY_KEY.MIDPOINT, participants], fetchMidpoint, {
     enabled: pathname === '/midpoint',
   });
 
-  const { data: stations, isLoading: isStationsLoading } = useQuery([QUERY_KEY.STATION, midpoint], fetchCategory, {
-    enabled: !!midpoint,
+  const {
+    data: stations,
+    isLoading: isStationsLoading,
+    isError: isStationError,
+  } = useQuery([QUERY_KEY.STATION, midpoint], fetchCategory, {
+    enabled: !!midpoint?.x && !!midpoint?.y,
   });
 
   const [station] = stations || [];
@@ -53,10 +77,12 @@ export const MapViewContextProvider = ({ children }) => {
 
         midpoint,
         isMidpointLoading,
+        isMidpointError,
 
         station,
         stations,
         isStationsLoading,
+        isStationError,
 
         category,
         setCategory,

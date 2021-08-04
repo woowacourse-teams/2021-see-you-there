@@ -21,7 +21,7 @@ import { COLOR, MESSAGE } from '../../constants';
 
 const formId = 'USER_FRIEND';
 
-export const FriendPage = () => {
+export const Friend = () => {
   const { memberId, userFriendList } = useContext(UserContext);
   const { deleteFriend } = useMutateFriend();
   const { isModalOpen, openModal, closeModal } = useModal();

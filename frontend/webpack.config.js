@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const package = require('./package.json');
 
 const config = ({ isDev }) => ({
   mode: isDev ? 'development' : 'production',
@@ -40,7 +41,7 @@ const config = ({ isDev }) => ({
   },
   plugins: [
     new webpack.DefinePlugin({
-      VERSION: JSON.stringify('v0.1.0'),
+      VERSION: JSON.stringify(package.version),
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({

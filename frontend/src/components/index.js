@@ -1,12 +1,11 @@
-export * as Icon from './icons';
-
 export { Animation } from './atoms/Animation';
 export { ButtonRound } from './atoms/ButtonRound';
-export { Notice } from './atoms/Notice';
+export { Icon } from './atoms/Icon';
 export { Input } from './atoms/Input';
 export { InputUnderline } from './atoms/InputUnderline';
 export { InputWithButton } from './atoms/InputWithButton';
 export { Modal } from './atoms/Modal';
+export { Notice } from './atoms/Notice';
 
 export { AddressSearchModal } from './molecules/AddressSearchModal';
 export { AuthRoute } from './molecules/AuthRoute';

@@ -3,21 +3,10 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
-import {
-  HomePage,
-  MidpointPage,
-  WelcomePage,
-  ProfilePage,
-  AddressPage,
-  FriendPage,
-  LoginPage,
-  OAuthPage,
-  LogoutPage,
-  NotFoundPage,
-} from './pages';
+import * as Page from './pages';
 import { AuthRoute, NavBar } from './components';
 import { UserContextProvider, ParticipantContextProvider, MapViewContextProvider } from './contexts';
-import { ROUTE, STATUS, REACT_QUERY_DEV_TOOL } from './constants';
+import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
 
 export const App = () => {
   const queryClient = new QueryClient();
@@ -25,7 +14,7 @@ export const App = () => {
   queryClient.setDefaultOptions({
     queries: {
       staleTime: Infinity,
-      retry: (_, error) => (error.message.includes(STATUS.INVALID_TOKEN_ERROR) ? 0 : 3),
+      retry: 0,
     },
   });
 
@@ -37,39 +26,39 @@ export const App = () => {
           <ParticipantContextProvider>
             <Switch>
               <Route exact path={ROUTE.HOME.PATH}>
-                <HomePage />
+                <Page.Home />
               </Route>
               <Route exact path={ROUTE.MIDPOINT.PATH}>
                 <MapViewContextProvider>
-                  <MidpointPage />
+                  <Page.Midpoint />
                 </MapViewContextProvider>
               </Route>
 
               <AuthRoute path={ROUTE.WELCOME.PATH}>
-                <WelcomePage />
+                <Page.Welcome />
               </AuthRoute>
               <AuthRoute path={ROUTE.PROFILE.PATH}>
-                <ProfilePage />
+                <Page.Profile />
               </AuthRoute>
               <AuthRoute path={ROUTE.ADDRESS.PATH}>
-                <AddressPage />
+                <Page.Address />
               </AuthRoute>
               <AuthRoute path={ROUTE.FRIEND.PATH}>
-                <FriendPage />
+                <Page.Friend />
               </AuthRoute>
 
               <Route exact path={ROUTE.LOGIN.PATH}>
-                <LoginPage />
+                <Page.Login />
               </Route>
               <Route path={[ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGIN_NAVER.PATH]}>
-                <OAuthPage />
+                <Page.OAuth />
               </Route>
               <Route path={ROUTE.LOGOUT.PATH}>
-                <LogoutPage />
+                <Page.Logout />
               </Route>
 
               <Route exact path={ROUTE.NOT_FOUND.PATH}>
-                <NotFoundPage />
+                <Page.NotFound />
               </Route>
             </Switch>
           </ParticipantContextProvider>

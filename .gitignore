@@ -107,8 +107,7 @@ hs_err_pid*
 .DS_Store
 .AppleDouble
 .LSOverride
-# Icon must end with two \r
-Icon
+
 # Thumbnails
 ._*
 # Files that might appear in the root of a volume
@@ -250,7 +249,7 @@ $RECYCLE.BIN/
 # Windows Installer files
 *.cab
 *.msi
-*.msix    
+*.msix
 *.msm
 *.msp
 # Windows shortcuts

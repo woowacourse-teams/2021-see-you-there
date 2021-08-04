@@ -58,6 +58,8 @@ public class FriendShip {
     public static class Key implements Serializable {
 
         private String ownerId;
+
         private String friendId;
     }
+
 }

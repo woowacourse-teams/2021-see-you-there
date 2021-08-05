@@ -11,8 +11,8 @@ export const ContentArea = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: calc((100vh - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT} - ${LOGIN_BOX_HEIGHT}) / 2);
-  height: calc(100vh - ${LAYOUT.NAV_HEIGHT});
+  padding-top: calc((100% - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT_TABLET} - ${LOGIN_BOX_HEIGHT}) / 2);
+  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
   overflow-x: hidden;
 
   z-index: ${Z_INDEX.CONTENT};
@@ -29,7 +29,7 @@ export const ContentArea = styled.section`
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    padding-top: calc((100vh - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT_TABLET} - ${LOGIN_BOX_HEIGHT}) / 2);
+    padding-top: calc((100% - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT_TABLET} - ${LOGIN_BOX_HEIGHT}) / 2);
 
     & > img {
       width: 45rem;

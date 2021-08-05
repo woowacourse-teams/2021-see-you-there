@@ -44,7 +44,6 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.22'
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
 	implementation 'org.projectlombok:lombok:1.18.20'
-	implementation 'org.projectlombok:lombok:1.18.20'
 	runtimeOnly 'com.h2database:h2'
 
 	//JSONObject

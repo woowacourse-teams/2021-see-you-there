@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { LAYOUT } from '../../constants';
 
 export const ContentArea = styled.section`
-  height: calc(100vh - ${LAYOUT.NAV_HEIGHT});
+  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
 
   width: 100%;
   display: flex;
@@ -12,12 +12,12 @@ export const ContentArea = styled.section`
   overflow: hidden;
 
   & > div {
-    height: 70vh !important;
+    height: 70% !important;
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     & > div {
-      height: 40vh !important;
+      height: 40% !important;
     }
   }
 `;

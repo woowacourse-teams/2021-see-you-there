@@ -10,7 +10,9 @@ const styleNavRight = css`
 `;
 
 const styleNavFull = css`
-  position: relative;
+  position: fixed;
+  top: 0;
+  right: 0;
   width: 100%;
 `;
 

@@ -34,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
     white-space: nowrap;
   }
 
-  html, body {
+  html, body, main {
     height: 100%;
     cursor: default;
   }

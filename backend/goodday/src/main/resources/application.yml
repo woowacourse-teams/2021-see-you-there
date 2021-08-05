@@ -1,11 +1,12 @@
 spring:
   profiles:
     active: test
-
-redis:
-  host: 15.164.165.253
-  port: 8080
-
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+        instance:
+          service-url: http://localhost:8080
 logging:
   file:
     name: application-debug.log
@@ -19,3 +20,28 @@ logging:
   level:
     root: info
     seeuthere.goodday: debug
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+
+cloud:
+  aws:
+    stack:
+      auto: false
+    region:
+      static: ap-northeast-2
+management:
+  metrics:
+    export:
+      cloudwatch:
+        namespace:
+        batch-size: 20
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    shutdown:
+      enabled: true
+

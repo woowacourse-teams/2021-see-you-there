@@ -9,7 +9,7 @@ export const ContentArea = styled.section`
   padding: ${LAYOUT.PADDING} 0;
   padding-top: 4rem;
   width: 100%;
-  height: calc(100vh - ${LAYOUT.NAV_HEIGHT});
+  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
   align-items: center;
   overflow-x: hidden;
   overflow-y: auto;

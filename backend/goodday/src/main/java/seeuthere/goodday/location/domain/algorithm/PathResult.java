@@ -13,11 +13,13 @@ import seeuthere.goodday.path.dto.response.PathsResponse;
 public class PathResult implements Serializable {
 
     @TimeToLive(unit = TimeUnit.DAYS)
-    private final long TIME_TO_LIVE = 7;
+    private long TIME_TO_LIVE = 7L;
 
     @Id
     public String id;
     public int time;
+    @TimeToLive(unit = TimeUnit.DAYS)
+    private long timeToLive;
 
     public PathResult() {
     }
@@ -25,6 +27,7 @@ public class PathResult implements Serializable {
     public PathResult(String id, int time) {
         this.id = id;
         this.time = time;
+        this.timeToLive = 7L;
     }
 
     public static PathResult pathsResponseToPathResult(Point source, Point target,

@@ -142,10 +142,6 @@ public class LocationService {
                 .findById(source.toString() + target)
                 .orElse(abc(source, target));
 
-//            PathResult pathResult = pathResultRedisRepository
-//                .findById(source.toString() + target.toString())
-//                .get();
-
             responses.put(target,pathResult);
             responsesFromPoint.put(source, responses);
         }

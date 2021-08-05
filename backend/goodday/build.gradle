@@ -1,3 +1,4 @@
+
 plugins {
 	id 'org.springframework.boot' version '2.5.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -53,7 +54,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.4'
 
 	// data cache
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-datal-redis'
 
 
 	// test
@@ -62,6 +63,13 @@ dependencies {
 
 	// test
 	implementation 'org.springframework.restdocs:spring-restdocs-restassured'
+
+	//spring actuator metric
+	implementation "org.springframework.boot:spring-boot-starter-actuator"
+	implementation "org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE"
+	implementation "io.micrometer:micrometer-registry-cloudwatch"
+	implementation 'de.codecentric:spring-boot-admin-starter-server:2.4.1'
+	implementation 'de.codecentric:spring-boot-admin-starter-client:2.4.1'
 }
 
 asciidoctor {

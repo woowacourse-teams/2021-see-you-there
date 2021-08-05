@@ -21,7 +21,7 @@ const styleChip = {
 export const MapViewArea = styled.section`
   position: relative;
   width: calc(100% - ${LAYOUT.NAV_WIDTH_RIGHT});
-  height: 100vh;
+  height: 100%;
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     width: 100%;
@@ -94,7 +94,7 @@ export const ContentArea = styled.section`
   right: 0;
   z-index: ${Z_INDEX.CONTENT};
   width: ${LAYOUT.NAV_WIDTH_RIGHT};
-  height: calc(100vh - ${LAYOUT.NAV_HEIGHT});
+  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
   overflow-y: scroll;
 
   background-color: ${COLOR.PRIMARY_BACKGROUND};

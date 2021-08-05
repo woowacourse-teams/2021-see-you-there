@@ -4,7 +4,7 @@ import { COLOR, LAYOUT, Z_INDEX } from '../../constants';
 
 export const MapViewArea = styled.section`
   width: calc(100% - ${LAYOUT.NAV_WIDTH_RIGHT});
-  height: 100vh;
+  height: 100%;
 `;
 
 export const MapView = styled.div`
@@ -18,7 +18,7 @@ export const ContentArea = styled.section`
   right: 0;
   z-index: ${Z_INDEX.CONTENT};
   width: ${LAYOUT.NAV_WIDTH_RIGHT};
-  height: calc(100vh - ${LAYOUT.NAV_HEIGHT});
+  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
   overflow-y: scroll;
 
   background-color: ${COLOR.PRIMARY_BACKGROUND};

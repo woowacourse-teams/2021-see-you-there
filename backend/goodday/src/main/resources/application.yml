@@ -7,6 +7,12 @@ spring:
         url: http://localhost:8080
         instance:
           service-url: http://localhost:8080
+
+
+redis:
+  host: 15.164.165.253
+  port: 8080
+  
 logging:
   file:
     name: application-debug.log

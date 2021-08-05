@@ -6,8 +6,6 @@ import java.util.TreeMap;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.domain.location.Points;
 import seeuthere.goodday.location.dto.response.UtilityResponse;
-import seeuthere.goodday.path.dto.response.PathResponse;
-import seeuthere.goodday.path.dto.response.PathsResponse;
 
 public class StationGrades {
 
@@ -26,7 +24,7 @@ public class StationGrades {
     }
 
     public static StationGrades valueOf(Points points,
-        List<UtilityResponse> utilityResponses, Map<Point, Map<Point, PathsResponse>> map) {
+        List<UtilityResponse> utilityResponses, Map<Point, Map<Point, PathResult>> map) {
 
         TreeMap<StationGrade, UtilityResponse> grades = new TreeMap<>();
 
@@ -37,16 +35,15 @@ public class StationGrades {
         return new StationGrades(grades);
     }
 
-    private static void calculateTimeGrade(Points points, Map<Point, Map<Point, PathsResponse>> map,
+    private static void calculateTimeGrade(Points points, Map<Point, Map<Point, PathResult>> map,
         TreeMap<StationGrade, UtilityResponse> grades, UtilityResponse utilityResponse) {
 
         TimeGrade timeGrade = new TimeGrade();
 
         for (Point sourcePoint : points.getPoints()) {
             Point targetPoint = new Point(utilityResponse.getX(), utilityResponse.getY());
-            PathsResponse pathsResponse = map.get(sourcePoint).get(targetPoint);
-            PathResponse pathResponse = pathsResponse.getPaths().get(0);
-            timeGrade.calculateTime(pathResponse.getTime());
+            PathResult pathResult = map.get(sourcePoint).get(targetPoint);
+            timeGrade.calculateTime(pathResult.getTime());
         }
 
         grades.put(new StationGrade(timeGrade.diffTime(),

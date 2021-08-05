@@ -11,6 +11,10 @@ public class LocationsRequest {
     public LocationsRequest() {
     }
 
+    public LocationsRequest(List<LocationRequest> locationRequests) {
+        this.locationRequests = locationRequests;
+    }
+
     public List<LocationRequest> getLocationRequests() {
         return locationRequests;
     }

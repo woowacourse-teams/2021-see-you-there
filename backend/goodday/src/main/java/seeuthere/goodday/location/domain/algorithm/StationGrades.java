@@ -6,8 +6,6 @@ import java.util.TreeMap;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.domain.location.Points;
 import seeuthere.goodday.location.dto.response.UtilityResponse;
-import seeuthere.goodday.path.dto.response.PathResponse;
-import seeuthere.goodday.path.dto.response.PathsResponse;
 
 public class StationGrades {
 

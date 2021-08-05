@@ -3,7 +3,6 @@ package seeuthere.goodday.location.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import seeuthere.goodday.location.domain.algorithm.PathResult;
@@ -126,12 +125,12 @@ public class LocationService {
         Map<Point, Map<Point, PathResult>> responsesFromPoint = new HashMap<>();
 
         for (UtilityResponse response : utilityResponses) {
-            calculateSource2(points, responsesFromPoint, response);
+            calculateSource(points, responsesFromPoint, response);
         }
         return responsesFromPoint;
     }
 
-    private void calculateSource2(Points points,
+    private void calculateSource(Points points,
         Map<Point, Map<Point, PathResult>> responsesFromPoint, UtilityResponse response) {
         for (Point source : points.getPoints()) {
             Map<Point, PathResult> responses
@@ -140,21 +139,17 @@ public class LocationService {
 
             PathResult pathResult = pathResultRedisRepository
                 .findById(source.toString() + target)
-                .orElse(abc(source, target));
-
-            responses.put(target,pathResult);
+                .orElseGet(() -> saveRedisCachePathResult(source, target));
+            responses.put(target, pathResult);
             responsesFromPoint.put(source, responses);
         }
     }
 
-    private PathResult abc(Point source, Point target) {
+    private PathResult saveRedisCachePathResult(Point source, Point target) {
         PathResult result = PathResult
             .pathsResponseToPathResult(source, target,
                 pathService.findSubwayPath(source, target));
         pathResultRedisRepository.save(result);
-        Optional<PathResult> byId = pathResultRedisRepository
-            .findById(source.toString() + target.toString());
-        PathResult pathResult = byId.get();
         return result;
     }
 }

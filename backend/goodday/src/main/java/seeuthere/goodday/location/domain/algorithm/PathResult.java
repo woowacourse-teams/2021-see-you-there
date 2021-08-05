@@ -13,7 +13,7 @@ import seeuthere.goodday.path.dto.response.PathsResponse;
 public class PathResult implements Serializable {
 
     @TimeToLive(unit = TimeUnit.DAYS)
-    private long TIME_TO_LIVE = 7L;
+    private final long TIME_TO_LIVE = 7L;
 
     @Id
     public String id;

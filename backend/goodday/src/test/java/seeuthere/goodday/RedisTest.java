@@ -3,7 +3,6 @@ package seeuthere.goodday;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class RedisTest {
     @Test
     void redisTest() {
         //given
-        String id = "whybe";
+        String id = "Youngee";
         LocalDateTime refreshTime = LocalDateTime.of(2021, 8, 5, 0, 0);
         Point point = new Point(id, 1000L, refreshTime);
 

@@ -2,8 +2,10 @@ package seeuthere.goodday.redis;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 import javax.persistence.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 
 @RedisHash("point")
 public class Point implements Serializable {
@@ -12,10 +14,14 @@ public class Point implements Serializable {
     private String id;
     private Long amount;
     private LocalDateTime refreshTime;
+    @TimeToLive(unit = TimeUnit.SECONDS)
+    private Long timeToLive;
+
     public Point(String id, Long amount, LocalDateTime refreshTime) {
         this.id = id;
         this.amount = amount;
         this.refreshTime = refreshTime;
+        this.timeToLive = 5L;
     }
 
     public void refresh(long amount, LocalDateTime refreshTime){
@@ -24,6 +30,8 @@ public class Point implements Serializable {
             this.refreshTime = refreshTime;
         }
     }
+
+
 
     public String getId() {
         return id;

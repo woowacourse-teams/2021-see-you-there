@@ -11,7 +11,6 @@ spring:
     properties:
       hibernate:
         show_sql: true
-        format_sql: true
 handlebars:
   suffix: .html
   enabled: true
@@ -20,3 +19,5 @@ security:
     token:
       secret-key: my_secret_is_secret
       expire-length: 3600000
+url:
+  kakao: https://dev.seeyouthere.o-r.kr

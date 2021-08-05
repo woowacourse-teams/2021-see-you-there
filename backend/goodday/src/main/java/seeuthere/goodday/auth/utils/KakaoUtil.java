@@ -4,17 +4,26 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.secret.SecretKey;
 
+@Component
 public class KakaoUtil {
 
     public static final String KAKAO_HOST_URI = "https://kapi.kakao.com";
     public static final String KAKAO_AUTH_URI = "https://kauth.kakao.com";
-    public static final String DOMAIN_URI = "https://seeyouthere.o-r.kr";
+
+    public static String DOMAIN_URI;
+
+    @Value("${url.kakao}")
+    public void setKey(String value) {
+        DOMAIN_URI = value;
+    }
 
     public static ProfileResponse getKakaoUserInfo(String accessToken, String memberId) {
         WebClient webClient = WebClient.builder()

@@ -10,8 +10,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        show_sql: false
-        format_sql: true
+        show_sql: false=
 handlebars:
   suffix: .html
   enabled: true
@@ -20,4 +19,7 @@ security:
     token:
       secret-key: my_secret_is_secret
       expire-length: 3600000
+
+url:
+  kakao: https://dev.seeyouthere.o-r.kr
 

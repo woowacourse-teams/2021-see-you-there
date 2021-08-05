@@ -54,7 +54,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.4'
 
 	// data cache
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-datal-redis'
 
 
 	// test

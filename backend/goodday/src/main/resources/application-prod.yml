@@ -14,3 +14,5 @@ spring:
 handlebars:
   suffix: .html
   enabled: true
+url:
+  kakao: https://seeyouthere.o-r.kr

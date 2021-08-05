@@ -1,6 +1,11 @@
 spring:
   profiles:
     active: test
+
+redis:
+  host: 15.164.165.253
+  port: 8080
+
 logging:
   file:
     name: application-debug.log

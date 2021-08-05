@@ -43,6 +43,8 @@ dependencies {
 	// database - mariaDB 버전 확인 필요
 	implementation 'mysql:mysql-connector-java:8.0.22'
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+	implementation 'org.projectlombok:lombok:1.18.20'
+	implementation 'org.projectlombok:lombok:1.18.20'
 	runtimeOnly 'com.h2database:h2'
 
 	//JSONObject
@@ -51,6 +53,8 @@ dependencies {
 	//XMLObject
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.4'
 
+	// data cache
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 
 	// test

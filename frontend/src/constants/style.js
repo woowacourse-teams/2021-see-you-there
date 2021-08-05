@@ -38,6 +38,8 @@ export const LAYOUT = {
   CONTENT_FIRST_BOX_HEIGHT: '22.5rem',
   CONTENT_BOTTOM_HEIGHT: '6.5rem',
 
+  PIN_SIZE_PARTICIPANT: '2.8125rem',
+
   DEVICE_WIDTH_TABLET: '832px',
 
   MARGIN: '1.5rem',
@@ -46,8 +48,9 @@ export const LAYOUT = {
 
 export const Z_INDEX = {
   MAP: 0,
-  MAP_PIN: 1,
-  MAP_TOOLTIP: 2,
+  MAP_PIN_EFFECT: 1,
+  MAP_PIN: 2,
+  MAP_TOOLTIP: 3,
   MAP_CONTROLLER: 5,
 
   CONTENT: 10,

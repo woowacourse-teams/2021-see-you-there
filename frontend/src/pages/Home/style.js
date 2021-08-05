@@ -5,6 +5,80 @@ import { COLOR, LAYOUT, Z_INDEX } from '../../constants';
 export const MapViewArea = styled.section`
   width: calc(100% - ${LAYOUT.NAV_WIDTH_RIGHT});
   height: 100%;
+
+  ${(props) => `#${props.lastParticipantId}`} {
+    position: relative;
+    width: ${LAYOUT.PIN_SIZE_PARTICIPANT};
+    height: ${LAYOUT.PIN_SIZE_PARTICIPANT};
+
+    & > img {
+      position: relative;
+      z-index: ${Z_INDEX.MAP_PIN};
+    }
+
+    & > span {
+      position: absolute;
+      z-index: ${Z_INDEX.MAP_PIN_EFFECT};
+
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+
+      &::before,
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -60%;
+        left: -60%;
+        width: 120%;
+        height: 120%;
+        z-index: 2;
+
+        background-color: ${COLOR.PRIMARY_LIGHT};
+        border-radius: 50%;
+      }
+
+      &::before {
+        -webkit-animation: shining 3s infinite ease-out;
+        animation: shining 3s infinite ease-out;
+      }
+
+      &::after {
+        opacity: 0;
+        -webkit-animation: shining 3s 1.5s infinite ease-out;
+        animation: shining 3s 1.5s infinite ease-out;
+      }
+
+      @-webkit-keyframes shining {
+        0% {
+          transform: scale(0);
+          opacity: 0.5;
+          transform-origin: center;
+        }
+        100% {
+          transform: scale(3);
+          opacity: 0;
+          transform-origin: center;
+        }
+      }
+
+      @keyframes shining {
+        0% {
+          transform: scale(0);
+          opacity: 0.5;
+          transform-origin: center;
+        }
+        100% {
+          transform: scale(3);
+          opacity: 0;
+          transform-origin: center;
+        }
+      }
+    }
+  }
 `;
 
 export const MapView = styled.div`

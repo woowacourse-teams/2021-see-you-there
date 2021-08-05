@@ -10,12 +10,14 @@ export const ParticipantContext = createContext();
 
 export const ParticipantContextProvider = ({ children }) => {
   const [participants, setParticipants] = useState(INITIAL_STATE);
+  const [lastParticipant, setLastParticipant] = useState(null);
 
   const addParticipant = (participant) => {
     const newParticipants = [...participants, participant];
 
     storage.session.set(STORAGE_KEY.PARTICIPANT, newParticipants);
     setParticipants(newParticipants);
+    setLastParticipant(participant);
   };
 
   const removeParticipant = (id) => {
@@ -23,7 +25,10 @@ export const ParticipantContextProvider = ({ children }) => {
 
     storage.session.set(STORAGE_KEY.PARTICIPANT, newParticipants);
     setParticipants(newParticipants);
+    setLastParticipant(null);
   };
+
+  const resetLastParticipant = () => setLastParticipant(null);
 
   const isFullParticipants = participants.length === PARTICIPANT.MAX_LENGTH;
   const isLackParticipants = participants.length < PARTICIPANT.MIN_LENGTH;
@@ -34,6 +39,10 @@ export const ParticipantContextProvider = ({ children }) => {
         participants,
         addParticipant,
         removeParticipant,
+
+        lastParticipant,
+        resetLastParticipant,
+
         isFullParticipants,
         isLackParticipants,
       }}

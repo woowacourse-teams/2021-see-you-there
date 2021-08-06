@@ -193,6 +193,7 @@ export const ParticipantChipContainer = styled.div`
 `;
 
 const ITEM_SIZE = '4rem';
+const ITEM_SIZE_TABLET = '3.5rem';
 
 export const ParticipantChipList = styled.ul`
   display: flex;
@@ -204,14 +205,10 @@ export const ParticipantChipList = styled.ul`
   & > li {
     transform: translateX(calc(${ITEM_SIZE} * -1 * ${(props) => props.shiftCount}));
     transition: 0.25s ease-in-out;
-    /*
-    & > button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: ${ITEM_SIZE};
-      height: 4.5rem;
-    } */
+  }
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    width: calc(${ITEM_SIZE_TABLET} * 4);
   }
 `;
 
@@ -221,6 +218,10 @@ export const ParticipantChip = styled.button`
   align-items: center;
   width: ${ITEM_SIZE};
   height: 4.5rem;
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    width: ${ITEM_SIZE_TABLET};
+  }
 `;
 
 export const Avatar = styled.div`
@@ -445,4 +446,14 @@ export const PathList = styled.ul`
       border: 2px solid ${COLOR.PRIMARY_LIGHT};
     }
   }
+`;
+
+export const Footer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: ${LAYOUT.MARGIN};
+  margin-top: 3rem;
+
+  font-size: 0.6rem;
+  color: ${COLOR.PARAGRAPH_LIGHT};
 `;

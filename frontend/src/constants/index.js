@@ -13,5 +13,5 @@ export {
   ROUTES_WITH_MAP,
   ROUTES_WITHOUT_MAP,
 } from './route';
-export { COLOR, LAYOUT, Z_INDEX, REACT_QUERY_DEV_TOOL } from './style';
+export { COLOR, LAYOUT, Z_INDEX, EFFECT, REACT_QUERY_DEV_TOOL } from './style';
 export { ID } from './test';

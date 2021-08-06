@@ -1,82 +1,14 @@
 import styled from 'styled-components';
 
-import { COLOR, LAYOUT, Z_INDEX } from '../../constants';
+import { COLOR, LAYOUT, Z_INDEX, EFFECT } from '../../constants';
 
 export const MapViewArea = styled.section`
   width: calc(100% - ${LAYOUT.NAV_WIDTH_RIGHT});
   height: 100%;
 
-  ${(props) => `#${props.lastParticipantId}`} {
-    position: relative;
-    width: ${LAYOUT.PIN_SIZE_PARTICIPANT};
-    height: ${LAYOUT.PIN_SIZE_PARTICIPANT};
-
-    & > img {
-      position: relative;
-      z-index: ${Z_INDEX.MAP_PIN};
-    }
-
-    & > span {
-      position: absolute;
-      z-index: ${Z_INDEX.MAP_PIN_EFFECT};
-
-      top: 50%;
-      left: 50%;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-
-      &::before,
-      &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: -60%;
-        left: -60%;
-        width: 120%;
-        height: 120%;
-        z-index: 2;
-
-        background-color: ${COLOR.PRIMARY_LIGHT};
-        border-radius: 50%;
-      }
-
-      &::before {
-        -webkit-animation: shining 3s infinite ease-out;
-        animation: shining 3s infinite ease-out;
-      }
-
-      &::after {
-        opacity: 0;
-        -webkit-animation: shining 3s 1.5s infinite ease-out;
-        animation: shining 3s 1.5s infinite ease-out;
-      }
-
-      @-webkit-keyframes shining {
-        0% {
-          transform: scale(0);
-          opacity: 0.5;
-          transform-origin: center;
-        }
-        100% {
-          transform: scale(3);
-          opacity: 0;
-          transform-origin: center;
-        }
-      }
-
-      @keyframes shining {
-        0% {
-          transform: scale(0);
-          opacity: 0.5;
-          transform-origin: center;
-        }
-        100% {
-          transform: scale(3);
-          opacity: 0;
-          transform-origin: center;
-        }
-      }
+  @media (min-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    ${(props) => `#${props.lastParticipantId}`} {
+      ${EFFECT.WAVE_CIRCLE}
     }
   }
 `;
@@ -167,52 +99,7 @@ export const BottomSection = styled.section`
   background-color: ${COLOR.PRIMARY_BACKGROUND};
 
   & > button {
-    &::after {
-      content: '';
-      display: block;
-      position: absolute;
-      background: rgba(255, 255, 255, 0.35);
-      width: 40px;
-      height: 100%;
-      left: 40px;
-      top: 0;
-      transform: skewX(-15deg);
-      filter: blur(2px);
-    }
-
-    &:not(:disabled)::after {
-      -webkit-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-      -moz-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-      -o-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-      animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-    }
-  }
-
-  @keyframes shine {
-    0% {
-      opacity: 0;
-      transform: translateX(0);
-    }
-    9% {
-      opacity: 1;
-      transform: translateX(400px);
-    }
-    10% {
-      opacity: 0;
-      transform: translateX(400px);
-    }
-    11% {
-      opacity: 0;
-      transform: translateX(0);
-    }
-    20% {
-      opacity: 1;
-      transform: translateX(400px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(400px);
-    }
+    ${EFFECT.SHINE}
   }
 `;
 

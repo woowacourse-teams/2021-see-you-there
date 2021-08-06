@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { COLOR, LAYOUT, Z_INDEX } from '../../constants';
+import { COLOR, EFFECT, LAYOUT, Z_INDEX } from '../../constants';
 
 const LOGIN_BOX_HEIGHT = '24rem';
 const IMAGE_HEIGHT = '22.4rem';
@@ -53,53 +53,7 @@ export const AddForm = styled.form`
   & > button {
     position: relative;
     margin-top: 1rem;
-
-    &::after {
-      content: '';
-      display: block;
-      position: absolute;
-      background: rgba(255, 255, 255, 0.35);
-      width: 2.5rem;
-      height: 100%;
-      left: 2.5rem;
-      top: 0;
-      transform: skewX(-15deg);
-      filter: blur(2px);
-    }
-
-    &:not(:disabled)::after {
-      -webkit-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-      -moz-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-      -o-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-      animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-    }
-  }
-
-  @keyframes shine {
-    0% {
-      opacity: 0;
-      transform: translateX(0);
-    }
-    9% {
-      opacity: 1;
-      transform: translateX(400px);
-    }
-    10% {
-      opacity: 0;
-      transform: translateX(400px);
-    }
-    11% {
-      opacity: 0;
-      transform: translateX(0);
-    }
-    20% {
-      opacity: 1;
-      transform: translateX(400px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(400px);
-    }
+    ${EFFECT.SHINE}
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {

@@ -11,8 +11,10 @@ import seeuthere.goodday.auth.exception.AuthExceptionSet;
 import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.member.dao.AddressRepository;
 import seeuthere.goodday.member.dao.MemberRepository;
+import seeuthere.goodday.member.dao.RequestFriendRepository;
 import seeuthere.goodday.member.domain.Address;
 import seeuthere.goodday.member.domain.Member;
+import seeuthere.goodday.member.domain.RequestFriend;
 import seeuthere.goodday.member.dto.AddressDeleteRequest;
 import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.AddressResponse;
@@ -21,16 +23,21 @@ import seeuthere.goodday.member.dto.FriendRequest;
 import seeuthere.goodday.member.dto.FriendResponse;
 import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
+import seeuthere.goodday.member.dto.RequestFriendRequest;
+import seeuthere.goodday.member.dto.RequestFriendResponse;
 
 @Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final AddressRepository addressRepository;
+    private final RequestFriendRepository requestFriendRepository;
 
-    public MemberService(MemberRepository memberRepository, AddressRepository addressRepository) {
+    public MemberService(MemberRepository memberRepository, AddressRepository addressRepository,
+        RequestFriendRepository requestFriendRepository) {
         this.memberRepository = memberRepository;
         this.addressRepository = addressRepository;
+        this.requestFriendRepository = requestFriendRepository;
     }
 
     public Member add(ProfileResponse profile) {
@@ -112,14 +119,6 @@ public class MemberService {
         addressRepository.deleteById(request.getId());
     }
 
-    @Transactional
-    public FriendResponse addFriend(String id, FriendRequest friendRequest) {
-        Member member = find(id);
-        Member friend = memberRepository.findByMemberId(friendRequest.getMemberId());
-        member.addFriend(friend);
-        return new FriendResponse(friend);
-    }
-
     @Transactional(readOnly = true)
     public List<FriendResponse> findFriends(String id) {
         Member member = find(id);
@@ -145,9 +144,69 @@ public class MemberService {
 
     public String createRandomMemberId() {
         String memberId = RandomStringUtils.randomAlphanumeric(8);
-        if(memberRepository.existsByMemberId(memberId)){
+        if (memberRepository.existsByMemberId(memberId)) {
             createRandomMemberId();
         }
         return memberId;
+    }
+
+    public List<RequestFriendResponse> findRequestFriends(String receiverId) {
+        List<RequestFriend> requestFriends = requestFriendRepository.findByReceiver(receiverId);
+        return requestFriends.stream()
+            .map(RequestFriendResponse::new)
+            .collect(Collectors.toList());
+    }
+
+    public List<RequestFriendResponse> findReceiveFriends(String requesterId) {
+        List<RequestFriend> requestFriends = requestFriendRepository.findByRequester(requesterId);
+        return requestFriends.stream()
+            .map(RequestFriendResponse::new)
+            .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void requestFriend(String id, FriendRequest friendRequest) {
+        Member requester = find(id);
+        Member receiver = memberRepository.findByMemberId(friendRequest.getMemberId());
+        if (requester.hasFriend(receiver) || requestFriendRepository.isExistRequest(id, friendRequest.getMemberId())) {
+            throw new RuntimeException();
+        }
+        if(requestFriendRepository.isExistRequest(receiver.getId(), requester.getMemberId())) {
+            throw new RuntimeException();
+        }
+        requestFriendRepository.save(new RequestFriend(requester, receiver));
+    }
+
+    @Transactional
+    public void acceptFriend(String id, RequestFriendRequest request) {
+        Member receiver = find(id);
+        RequestFriend requestFriend = getRequestFriend(request);
+        validateReceiver(receiver, requestFriend);
+        requestFriendRepository.deleteById(request.getId());
+        Member requester = requestFriend.getRequester();
+        receiver.addFriend(requester);
+    }
+
+    @Transactional
+    public void refuseFriend(String id, RequestFriendRequest request) {
+        Member receiver = find(id);
+        RequestFriend requestFriend = getRequestFriend(request);
+        validateReceiver(receiver, requestFriend);
+        requestFriendRepository.deleteById(request.getId());
+    }
+
+    private RequestFriend getRequestFriend(RequestFriendRequest request) {
+        return requestFriendRepository.findById(request.getId())
+            .orElseThrow(RuntimeException::new);
+    }
+
+    private void validateReceiver(Member receiver, RequestFriend requestFriend) {
+        if (!requestFriend.getReceiver().getId().equals(receiver.getId())) {
+            throw new RuntimeException();
+        }
+    }
+
+    public void cancelRequest(RequestFriendRequest request) {
+        requestFriendRepository.deleteById(request.getId());
     }
 }

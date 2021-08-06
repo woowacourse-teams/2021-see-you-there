@@ -39,7 +39,7 @@ class PathTest {
         path = path.addWalkRoute(startPoint, endPoint);
 
         //given
-        assertThat(path.getTime()).isEqualTo(47);
+        assertThat(path.getTime()).isEqualTo(45);
     }
 
     @DisplayName("앞 뒤로 걷는 거리 추가 확인")

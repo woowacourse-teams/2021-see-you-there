@@ -37,12 +37,17 @@ public class Path implements Comparable<Path> {
 
     public Path addWalkRoute(Point start, Point end) {
         Distance startWalkDistance = startWalkDistance(start);
-        addStartRoute(start);
         Distance endWalkDistance = endWalkDistance(end);
-        addLastRoute(end);
 
-        int newDistance =
-            distance + startWalkDistance.value() + endWalkDistance.value();
+        if (startWalkDistance.isValidate()) {
+            addStartRoute(start);
+        }
+
+        if (endWalkDistance.isValidate()) {
+            addLastRoute(end);
+        }
+
+        int newDistance = distance + startWalkDistance.value() + endWalkDistance.value();
         int newTime = startWalkDistance.walkTime() + endWalkDistance.walkTime();
         return new Path(routes, newDistance, time + newTime, newTime);
     }
@@ -97,7 +102,7 @@ public class Path implements Comparable<Path> {
 
     @Override
     public int compareTo(Path o) {
-        if(time <= o.time) {
+        if (time <= o.time) {
             return -1;
         }
         return 1;

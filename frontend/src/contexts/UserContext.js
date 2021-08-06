@@ -16,6 +16,9 @@ const INITIAL_STATE = {
 };
 
 const fetchUserInfo = async (token) => {
+  if (!token) {
+    return null;
+  }
   const response = await httpRequest.get(API_URL.USER, { token });
 
   if (response.status === 401) {
@@ -49,15 +52,37 @@ export const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
   const history = useHistory();
   const { pathname } = useLocation();
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(INITIAL_TOKEN);
   const [user, setUser] = useState(INITIAL_STATE);
   const { id, memberId, nickname, profileImage } = user;
 
+  const {
+    data: userInfo,
+    isLoading: isUserInfoLoading,
+    error: errorTokenValidation,
+  } = useQuery([QUERY_KEY.TOKEN_VALIDATION, token], () => fetchUserInfo(token), {});
+
+  const { data: userAddressList, error: errorUserAddressList } = useQuery(
+    QUERY_KEY.ADDRESS,
+    () => fetchUserAddressList(token),
+    {
+      enabled: !!userInfo,
+    }
+  );
+
+  const { data: userFriendList, error: errorUserFriendList } = useQuery(
+    QUERY_KEY.FRIEND,
+    () => fetchUserFriendList(token),
+    {
+      enabled: !!userInfo,
+      refetchInterval: pathname === ROUTE.FRIEND.PATH ? 3_000 : 300_000,
+    }
+  );
+
   const login = (userInfo) => {
-    const { token, ...rest } = userInfo;
+    const { token } = userInfo;
 
     storage.local.set(STORAGE_KEY.TOKEN, token);
-    setUser({ ...rest });
     setToken(token);
   };
 
@@ -77,37 +102,11 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
-  const {
-    data: userInfo,
-    isLoading: isUserInfoLoading,
-    error: errorTokenValidation,
-  } = useQuery(QUERY_KEY.TOKEN_VALIDATION, () => fetchUserInfo(INITIAL_TOKEN), {
-    enabled: !!INITIAL_TOKEN,
-  });
-
-  const { data: userAddressList, error: errorUserAddressList } = useQuery(
-    QUERY_KEY.ADDRESS,
-    () => fetchUserAddressList(token),
-    {
-      enabled: !!token,
-    }
-  );
-
-  const { data: userFriendList, error: errorUserFriendList } = useQuery(
-    QUERY_KEY.FRIEND,
-    () => fetchUserFriendList(token),
-    {
-      enabled: !!token,
-      refetchInterval: pathname === ROUTE.FRIEND.PATH ? 3_000 : 300_000,
-    }
-  );
-
   useEffect(() => {
     if (!userInfo) {
       return;
     }
     setUser({ ...userInfo });
-    setToken(INITIAL_TOKEN);
   }, [userInfo]);
 
   const errors = [errorTokenValidation, errorUserAddressList, errorUserFriendList];
@@ -136,7 +135,7 @@ export const UserContextProvider = ({ children }) => {
 
         login,
         logout,
-        isLogin: !!token,
+        isLogin: !!userInfo,
 
         userInfo,
         isUserInfoLoading,

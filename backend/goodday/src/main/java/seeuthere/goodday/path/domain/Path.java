@@ -19,32 +19,36 @@ public class Path implements Comparable<Path> {
         this.walkTime = walkTime;
     }
 
-    public static Path walkPath(Point start, Point end) {
+    public static Path walkPath(PointWithName startPointWithName, PointWithName endPointWithName) {
+        Point start = startPointWithName.getPoint();
+        Point end = endPointWithName.getPoint();
+
         Distance distance = Distance.calculate(start, end);
         List<Route> routes = new ArrayList<>();
+
         routes.add(new Route.Builder()
             .startX(start.getX())
             .startY(start.getY())
-            .startName("출발점")
+            .startName(startPointWithName.getName())
             .routeName("걷기")
             .endX(end.getX())
             .endY(end.getY())
-            .endName("도착점")
+            .endName(endPointWithName.getName())
             .build()
         );
         return new Path(routes, distance.value(), distance.walkTime(), distance.walkTime());
     }
 
-    public Path addWalkRoute(Point start, Point end) {
-        Distance startWalkDistance = startWalkDistance(start);
-        Distance endWalkDistance = endWalkDistance(end);
+    public Path addWalkRoute(PointWithName startPointWithName, PointWithName endPointWithName) {
+        Distance startWalkDistance = startWalkDistance(startPointWithName.getPoint());
+        Distance endWalkDistance = endWalkDistance(endPointWithName.getPoint());
 
         if (startWalkDistance.isValidate()) {
-            addStartRoute(start);
+            addStartRoute(startPointWithName);
         }
 
         if (endWalkDistance.isValidate()) {
-            addLastRoute(end);
+            addLastRoute(endPointWithName);
         }
 
         int newDistance = distance + startWalkDistance.value() + endWalkDistance.value();
@@ -64,17 +68,19 @@ public class Path implements Comparable<Path> {
             route.getEndY()));
     }
 
-    public void addStartRoute(Point start) {
+    public void addStartRoute(PointWithName startPointWithName) {
         Route startRoute = routes.get(0);
-        Route startWalkRoute = startWalkRoute(start, startRoute);
+        Route startWalkRoute = startWalkRoute(startPointWithName, startRoute);
         routes.add(0, startWalkRoute);
     }
 
-    private Route startWalkRoute(Point start, Route startRoute) {
+    private Route startWalkRoute(PointWithName startPointWithName, Route startRoute) {
+        Point start = startPointWithName.getPoint();
+
         return new Route.Builder()
             .startX(start.getX())
             .startY(start.getY())
-            .startName("출발점")
+            .startName(startPointWithName.getName())
             .routeName("걷기")
             .endX(startRoute.getEndX())
             .endY(startRoute.getEndY())
@@ -82,21 +88,23 @@ public class Path implements Comparable<Path> {
             .build();
     }
 
-    public void addLastRoute(Point end) {
+    public void addLastRoute(PointWithName endPointWithName) {
         Route endRoute = routes.get(routes.size() - 1);
-        Route lastWalkRoute = lastWalkRoute(end, endRoute);
+        Route lastWalkRoute = lastWalkRoute(endPointWithName, endRoute);
         routes.add(lastWalkRoute);
     }
 
-    private Route lastWalkRoute(Point end, Route endtRoute) {
+    private Route lastWalkRoute(PointWithName endPointWithName, Route endRoute) {
+        Point end = endPointWithName.getPoint();
+
         return new Route.Builder()
-            .startX(endtRoute.getEndX())
-            .startY(endtRoute.getEndY())
-            .startName(endtRoute.getEndName())
+            .startX(endRoute.getEndX())
+            .startY(endRoute.getEndY())
+            .startName(endRoute.getEndName())
             .routeName("걷기")
             .endX(end.getX())
             .endY(end.getY())
-            .endName("도착점")
+            .endName(endPointWithName.getName())
             .build();
     }
 

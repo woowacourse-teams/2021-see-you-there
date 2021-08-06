@@ -3,7 +3,6 @@ package seeuthere.goodday.path.domain;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import seeuthere.goodday.location.domain.location.Point;
 
 public class Paths {
 
@@ -17,12 +16,12 @@ public class Paths {
         return paths;
     }
 
-    public Paths pathsWithWalk(Point start, Point end) {
+    public Paths pathsWithWalk(PointWithName startPointWithName, PointWithName endPointWithName) {
         if (paths.isEmpty()) {
-            return onlyWalkPath(start, end);
+            return onlyWalkPath(startPointWithName, endPointWithName);
         }
         return new Paths(paths.stream()
-            .map(path -> path.addWalkRoute(start, end))
+            .map(path -> path.addWalkRoute(startPointWithName, endPointWithName))
             .collect(Collectors.toList()));
     }
 
@@ -30,8 +29,8 @@ public class Paths {
         Collections.sort(paths);
     }
 
-    private Paths onlyWalkPath(Point start, Point end) {
-        Path path = Path.walkPath(start, end);
+    private Paths onlyWalkPath(PointWithName startPointWithName, PointWithName endPointWithName) {
+        Path path = Path.walkPath(startPointWithName, endPointWithName);
         return new Paths(Collections.singletonList(path));
     }
 }

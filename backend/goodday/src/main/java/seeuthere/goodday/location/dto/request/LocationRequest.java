@@ -4,6 +4,7 @@ public class LocationRequest {
 
     private double x;
     private double y;
+    // 여기에 이름 추가
 
     public LocationRequest() {
     }

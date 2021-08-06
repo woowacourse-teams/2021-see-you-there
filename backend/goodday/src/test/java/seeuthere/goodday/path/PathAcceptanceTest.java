@@ -22,6 +22,8 @@ public class PathAcceptanceTest extends AcceptanceTest {
     private static final String BASIC_START_Y = "startY=37.48554983506427";
     private static final String BASIC_END_X = "endX=127.02740306334805";
     private static final String BASIC_END_Y = "endY=37.497965736290396";
+    private static final String BASIC_START_NAME = "startName=1";
+    private static final String BASIC_END_NAME = "endName=2";
     private static final String PARAMETERS;
 
     static {
@@ -32,7 +34,11 @@ public class PathAcceptanceTest extends AcceptanceTest {
             .append("&")
             .append(BASIC_END_X)
             .append("&")
-            .append(BASIC_END_Y);
+            .append(BASIC_END_Y)
+            .append("&")
+            .append(BASIC_START_NAME)
+            .append("&")
+            .append(BASIC_END_NAME);
         PARAMETERS = stringBuilder.toString();
     }
 

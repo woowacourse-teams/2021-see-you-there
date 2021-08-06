@@ -42,7 +42,7 @@ public class Distance {
     }
 
     public int walkTime() {
-        return  (int) (value() / 66.6);
+        return (int) (value() / 66.6);
 
 //        if (value > MAX_WALK_TIME) {
 //            throw new GoodDayException(PathExceptionSet.OVER_WALK_TIME);
@@ -52,6 +52,6 @@ public class Distance {
     }
 
     public boolean isValidate() {
-      return distance > MIN_DISTANCE;
+        return distance > MIN_DISTANCE;
     }
 }

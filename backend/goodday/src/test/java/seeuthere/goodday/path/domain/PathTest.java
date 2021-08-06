@@ -17,10 +17,13 @@ class PathTest {
         Point startPoint = new Point(126.89600431494024, 37.47984260687255);
         Point endPoint = new Point(127.10283123652131, 37.515332000671656);
 
+        PointWithName startPointWithName = new PointWithName(startPoint, "");
+        PointWithName endPointWithName = new PointWithName(endPoint, "");
+
         Path path = initialPath();
 
         //then
-        path = path.addWalkRoute(startPoint, endPoint);
+        path = path.addWalkRoute(startPointWithName, endPointWithName);
 
         //given
         assertThat(path.getRoutes().size()).isEqualTo(3);
@@ -33,10 +36,13 @@ class PathTest {
         Point startPoint = new Point(126.89600431494024, 37.47984260687255);
         Point endPoint = new Point(127.10283123652131, 37.515332000671656);
 
+        PointWithName startPointWithName = new PointWithName(startPoint, "");
+        PointWithName endPointWithName = new PointWithName(endPoint, "");
+
         Path path = initialPath();
 
         //then
-        path = path.addWalkRoute(startPoint, endPoint);
+        path = path.addWalkRoute(startPointWithName, endPointWithName);
 
         //given
         assertThat(path.getTime()).isEqualTo(45);
@@ -48,10 +54,13 @@ class PathTest {
         Point startPoint = new Point(126.89600431494024, 37.47984260687255);
         Point endPoint = new Point(127.10283123652131, 37.515332000671656);
 
+        PointWithName startPointWithName = new PointWithName(startPoint, "");
+        PointWithName endPointWithName = new PointWithName(endPoint, "");
+
         Path path = initialPath();
 
         //then
-        path = path.addWalkRoute(startPoint, endPoint);
+        path = path.addWalkRoute(startPointWithName, endPointWithName);
 
         //햪두
         assertThat(path.getDistance()).isEqualTo(21100);
@@ -71,8 +80,7 @@ class PathTest {
         int time = 30;
         List<Route> routes = new LinkedList<>();
         routes.add(route);
-        Path path = new Path(routes, distance, time, 0);
-        return path;
+        return new Path(routes, distance, time, 0);
     }
 
 }

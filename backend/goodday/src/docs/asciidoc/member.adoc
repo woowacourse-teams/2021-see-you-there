@@ -67,16 +67,6 @@ include::{default-path}/address-delete/http-request.adoc[]
 
 include::{default-path}/address-delete/http-response.adoc[]
 
-# 회원 친구 추가
-
-## request
-
-include::{default-path}/friend-add/http-request.adoc[]
-
-## response
-
-include::{default-path}/friend-add/http-response.adoc[]
-
 # 회원 친구 조회
 
 ## request
@@ -106,3 +96,51 @@ include::{default-path}/friend-search/http-request.adoc[]
 ## response
 
 include::{default-path}/friend-search/http-response.adoc[]
+
+# 들어온 요청 목록 불러오기
+
+include::{default-path}/requester-list/http-request.adoc[]
+
+## response
+
+include::{default-path}/requester-list/http-response.adoc[]
+
+# 요청한 목록 불러오기
+
+include::{default-path}/receiveList/http-request.adoc[]
+
+## response
+
+include::{default-path}/receiveList/http-response.adoc[]
+
+# 친구 요청
+
+include::{default-path}/request/http-request.adoc[]
+
+## response
+
+include::{default-path}/request/http-response.adoc[]
+
+# 친구 요청 수락
+
+include::{default-path}/acceptance/http-request.adoc[]
+
+## response
+
+include::{default-path}/acceptance/http-response.adoc[]
+
+# 친구 요청 거절
+
+include::{default-path}/refuse/http-request.adoc[]
+
+## response
+
+include::{default-path}/refuse/http-response.adoc[]
+
+# 친구 요청 취소
+
+include::{default-path}/request-cancel/http-request.adoc[]
+
+## response
+
+include::{default-path}/request-cancel/http-response.adoc[]

@@ -44,9 +44,10 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
         memberRepository.save(와이비);
-        memberService
-            .addAddress(와이비.getId(), new AddressRequest(와이비집.getNickname(), 와이비집.getAddressName(),
-                와이비집.getFullAddress(), 와이비집.getX(), 와이비집.getY()));
+        memberService.addAddress(와이비.getId(), new AddressRequest(
+            와이비집.getNickname(), 와이비집.getAddressName(),
+            와이비집.getFullAddress(), 와이비집.getX(), 와이비집.getY()));
+
         memberRepository.save(멍토);
         memberRepository.save(심바);
         memberRepository.save(하루);

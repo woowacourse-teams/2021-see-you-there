@@ -153,7 +153,7 @@ class MemberTest {
 
     @DisplayName("내가 요청한 목록을 불러온다.")
     @Test
-    void getRecieveFriends() {
+    void getReceiveFriends() {
         List<RequestFriendResponse> receiveFriends = memberService.findReceiveFriends(하루.getId());
 
         assertThat(receiveFriends.size()).isEqualTo(1);

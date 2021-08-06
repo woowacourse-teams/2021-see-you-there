@@ -71,7 +71,7 @@ class PathTest {
         int time = 30;
         List<Route> routes = new LinkedList<>();
         routes.add(route);
-        Path path = new Path(routes, distance, time);
+        Path path = new Path(routes, distance, time, 0);
         return path;
     }
 

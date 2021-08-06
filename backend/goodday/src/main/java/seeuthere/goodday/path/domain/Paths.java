@@ -26,6 +26,10 @@ public class Paths {
             .collect(Collectors.toList()));
     }
 
+    public void sort() {
+        Collections.sort(paths);
+    }
+
     private Paths onlyWalkPath(Point start, Point end) {
         Path path = Path.walkPath(start, end);
         return new Paths(Collections.singletonList(path));

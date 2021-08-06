@@ -42,9 +42,9 @@ public class Distance {
     public int walkTime() {
         int value = (int) (distance / 66.6) + 1;
 
-        if (value > MAX_WALK_TIME) {
-            throw new GoodDayException(PathExceptionSet.OVER_WALK_TIME);
-        }
+//        if (value > MAX_WALK_TIME) {
+//            throw new GoodDayException(PathExceptionSet.OVER_WALK_TIME);
+//        }
 
         return value;
     }

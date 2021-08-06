@@ -5,16 +5,18 @@ import java.util.List;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.path.domain.algorithm.Distance;
 
-public class Path {
+public class Path implements Comparable<Path> {
 
     private final List<Route> routes;
     private final int distance;
     private final int time;
+    private final int walkTime;
 
-    public Path(List<Route> routes, int distance, int time) {
+    public Path(List<Route> routes, int distance, int time, int walkTime) {
         this.routes = routes;
         this.distance = distance;
         this.time = time;
+        this.walkTime = walkTime;
     }
 
     public static Path walkPath(Point start, Point end) {
@@ -30,7 +32,7 @@ public class Path {
             .endName("도착점")
             .build()
         );
-        return new Path(routes, distance.value(), distance.walkTime());
+        return new Path(routes, distance.value(), distance.walkTime(), distance.walkTime());
     }
 
     public Path addWalkRoute(Point start, Point end) {
@@ -41,8 +43,8 @@ public class Path {
 
         int newDistance =
             distance + startWalkDistance.value() + endWalkDistance.value();
-        int newTime = time + startWalkDistance.walkTime() + endWalkDistance.walkTime();
-        return new Path(routes, newDistance, newTime);
+        int newTime = startWalkDistance.walkTime() + endWalkDistance.walkTime();
+        return new Path(routes, newDistance, time + newTime, newTime);
     }
 
     private Distance startWalkDistance(Point point) {
@@ -93,6 +95,14 @@ public class Path {
             .build();
     }
 
+    @Override
+    public int compareTo(Path o) {
+        if(time <= o.time) {
+            return -1;
+        }
+        return 1;
+    }
+
     public List<Route> getRoutes() {
         return routes;
     }
@@ -103,5 +113,9 @@ public class Path {
 
     public int getTime() {
         return time;
+    }
+
+    public int getWalkTime() {
+        return walkTime;
     }
 }

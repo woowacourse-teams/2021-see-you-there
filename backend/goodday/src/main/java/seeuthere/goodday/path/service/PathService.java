@@ -24,7 +24,8 @@ public class PathService {
     }
 
     public PathsResponse findBusPath(Point start, Point end) {
-        return getPathsResponse(start, end, TransportURL.BUS);
+        PathsResponse pathsResponse = getPathsResponse(start, end, TransportURL.BUS);
+        return getPathsResponseWithWalk(start, end, pathsResponse);
     }
 
     public PathsResponse findSubwayPath(Point start, Point end) {
@@ -39,11 +40,13 @@ public class PathService {
         PathsResponse pathsResponse) {
         Paths paths = pathsResponse.toPaths();
         Paths walkWithPaths = paths.pathsWithWalk(start, end);
+        walkWithPaths.sort();
         return PathsResponse.valueOf(walkWithPaths);
     }
 
     public PathsResponse findTransferPath(Point start, Point end) {
-        return getPathsResponse(start, end, TransportURL.BUS_AND_SUBWAY);
+        PathsResponse pathsResponse = getPathsResponse(start, end, TransportURL.BUS_AND_SUBWAY);
+        return getPathsResponseWithWalk(start, end, pathsResponse);
     }
 
     private PathsResponse getPathsResponse(Point start, Point end,

@@ -7,7 +7,6 @@ import static seeuthere.goodday.DataLoader.와이비;
 import static seeuthere.goodday.DataLoader.와이비집;
 import static seeuthere.goodday.DataLoader.하루;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.member.dao.AddressRepository;
+import seeuthere.goodday.member.dao.RequestFriendRepository;
 import seeuthere.goodday.member.dto.AddressDeleteRequest;
 import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.AddressResponse;
@@ -25,6 +25,8 @@ import seeuthere.goodday.member.dto.AddressUpdateRequest;
 import seeuthere.goodday.member.dto.FriendRequest;
 import seeuthere.goodday.member.dto.FriendResponse;
 import seeuthere.goodday.member.dto.MemberResponse;
+import seeuthere.goodday.member.dto.RequestFriendRequest;
+import seeuthere.goodday.member.dto.RequestFriendResponse;
 import seeuthere.goodday.member.service.MemberService;
 
 
@@ -39,6 +41,9 @@ class MemberTest {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private RequestFriendRepository requestFriendRepository;
 
     @DisplayName("첫 로그인시 멤버를 저장한다.")
     @Test
@@ -103,22 +108,6 @@ class MemberTest {
         assertThat(addresses.size()).isEqualTo(0);
     }
 
-    @DisplayName("친구를 추가한다.")
-    @Test
-    void addFriend() {
-        FriendRequest request = new FriendRequest(하루.getMemberId());
-        memberService.addFriend(와이비.getId(), request);
-
-        Member member = memberService.find(와이비.getId());
-        Member friendMember = memberService.find(하루.getId());
-
-        assertThat(member.getFriends().size()).isEqualTo(3);
-        assertThat(
-            friendMember.getFriends().stream()
-                .anyMatch(friendShip -> friendShip.getFriend().getId().equals(와이비.getId()))
-        ).isTrue();
-    }
-
     @DisplayName("친구를 조회한다")
     @Test
     void findFriends() {
@@ -151,5 +140,71 @@ class MemberTest {
             .map(MemberResponse::getMemberId)
             .collect(Collectors.toList()))
             .containsExactly("a", "ab", "abc");
+    }
+
+    @DisplayName("나한테 들어온 요청 목록을 불러온다.")
+    @Test
+    void getRequestFriends() {
+        List<RequestFriendResponse> requestFriends = memberService.findRequestFriends(와이비.getId());
+
+        assertThat(requestFriends.size()).isEqualTo(1);
+        assertThat(requestFriends.get(0).getRequester().getId()).isEqualTo(하루.getId());
+    }
+
+    @DisplayName("내가 요청한 목록을 불러온다.")
+    @Test
+    void getRecieveFriends() {
+        List<RequestFriendResponse> receiveFriends = memberService.findReceiveFriends(하루.getId());
+
+        assertThat(receiveFriends.size()).isEqualTo(1);
+        assertThat(receiveFriends.get(0).getReceiver().getId()).isEqualTo(와이비.getId());
+    }
+
+    @DisplayName("친구 요청을 한다.")
+    @Test
+    void requestFriend() {
+        memberService.requestFriend(멍토.getId(), new FriendRequest(심바.getMemberId()));
+        List<RequestFriend> requestFriends = requestFriendRepository.findByRequester(멍토.getId());
+        assertThat(requestFriends.size()).isEqualTo(1);
+        assertThat(requestFriends.get(0).getReceiver().getMemberId()).isEqualTo(심바.getMemberId());
+    }
+
+    @DisplayName("나에게 온 친구 요청을 수락한다")
+    @Test
+    void acceptFriend() {
+        List<RequestFriendResponse> requestFriends = memberService.findRequestFriends(와이비.getId());
+        memberService
+            .acceptFriend(와이비.getId(), new RequestFriendRequest(requestFriends.get(0).getId()));
+
+        assertThat(requestFriendRepository.findAll().size()).isEqualTo(0);
+        assertThat(memberService.findFriends(와이비.getId()).size()).isEqualTo(3);
+        assertThat(memberService.findFriends(와이비.getId()).stream()
+            .map(FriendResponse::getNickname)
+            .collect(Collectors.toList())
+        ).containsExactlyInAnyOrder(멍토.getNickname(), 심바.getNickname(), 하루.getNickname());
+    }
+
+    @DisplayName("나에게 온 친구 요청을 거절한다")
+    @Test
+    void refuseFriend() {
+        List<RequestFriendResponse> requestFriends = memberService.findRequestFriends(와이비.getId());
+        memberService
+            .refuseFriend(와이비.getId(), new RequestFriendRequest(requestFriends.get(0).getId()));
+
+        assertThat(requestFriendRepository.findAll().size()).isEqualTo(0);
+        assertThat(memberService.findFriends(와이비.getId()).size()).isEqualTo(2);
+        assertThat(memberService.findFriends(와이비.getId()).stream()
+            .map(FriendResponse::getNickname)
+            .collect(Collectors.toList())
+        ).containsExactlyInAnyOrder(멍토.getNickname(), 심바.getNickname());
+    }
+
+    @DisplayName("내가 보낸 요청을 취소한다")
+    @Test
+    void requestCancel() {
+        List<RequestFriendResponse> receiveFriends = memberService.findReceiveFriends(하루.getId());
+        memberService.cancelRequest(new RequestFriendRequest(receiveFriends.get(0).getId()));
+
+        assertThat(requestFriendRepository.findAll().size()).isEqualTo(0);
     }
 }

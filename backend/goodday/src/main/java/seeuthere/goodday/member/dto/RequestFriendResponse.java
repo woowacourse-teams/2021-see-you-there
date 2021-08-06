@@ -1,12 +1,12 @@
 package seeuthere.goodday.member.dto;
 
-import java.util.List;
 import seeuthere.goodday.member.domain.RequestFriend;
 
 public class RequestFriendResponse {
 
     private Long id;
     private MemberResponse requester;
+    private MemberResponse receiver;
 
     public RequestFriendResponse() {
 
@@ -15,6 +15,7 @@ public class RequestFriendResponse {
     public RequestFriendResponse(RequestFriend requester) {
         this.id = requester.getId();
         this.requester = new MemberResponse(requester.getRequester());
+        this.receiver = new MemberResponse(requester.getReceiver());
     }
 
     public Long getId() {
@@ -23,5 +24,9 @@ public class RequestFriendResponse {
 
     public MemberResponse getRequester() {
         return requester;
+    }
+
+    public MemberResponse getReceiver() {
+        return receiver;
     }
 }

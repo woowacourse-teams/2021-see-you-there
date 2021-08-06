@@ -150,6 +150,7 @@ public class MemberService {
         return memberId;
     }
 
+
     public List<RequestFriendResponse> findRequestFriends(String receiverId) {
         List<RequestFriend> requestFriends = requestFriendRepository.findByReceiver(receiverId);
         return requestFriends.stream()
@@ -168,10 +169,11 @@ public class MemberService {
     public void requestFriend(String id, FriendRequest friendRequest) {
         Member requester = find(id);
         Member receiver = memberRepository.findByMemberId(friendRequest.getMemberId());
-        if (requester.hasFriend(receiver) || requestFriendRepository.isExistRequest(id, friendRequest.getMemberId())) {
+        if (requester.hasFriend(receiver) || requestFriendRepository
+            .isExistRequest(id, friendRequest.getMemberId())) {
             throw new RuntimeException();
         }
-        if(requestFriendRepository.isExistRequest(receiver.getId(), requester.getMemberId())) {
+        if (requestFriendRepository.isExistRequest(receiver.getId(), requester.getMemberId())) {
             throw new RuntimeException();
         }
         requestFriendRepository.save(new RequestFriend(requester, receiver));

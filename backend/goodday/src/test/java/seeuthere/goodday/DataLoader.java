@@ -58,6 +58,8 @@ public class DataLoader implements CommandLineRunner {
             .map(RequestFriendResponse::getId)
             .forEach(id -> memberService.acceptFriend(와이비.getId(), new RequestFriendRequest(id)));
 
+        memberService.requestFriend(하루.getId(), new FriendRequest(와이비.getMemberId()));
+
         System.out.println("==================YB TOKEN=================\n"
             + jwtTokenProvider.createToken(와이비.getId()));
         System.out.println("==================HARU TOKEN=================\n"

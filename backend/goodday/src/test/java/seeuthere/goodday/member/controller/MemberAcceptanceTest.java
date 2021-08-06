@@ -10,7 +10,6 @@ import static seeuthere.goodday.DataLoader.멍토;
 import static seeuthere.goodday.DataLoader.심바;
 import static seeuthere.goodday.DataLoader.와이비;
 import static seeuthere.goodday.DataLoader.와이비집;
-import static seeuthere.goodday.DataLoader.하루;
 
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -135,18 +134,6 @@ class MemberAcceptanceTest extends AcceptanceTest {
         AddressDeleteRequest addressDeleteRequest = new AddressDeleteRequest(1L);
 
         deleteResponse("member/address-delete", ADDRESS_API_PATH, addressDeleteRequest);
-    }
-
-    @DisplayName("멤버의 친구를 추가한다.")
-    @Test
-    public void addFriend() {
-        FriendRequest request = new FriendRequest(하루.getMemberId());
-
-        FriendResponse response = postResponse("member/friend-add", FRIEND_API_PATH, request)
-            .as(FriendResponse.class);
-
-        assertThat(response.getNickname()).isEqualTo(하루.getNickname());
-        assertThat(response.getProfileImage()).isEqualTo(하루.getProfileImage());
     }
 
     @DisplayName("멤버의 친구를 조회한다.")

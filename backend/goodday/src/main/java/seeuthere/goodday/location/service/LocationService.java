@@ -146,10 +146,20 @@ public class LocationService {
     }
 
     private PathResult saveRedisCachePathResult(Point source, Point target) {
-        PathResult result = PathResult
-            .pathsResponseToPathResult(source, target,
-                pathService.findSubwayPath(source, target));
+        PathResult result = minPathResult(source, target);
         pathResultRedisRepository.save(result);
         return result;
+    }
+
+    private PathResult minPathResult(Point source, Point target) {
+        PathResult subwayResult = PathResult
+            .pathsResponseToPathResult(source, target,
+                pathService.findSubwayPath(source, target));
+
+        PathResult busSubwayResult = PathResult
+            .pathsResponseToPathResult(source, target,
+                pathService.findTransferPath(source, target));
+
+        return PathResult.minTimePathResult(subwayResult, busSubwayResult);
     }
 }

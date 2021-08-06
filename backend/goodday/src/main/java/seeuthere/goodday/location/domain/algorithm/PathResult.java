@@ -34,6 +34,13 @@ public class PathResult implements Serializable {
         );
     }
 
+    public static PathResult minTimePathResult(PathResult pathResult1, PathResult pathResult2) {
+        if (pathResult1.time <= pathResult2.time) {
+            return pathResult1;
+        }
+        return pathResult2;
+    }
+
     public String getId() {
         return id;
     }

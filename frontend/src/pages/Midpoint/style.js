@@ -28,7 +28,7 @@ export const MapViewArea = styled.section`
   }
 
   @media (min-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    ${(props) => `#${props.selectedParticipantId}`} {
+    ${(props) => `#${props.participantId}`} {
       ${EFFECT.WAVE_CIRCLE}
     }
   }
@@ -287,7 +287,7 @@ export const Transports = styled.div`
 
 export const TransportsButton = styled.button`
   margin: 0 0.5rem;
-  color: ${COLOR.PARAGRAPH};
+  color: ${(props) => (props.isSelected ? COLOR.PARAGRAPH : COLOR.PARAGRAPH_LIGHT)};
   font-size: inherit;
   position: relative;
 
@@ -301,10 +301,6 @@ export const TransportsButton = styled.button`
     background-color: ${COLOR.PARAGRAPH};
     opacity: 0.5;
   } */
-
-  &:disabled {
-    color: inherit;
-  }
 `;
 
 export const PathDetail = styled.div`

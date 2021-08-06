@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 
+import { CategoryChips } from './CategoryChips';
 import { ParticipantChips } from './ParticipantChips';
+import { PersonalPath } from './PersonalPath';
 import { Icon } from '../../components';
 import {
   MapViewArea,
-  CategoryChipList,
-  CategoryChip,
   MapView,
   ContentArea,
   Drawer,
@@ -14,27 +14,14 @@ import {
   PathSection,
   Transports,
   TransportsButton,
-  PathDetail,
-  PathList,
-  PathSummary,
-  PathPagination,
-  Divider,
 } from './style';
 import { ParticipantContext, MapViewContext } from '../../contexts';
 import { useMapViewApi, useMidpoint } from '../../hooks';
-import { COLOR, QUERY_KEY, MOCK_PATHS } from '../../constants';
+import { COLOR, QUERY_KEY } from '../../constants';
 
-const DEFAULT = QUERY_KEY.DEFAULT;
-const CAFE = QUERY_KEY.CAFE;
-const DINING = QUERY_KEY.DINING;
-const PARTY = QUERY_KEY.PARTY;
-
-const CHIP_LIST = [
-  { category: DEFAULT, categoryIcon: Icon.Map },
-  { category: CAFE, categoryIcon: Icon.LocalCafe },
-  { category: DINING, categoryIcon: Icon.LocalDining },
-  { category: PARTY, categoryIcon: Icon.LocalParty },
-];
+const SUBWAY = 'subway';
+const BUS = 'bus';
+const TRANSFER = 'transfer';
 
 export const Midpoint = () => {
   const { participants } = useContext(ParticipantContext);
@@ -51,16 +38,9 @@ export const Midpoint = () => {
   const { showMapView } = useMapViewApi({ mapObj, mapViewRef });
   const { showDefaultBounds, showDefaultMarkers, showCategoryMarkers, hideCategoryMarkers, isSelected } = useMidpoint();
 
-  const [selectedParticipant, setSelectedParticipant] = useState(participants?.[0]);
+  const [participant, setParticipant] = useState(participants?.[0]);
+  const [transport, setTransport] = useState(SUBWAY);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const [pathIndex, setPathIndex] = useState(0);
-  const path = MOCK_PATHS[pathIndex];
-  const { routes, time } = path;
-  const [firstRoute] = routes;
-  const [currentPage, totalPage] = [pathIndex + 1, MOCK_PATHS.length];
-  const isLeftButtonDisabled = currentPage === 1;
-  const isRightButtonDisabled = currentPage === totalPage;
 
   useEffect(() => {
     if (isMidpointLoading || isStationsLoading) {
@@ -76,7 +56,7 @@ export const Midpoint = () => {
   }, [station]);
 
   const handleSelectChip = (nextCategory) => {
-    if (nextCategory === DEFAULT) {
+    if (nextCategory === QUERY_KEY.DEFAULT) {
       hideCategoryMarkers();
       showDefaultBounds();
       return;
@@ -87,24 +67,11 @@ export const Midpoint = () => {
   return (
     <>
       <main>
-        <MapViewArea selectedParticipantId={selectedParticipant?.id}>
+        <MapViewArea participantId={participant?.id}>
           <MapView ref={mapViewRef} />
-          <CategoryChipList>
-            {CHIP_LIST.map(({ category, categoryIcon }) => {
-              const isSelectedChip = isSelected(category);
-              const ChipIcon = isSelectedChip ? Icon.CheckCircle : categoryIcon;
-
-              return (
-                <li key={category} data-testid={category}>
-                  <CategoryChip selected={isSelectedChip} onClick={() => handleSelectChip(category)}>
-                    <ChipIcon width="18" color={isSelectedChip ? COLOR.PRIMARY : COLOR.BORDER_DARK} />
-                    <span>{category}</span>
-                  </CategoryChip>
-                </li>
-              );
-            })}
-          </CategoryChipList>
+          <CategoryChips isSelected={isSelected} handleSelectChip={handleSelectChip} />
         </MapViewArea>
+
         <ContentArea isVisible={isDrawerOpen}>
           <Drawer>
             {isDrawerOpen ? (
@@ -119,6 +86,7 @@ export const Midpoint = () => {
               </button>
             )}
           </Drawer>
+
           <Content>
             <CoreSection>
               <h2>
@@ -132,58 +100,30 @@ export const Midpoint = () => {
                       </>
                     )}
               </h2>
-              <ParticipantChips
-                items={participants}
-                selectedParticipantId={selectedParticipant.id}
-                setSelectedParticipant={setSelectedParticipant}
-              />
+              <ParticipantChips items={participants} participantId={participant.id} setParticipant={setParticipant} />
             </CoreSection>
+
             <PathSection>
               <h2>
-                <span>{selectedParticipant?.name}</span>의 길찾기
+                <span>{participant?.name}</span>의 길찾기
                 <Icon.Flag width="18" />
               </h2>
 
               <Transports>
-                <TransportsButton disabled={false}>지하철</TransportsButton> |
-                <TransportsButton disabled={true}>버스</TransportsButton> |
-                <TransportsButton disabled={true}>지하철 + 버스</TransportsButton>
+                <TransportsButton isSelected={transport === SUBWAY} onClick={() => setTransport(SUBWAY)}>
+                  지하철
+                </TransportsButton>
+                |
+                <TransportsButton isSelected={transport === BUS} onClick={() => setTransport(BUS)}>
+                  버스
+                </TransportsButton>
+                |
+                <TransportsButton isSelected={transport === TRANSFER} onClick={() => setTransport(TRANSFER)}>
+                  지하철 + 버스
+                </TransportsButton>
               </Transports>
 
-              <PathDetail>
-                <PathPagination>
-                  <button disabled={isLeftButtonDisabled} onClick={() => setPathIndex((index) => --index)}>
-                    <Icon.TriangleLeft width="8" />
-                  </button>
-                  {currentPage} / {totalPage}
-                  <button disabled={isRightButtonDisabled} onClick={() => setPathIndex((index) => ++index)}>
-                    <Icon.TriangleRight width="8" />
-                  </button>
-                </PathPagination>
-
-                <PathSummary>
-                  <h3>경로 {currentPage}</h3>
-                  <div>
-                    <Icon.Clock width="18" color={COLOR.PRIMARY_LIGHT} />
-                    <span>약 {time}분 소요</span>
-                    <span>(도보 {time}분)</span>
-                  </div>
-                </PathSummary>
-
-                <Divider />
-
-                <PathList>
-                  <li>
-                    <strong>{selectedParticipant.addressName}</strong>
-                  </li>
-                  {MOCK_PATHS[pathIndex].routes.map((route, index) => (
-                    <li key={index}>
-                      <span>{route.routeName}</span>
-                      <strong>{route.endName}</strong>
-                    </li>
-                  ))}
-                </PathList>
-              </PathDetail>
+              <PersonalPath transport={transport} participant={participant} station={station} />
             </PathSection>
           </Content>
         </ContentArea>

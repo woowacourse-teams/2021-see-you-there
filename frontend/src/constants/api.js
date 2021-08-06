@@ -12,6 +12,8 @@ export const API_URL = {
   ADDRESS_SEARCH: (keyword) => `${API_END_POINT}/locations/coordinate?address=${keyword}`,
   MIDPOINT: `${API_END_POINT}/locations/midPoint`,
   CATEGORY: (category, { x, y }) => `${API_END_POINT}/locations/utility/${category}?x=${x}&y=${y}`,
+  PATH: (transport, participant, station) =>
+    `${API_END_POINT}/path/${transport}?startName=${participant.addressName}&startX=${participant.x}&startY=${participant.y}&endX=${station.x}&endY=${station.y}&endName=${station.placeName}`,
 
   LOGIN_KAKAO: `${API_END_POINT}/kakao/oauth`,
   LOGIN_NAVER: `${API_END_POINT}/naver/oauth`,

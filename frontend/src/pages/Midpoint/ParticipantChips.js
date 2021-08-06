@@ -5,7 +5,7 @@ import { Icon } from '../../components';
 import { ParticipantChipContainer, ParticipantChipList, ParticipantChip, Avatar, Name } from './style';
 
 export const ParticipantChips = (props) => {
-  const { items, selectedParticipantId, setSelectedParticipant } = props;
+  const { items, participantId, setParticipant } = props;
   const [chipIndex, setChipIndex] = useState(0);
   const isLeftButtonDisabled = chipIndex === 0;
   const isRightButtonDisabled = chipIndex + 4 >= items.length;
@@ -18,10 +18,11 @@ export const ParticipantChips = (props) => {
       <ParticipantChipList chipLength={items.length} shiftCount={chipIndex}>
         {items.map((item) => {
           const { id, name, avatar } = item;
+
           return (
             <li key={id}>
-              <ParticipantChip onClick={() => setSelectedParticipant(item)}>
-                <Avatar isSelected={id === selectedParticipantId}>
+              <ParticipantChip onClick={() => setParticipant(item)}>
+                <Avatar isSelected={id === participantId}>
                   <img src={avatar} alt={name} />
                 </Avatar>
                 <Name>{name}</Name>
@@ -40,8 +41,10 @@ export const ParticipantChips = (props) => {
 ParticipantChips.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      avatar: PropTypes.string.isRequired,
+      name: PropTypes.string,
+      avatar: PropTypes.string,
     })
   ).isRequired,
+  participantId: PropTypes.string,
+  setParticipant: PropTypes.func,
 };

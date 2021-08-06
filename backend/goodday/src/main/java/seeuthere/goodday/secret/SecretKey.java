@@ -3,7 +3,7 @@ package seeuthere.goodday.secret;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("SecretKey")
 public class SecretKey {
 
     public static String KAKAO_API_KEY;

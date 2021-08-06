@@ -10,7 +10,7 @@ export const ContentArea = styled.section`
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-top: calc((100% - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT} - ${LOGIN_BOX_HEIGHT}) / 2);
+  padding-top: calc((100% - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT} - ${LOGIN_BOX_HEIGHT}) / 2); // 버그
   align-items: center;
   height: calc(100% - ${LAYOUT.NAV_HEIGHT});
   overflow-x: hidden;

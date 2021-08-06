@@ -14,6 +14,7 @@ import {
   PathSection,
   Transports,
   TransportsButton,
+  Footer,
 } from './style';
 import { ParticipantContext, MapViewContext } from '../../contexts';
 import { useMapViewApi, useMidpoint } from '../../hooks';
@@ -102,7 +103,6 @@ export const Midpoint = () => {
               </h2>
               <ParticipantChips items={participants} participantId={participant.id} setParticipant={setParticipant} />
             </CoreSection>
-
             <PathSection>
               <h2>
                 <span>{participant?.name}</span>의 길찾기
@@ -125,6 +125,7 @@ export const Midpoint = () => {
 
               <PersonalPath transport={transport} participant={participant} station={station} />
             </PathSection>
+            <Footer>공공 API 를 사용하고 있습니다.</Footer> {/* //TODO: 정확한 명칭으로 수정 */}
           </Content>
         </ContentArea>
       </main>

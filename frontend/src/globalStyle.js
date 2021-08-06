@@ -70,6 +70,10 @@ const GlobalStyle = createGlobalStyle`
     text-align: center;
   }
 
+  h2 > span {
+    font-family: 'S-CoreDream-3Light', sans-serif;
+  }
+
   ul {
     list-style-type: none;
   }

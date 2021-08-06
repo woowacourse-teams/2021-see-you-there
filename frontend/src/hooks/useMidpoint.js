@@ -49,12 +49,13 @@ export const useMidpoint = () => {
   };
 
   const showParticipantsMarkers = () => {
-    const participantMarkers = participants.map(({ x, y, name: title }) => {
+    const participantMarkers = participants.map(({ x, y, name: title, id }) => {
       return getMarker({
         x,
         y,
         title,
         key: 'PARTICIPANT',
+        id,
       });
     });
 

@@ -237,8 +237,9 @@ export const Avatar = styled.div`
   border: 2px solid ${(props) => (props.isSelected ? COLOR.PRIMARY : 'transparent')};
 
   & > img {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
   }
 `;
 

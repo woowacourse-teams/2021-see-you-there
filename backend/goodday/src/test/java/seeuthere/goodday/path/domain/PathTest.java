@@ -62,7 +62,7 @@ class PathTest {
         //then
         path = path.addWalkRoute(startPointWithName, endPointWithName);
 
-        //햪두
+        //given
         assertThat(path.getDistance()).isEqualTo(21100);
     }
 

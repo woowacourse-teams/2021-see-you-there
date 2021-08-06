@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Icon } from '../../components';
-import { ChipContainer, ChipList, Avatar, Name } from './style';
+import { ParticipantChipContainer, ParticipantChipList, ParticipantChip, Avatar, Name } from './style';
 
 export const ParticipantChips = (props) => {
   const { items, selectedParticipantId, setSelectedParticipant } = props;
@@ -11,29 +11,29 @@ export const ParticipantChips = (props) => {
   const isRightButtonDisabled = chipIndex + 4 >= items.length;
 
   return (
-    <ChipContainer>
+    <ParticipantChipContainer>
       <button disabled={isLeftButtonDisabled} onClick={() => setChipIndex((index) => --index)}>
         <Icon.TriangleLeft width="16" />
       </button>
-      <ChipList chipLength={items.length} shiftCount={chipIndex}>
+      <ParticipantChipList chipLength={items.length} shiftCount={chipIndex}>
         {items.map((item) => {
           const { id, name, avatar } = item;
           return (
             <li key={id}>
-              <button onClick={() => setSelectedParticipant(item)}>
+              <ParticipantChip onClick={() => setSelectedParticipant(item)}>
                 <Avatar isSelected={id === selectedParticipantId}>
                   <img src={avatar} alt={name} />
                 </Avatar>
                 <Name>{name}</Name>
-              </button>
+              </ParticipantChip>
             </li>
           );
         })}
-      </ChipList>
+      </ParticipantChipList>
       <button disabled={isRightButtonDisabled} onClick={() => setChipIndex((index) => ++index)}>
         <Icon.TriangleRight width="16" />
       </button>
-    </ChipContainer>
+    </ParticipantChipContainer>
   );
 };
 

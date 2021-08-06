@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { COLOR, LAYOUT, Z_INDEX, EFFECT } from '../../constants';
+import { COLOR, LAYOUT, Z_INDEX, EFFECT, CONTENT_AREA } from '../../constants';
 
 export const MapViewArea = styled.section`
   width: calc(100% - ${LAYOUT.NAV_WIDTH_RIGHT});
@@ -19,20 +19,9 @@ export const MapView = styled.div`
 `;
 
 export const ContentArea = styled.section`
-  position: fixed;
-  top: ${LAYOUT.NAV_HEIGHT};
-  right: 0;
-  z-index: ${Z_INDEX.CONTENT};
-  width: ${LAYOUT.NAV_WIDTH_RIGHT};
-  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
+  ${CONTENT_AREA.MAP}
+
   overflow-y: scroll;
-
-  background-color: ${COLOR.PRIMARY_BACKGROUND};
-  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.25);
-
-  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    width: 100%;
-  }
 `;
 
 /* 참가자 추가 Section */

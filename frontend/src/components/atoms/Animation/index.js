@@ -19,6 +19,6 @@ export const Animation = (props) => {
 
 Animation.propTypes = {
   animationData: PropTypes.object,
-  loop: PropTypes.bool,
+  loop: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   speed: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

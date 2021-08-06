@@ -4,8 +4,8 @@ import { ParticipantChips } from './ParticipantChips';
 import { Icon } from '../../components';
 import {
   MapViewArea,
-  Chips,
-  Chip,
+  CategoryChipList,
+  CategoryChip,
   MapView,
   ContentArea,
   Drawer,
@@ -89,21 +89,21 @@ export const Midpoint = () => {
       <main>
         <MapViewArea selectedParticipantId={selectedParticipant?.id}>
           <MapView ref={mapViewRef} />
-          <Chips>
+          <CategoryChipList>
             {CHIP_LIST.map(({ category, categoryIcon }) => {
               const isSelectedChip = isSelected(category);
               const ChipIcon = isSelectedChip ? Icon.CheckCircle : categoryIcon;
 
               return (
                 <li key={category} data-testid={category}>
-                  <Chip selected={isSelectedChip} onClick={() => handleSelectChip(category)}>
+                  <CategoryChip selected={isSelectedChip} onClick={() => handleSelectChip(category)}>
                     <ChipIcon width="18" color={isSelectedChip ? COLOR.PRIMARY : COLOR.BORDER_DARK} />
                     <span>{category}</span>
-                  </Chip>
+                  </CategoryChip>
                 </li>
               );
             })}
-          </Chips>
+          </CategoryChipList>
         </MapViewArea>
         <ContentArea isVisible={isDrawerOpen}>
           <Drawer>

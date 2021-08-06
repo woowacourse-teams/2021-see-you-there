@@ -1,30 +1,12 @@
 import styled from 'styled-components';
 
-import { COLOR, LAYOUT, Z_INDEX } from '../../constants';
+import { COLOR, CONTENT_AREA, LAYOUT, Z_INDEX } from '../../constants';
 
 export const ContentArea = styled.section`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: ${LAYOUT.PADDING} 0;
-  padding-top: 4rem;
-  width: 100%;
-  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
-  align-items: center;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  z-index: ${Z_INDEX.CONTENT};
+  ${CONTENT_AREA.DEFAULT}
 
   & > h2 {
-    line-height: 2rem;
     padding-bottom: 2rem;
-  }
-
-  & > img {
-    position: fixed;
-    bottom: 0;
-    width: 70rem;
   }
 `;
 

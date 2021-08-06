@@ -34,9 +34,14 @@ const GlobalStyle = createGlobalStyle`
     white-space: nowrap;
   }
 
-  html, body, main {
+  html, body {
     height: 100%;
     cursor: default;
+  }
+
+  main {
+    height: 100%;
+
   }
 
   #root {
@@ -159,14 +164,15 @@ const GlobalStyle = createGlobalStyle`
     }
 
     & span {
-      display:block;
+      display: block;
       position: relative;
       text-align:center;
       background: ${COLOR.BACKGROUND};
       margin-right: 1rem;
       padding: 0.25rem 0.5rem;
       color: ${COLOR.PARAGRAPH};
-      font-size: 0.5rem;
+      font-size: 0.75rem;
+      border-radius: 0.25rem 0 0 0.25rem;
 
       &::before {
         content: "";

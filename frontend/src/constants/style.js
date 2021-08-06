@@ -40,8 +40,15 @@ export const LAYOUT = {
   CONTENT_FIRST_BOX_HEIGHT: '22.5rem',
   CONTENT_BOTTOM_HEIGHT: '6.5rem',
 
+  CONTENT_PADDING_TOP: '6rem',
+  CONTENT_PADDING_TOP_TABLET: '4rem',
+
+  CONTENT_DRAWING_WIDTH: '70rem',
+  CONTENT_DRAWING_WIDTH_TABLET: '45rem',
+
   CATEGORY_CHIP_TOP: '1rem',
   DRAWER_HEIGHT: '1.75rem',
+  DRAWER_HEIGHT: '2.5rem',
 
   PIN_SIZE_PARTICIPANT: '2.8125rem',
 
@@ -74,6 +81,55 @@ export const REACT_QUERY_DEV_TOOL = {
     left: '0',
     fontSize: '0.75rem',
   },
+};
+
+export const CONTENT_AREA = {
+  DEFAULT: css`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: ${LAYOUT.PADDING} 0;
+    padding-top: ${LAYOUT.CONTENT_PADDING_TOP};
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: ${Z_INDEX.CONTENT};
+
+    & > h2 {
+      line-height: 2rem;
+    }
+
+    & > img {
+      position: fixed;
+      bottom: 0;
+      width: ${LAYOUT.CONTENT_DRAWING_WIDTH};
+    }
+
+    @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+      padding-top: ${LAYOUT.CONTENT_PADDING_TOP_TABLET};
+
+      & > img {
+        width: ${LAYOUT.CONTENT_DRAWING_WIDTH_TABLET};
+      }
+    }
+  `,
+  MAP: css`
+    position: fixed;
+    top: ${LAYOUT.NAV_HEIGHT};
+    right: 0;
+    z-index: ${Z_INDEX.CONTENT};
+    width: ${LAYOUT.NAV_WIDTH_RIGHT};
+    height: calc(100% - ${LAYOUT.NAV_HEIGHT});
+
+    background-color: ${COLOR.PRIMARY_BACKGROUND};
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.25);
+
+    @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+      width: 100%;
+    }
+  `,
 };
 
 export const EFFECT = {

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { COLOR, LAYOUT, Z_INDEX, EFFECT } from '../../constants';
+import { COLOR, LAYOUT, Z_INDEX, EFFECT, CONTENT_AREA } from '../../constants';
 
 const styleChip = {
   base: css`
@@ -34,7 +34,7 @@ export const MapViewArea = styled.section`
   }
 `;
 
-export const Chips = styled.ul`
+export const CategoryChipList = styled.ul`
   position: absolute;
   display: flex;
   justify-content: center;
@@ -49,7 +49,7 @@ export const Chips = styled.ul`
   }
 `;
 
-export const Chip = styled.button`
+export const CategoryChip = styled.button`
   ${(props) => (props.selected ? styleChip['selected'] : styleChip['base'])}
 
   display: flex;
@@ -76,7 +76,7 @@ export const Chip = styled.button`
     margin: 0 0.15rem;
     padding: 0 0.625rem;
 
-    font-size: 0.5rem;
+    font-size: 0.7rem;
     border-radius: 0.9rem;
 
     & > span {
@@ -95,24 +95,15 @@ export const MapView = styled.div`
 `;
 
 export const ContentArea = styled.section`
-  position: fixed;
-  top: ${LAYOUT.NAV_HEIGHT};
-  right: 0;
-  z-index: ${Z_INDEX.CONTENT};
-  width: ${LAYOUT.NAV_WIDTH_RIGHT};
-  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
-
-  background-color: ${COLOR.BACKGROUND};
-  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.25);
+  ${CONTENT_AREA.MAP}
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     position: fixed;
+    left: 0;
     top: ${(props) =>
       props.isVisible
         ? `calc(${LAYOUT.NAV_HEIGHT} + ${LAYOUT.CATEGORY_CHIP_TOP})`
-        : `calc(100% - ${LAYOUT.DRAWER_HEIGHT} - 0.25rem)`};
-    left: 0;
-    width: 100%;
+        : `calc(100% - ${LAYOUT.DRAWER_HEIGHT} - 1rem)`};
 
     transition: 0.2s ease-out;
     border-radius: 8px 8px 0 0;
@@ -180,7 +171,7 @@ export const CoreSection = styled.section`
 
 /* 참석자 Chip */
 
-export const ChipContainer = styled.div`
+export const ParticipantChipContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -203,7 +194,7 @@ export const ChipContainer = styled.div`
 
 const ITEM_SIZE = '4rem';
 
-export const ChipList = styled.ul`
+export const ParticipantChipList = styled.ul`
   display: flex;
   justify-content: ${(props) => (props.chipLength > 4 ? 'flex-start' : 'center')};
   margin: 0 0.5rem;
@@ -213,15 +204,23 @@ export const ChipList = styled.ul`
   & > li {
     transform: translateX(calc(${ITEM_SIZE} * -1 * ${(props) => props.shiftCount}));
     transition: 0.25s ease-in-out;
-
+    /*
     & > button {
       display: flex;
       flex-direction: column;
       align-items: center;
       width: ${ITEM_SIZE};
       height: 4.5rem;
-    }
+    } */
   }
+`;
+
+export const ParticipantChip = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: ${ITEM_SIZE};
+  height: 4.5rem;
 `;
 
 export const Avatar = styled.div`

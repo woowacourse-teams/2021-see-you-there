@@ -1,39 +1,12 @@
 import styled from 'styled-components';
 
-import { COLOR, EFFECT, LAYOUT, Z_INDEX } from '../../constants';
-
-const LOGIN_BOX_HEIGHT = '24rem';
-const IMAGE_HEIGHT = '22.4rem';
-const IMAGE_HEIGHT_TABLET = '14.5rem';
+import { COLOR, CONTENT_AREA, EFFECT, LAYOUT, Z_INDEX } from '../../constants';
 
 export const ContentArea = styled.section`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: calc((100% - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT_TABLET} - ${LOGIN_BOX_HEIGHT}) / 2);
-  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
-  overflow-x: hidden;
-
-  z-index: ${Z_INDEX.CONTENT};
+  ${CONTENT_AREA.DEFAULT}
 
   & > h2 {
-    line-height: 2rem;
     margin-bottom: 0.5rem;
-  }
-
-  & > img {
-    position: fixed;
-    bottom: 0;
-    width: 70rem;
-  }
-
-  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    padding-top: calc((100% - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT_TABLET} - ${LOGIN_BOX_HEIGHT}) / 2);
-
-    & > img {
-      width: 45rem;
-    }
   }
 `;
 

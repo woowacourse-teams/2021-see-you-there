@@ -18,6 +18,8 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+*.yml
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -26,6 +28,7 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+**/logs
 
 ### NetBeans ###
 /nbproject/private/
@@ -38,8 +41,6 @@ out/
 .vscode/
 
 ### secrets
-
-**/src/main/java/seeuthere/goodday/secret/
 
 ## html
 **/src/main/resources/static/docs/

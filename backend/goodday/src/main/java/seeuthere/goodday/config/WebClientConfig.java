@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -12,6 +13,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import seeuthere.goodday.secret.SecretKey;
 
 @Configuration
+@DependsOn("SecretKey")
 public class WebClientConfig {
 
     @Bean

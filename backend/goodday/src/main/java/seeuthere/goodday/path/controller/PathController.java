@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.path.domain.PointWithName;
 import seeuthere.goodday.path.dto.response.PathsResponse;
 import seeuthere.goodday.path.service.PathService;
 
@@ -22,30 +23,46 @@ public class PathController {
     @GetMapping("/bus")
     public ResponseEntity<PathsResponse> busPath(@RequestParam double startX,
         @RequestParam double startY,
-        @RequestParam double endX, @RequestParam double endY) {
+        @RequestParam double endX, @RequestParam double endY,
+        @RequestParam String startName, @RequestParam String endName) {
 
         Point start = new Point(startX, startY);
         Point end = new Point(endX, endY);
-        return ResponseEntity.ok(pathService.findBusPath(start, end));
+
+        PointWithName startPointWithName = new PointWithName(start, startName);
+        PointWithName endPointWithName = new PointWithName(end, endName);
+
+        return ResponseEntity.ok(pathService.findBusPath(startPointWithName, endPointWithName));
     }
 
     @GetMapping("/subway")
     public ResponseEntity<PathsResponse> subwayPath(@RequestParam double startX,
         @RequestParam double startY,
-        @RequestParam double endX, @RequestParam double endY) {
+        @RequestParam double endX, @RequestParam double endY,
+        @RequestParam String startName, @RequestParam String endName) {
 
         Point start = new Point(startX, startY);
         Point end = new Point(endX, endY);
-        return ResponseEntity.ok(pathService.findSubwayPath(start, end));
+
+        PointWithName startPointWithName = new PointWithName(start, startName);
+        PointWithName endPointWithName = new PointWithName(end, endName);
+
+        return ResponseEntity.ok(pathService.findSubwayPath(startPointWithName, endPointWithName));
     }
 
     @GetMapping("/transfer")
     public ResponseEntity<PathsResponse> transferPath(@RequestParam double startX,
         @RequestParam double startY,
-        @RequestParam double endX, @RequestParam double endY) {
+        @RequestParam double endX, @RequestParam double endY,
+        @RequestParam String startName, @RequestParam String endName) {
 
         Point start = new Point(startX, startY);
         Point end = new Point(endX, endY);
-        return ResponseEntity.ok(pathService.findTransferPath(start, end));
+
+        PointWithName startPointWithName = new PointWithName(start, startName);
+        PointWithName endPointWithName = new PointWithName(end, endName);
+
+        return ResponseEntity
+            .ok(pathService.findTransferPath(startPointWithName, endPointWithName));
     }
 }

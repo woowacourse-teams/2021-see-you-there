@@ -7,13 +7,13 @@ export const ContentArea = styled.section`
   justify-content: center;
 
   & > h2 {
-    margin-top: -8rem;
+    margin-top: -18rem;
     margin-bottom: 1.5rem;
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     & > h2 {
-      margin-top: -6rem;
+      margin-top: -8rem;
     }
   }
 `;

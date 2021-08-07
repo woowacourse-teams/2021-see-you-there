@@ -25,6 +25,7 @@ import seeuthere.goodday.location.dto.response.SpecificLocationResponse;
 import seeuthere.goodday.location.dto.response.UtilityResponse;
 import seeuthere.goodday.location.repository.PathResultRedisRepository;
 import seeuthere.goodday.location.util.LocationCategory;
+import seeuthere.goodday.path.domain.PointWithName;
 import seeuthere.goodday.path.service.PathService;
 
 @Service
@@ -146,10 +147,23 @@ public class LocationService {
     }
 
     private PathResult saveRedisCachePathResult(Point source, Point target) {
-        PathResult result = PathResult
-            .pathsResponseToPathResult(source, target,
-                pathService.findSubwayPath(source, target));
+        PathResult result = minPathResult(source, target);
         pathResultRedisRepository.save(result);
         return result;
+    }
+
+    private PathResult minPathResult(Point source, Point target) {
+        PointWithName startPointWithName = new PointWithName(source, "출발점");
+        PointWithName endPointWithName = new PointWithName(target, "도착점");
+
+        PathResult subwayResult = PathResult
+            .pathsResponseToPathResult(source, target,
+                pathService.findSubwayPath(startPointWithName, endPointWithName));
+
+        PathResult busSubwayResult = PathResult
+            .pathsResponseToPathResult(source, target,
+                pathService.findTransferPath(startPointWithName, endPointWithName));
+
+        return PathResult.minTimePathResult(subwayResult, busSubwayResult);
     }
 }

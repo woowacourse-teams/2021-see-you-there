@@ -15,15 +15,18 @@ public class PathResult implements Serializable {
     @Id
     public String id;
     public int time;
+
     @TimeToLive(unit = TimeUnit.DAYS)
-    private long timeToLive = 7L;
+    private long timeToLive;
 
     public PathResult() {
+        timeToLive = 7L;
     }
 
     public PathResult(String id, int time) {
         this.id = id;
         this.time = time;
+        timeToLive = 7L;
     }
 
     public static PathResult pathsResponseToPathResult(Point source, Point target,
@@ -32,6 +35,13 @@ public class PathResult implements Serializable {
         return new PathResult(source.toString() + target.toString(),
             pathResponse.getTime()
         );
+    }
+
+    public static PathResult minTimePathResult(PathResult pathResult1, PathResult pathResult2) {
+        if (pathResult1.time <= pathResult2.time) {
+            return pathResult1;
+        }
+        return pathResult2;
     }
 
     public String getId() {

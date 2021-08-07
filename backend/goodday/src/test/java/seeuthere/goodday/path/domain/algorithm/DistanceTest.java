@@ -30,7 +30,7 @@ class DistanceTest {
         //when
         Point startPoint = new Point(126.89600431494024, 37.47984260687255);
         Point endPoint = new Point(126.90159270290947, 37.48524131417615);
-        int value = 12;
+        int value = 11;
 
         //given
         Distance distance = Distance.calculate(startPoint, endPoint);

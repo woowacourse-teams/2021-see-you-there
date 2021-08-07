@@ -193,8 +193,10 @@ class MemberAcceptanceTest extends AcceptanceTest {
         List<RequestFriendResponse> response = getResponse(identifier, path)
             .body().jsonPath().getList(".", RequestFriendResponse.class);
 
+        MemberResponse requester = response.get(0).getRequester();
+
         assertThat(response.size()).isEqualTo(1);
-        assertThat(response.get(0).getRequester().getNickname()).isEqualTo(하루.getNickname());
+        assertThat(requester.getNickname()).isEqualTo(하루.getNickname());
     }
 
     @DisplayName("내가 요청한 목록을 불러온다.")

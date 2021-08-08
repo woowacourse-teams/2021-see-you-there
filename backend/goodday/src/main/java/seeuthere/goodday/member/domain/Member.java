@@ -20,6 +20,7 @@ public class Member {
     private final List<Address> addresses = new ArrayList<>();
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<FriendShip> friends = new HashSet<>();
+
     private String nickname;
     @Column(name = "PROFILE_IMAGE")
     private String profileImage;
@@ -88,6 +89,10 @@ public class Member {
             .collect(Collectors.toList());
     }
 
+    public boolean hasFriend(Member receiver) {
+        return getMemberFriends().contains(receiver);
+    }
+
     public String getId() {
         return id;
     }
@@ -111,6 +116,5 @@ public class Member {
     public Set<FriendShip> getFriends() {
         return friends;
     }
-
 
 }

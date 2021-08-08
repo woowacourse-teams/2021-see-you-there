@@ -1,5 +1,6 @@
 package seeuthere.goodday;
 
+import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,8 @@ import seeuthere.goodday.member.domain.Address;
 import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.FriendRequest;
+import seeuthere.goodday.member.dto.RequestFriendRequest;
+import seeuthere.goodday.member.dto.RequestFriendResponse;
 import seeuthere.goodday.member.service.MemberService;
 
 @Component
@@ -41,17 +44,26 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
         memberRepository.save(와이비);
-        memberService
-            .addAddress(와이비.getId(), new AddressRequest(와이비집.getNickname(), 와이비집.getAddressName(),
-                와이비집.getFullAddress(), 와이비집.getX(), 와이비집.getY()));
+        memberService.addAddress(와이비.getId(), new AddressRequest(
+            와이비집.getNickname(), 와이비집.getAddressName(),
+            와이비집.getFullAddress(), 와이비집.getX(), 와이비집.getY()));
+
         memberRepository.save(멍토);
         memberRepository.save(심바);
         memberRepository.save(하루);
 
-        memberService.addFriend(와이비.getId(), new FriendRequest(멍토.getMemberId()));
-        memberService.addFriend(와이비.getId(), new FriendRequest(심바.getMemberId()));
+        memberService.requestFriend(멍토.getId(), new FriendRequest(와이비.getMemberId()));
+        memberService.requestFriend(심바.getId(), new FriendRequest(와이비.getMemberId()));
+        List<RequestFriendResponse> requestFriends = memberService.findRequestFriends(와이비.getId());
+        requestFriends.stream()
+            .map(RequestFriendResponse::getId)
+            .forEach(id -> memberService.acceptFriend(와이비.getId(), new RequestFriendRequest(id)));
 
-        System.out.println("==================TOKEN=================\n"
+        memberService.requestFriend(하루.getId(), new FriendRequest(와이비.getMemberId()));
+
+        System.out.println("==================YB TOKEN=================\n"
             + jwtTokenProvider.createToken(와이비.getId()));
+        System.out.println("==================HARU TOKEN=================\n"
+            + jwtTokenProvider.createToken(하루.getId()));
     }
 }

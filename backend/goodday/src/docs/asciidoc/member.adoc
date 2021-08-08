@@ -107,7 +107,7 @@ include::{default-path}/requester-list/http-response.adoc[]
 
 # 요청한 목록 불러오기
 
-include::{default-path}/receiveList/http-request.adoc[]
+include::{default-path}/receive-list/http-request.adoc[]
 
 ## response
 

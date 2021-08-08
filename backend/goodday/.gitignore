@@ -44,6 +44,7 @@ out/
 
 ## html
 **/src/main/resources/static/docs/
+**/src/main/resources/templates/
 **/BOOT-INF/
 **/custom/
 

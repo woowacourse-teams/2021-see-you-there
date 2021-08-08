@@ -280,7 +280,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("내가 보낸 요청을 취소한다.")
     @Test
     void requestCancel() {
-        String identifier = "member/cancel";
+        String identifier = "request/cancel";
         String path = "/api/members/friends/request/cancel";
         List<RequestFriendResponse> requestFriends = memberService.findReceiveFriends(하루.getId());
         RequestFriendRequest request = new RequestFriendRequest(requestFriends.get(0).getId());

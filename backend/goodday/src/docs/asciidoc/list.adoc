@@ -8,10 +8,21 @@
 :operation-http-request-title: Example Request
 :operation-http-response-title: Example Response
 :default-path: https://seeyouthere.o-r.kr/api/docs
+:dev-path: https://dev.seeyouthere.o-r.kr/api/docs
 
-.API Docs
+
+## 서비스 서버
+
 link:{default-path}/locations[Locations RestDocs]
 
 link:{default-path}/paths[Paths RestDocs]
 
 link:{default-path}/member[Member RestDocs]
+
+## 개발 서버
+
+link:{dev-path}/locations[Locations RestDocs]
+
+link:{dev-path}/paths[Paths RestDocs]
+
+link:{dev-path}/member[Member RestDocs]

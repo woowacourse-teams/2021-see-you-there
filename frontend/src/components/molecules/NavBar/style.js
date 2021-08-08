@@ -107,38 +107,50 @@ export const MenuList = styled.ul`
   background-color: #fff;
   box-shadow: 0 0.25rem 0.5rem rgb(20 20 84 / 4%), 0 0.5rem 1.125rem rgb(20 20 84 / 8%),
     0 1rem 2rem -0.125rem rgb(20 20 84 / 8%), 0 0 0 0.0625rem rgb(20 20 84 / 12%);
-
-  & > li {
-    padding: 0.25rem 1rem;
-    min-width: 9rem;
-    line-height: 1.7;
-    letter-spacing: -0.009em;
-    color: ${COLOR.PARAGRAPH};
-
-    &:not(:first-child):hover * {
-      color: ${COLOR.PARAGRAPH_LIGHT};
-
-      & path {
-        fill: ${COLOR.PARAGRAPH_LIGHT};
-      }
-    }
-
-    & button {
-      display: flex;
-      align-items: center;
-
-      & svg {
-        margin-left: 0.25rem;
-      }
-    }
-  }
-
   z-index: ${Z_INDEX.HAMBURGER_MENU};
 `;
 
-export const Greeting = styled.li`
-  & strong {
+export const MenuItem = styled.li`
+  padding: 0.25rem 1rem;
+  min-width: 9rem;
+  line-height: 1.7;
+  color: ${COLOR.PARAGRAPH};
+
+  &:first-child > strong {
     color: ${COLOR.PRIMARY_LIGHT};
+  }
+
+  &:not(:first-child):hover * {
+    color: ${COLOR.PARAGRAPH_LIGHT};
+
+    & path {
+      fill: ${COLOR.PARAGRAPH_LIGHT};
+    }
+  }
+
+  & a {
+    position: relative;
+
+    &::after {
+      display: ${(props) => (props.hasNotice ? 'block' : 'none')};
+      content: '';
+      position: absolute;
+      top: -0.3rem;
+      right: -0.4rem;
+      width: 5px;
+      height: 5px;
+      background-color: ${COLOR.ACCENT};
+      border-radius: 50%;
+    }
+  }
+
+  & button {
+    display: flex;
+    align-items: center;
+
+    & svg {
+      margin-left: 0.25rem;
+    }
   }
 `;
 

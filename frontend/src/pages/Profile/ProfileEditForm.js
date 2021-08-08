@@ -11,7 +11,7 @@ export const ProfileEditForm = (props) => {
   const { INPUT, MESSAGE, isComplete, isUpdated, noticeMessage, setNoticeMessage } = useContext(ProfileFormContext);
 
   const { nickname, handleChangeNickname } = useProfileNicknameInput();
-  // const { memberId, handleChangeMemberId } = useProfileMemberIdInput();
+  const { memberId, handleChangeMemberId } = useProfileMemberIdInput();
   const { updateProfile } = useMutateProfile();
 
   const handleSubmit = (e) => {
@@ -22,11 +22,11 @@ export const ProfileEditForm = (props) => {
       return;
     }
     if (!isUpdated) {
-      setNoticeMessage(MESSAGE.NOTICE_UNUPDATED_FORM);
+      setNoticeMessage(MESSAGE.NOTICE_NOT_UPDATED_FORM);
       return;
     }
-    // updateProfile({ nickname, memberId });
-    updateProfile({ nickname });
+
+    updateProfile({ nickname, memberId });
     closeForm();
   };
 
@@ -41,8 +41,6 @@ export const ProfileEditForm = (props) => {
         Icon={<Icon.Star width="18" />}
         autoFocus
       />
-      {/*
-      // TODO: 친구 수락기능 추가 검토 필요
       <InputUnderline
         name={INPUT.MEMBER_ID.KEY}
         label={INPUT.MEMBER_ID.LABEL}
@@ -50,7 +48,7 @@ export const ProfileEditForm = (props) => {
         value={memberId}
         onChange={handleChangeMemberId}
         Icon={<Icon.ID width="18" />}
-      /> */}
+      />
       <Notice>{noticeMessage}</Notice>
       <ButtonGroup>
         <button type="button" onClick={closeForm}>

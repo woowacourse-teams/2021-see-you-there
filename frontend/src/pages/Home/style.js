@@ -7,7 +7,7 @@ export const MapViewArea = styled.section`
   height: 100%;
 
   @media (min-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    ${(props) => `#${props.lastParticipantId}`} {
+    ${(props) => `#_${props.lastParticipantId}`} {
       ${EFFECT.WAVE_CIRCLE}
     }
   }
@@ -29,6 +29,10 @@ export const ContentArea = styled.section`
 export const AddSection = styled.section`
   height: 22.5rem;
   background-color: ${COLOR.BACKGROUND};
+
+  > h2 {
+    padding-top: 2.5rem;
+  }
 `;
 
 export const AddForm = styled.form`
@@ -67,7 +71,7 @@ export const ListSection = styled.section`
   & > span {
     position: absolute;
     top: 3.75rem;
-    font-size: 0.625rem;
+    font-size: 0.65rem;
     color: ${COLOR.PLACEHOLDER};
   }
 `;

@@ -1,4 +1,4 @@
-export const getId = () => `_${new Date().getTime()}`;
+export const getId = () => `${new Date().getTime()}`;
 
 let avatarIndex = 1;
 

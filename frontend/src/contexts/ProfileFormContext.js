@@ -7,19 +7,16 @@ export const ProfileFormContext = createContext();
 
 const INITIAL_STATE = {
   NICKNAME: '',
-  // MEMBER_ID: '',
+  MEMBER_ID: '',
 };
 
 export const ProfileFormContextProvider = ({ initialNickname, initialMemberId, children }) => {
   const [nickname, setNickname] = useState(initialNickname ?? INITIAL_STATE.NICKNAME);
-  // const [memberId, setMemberId] = useState(initialMemberId ?? INITIAL_STATE.MEMBER_ID);
+  const [memberId, setMemberId] = useState(initialMemberId ?? INITIAL_STATE.MEMBER_ID);
   const [noticeMessage, setNoticeMessage] = useState(INITIAL_STATE.NOTICE_MESSAGE);
 
-  const isComplete = nickname;
-  // const isComplete = nickname && memberId;
-
-  const isUpdated = initialNickname !== nickname;
-  // const isUpdated = initialNickname !== nickname || initialMemberId !== memberId;
+  const isComplete = nickname && memberId;
+  const isUpdated = initialNickname !== nickname || initialMemberId !== memberId;
 
   const resetNoticeMessage = () => setNoticeMessage(INITIAL_STATE.NOTICE_MESSAGE);
 
@@ -35,8 +32,8 @@ export const ProfileFormContextProvider = ({ initialNickname, initialMemberId, c
         nickname,
         setNickname,
 
-        // memberId,
-        // setMemberId,
+        memberId,
+        setMemberId,
 
         noticeMessage,
         setNoticeMessage,

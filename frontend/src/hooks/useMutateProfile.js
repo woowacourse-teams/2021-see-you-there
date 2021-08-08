@@ -6,7 +6,7 @@ import { httpRequest } from '../utils';
 import { API_URL, STATUS } from '../constants';
 
 export const useMutateProfile = () => {
-  const { token, forceLogout, memberId, profileImage, setUser } = useContext(UserContext);
+  const { token, forceLogout, profileImage, setUser } = useContext(UserContext);
 
   /* 수정 */
   const fetchUpdate = async (body) => {
@@ -23,7 +23,7 @@ export const useMutateProfile = () => {
     onError: forceLogout,
   });
 
-  const updateProfile = ({ nickname }) => {
+  const updateProfile = ({ nickname, memberId }) => {
     update.mutate({ nickname, memberId, profileImage });
   };
 

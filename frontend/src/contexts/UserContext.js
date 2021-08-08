@@ -38,7 +38,27 @@ const fetchUserAddressList = async (token) => {
 };
 
 const fetchUserFriendList = async (token) => {
-  const response = await httpRequest.get(API_URL.FRIEND, { token });
+  const response = await httpRequest.get(API_URL.FRIEND_USER, { token });
+
+  // TODO: 에러 처리
+  if (response.status === 401) {
+    throw new Error(STATUS.INVALID_TOKEN_ERROR);
+  }
+  return await response.json();
+};
+
+const fetchRequestFriendList = async (token) => {
+  const response = await httpRequest.get(API_URL.FRIEND_REQUEST_LIST, { token });
+
+  // TODO: 에러 처리
+  if (response.status === 401) {
+    throw new Error(STATUS.INVALID_TOKEN_ERROR);
+  }
+  return await response.json();
+};
+
+const fetchReceiveFriendList = async (token) => {
+  const response = await httpRequest.get(API_URL.FRIEND_RECEIVE_LIST, { token });
 
   // TODO: 에러 처리
   if (response.status === 401) {
@@ -79,6 +99,24 @@ export const UserContextProvider = ({ children }) => {
     }
   );
 
+  const { data: requestFriendList, error: errorRequestFriendList } = useQuery(
+    QUERY_KEY.FRIEND_REQUEST,
+    () => fetchRequestFriendList(token),
+    {
+      enabled: !!userInfo,
+      refetchInterval: pathname === ROUTE.FRIEND.PATH ? 3_000 : 300_000,
+    }
+  );
+
+  const { data: receiveFriendList, error: errorReceiveFriendList } = useQuery(
+    QUERY_KEY.FRIEND_RECEIVE,
+    () => fetchReceiveFriendList(token),
+    {
+      enabled: !!userInfo,
+      refetchInterval: pathname === ROUTE.FRIEND.PATH ? 3_000 : 300_000,
+    }
+  );
+
   const login = (userInfo) => {
     const { token } = userInfo;
 
@@ -109,7 +147,13 @@ export const UserContextProvider = ({ children }) => {
     setUser({ ...userInfo });
   }, [userInfo]);
 
-  const errors = [errorTokenValidation, errorUserAddressList, errorUserFriendList];
+  const errors = [
+    errorTokenValidation,
+    errorUserAddressList,
+    errorUserFriendList,
+    errorRequestFriendList,
+    errorReceiveFriendList,
+  ];
 
   useEffect(() => {
     const hasInvalidTokenError = errors.map((error) => error?.message).includes(STATUS.INVALID_TOKEN_ERROR);
@@ -130,8 +174,12 @@ export const UserContextProvider = ({ children }) => {
         nickname,
         profileImage,
         token,
+
         userAddressList,
         userFriendList,
+        requestFriendList,
+        receiveFriendList,
+        hasReceiveFriend: receiveFriendList?.length > 0,
 
         login,
         logout,

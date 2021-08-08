@@ -188,8 +188,8 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("나에게 들어온 요청 목록을 불러온다.")
     @Test
     void getRequestFriends() {
-        String identifier = "member/requester-list";
-        String path = "/api/members/friends/requestList";
+        String identifier = "member/receiver-list";
+        String path = "/api/members/friends/receiveList";
         List<RequestFriendResponse> response = getResponse(identifier, path)
             .body().jsonPath().getList(".", RequestFriendResponse.class);
 
@@ -203,8 +203,8 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @Test
     void getReceiveFriends() {
         String token = jwtTokenProvider.createToken(하루.getId());
-        String path = "/api/members/friends/receiveList";
-        String identifier = "member/receiver-list";
+        String path = "/api/members/friends/requestList";
+        String identifier = "member/requester-list";
         List<RequestFriendResponse> responses = RestAssured.given(this.spec)
             .filter(
                 document(identifier,

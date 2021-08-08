@@ -111,7 +111,7 @@ include::{default-path}/receive-list/http-request.adoc[]
 
 ## response
 
-include::{default-path}/receiveList/http-response.adoc[]
+include::{default-path}/receive-list/http-response.adoc[]
 
 # 친구 요청
 

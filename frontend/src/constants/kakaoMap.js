@@ -23,7 +23,7 @@ export const HTML = {
   PIN: {
     DEFAULT: ({ title, key, id }) =>
       `
-      <div ${id ? `id=${id}` : ''} style="cursor: default;" data-testid=${TEST_ID[key]} >
+      <div ${id ? `id=_${id}` : ''} style="cursor: default;" data-testid=${TEST_ID[key]} >
         <img src=${PIN_IMAGE[key].src} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
         <span></span>
       </div>

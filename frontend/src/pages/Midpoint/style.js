@@ -28,7 +28,7 @@ export const MapViewArea = styled.section`
   }
 
   @media (min-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    ${(props) => `#${props.participantId}`} {
+    ${(props) => `#_${props.participantId}`} {
       ${EFFECT.WAVE_CIRCLE}
     }
   }

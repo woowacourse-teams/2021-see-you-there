@@ -47,13 +47,13 @@ public class FriendController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/requestList")
+    @GetMapping("/receiveList")
     public ResponseEntity<List<RequestFriendResponse>> getRequestFriends(@EnableAuth String id) {
         List<RequestFriendResponse> response = memberService.findRequestFriends(id);
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/receiveList")
+    @GetMapping("/requestList")
     public ResponseEntity<List<RequestFriendResponse>> getReceiveFriends(@EnableAuth String id) {
         List<RequestFriendResponse> response =memberService.findReceiveFriends(id);
         return ResponseEntity.ok().body(response);

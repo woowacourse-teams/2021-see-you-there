@@ -103,7 +103,7 @@ export const MESSAGE = {
     NOTICE_MEMBER_ID_EMPTY: '아이디을 입력해주세요.',
 
     NOTICE_INCOMPLETE_FORM: '프로필 정보를 입력해주세요.',
-    NOTICE_UNUPDATED_FORM: '변경된 정보가 없습니다.',
+    NOTICE_NOT_UPDATED_FORM: '변경된 정보가 없습니다.',
   },
 };
 

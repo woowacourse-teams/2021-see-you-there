@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { COLOR, LAYOUT, Z_INDEX } from '../../../constants';
+import { COLOR, EFFECT, LAYOUT, Z_INDEX } from '../../../constants';
 
 const styleNavRight = css`
   position: fixed;
@@ -14,18 +14,6 @@ const styleNavFull = css`
   top: 0;
   right: 0;
   width: 100%;
-`;
-
-export const fadeIn = css`
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 200ms;
-`;
-
-export const fadeOut = css`
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 300ms, visibility 300ms;
 `;
 
 export const Nav = styled.nav`
@@ -107,7 +95,7 @@ export const ProfileImage = styled.img`
 `;
 
 export const MenuList = styled.ul`
-  ${({ isVisible }) => (isVisible ? fadeIn : fadeOut)}
+  ${({ isVisible }) => (isVisible ? EFFECT.FADE_IN : EFFECT.FADE_OUT)}
 
   position: fixed;
   top: calc(${LAYOUT.NAV_HEIGHT} + 0.5rem);

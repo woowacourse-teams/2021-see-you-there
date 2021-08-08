@@ -1,38 +1,19 @@
 import styled from 'styled-components';
 
-import { COLOR, LAYOUT, Z_INDEX } from '../../constants';
-
-const LOGIN_BOX_HEIGHT = '13rem';
-const IMAGE_HEIGHT = '22.4rem';
-const IMAGE_HEIGHT_TABLET = '14.5rem';
+import { COLOR, CONTENT_AREA, LAYOUT, Z_INDEX } from '../../constants';
 
 export const ContentArea = styled.section`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding-top: calc((100% - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT} - ${LOGIN_BOX_HEIGHT}) / 2);
-  align-items: center;
-  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
-  overflow-x: hidden;
-
-  z-index: ${Z_INDEX.CONTENT};
+  ${CONTENT_AREA.DEFAULT}
+  justify-content: center;
 
   & > h2 {
-    line-height: 2rem;
+    margin-top: -18rem;
     margin-bottom: 1.5rem;
   }
 
-  & > img {
-    position: fixed;
-    bottom: 0;
-    width: 70rem;
-  }
-
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    padding-top: calc((100vh - ${LAYOUT.NAV_HEIGHT} - ${IMAGE_HEIGHT_TABLET} - ${LOGIN_BOX_HEIGHT}) / 2);
-
-    & > img {
-      width: 45rem;
+    & > h2 {
+      margin-top: -8rem;
     }
   }
 `;

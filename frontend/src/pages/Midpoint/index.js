@@ -1,22 +1,28 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
-import { ParticipantList, Icon } from '../../components';
-import { MapViewArea, Chips, Chip, MapView, ContentArea, ListSection, ResultSection } from './style';
+import { CategoryChips } from './CategoryChips';
+import { ParticipantChips } from './ParticipantChips';
+import { PersonalPath } from './PersonalPath';
+import { Icon } from '../../components';
+import {
+  MapViewArea,
+  MapView,
+  ContentArea,
+  Drawer,
+  Content,
+  CoreSection,
+  PathSection,
+  Transports,
+  TransportsButton,
+  Footer,
+} from './style';
 import { ParticipantContext, MapViewContext } from '../../contexts';
 import { useMapViewApi, useMidpoint } from '../../hooks';
 import { COLOR, QUERY_KEY } from '../../constants';
 
-const DEFAULT = QUERY_KEY.DEFAULT;
-const CAFE = QUERY_KEY.CAFE;
-const DINING = QUERY_KEY.DINING;
-const PARTY = QUERY_KEY.PARTY;
-
-const CHIP_LIST = [
-  { category: DEFAULT, categoryIcon: Icon.Map },
-  { category: CAFE, categoryIcon: Icon.LocalCafe },
-  { category: DINING, categoryIcon: Icon.LocalDining },
-  { category: PARTY, categoryIcon: Icon.LocalParty },
-];
+const SUBWAY = 'subway';
+const BUS = 'bus';
+const TRANSFER = 'transfer';
 
 export const Midpoint = () => {
   const { participants } = useContext(ParticipantContext);
@@ -30,9 +36,12 @@ export const Midpoint = () => {
     isStationsLoading,
     isStationError,
   } = useContext(MapViewContext);
-
   const { showMapView } = useMapViewApi({ mapObj, mapViewRef });
   const { showDefaultBounds, showDefaultMarkers, showCategoryMarkers, hideCategoryMarkers, isSelected } = useMidpoint();
+
+  const [participant, setParticipant] = useState(participants?.[0]);
+  const [transport, setTransport] = useState(SUBWAY);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     if (isMidpointLoading || isStationsLoading) {
@@ -48,7 +57,7 @@ export const Midpoint = () => {
   }, [station]);
 
   const handleSelectChip = (nextCategory) => {
-    if (nextCategory === DEFAULT) {
+    if (nextCategory === QUERY_KEY.DEFAULT) {
       hideCategoryMarkers();
       showDefaultBounds();
       return;
@@ -59,44 +68,65 @@ export const Midpoint = () => {
   return (
     <>
       <main>
-        <MapViewArea>
+        <MapViewArea participantId={participant?.id}>
           <MapView ref={mapViewRef} />
-          <Chips>
-            {CHIP_LIST.map(({ category, categoryIcon }) => {
-              const isSelectedChip = isSelected(category);
-              const ChipIcon = isSelectedChip ? Icon.CheckCircle : categoryIcon;
-
-              return (
-                <li key={category} data-testid={category}>
-                  <Chip selected={isSelectedChip} onClick={() => handleSelectChip(category)}>
-                    <ChipIcon width="18" color={isSelectedChip ? COLOR.PRIMARY : COLOR.BORDER_DARK} />
-                    <span>{category}</span>
-                  </Chip>
-                </li>
-              );
-            })}
-          </Chips>
+          <CategoryChips isSelected={isSelected} handleSelectChip={handleSelectChip} />
         </MapViewArea>
-        <ContentArea>
-          <ResultSection>
-            <h2>
-              {isMidpointError
-                ? '흑흑 네트워크 문제로 중간지점을 찾지 못했어요...'
-                : isStationError
-                ? '흑흑 중간지점 반경 1km 이내에는 역이 없네요...'
-                : station && (
-                    <>
-                      <span>{station?.placeName}</span> 에서 만나요!
-                    </>
-                  )}
-            </h2>
-          </ResultSection>
-          <ListSection>
-            <h2>
-              만나는 사람들 <span>{participants.length}명</span>
-            </h2>
-            <ParticipantList items={participants} />
-          </ListSection>
+
+        <ContentArea isVisible={isDrawerOpen}>
+          <Drawer>
+            {isDrawerOpen ? (
+              <button onClick={() => setIsDrawerOpen(false)}>
+                <span>지도 보기</span>
+                <Icon.ArrowLineDown width="16" color={COLOR.ON_PRIMARY} />
+              </button>
+            ) : (
+              <button onClick={() => setIsDrawerOpen(true)}>
+                <span>경로 보기</span>
+                <Icon.ArrowLineUp width="16" color={COLOR.ON_PRIMARY} />
+              </button>
+            )}
+          </Drawer>
+
+          <Content>
+            <CoreSection>
+              <h2>
+                {isMidpointError
+                  ? '흑흑 네트워크 문제로 중간지점을 찾지 못했어요...'
+                  : isStationError
+                  ? '흑흑 중간지점 반경 1km 이내에는 역이 없네요...'
+                  : station && (
+                      <>
+                        <span>{station?.placeName}</span> 에서 만나요!
+                      </>
+                    )}
+              </h2>
+              <ParticipantChips items={participants} participantId={participant.id} setParticipant={setParticipant} />
+            </CoreSection>
+            <PathSection>
+              <h2>
+                <span>{participant?.name}</span>의 길찾기
+                <Icon.Flag width="18" />
+              </h2>
+
+              <Transports>
+                <TransportsButton isSelected={transport === SUBWAY} onClick={() => setTransport(SUBWAY)}>
+                  지하철
+                </TransportsButton>
+                |
+                <TransportsButton isSelected={transport === BUS} onClick={() => setTransport(BUS)}>
+                  버스
+                </TransportsButton>
+                |
+                <TransportsButton isSelected={transport === TRANSFER} onClick={() => setTransport(TRANSFER)}>
+                  지하철 + 버스
+                </TransportsButton>
+              </Transports>
+
+              <PersonalPath transport={transport} participant={participant} station={station} />
+            </PathSection>
+            <Footer>공공 API 를 사용하고 있습니다.</Footer> {/* //TODO: 정확한 명칭으로 수정 */}
+          </Content>
         </ContentArea>
       </main>
     </>

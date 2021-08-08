@@ -3,20 +3,11 @@ import { useState, useEffect, useContext } from 'react';
 import { MapViewContext, ParticipantContext } from '../contexts';
 import { useMapViewApi } from './useMapViewApi';
 import { QUERY_KEY } from '../constants';
-import { Image } from '../assets';
 
 const DEFAULT = QUERY_KEY.DEFAULT;
 const CAFE = QUERY_KEY.CAFE;
 const DINING = QUERY_KEY.DINING;
 const PARTY = QUERY_KEY.PARTY;
-
-const PIN_IMAGE = {
-  STATION: { w: 60, h: 80, src: Image.pinStation },
-  PARTICIPANT: { w: 45, h: 45, src: Image.pinParticipant },
-  [CAFE]: { w: 36, h: 48, src: Image.pinCafe },
-  [DINING]: { w: 36, h: 48, src: Image.pinDining },
-  [PARTY]: { w: 36, h: 48, src: Image.pinParty },
-};
 
 const INITIAL_STATE = {
   CATEGORY_MARKERS: { [CAFE]: null, [DINING]: null, [PARTY]: null },
@@ -58,12 +49,13 @@ export const useMidpoint = () => {
   };
 
   const showParticipantsMarkers = () => {
-    const participantMarkers = participants.map(({ x, y, name: title }) => {
+    const participantMarkers = participants.map(({ x, y, name: title, id }) => {
       return getMarker({
         x,
         y,
         title,
         key: 'PARTICIPANT',
+        id,
       });
     });
 

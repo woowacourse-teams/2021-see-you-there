@@ -38,21 +38,23 @@ export const Avatar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 4.25rem;
+  height: 4.25rem;
 
   border-radius: 100%;
   background-color: ${COLOR.BACKGROUND};
 
   & > img {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 3.25rem;
+    height: 3.25rem;
 
     border-radius: 50%;
   }
 `;
 
 export const Name = styled.span`
+  margin-top: 0.375rem;
+
   line-height: 1rem;
   font-weight: bold;
   font-size: 0.75rem;

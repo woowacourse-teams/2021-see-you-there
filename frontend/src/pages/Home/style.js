@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 
-import { COLOR, LAYOUT, Z_INDEX } from '../../constants';
+import { COLOR, LAYOUT, Z_INDEX, EFFECT, CONTENT_AREA } from '../../constants';
 
 export const MapViewArea = styled.section`
   width: calc(100% - ${LAYOUT.NAV_WIDTH_RIGHT});
   height: 100%;
+
+  @media (min-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    ${(props) => `#${props.lastParticipantId}`} {
+      ${EFFECT.WAVE_CIRCLE}
+    }
+  }
 `;
 
 export const MapView = styled.div`
@@ -13,20 +19,9 @@ export const MapView = styled.div`
 `;
 
 export const ContentArea = styled.section`
-  position: fixed;
-  top: ${LAYOUT.NAV_HEIGHT};
-  right: 0;
-  z-index: ${Z_INDEX.CONTENT};
-  width: ${LAYOUT.NAV_WIDTH_RIGHT};
-  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
+  ${CONTENT_AREA.MAP}
+
   overflow-y: scroll;
-
-  background-color: ${COLOR.PRIMARY_BACKGROUND};
-  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.25);
-
-  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    width: 100%;
-  }
 `;
 
 /* 참가자 추가 Section */
@@ -93,52 +88,7 @@ export const BottomSection = styled.section`
   background-color: ${COLOR.PRIMARY_BACKGROUND};
 
   & > button {
-    &::after {
-      content: '';
-      display: block;
-      position: absolute;
-      background: rgba(255, 255, 255, 0.35);
-      width: 40px;
-      height: 100%;
-      left: 40px;
-      top: 0;
-      transform: skewX(-15deg);
-      filter: blur(2px);
-    }
-
-    &:not(:disabled)::after {
-      -webkit-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-      -moz-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-      -o-animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-      animation: shine 15s cubic-bezier(0, 1.15, 1, 0.99) infinite;
-    }
-  }
-
-  @keyframes shine {
-    0% {
-      opacity: 0;
-      transform: translateX(0);
-    }
-    9% {
-      opacity: 1;
-      transform: translateX(400px);
-    }
-    10% {
-      opacity: 0;
-      transform: translateX(400px);
-    }
-    11% {
-      opacity: 0;
-      transform: translateX(0);
-    }
-    20% {
-      opacity: 1;
-      transform: translateX(400px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(400px);
-    }
+    ${EFFECT.SHINE}
   }
 `;
 

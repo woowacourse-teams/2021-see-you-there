@@ -30,7 +30,7 @@ export const MyMemberId = styled.div`
 export const ButtonSection = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 2.25rem;
+  margin-top: 1.25rem;
   width: ${LAYOUT.CONTENT_WIDTH_MAX};
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
@@ -39,12 +39,72 @@ export const ButtonSection = styled.div`
   }
 `;
 
+export const FriendTabs = styled.div`
+  display: flex;
+  margin-top: 3rem;
+
+  font-size: 0.95rem;
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    font-size: 0.8rem;
+  }
+`;
+
+export const FriendTab = styled.button`
+  position: relative;
+  margin: 0 1rem;
+  min-width: 6rem;
+
+  font-size: inherit;
+  color: ${(props) => (props.isSelected ? COLOR.PARAGRAPH : COLOR.PARAGRAPH_LIGHT)};
+
+  & > span {
+    color: inherit;
+    margin-left: 0.3rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.05rem;
+  }
+
+  &::after {
+    display: ${(props) => (props.hasCount ? 'block' : 'none')};
+    content: '';
+    position: absolute;
+    top: -0.3rem;
+    left: 0rem;
+    width: 5px;
+    height: 5px;
+    background-color: ${COLOR.ERROR};
+    border-radius: 50%;
+  }
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    min-width: 5rem;
+    margin: 0 0.6rem;
+
+    & > span {
+      font-size: 0.6rem;
+    }
+  }
+`;
+
+export const ListSection = styled.section`
+  display: ${(props) => (props.isVisible ? 'flex' : 'none')};
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+
+  > h3 {
+    font-size: 0.8rem;
+  }
+`;
+
 export const List = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  row-gap: 1.25rem;
-  column-gap: 1.25rem;
-  margin: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+
+  margin: 1.75rem 0;
   width: ${LAYOUT.CONTENT_WIDTH_MAX};
 
   z-index: ${Z_INDEX.ON_IMAGE};
@@ -62,21 +122,37 @@ export const Item = styled.li`
   justify-content: flex-start;
   align-items: center;
   padding: ${LAYOUT.PADDING};
+  width: 100%;
+  height: 7.5rem;
 
   background-color: ${COLOR.BACKGROUND};
   box-shadow: 5px 5px 14px rgba(0, 0, 0, 0.12);
   border-radius: 10px;
+`;
+
+export const ButtonGroup = styled.div`
+  position: absolute;
+  bottom: ${LAYOUT.MARGIN};
+  right: ${LAYOUT.MARGIN};
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 
   > button {
+    margin-left: 1.25rem;
     font-size: 0.75rem;
     color: ${COLOR.PARAGRAPH_LIGHT};
 
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-
     &:hover {
       color: ${COLOR.PARAGRAPH};
+    }
+  }
+
+  > button:nth-child(2) {
+    color: ${COLOR.PRIMARY};
+
+    &:hover {
+      color: ${COLOR.PRIMARY_DARK};
     }
   }
 `;

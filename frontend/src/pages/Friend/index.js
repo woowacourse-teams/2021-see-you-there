@@ -1,39 +1,31 @@
 import React, { useState, useContext } from 'react';
 
+import { ListUserFriend } from './ListUserFriend';
+import { ListRequestFriend } from './ListRequestFriend';
+import { ListReceiveFriend } from './ListReceiveFriend';
 import { FriendSearchModal } from './FriendSearchModal';
-import {
-  ContentArea,
-  MyMemberId,
-  ButtonSection,
-  Nickname,
-  MemberId,
-  ProfileImage,
-  List,
-  Item,
-  FriendInfo,
-} from './style';
-import { ButtonRound, Confirm, Icon } from '../../components';
+import { ContentArea, MyMemberId, ButtonSection, FriendTabs, FriendTab } from './style';
+import { ButtonRound, Icon } from '../../components';
 import { UserContext } from '../../contexts';
-import { useConfirm, useModal, useMutateFriend } from '../../hooks';
+import { useModal } from '../../hooks';
 
 import { Image } from '../../assets';
-import { COLOR, MESSAGE } from '../../constants';
+import { COLOR } from '../../constants';
 
-const formId = 'USER_FRIEND';
+const FRIEND_LIST = 'friendList';
+const REQUEST_LIST = 'requestList';
+const RECEIVE_LIST = 'receiveList';
 
 export const Friend = () => {
-  const { memberId, userFriendList } = useContext(UserContext);
-  const { deleteFriend } = useMutateFriend();
+  const { memberId, userFriendList, requestFriendList, receiveFriendList, hasReceiveFriend } = useContext(UserContext);
   const { isModalOpen, openModal, closeModal } = useModal();
   const [isMemberIdCopied, setIsMemberIdCopied] = useState(false);
+  const [tab, setTab] = useState(FRIEND_LIST);
+
   const handleClickCopyButton = () => {
     navigator.clipboard.writeText(memberId);
     setIsMemberIdCopied(true);
   };
-
-  const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useConfirm({
-    approve: deleteFriend,
-  });
 
   return (
     <main>
@@ -62,25 +54,26 @@ export const Friend = () => {
           <FriendSearchModal isModalOpen={isModalOpen} closeModal={closeModal} />
         </ButtonSection>
 
-        <List>
-          {userFriendList?.map((friend) => {
-            const { profileImage, memberId, nickname } = friend;
+        <FriendTabs>
+          <FriendTab isSelected={tab === FRIEND_LIST} onClick={() => setTab(FRIEND_LIST)}>
+            내 친구
+            <span>{userFriendList?.length}명</span>
+          </FriendTab>
+          |
+          <FriendTab isSelected={tab === REQUEST_LIST} onClick={() => setTab(REQUEST_LIST)}>
+            보낸 요청
+            <span>{requestFriendList?.length}명</span>
+          </FriendTab>
+          |
+          <FriendTab isSelected={tab === RECEIVE_LIST} hasCount={hasReceiveFriend} onClick={() => setTab(RECEIVE_LIST)}>
+            받은 요청
+            <span>{receiveFriendList?.length}명</span>
+          </FriendTab>
+        </FriendTabs>
 
-            return (
-              <Item key={memberId}>
-                <button onClick={() => openConfirm(memberId)}>삭제</button>
-                <ProfileImage src={profileImage} alt="친구 프로필 이미지" />
-                <FriendInfo>
-                  <Nickname>{nickname}</Nickname>
-                  <MemberId>{memberId}</MemberId>
-                </FriendInfo>
-              </Item>
-            );
-          })}
-        </List>
-        <Confirm isConfirmOpen={isConfirmOpen} onCancel={cancelConfirm} onApprove={approveConfirm}>
-          {MESSAGE[formId].CONFIRM_DELETE}
-        </Confirm>
+        <ListUserFriend list={userFriendList} isVisible={tab === FRIEND_LIST} />
+        <ListRequestFriend list={requestFriendList} isVisible={tab === REQUEST_LIST} />
+        <ListReceiveFriend list={receiveFriendList} isVisible={tab === RECEIVE_LIST} />
 
         <img src={Image.drawingFriend} alt="내 친구목록 페이지 일러스트" />
       </ContentArea>

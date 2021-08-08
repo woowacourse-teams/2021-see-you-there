@@ -9,27 +9,29 @@ export const useMutateFriend = () => {
   const { token, forceLogout } = useContext(UserContext);
   const queryClient = useQueryClient();
 
-  /* 추가 */
+  /* 요청-취소 */ //TODO: 취소 구현
   const fetchCreation = async (body) => {
-    const response = await httpRequest.post(API_URL.FRIEND, { token, body });
+    const response = await httpRequest.post(API_URL.FRIEND_REQUEST, { token, body });
 
     if (response.status === 401) {
       throw new Error(STATUS.INVALID_TOKEN_ERROR);
     }
   };
 
-  const creation = useMutation((body) => fetchCreation(body), {
+  const request = useMutation((body) => fetchCreation(body), {
     onSuccess: () => queryClient.invalidateQueries(QUERY_KEY.FRIEND),
     onError: forceLogout,
   });
 
-  const createFriend = (memberId) => {
-    creation.mutate({ memberId });
+  const requestFriend = (memberId) => {
+    request.mutate({ memberId });
   };
+
+  /* 수락-거절 */ //TODO: 수락,거절 구현
 
   /* 삭제 */
   const fetchDeletion = async (body) => {
-    const response = await httpRequest.delete(API_URL.FRIEND, { token, body });
+    const response = await httpRequest.delete(API_URL.FRIEND_USER, { token, body });
 
     if (response.status === 401) {
       throw new Error(STATUS.INVALID_TOKEN_ERROR);
@@ -45,5 +47,5 @@ export const useMutateFriend = () => {
     deletion.mutate({ memberId });
   };
 
-  return { createFriend, deleteFriend };
+  return { requestFriend, deleteFriend };
 };

@@ -20,7 +20,12 @@ export const API_URL = {
   USER: `${API_END_POINT}/members`,
 
   ADDRESS: `${API_END_POINT}/members/address`,
-  FRIEND: `${API_END_POINT}/members/friends`,
+  FRIEND_USER: `${API_END_POINT}/members/friends`,
+  FRIEND_REQUEST: `${API_END_POINT}/members/friends/request`,
+  // FRIEND_REQUEST_LIST: `${API_END_POINT}/members/friends/requestList`, // TODO: 응답 swap 요청
+  // FRIEND_RECEIVE_LIST: `${API_END_POINT}/members/friends/receiveList`,
+  FRIEND_REQUEST_LIST: `${API_END_POINT}/members/friends/receiveList`,
+  FRIEND_RECEIVE_LIST: `${API_END_POINT}/members/friends/requestList`,
   FRIEND_SEARCH: (keyword) => `${API_END_POINT}/members/friends/search?searchWord=${keyword}`,
 };
 
@@ -40,6 +45,8 @@ export const QUERY_KEY = {
 
   ADDRESS: '내 주소목록',
   FRIEND: '내 친구목록',
+  FRIEND_REQUEST: '보낸 친구요청',
+  FRIEND_RECEIVE: '받은 친구요청',
   FRIEND_SEARCH: '친구 ID검색',
   PROFILE: '내 프로필',
 };

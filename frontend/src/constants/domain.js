@@ -85,7 +85,12 @@ export const MESSAGE = {
   },
 
   USER_FRIEND: {
+    CONFIRM_CANCEL: '친구 요청을 취소하시겠습니까?',
+    CONFIRM_ACCEPT: '친구 요청을 수락하시겠습니까?',
+    CONFIRM_ACCEPT_DETAIL: '친구가 되면 서로의 주소가 공개됩니다.',
+    CONFIRM_REFUSE: '친구 요청을 거절하시겠습니까?',
     CONFIRM_DELETE: '해당 친구를 삭제하시겠습니까?',
+    CONFIRM_DELETE_DETAIL: '친구를 삭제할 경우, 상대방의 친구 목록에서도 내가 삭제됩니다.',
   },
 
   USER_PROFILE: {

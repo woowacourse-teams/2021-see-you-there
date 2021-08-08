@@ -59,12 +59,10 @@ export const Friend = () => {
             내 친구
             <span>{userFriendList?.length}명</span>
           </FriendTab>
-          |
           <FriendTab isSelected={tab === REQUEST_LIST} onClick={() => setTab(REQUEST_LIST)}>
             보낸 요청
             <span>{requestFriendList?.length}명</span>
           </FriendTab>
-          |
           <FriendTab isSelected={tab === RECEIVE_LIST} hasCount={hasReceiveFriend} onClick={() => setTab(RECEIVE_LIST)}>
             받은 요청
             <span>{receiveFriendList?.length}명</span>

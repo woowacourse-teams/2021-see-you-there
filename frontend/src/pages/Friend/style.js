@@ -45,6 +45,11 @@ export const FriendTabs = styled.div`
 
   font-size: 0.95rem;
 
+  & > strong {
+    font-size: 1.5rem;
+    color: ${COLOR.BORDER_DARK};
+  }
+
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     font-size: 0.8rem;
   }
@@ -52,15 +57,24 @@ export const FriendTabs = styled.div`
 
 export const FriendTab = styled.button`
   position: relative;
-  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2rem;
   min-width: 6rem;
 
   font-size: inherit;
   color: ${(props) => (props.isSelected ? COLOR.PARAGRAPH : COLOR.PARAGRAPH_LIGHT)};
 
+  &:not(:first-child) {
+    border-left: 2px solid ${COLOR.BORDER};
+  }
+
   & > span {
     color: inherit;
-    margin-left: 0.3rem;
+    color: ${(props) => (props.isSelected ? COLOR.PRIMARY_LIGHT : COLOR.PARAGRAPH_LIGHT)};
+    margin-top: 0.4rem;
     font-size: 0.7rem;
     letter-spacing: 0.05rem;
   }
@@ -70,7 +84,7 @@ export const FriendTab = styled.button`
     content: '';
     position: absolute;
     top: -0.3rem;
-    left: 0rem;
+    right: 1.5rem;
     width: 5px;
     height: 5px;
     background-color: ${COLOR.ACCENT};
@@ -93,7 +107,7 @@ export const ListSection = styled.section`
   align-items: center;
   margin-top: 3rem;
 
-  > h3 {
+  & > h3 {
     font-size: 0.8rem;
   }
 `;

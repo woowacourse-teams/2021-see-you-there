@@ -6,10 +6,10 @@ import { Container } from './style';
 import { COLOR } from '../../../constants';
 
 export const Notice = (props) => {
-  const { children, color } = props;
+  const { children, color, ...rest } = props;
 
   return (
-    <Container color={color}>
+    <Container color={color} {...rest}>
       {children && (
         <>
           <Icon.ErrorCircle width="18" color={color} />

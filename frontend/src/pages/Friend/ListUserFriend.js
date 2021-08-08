@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { ListSection, List, Item, Nickname, MemberId, ProfileImage, FriendInfo, ButtonGroup } from './style';
-import { Confirm } from '../../components';
+import { Confirm, Notice } from '../../components';
 import { useConfirm, useMutateFriend } from '../../hooks';
-import { MESSAGE } from '../../constants';
-
-const formId = 'USER_FRIEND';
+import { COLOR, MESSAGE } from '../../constants';
 
 export const ListUserFriend = (props) => {
   const { isVisible, list } = props;
@@ -37,7 +35,10 @@ export const ListUserFriend = (props) => {
         })}
       </List>
       <Confirm isConfirmOpen={isConfirmOpen} onCancel={cancelConfirm} onApprove={approveConfirm}>
-        {MESSAGE[formId].CONFIRM_DELETE}
+        {MESSAGE.USER_FRIEND.CONFIRM_DELETE}
+        <Notice color={COLOR.PRIMARY_LIGHT} style={{ marginLeft: 0 }}>
+          {MESSAGE.USER_FRIEND.CONFIRM_DELETE_DETAIL}
+        </Notice>
       </Confirm>
     </ListSection>
   );

@@ -68,11 +68,12 @@ const GlobalStyle = createGlobalStyle`
     padding: 1.75rem 0 1.25rem;
 
     font-family: 'S-CoreDream-3Light', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
     line-height: 1.1rem;
     color: ${COLOR.HEADING};
     text-align: center;
+    letter-spacing: -0.1rem;
   }
 
   h2 > span {

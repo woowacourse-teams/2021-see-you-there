@@ -20,12 +20,14 @@ export const API_URL = {
   USER: `${API_END_POINT}/members`,
 
   ADDRESS: `${API_END_POINT}/members/address`,
+
   FRIEND_USER: `${API_END_POINT}/members/friends`,
   FRIEND_REQUEST: `${API_END_POINT}/members/friends/request`,
-  // FRIEND_REQUEST_LIST: `${API_END_POINT}/members/friends/requestList`, // TODO: 응답 swap 요청
-  // FRIEND_RECEIVE_LIST: `${API_END_POINT}/members/friends/receiveList`,
-  FRIEND_REQUEST_LIST: `${API_END_POINT}/members/friends/receiveList`,
-  FRIEND_RECEIVE_LIST: `${API_END_POINT}/members/friends/requestList`,
+  FRIEND_CANCEL: `${API_END_POINT}/members/friends/request/cancel`,
+  FRIEND_ACCEPT: `${API_END_POINT}/members/friends/acceptance`,
+  FRIEND_REFUSE: `${API_END_POINT}/members/friends/refuse`,
+  FRIEND_REQUEST_LIST: `${API_END_POINT}/members/friends/requestList`,
+  FRIEND_RECEIVE_LIST: `${API_END_POINT}/members/friends/receiveList`,
   FRIEND_SEARCH: (keyword) => `${API_END_POINT}/members/friends/search?searchWord=${keyword}`,
 };
 

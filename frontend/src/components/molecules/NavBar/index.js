@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 
-import { Nav, Button, Title, ProfileImage, MenuList, Greeting, Divider } from './style';
+import { Nav, Button, Title, ProfileImage, MenuList, MenuItem, Divider } from './style';
 import { Icon } from '../../';
 import { UserContext } from '../../../contexts';
 import { COLOR, LAYOUT, ROUTE, PRIVATE_ROUTES, PATHS } from '../../../constants';
 import { Image } from '../../../assets';
 
 export const NavBar = () => {
-  const { user, isLogin } = useContext(UserContext);
+  const { user, isLogin, hasReceiveFriend } = useContext(UserContext);
   const history = useHistory();
   const { pathname } = useLocation();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -45,22 +45,22 @@ export const NavBar = () => {
         )}
 
         <MenuList isVisible={isMenuVisible} onClick={() => setIsMenuVisible(false)}>
-          <Greeting>
+          <MenuItem>
             <strong>{user.nickname}</strong> 님 안녕하세요!
-          </Greeting>
+          </MenuItem>
           <Divider />
           {PRIVATE_ROUTES.map((ROUTE, index) => (
-            <li key={index}>
+            <MenuItem key={index} hasNotice={ROUTE.NAME === '내 친구관리' && hasReceiveFriend}>
               <NavLink to={ROUTE.PATH}>{ROUTE.NAME}</NavLink>
-            </li>
+            </MenuItem>
           ))}
           <Divider />
-          <li>
+          <MenuItem>
             <button onClick={() => history.push(ROUTE.LOGOUT.PATH)}>
               로그아웃
               <Icon.Enter width="20" />
             </button>
-          </li>
+          </MenuItem>
         </MenuList>
       </div>
     </Nav>

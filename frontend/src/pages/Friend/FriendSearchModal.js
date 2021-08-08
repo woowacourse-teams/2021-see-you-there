@@ -10,7 +10,7 @@ export const FriendSearchModal = (props) => {
   const { isModalOpen, closeModal } = props;
   const [memberIdInput, setMemberIdInput] = useState('');
   const { searchResult, memberIdKeyword, setMemberIdKeyword } = useFriendSearch();
-  const { createFriend } = useMutateFriend();
+  const { requestFriend } = useMutateFriend();
 
   const escapeModal = () => {
     setMemberIdInput('');
@@ -34,7 +34,7 @@ export const FriendSearchModal = (props) => {
   };
 
   const handleClickAddButton = () => {
-    createFriend(memberIdInput);
+    requestFriend(memberIdInput);
     escapeModal();
   };
 

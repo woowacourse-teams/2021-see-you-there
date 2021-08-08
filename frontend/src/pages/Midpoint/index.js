@@ -12,8 +12,8 @@ import {
   Content,
   CoreSection,
   PathSection,
-  Transports,
-  TransportsButton,
+  TransportTabs,
+  TransportTab,
   Footer,
 } from './style';
 import { ParticipantContext, MapViewContext } from '../../contexts';
@@ -109,19 +109,19 @@ export const Midpoint = () => {
                 <Icon.Flag width="18" />
               </h2>
 
-              <Transports>
-                <TransportsButton isSelected={transport === SUBWAY} onClick={() => setTransport(SUBWAY)}>
+              <TransportTabs>
+                <TransportTab isSelected={transport === SUBWAY} onClick={() => setTransport(SUBWAY)}>
                   지하철
-                </TransportsButton>
+                </TransportTab>
                 |
-                <TransportsButton isSelected={transport === BUS} onClick={() => setTransport(BUS)}>
+                <TransportTab isSelected={transport === BUS} onClick={() => setTransport(BUS)}>
                   버스
-                </TransportsButton>
+                </TransportTab>
                 |
-                <TransportsButton isSelected={transport === TRANSFER} onClick={() => setTransport(TRANSFER)}>
+                <TransportTab isSelected={transport === TRANSFER} onClick={() => setTransport(TRANSFER)}>
                   지하철 + 버스
-                </TransportsButton>
-              </Transports>
+                </TransportTab>
+              </TransportTabs>
 
               <PersonalPath transport={transport} participant={participant} station={station} />
             </PathSection>

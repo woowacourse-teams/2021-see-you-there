@@ -139,7 +139,7 @@ export const MenuItem = styled.li`
       right: -0.4rem;
       width: 5px;
       height: 5px;
-      background-color: ${COLOR.ERROR};
+      background-color: ${COLOR.ACCENT};
       border-radius: 50%;
     }
   }

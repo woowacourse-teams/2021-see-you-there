@@ -26,5 +26,5 @@ Notice.propTypes = {
 };
 
 Notice.defaultProps = {
-  color: COLOR.ERROR,
+  color: COLOR.ACCENT,
 };

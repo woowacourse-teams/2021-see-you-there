@@ -73,7 +73,7 @@ export const FriendTab = styled.button`
     left: 0rem;
     width: 5px;
     height: 5px;
-    background-color: ${COLOR.ERROR};
+    background-color: ${COLOR.ACCENT};
     border-radius: 50%;
   }
 

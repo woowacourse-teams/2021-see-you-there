@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { COLOR, LAYOUT, Z_INDEX } from '../../../constants';
+import { COLOR, LAYOUT } from '../../../constants';
 
 export const Top = styled.div`
   display: flex;

@@ -3,12 +3,11 @@ import styled from 'styled-components';
 import { LAYOUT } from '../../constants';
 
 export const ContentArea = styled.section`
-  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
-
-  width: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
+  height: calc(100% - ${LAYOUT.NAV_HEIGHT});
+  width: 100%;
   overflow: hidden;
 
   & > div {

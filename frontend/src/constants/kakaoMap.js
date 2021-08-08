@@ -21,10 +21,11 @@ const TEST_ID = {
 export const PIN_Y_ANCHOR = 0.9;
 export const HTML = {
   PIN: {
-    DEFAULT: ({ title, key }) =>
+    DEFAULT: ({ title, key, id }) =>
       `
-      <div style="cursor: default;" data-testid=${TEST_ID[key]} >
+      <div ${id ? `id=${id}` : ''} style="cursor: default;" data-testid=${TEST_ID[key]} >
         <img src=${PIN_IMAGE[key].src} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
+        <span></span>
       </div>
     `,
     INTERACTIVE: ({ title, key, url }) =>

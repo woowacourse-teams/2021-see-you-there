@@ -1,4 +1,4 @@
-export const getId = () => new Date();
+export const getId = () => `_${new Date().getTime()}`;
 
 let avatarIndex = 1;
 
@@ -25,6 +25,7 @@ const adjectives = [
   '젠틀한',
   '멋있는',
   '듬직한',
+  '친절한',
 ];
 
 const animals = [
@@ -43,6 +44,7 @@ const animals = [
   '강아지',
   '두더지',
   '맹꽁이',
+  '캥거루',
 ];
 
 const nicknames = adjectives.map((v) => v + animals.splice(Math.floor(Math.random() * (animals.length - 1)), 1));

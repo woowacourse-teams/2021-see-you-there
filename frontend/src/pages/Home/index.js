@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ParticipantAddForm } from './ParticipantAddForm';
@@ -11,12 +11,22 @@ import { MESSAGE, ROUTE, POBI_POINT, ID } from '../../constants';
 const formId = 'PARTICIPANT';
 
 export const Home = () => {
-  const { participants, removeParticipant, isLackParticipants } = useContext(ParticipantContext);
+  const { participants, removeParticipant, lastParticipant, resetLastParticipant, isLackParticipants } =
+    useContext(ParticipantContext);
   const mapObj = useRef(null);
   const mapViewRef = useRef(null);
-  const { showMapView } = useMapViewApi({ mapObj, mapViewRef });
+  const { showMapView, setBounds, getMarker, showMarkers, hideMarkers } = useMapViewApi({ mapObj, mapViewRef });
   const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useConfirm({ approve: removeParticipant });
+  const [participantMarkers, setParticipantMarkers] = useState([]);
   const history = useHistory();
+
+  const showParticipantsMarkers = () => {
+    const markers = participants.map(({ x, y, name: title, id }) => getMarker({ x, y, title, key: 'PARTICIPANT', id }));
+
+    participantMarkers?.length && hideMarkers(participantMarkers);
+    showMarkers(markers);
+    setParticipantMarkers(markers);
+  };
 
   const handleClickGetMiddlePoint = () => {
     if (isLackParticipants) {
@@ -24,6 +34,7 @@ export const Home = () => {
       return;
     }
 
+    resetLastParticipant();
     history.push(ROUTE.MIDPOINT.PATH);
   };
 
@@ -31,10 +42,15 @@ export const Home = () => {
     showMapView(POBI_POINT);
   }, []);
 
+  useEffect(() => {
+    showParticipantsMarkers();
+    participants.length && setBounds(participants);
+  }, [participants]);
+
   return (
     <>
       <main>
-        <MapViewArea>
+        <MapViewArea lastParticipantId={lastParticipant?.id}>
           <MapView ref={mapViewRef} />
         </MapViewArea>
 

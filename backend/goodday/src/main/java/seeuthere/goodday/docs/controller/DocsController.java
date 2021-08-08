@@ -11,6 +11,6 @@ public class DocsController {
 
     @GetMapping("/{path}")
     public String index(@PathVariable String path) {
-        return "/docs/" + path + ".html";
+        return path;
     }
 }

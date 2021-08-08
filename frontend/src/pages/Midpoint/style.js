@@ -280,29 +280,18 @@ export const PathSection = styled.section`
   }
 `;
 
-export const Transports = styled.div`
+export const TransportTabs = styled.div`
   display: flex;
 
   color: ${COLOR.PARAGRAPH_LIGHT};
   font-size: 0.7rem;
 `;
 
-export const TransportsButton = styled.button`
+export const TransportTab = styled.button`
   margin: 0 0.5rem;
   color: ${(props) => (props.isSelected ? COLOR.PARAGRAPH : COLOR.PARAGRAPH_LIGHT)};
   font-size: inherit;
   position: relative;
-
-  /* &:not(:disabled)::before { // TODO: 보류
-    content: '';
-    position: absolute;
-    left: -5%;
-    bottom: -3px;
-    width: 110%;
-    height: 1px;
-    background-color: ${COLOR.PARAGRAPH};
-    opacity: 0.5;
-  } */
 `;
 
 export const PathDetail = styled.div`

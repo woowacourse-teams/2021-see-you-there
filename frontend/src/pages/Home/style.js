@@ -75,6 +75,10 @@ export const ListSection = styled.section`
     font-size: 0.65rem;
     color: ${COLOR.PLACEHOLDER};
   }
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    padding-bottom: 0;
+  }
 `;
 
 /* 하단 버튼 Section */

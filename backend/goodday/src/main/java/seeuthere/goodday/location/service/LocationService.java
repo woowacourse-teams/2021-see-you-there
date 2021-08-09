@@ -11,6 +11,7 @@ import seeuthere.goodday.location.domain.combiner.AxisKeywordCombiner;
 import seeuthere.goodday.location.domain.location.MiddlePoint;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.domain.location.Points;
+import seeuthere.goodday.location.domain.location.WeightStations;
 import seeuthere.goodday.location.domain.requester.CoordinateRequester;
 import seeuthere.goodday.location.domain.requester.LocationRequester;
 import seeuthere.goodday.location.domain.requester.SearchRequester;
@@ -37,17 +38,20 @@ public class LocationService {
     private final UtilityRequester utilityRequester;
     private final PathService pathService;
     private final PathResultRedisRepository pathResultRedisRepository;
+    private final WeightStations weightStations;
 
-    public LocationService(CoordinateRequester coordinateRequester,
-        LocationRequester locationRequester, SearchRequester searchRequester,
-        UtilityRequester utilityRequester, PathService pathService,
-        PathResultRedisRepository pathResultRedisRepository) {
+    public LocationService(
+        CoordinateRequester coordinateRequester, LocationRequester locationRequester,
+        SearchRequester searchRequester, UtilityRequester utilityRequester,
+        PathService pathService, PathResultRedisRepository pathResultRedisRepository,
+        WeightStations weightStations) {
         this.coordinateRequester = coordinateRequester;
         this.locationRequester = locationRequester;
         this.searchRequester = searchRequester;
         this.utilityRequester = utilityRequester;
         this.pathService = pathService;
         this.pathResultRedisRepository = pathResultRedisRepository;
+        this.weightStations = weightStations;
     }
 
     public List<SpecificLocationResponse> findAddress(double x, double y) {
@@ -140,29 +144,31 @@ public class LocationService {
 
             PathResult pathResult = pathResultRedisRepository
                 .findById(source.toString() + target)
-                .orElseGet(() -> saveRedisCachePathResult(source, target));
+                .orElseGet(() -> saveRedisCachePathResult(source, target, response.getPlaceName()));
             responses.put(target, pathResult);
             responsesFromPoint.put(source, responses);
         }
     }
 
-    private PathResult saveRedisCachePathResult(Point source, Point target) {
-        PathResult result = minPathResult(source, target);
+    private PathResult saveRedisCachePathResult(Point source, Point target, String placeName) {
+        PathResult result = minPathResult(source, target, placeName);
         pathResultRedisRepository.save(result);
         return result;
     }
 
-    private PathResult minPathResult(Point source, Point target) {
+    private PathResult minPathResult(Point source, Point target, String placeName) {
         PointWithName startPointWithName = new PointWithName(source, "출발점");
         PointWithName endPointWithName = new PointWithName(target, "도착점");
 
         PathResult subwayResult = PathResult
             .pathsResponseToPathResult(source, target,
-                pathService.findSubwayPath(startPointWithName, endPointWithName));
+                pathService.findSubwayPath(startPointWithName, endPointWithName),
+                weightStations.contains(placeName));
 
         PathResult busSubwayResult = PathResult
             .pathsResponseToPathResult(source, target,
-                pathService.findTransferPath(startPointWithName, endPointWithName));
+                pathService.findTransferPath(startPointWithName, endPointWithName),
+                weightStations.contains(placeName));
 
         return PathResult.minTimePathResult(subwayResult, busSubwayResult);
     }

@@ -12,9 +12,13 @@ import seeuthere.goodday.path.dto.response.PathsResponse;
 @RedisHash("PathResult")
 public class PathResult implements Serializable {
 
+    private static final double DEFAULT_WEIGHT = 1;
+    private static final double WEIGHT = 0.7;
+
     @Id
     public String id;
     public int time;
+    public double weight;
 
     @TimeToLive(unit = TimeUnit.DAYS)
     private long timeToLive;
@@ -23,18 +27,22 @@ public class PathResult implements Serializable {
         timeToLive = 7L;
     }
 
-    public PathResult(String id, int time) {
+    public PathResult(String id, int time, double weight) {
         this.id = id;
         this.time = time;
+        this.weight = weight;
         timeToLive = 7L;
     }
 
     public static PathResult pathsResponseToPathResult(Point source, Point target,
-        PathsResponse pathsResponse) {
+        PathsResponse pathsResponse, boolean isWeighted) {
         PathResponse pathResponse = pathsResponse.getPaths().get(0);
+        double weight = DEFAULT_WEIGHT;
+        if (isWeighted) {
+            weight = WEIGHT;
+        }
         return new PathResult(source.toString() + target.toString(),
-            pathResponse.getTime()
-        );
+            pathResponse.getTime(), weight);
     }
 
     public static PathResult minTimePathResult(PathResult pathResult1, PathResult pathResult2) {
@@ -49,6 +57,6 @@ public class PathResult implements Serializable {
     }
 
     public int getTime() {
-        return time;
+        return (int) (time * weight);
     }
 }

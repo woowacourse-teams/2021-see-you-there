@@ -134,12 +134,10 @@ public class MemberService {
         member.deleteFriend(friend);
     }
 
-    public List<MemberResponse> searchFriend(String id, String searchWord) {
-        List<Member> findMembers = memberRepository.findMembersContainingWord(searchWord);
-        findMembers.removeIf(member -> member.getId().equals(id));
-        return findMembers.stream()
-            .map(MemberResponse::new)
-            .collect(Collectors.toList());
+    public MemberResponse searchFriend(String id, String searchWord) {
+        Member member = memberRepository.findByMemberId(searchWord);
+
+        return new MemberResponse(member);
     }
 
     public String createRandomMemberId() {

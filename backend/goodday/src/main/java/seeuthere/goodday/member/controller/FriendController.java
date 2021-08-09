@@ -41,9 +41,9 @@ public class FriendController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<MemberResponse>> searchFriend(@EnableAuth String id,
+    public ResponseEntity<MemberResponse> searchFriend(@EnableAuth String id,
         @RequestParam String searchWord) {
-        List<MemberResponse> response = memberService.searchFriend(id, searchWord);
+        MemberResponse response = memberService.searchFriend(id, searchWord);
         return ResponseEntity.ok().body(response);
     }
 
@@ -55,7 +55,7 @@ public class FriendController {
 
     @GetMapping("/requestList")
     public ResponseEntity<List<RequestFriendResponse>> getReceiveFriends(@EnableAuth String id) {
-        List<RequestFriendResponse> response =memberService.findReceiveFriends(id);
+        List<RequestFriendResponse> response = memberService.findReceiveFriends(id);
         return ResponseEntity.ok().body(response);
     }
 

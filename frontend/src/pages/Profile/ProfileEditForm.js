@@ -6,6 +6,7 @@ import { EditForm, ButtonGroup } from './style';
 import { ProfileFormContext } from '../../contexts';
 import { useProfileNicknameInput, useProfileMemberIdInput, useMutateProfile } from '../../hooks';
 import { isViewWiderThan } from '../../utils';
+import { LAYOUT } from '../../constants';
 
 export const ProfileEditForm = (props) => {
   const { closeForm } = props;

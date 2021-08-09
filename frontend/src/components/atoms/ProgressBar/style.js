@@ -14,7 +14,7 @@ export const Bar = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    width: 97%;
+    width: 99%;
     height: 100%;
     background-color: ${(props) => props.color};
     transform-origin: 100% 0%;
@@ -61,7 +61,7 @@ export const Bar = styled.div`
       width: 92%;
     }
     100% {
-      width: 97%;
+      width: 99%;
     }
   }
 
@@ -103,7 +103,7 @@ export const Bar = styled.div`
       width: 92%;
     }
     100% {
-      width: 97%;
+      width: 99%;
     }
   }
 `;

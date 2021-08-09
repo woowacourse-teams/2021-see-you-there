@@ -129,6 +129,13 @@ export const MESSAGE = {
   },
 };
 
+export const TIPS = [
+  '내 아이디를 변경해두면 친구가 나를 쉽게 찾을 수 있어요.',
+  '현재 중간지점은 지하철을 기준으로 산출되고 있어요.',
+  '친구를 추가하면 간편추가 기능을 이용할 수 있어요.',
+  '주소를 추가하면 간편추가 기능을 이용할 수 있어요.',
+];
+
 export const POBI_POINT = { x: 127.10296, y: 37.515403, name: '어디서 만나?', tag: '포비 💙' };
 
 export const STORAGE_KEY = {

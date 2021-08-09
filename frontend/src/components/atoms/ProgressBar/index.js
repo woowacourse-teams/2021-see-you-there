@@ -23,5 +23,5 @@ ProgressBar.propTypes = {
 ProgressBar.defaultProps = {
   color: COLOR.PRIMARY,
   width: '17.25rem',
-  duration: '3s',
+  duration: '4s',
 };

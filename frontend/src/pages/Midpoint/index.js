@@ -18,7 +18,8 @@ import {
 } from './style';
 import { ParticipantContext, MapViewContext } from '../../contexts';
 import { useMapViewApi, useMidpoint } from '../../hooks';
-import { COLOR, QUERY_KEY } from '../../constants';
+import { getKey } from '../../utils';
+import { COLOR, TIPS, QUERY_KEY } from '../../constants';
 
 const SUBWAY = 'subway';
 const BUS = 'bus';
@@ -42,6 +43,8 @@ export const Midpoint = () => {
   const [participant, setParticipant] = useState(participants?.[0]);
   const [transport, setTransport] = useState(SUBWAY);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const tipMessage = TIPS[getKey(TIPS)];
 
   useEffect(() => {
     if (isMidpointLoading || isStationsLoading) {
@@ -69,7 +72,7 @@ export const Midpoint = () => {
     <>
       <main>
         {isMidpointLoading || isStationsLoading ? (
-          <MidpointLoader />
+          <MidpointLoader message={tipMessage} />
         ) : (
           <>
             <MapViewArea participantId={participant?.id}>

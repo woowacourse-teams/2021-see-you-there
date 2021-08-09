@@ -7,7 +7,7 @@ import { Icon, Modal } from '../../components';
 import { Top, ModalListSection, NoItem, List, ProfileImage, FriendInfo, AddressName } from './style';
 import { UserContext, ParticipantContext } from '../../contexts';
 import { getId } from '../../utils';
-import { COLOR } from '../../constants';
+import { COLOR, MESSAGE } from '../../constants';
 import { Image } from '../../assets';
 
 export const QuickAddModal = (props) => {

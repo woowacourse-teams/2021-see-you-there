@@ -7,7 +7,7 @@ import { MapViewArea, MapView, ContentArea, AddSection, ListSection, BottomSecti
 import { ButtonRound, Icon, Confirm, ParticipantList } from '../../components';
 import { ParticipantContext, AddFormContextProvider } from '../../contexts';
 import { useConfirm, useMapViewApi } from '../../hooks';
-import { MESSAGE, ROUTE, POBI_POINT, ID, LAYOUT } from '../../constants';
+import { MESSAGE, ROUTE, POBI_POINT, ID } from '../../constants';
 
 const formId = 'PARTICIPANT';
 

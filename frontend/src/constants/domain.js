@@ -88,9 +88,9 @@ export const MESSAGE = {
 
     CONFIRM_DELETE: '해당 주소를 삭제하시겠습니까?',
 
-    SNACKBAR_CREATE: '주소가 추가되었습니다.', // 넣음
-    SNACKBAR_UPDATE: '주소 정보가 수정되었습니다.', // 넣음
-    SNACKBAR_DELETE: '주소가 삭제되었습니다.', // 넣음
+    SNACKBAR_CREATE: '주소가 추가되었습니다.',
+    SNACKBAR_UPDATE: '주소 정보가 수정되었습니다.',
+    SNACKBAR_DELETE: '주소가 삭제되었습니다.',
   },
 
   USER_FRIEND: {
@@ -101,11 +101,11 @@ export const MESSAGE = {
     CONFIRM_DELETE: '해당 친구를 삭제하시겠습니까?',
     CONFIRM_DELETE_DETAIL: '친구를 삭제할 경우, 상대방의 친구 목록에서도 내가 삭제됩니다.',
 
-    SNACKBAR_REQUEST: '친구 요청이 전송되었습니다.', //넣음
-    SNACKBAR_CANCEL: '친구 요청이 취소되었습니다.', // 넣음
-    SNACKBAR_ACCEPT: '친구 요청이 수락되었습니다.', // 넣음
-    SNACKBAR_REFUSE: '친구 요청이 거절되었습니다.', // 넣음
-    SNACKBAR_DELETE: '친구가 삭제되었습니다.', // 넣음
+    SNACKBAR_REQUEST: '친구 요청이 전송되었습니다.',
+    SNACKBAR_CANCEL: '친구 요청이 취소되었습니다.',
+    SNACKBAR_ACCEPT: '친구 요청이 수락되었습니다.',
+    SNACKBAR_REFUSE: '친구 요청이 거절되었습니다.',
+    SNACKBAR_DELETE: '친구가 삭제되었습니다.',
   },
 
   USER_PROFILE: {
@@ -120,7 +120,12 @@ export const MESSAGE = {
     NOTICE_INCOMPLETE_FORM: '프로필 정보를 입력해주세요.',
     NOTICE_NOT_UPDATED_FORM: '변경된 정보가 없습니다.',
 
-    SNACKBAR_UPDATE: '프로필 정보가 수정되었습니다.', // 넣음
+    SNACKBAR_UPDATE: '프로필 정보가 수정되었습니다.',
+  },
+
+  AUTH: {
+    LOGIN: (nickname) => `${nickname}님 환영합니다. > <`,
+    LOGOUT: (nickname) => `${nickname}님 다음에 또 만나요. > <`,
   },
 
   ERROR: {

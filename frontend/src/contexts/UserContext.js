@@ -28,20 +28,24 @@ export const UserContextProvider = ({ children }) => {
   const { id, memberId, nickname, profileImage } = user;
 
   const login = (userInfo) => {
-    const { token } = userInfo;
+    const { nickname, token } = userInfo;
 
     storage.local.set(STORAGE_KEY.TOKEN, token);
     setToken(token);
+    enqueueSnackbar(MESSAGE.AUTH.LOGIN(nickname));
   };
 
   const logout = () => {
     storage.local.remove(STORAGE_KEY.TOKEN);
+    storage.session.remove(STORAGE_KEY.PARTICIPANT);
     setUser(INITIAL_STATE);
     setToken(null);
+    enqueueSnackbar(MESSAGE.AUTH.LOGOUT(nickname));
   };
 
   const forceLogout = () => {
     storage.local.remove(STORAGE_KEY.TOKEN);
+    storage.session.remove(STORAGE_KEY.PARTICIPANT);
     setUser(INITIAL_STATE);
     setToken(null);
 

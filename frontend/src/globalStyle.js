@@ -213,6 +213,10 @@ const GlobalStyle = createGlobalStyle`
   #version {
     display: none;
   }
+
+  #notistack-snackbar {
+    color: ${COLOR.ON_PRIMARY};
+  }
 `;
 
 export default GlobalStyle;

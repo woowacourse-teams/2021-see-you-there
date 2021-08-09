@@ -73,6 +73,11 @@ export const MESSAGE = {
     NOTICE_INCOMPLETE_FORM: '참석자 정보를 입력해주세요.',
 
     CONFIRM_DELETE: '참석자를 삭제하시겠습니까?',
+
+    SNACKBAR_CREATE: '참석자가 추가되었습니다.',
+    SNACKBAR_DELETE: '참석자가 삭제되었습니다.',
+    SNACKBAR_MAX_PARTICIPANT: `참석자를 ${PARTICIPANT.MAX_LENGTH}명 이상 추가할 수 없습니다.`,
+    SNACKBAR_MIN_PARTICIPANT: `참석자를 ${PARTICIPANT.MIN_LENGTH}명 이상 추가해주세요.`,
   },
 
   USER_ADDRESS: {
@@ -82,6 +87,10 @@ export const MESSAGE = {
     NOTICE_INCOMPLETE_FORM: '주소 정보를 입력해주세요.',
 
     CONFIRM_DELETE: '해당 주소를 삭제하시겠습니까?',
+
+    SNACKBAR_CREATE: '주소가 추가되었습니다.', // 넣음
+    SNACKBAR_UPDATE: '주소 정보가 수정되었습니다.', // 넣음
+    SNACKBAR_DELETE: '주소가 삭제되었습니다.', // 넣음
   },
 
   USER_FRIEND: {
@@ -91,6 +100,12 @@ export const MESSAGE = {
     CONFIRM_REFUSE: '친구 요청을 거절하시겠습니까?',
     CONFIRM_DELETE: '해당 친구를 삭제하시겠습니까?',
     CONFIRM_DELETE_DETAIL: '친구를 삭제할 경우, 상대방의 친구 목록에서도 내가 삭제됩니다.',
+
+    SNACKBAR_REQUEST: '친구 요청이 전송되었습니다.', //넣음
+    SNACKBAR_CANCEL: '친구 요청이 취소되었습니다.', // 넣음
+    SNACKBAR_ACCEPT: '친구 요청이 수락되었습니다.', // 넣음
+    SNACKBAR_REFUSE: '친구 요청이 거절되었습니다.', // 넣음
+    SNACKBAR_DELETE: '친구가 삭제되었습니다.', // 넣음
   },
 
   USER_PROFILE: {
@@ -104,6 +119,13 @@ export const MESSAGE = {
 
     NOTICE_INCOMPLETE_FORM: '프로필 정보를 입력해주세요.',
     NOTICE_NOT_UPDATED_FORM: '변경된 정보가 없습니다.',
+
+    SNACKBAR_UPDATE: '프로필 정보가 수정되었습니다.', // 넣음
+  },
+
+  ERROR: {
+    NETWORK: '네트워크 에러가 발생하였습니다.',
+    INVALID_TOKEN: '로그인 정보가 만료되었습니다. 다시 로그인해주세요.',
   },
 };
 

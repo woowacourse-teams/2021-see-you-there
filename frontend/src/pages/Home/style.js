@@ -21,6 +21,7 @@ export const MapView = styled.div`
 export const ContentArea = styled.section`
   ${CONTENT_AREA.MAP}
 
+  overflow-x: hidden;
   overflow-y: scroll;
 `;
 
@@ -79,8 +80,6 @@ export const ListSection = styled.section`
 /* 하단 버튼 Section */
 
 export const BottomSection = styled.section`
-  position: fixed;
-  bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -92,7 +91,14 @@ export const BottomSection = styled.section`
   background-color: ${COLOR.PRIMARY_BACKGROUND};
 
   & > button {
+    position: relative;
+    overflow-x: hidden;
     ${EFFECT.SHINE}
+  }
+
+  @media (min-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    position: fixed;
+    bottom: 0;
   }
 `;
 

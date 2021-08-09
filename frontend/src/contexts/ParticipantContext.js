@@ -1,8 +1,9 @@
 import React, { useState, createContext } from 'react';
+import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 
 import { storage } from '../utils';
-import { PARTICIPANT, STORAGE_KEY } from '../constants';
+import { PARTICIPANT, STORAGE_KEY, MESSAGE } from '../constants';
 
 const INITIAL_STATE = storage.session.get(STORAGE_KEY.PARTICIPANT) ?? [];
 
@@ -11,6 +12,7 @@ export const ParticipantContext = createContext();
 export const ParticipantContextProvider = ({ children }) => {
   const [participants, setParticipants] = useState(INITIAL_STATE);
   const [lastParticipant, setLastParticipant] = useState(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   const addParticipant = (participant) => {
     const newParticipants = [...participants, participant];
@@ -18,6 +20,7 @@ export const ParticipantContextProvider = ({ children }) => {
     storage.session.set(STORAGE_KEY.PARTICIPANT, newParticipants);
     setParticipants(newParticipants);
     setLastParticipant(participant);
+    enqueueSnackbar(MESSAGE.PARTICIPANT.SNACKBAR_CREATE);
   };
 
   const removeParticipant = (id) => {
@@ -26,6 +29,7 @@ export const ParticipantContextProvider = ({ children }) => {
     storage.session.set(STORAGE_KEY.PARTICIPANT, newParticipants);
     setParticipants(newParticipants);
     setLastParticipant(null);
+    enqueueSnackbar(MESSAGE.PARTICIPANT.SNACKBAR_DELETE);
   };
 
   const resetLastParticipant = () => setLastParticipant(null);

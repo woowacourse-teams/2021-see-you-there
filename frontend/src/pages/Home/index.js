@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 import { ParticipantAddForm } from './ParticipantAddForm';
 import { MapViewArea, MapView, ContentArea, AddSection, ListSection, BottomSection } from './style';
 import { ButtonRound, Icon, Confirm, ParticipantList } from '../../components';
 import { ParticipantContext, AddFormContextProvider } from '../../contexts';
 import { useConfirm, useMapViewApi } from '../../hooks';
-import { MESSAGE, ROUTE, POBI_POINT, ID } from '../../constants';
+import { MESSAGE, ROUTE, POBI_POINT, ID, LAYOUT } from '../../constants';
 
 const formId = 'PARTICIPANT';
 
@@ -19,6 +20,7 @@ export const Home = () => {
   const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useConfirm({ approve: removeParticipant });
   const [participantMarkers, setParticipantMarkers] = useState([]);
   const history = useHistory();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const showParticipantsMarkers = () => {
     const markers = participants.map(({ x, y, name: title, id }) => getMarker({ x, y, title, key: 'PARTICIPANT', id }));
@@ -30,7 +32,7 @@ export const Home = () => {
 
   const handleClickGetMiddlePoint = () => {
     if (isLackParticipants) {
-      // TODO: 스낵바 구현
+      enqueueSnackbar(MESSAGE.PARTICIPANT.SNACKBAR_MIN_PARTICIPANT, { variant: 'error' });
       return;
     }
 
@@ -40,6 +42,7 @@ export const Home = () => {
 
   useEffect(() => {
     showMapView(POBI_POINT);
+    return closeSnackbar;
   }, []);
 
   useEffect(() => {
@@ -77,7 +80,6 @@ export const Home = () => {
             <ButtonRound
               Icon={<Icon.Search color="#fff" />}
               onClick={handleClickGetMiddlePoint}
-              disabled={isLackParticipants}
               data-testid={ID.MIDPOINT_FINDER}
             >
               중간지점 찾기

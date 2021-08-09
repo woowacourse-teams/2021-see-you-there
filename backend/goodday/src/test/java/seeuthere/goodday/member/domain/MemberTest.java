@@ -134,12 +134,9 @@ class MemberTest {
     @Test
     void searchFriend() {
         String aForAll = "a";
-        List<MemberResponse> searchedMembers = memberService.searchFriend(와이비.getId(), aForAll);
+        MemberResponse searchedMembers = memberService.searchFriend(와이비.getId(), aForAll);
 
-        assertThat(searchedMembers.stream()
-            .map(MemberResponse::getMemberId)
-            .collect(Collectors.toList()))
-            .containsExactly("a", "ab", "abc");
+        assertThat(searchedMembers.getMemberId()).isEqualTo(aForAll);
     }
 
     @DisplayName("나한테 들어온 요청 목록을 불러온다.")

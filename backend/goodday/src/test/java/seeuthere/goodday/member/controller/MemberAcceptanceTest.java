@@ -171,18 +171,16 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("추가할 친구를 검색한다")
     @Test
     public void searchFriend() {
+        String searchWord = "a";
 
         String identifier = "member/friend-search";
-        List<MemberResponse> response = makeResponse(identifier)
-            .param("searchWord", "a")
+        MemberResponse response = makeResponse(identifier)
+            .param("searchWord", searchWord)
             .when().get(FRIEND_API_PATH + "/search")
             .then().statusCode(is(HttpStatus.OK.value()))
-            .extract().body().jsonPath().getList(".", MemberResponse.class);
+            .extract().as(MemberResponse.class);
 
-        assertThat(response.stream()
-            .map(MemberResponse::getMemberId)
-            .collect(Collectors.toList()))
-            .containsExactly("a", "ab", "abc");
+        assertThat(response.getMemberId()).isEqualTo(searchWord);
     }
 
     @DisplayName("나에게 들어온 요청 목록을 불러온다.")

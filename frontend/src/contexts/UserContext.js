@@ -45,7 +45,7 @@ export const UserContextProvider = ({ children }) => {
     setUser(INITIAL_STATE);
     setToken(null);
 
-    enqueueSnackbar(MESSAGE.ERROR.INVALID_TOKEN);
+    enqueueSnackbar(MESSAGE.ERROR.INVALID_TOKEN, { variant: 'error' });
     if (PATHS.PRIVATE.includes(pathname)) {
       history.push(ROUTE.LOGIN.PATH);
     }

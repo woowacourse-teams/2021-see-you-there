@@ -25,7 +25,7 @@ export const useMutateFriend = () => {
       queryClient.invalidateQueries(QUERY_KEY.FRIEND_REQUEST);
       enqueueSnackbar(MESSAGE.USER_FRIEND.SNACKBAR_REQUEST);
     },
-    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK),
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const requestFriend = (memberId) => request.mutate({ memberId });
@@ -45,7 +45,7 @@ export const useMutateFriend = () => {
       queryClient.invalidateQueries(QUERY_KEY.FRIEND_REQUEST);
       enqueueSnackbar(MESSAGE.USER_FRIEND.SNACKBAR_CANCEL);
     },
-    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK),
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const cancelFriend = (id) => cancel.mutate({ id });
@@ -66,7 +66,7 @@ export const useMutateFriend = () => {
       queryClient.invalidateQueries(QUERY_KEY.FRIEND);
       enqueueSnackbar(MESSAGE.USER_FRIEND.SNACKBAR_ACCEPT);
     },
-    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK),
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const acceptFriend = (id) => accept.mutate({ id });
@@ -86,7 +86,7 @@ export const useMutateFriend = () => {
       queryClient.invalidateQueries(QUERY_KEY.FRIEND_RECEIVE);
       enqueueSnackbar(MESSAGE.USER_FRIEND.SNACKBAR_REFUSE);
     },
-    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK),
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const refuseFriend = (id) => refuse.mutate({ id });
@@ -105,7 +105,7 @@ export const useMutateFriend = () => {
       queryClient.invalidateQueries(QUERY_KEY.FRIEND);
       enqueueSnackbar(MESSAGE.USER_FRIEND.SNACKBAR_DELETE);
     },
-    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK),
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const deleteFriend = (memberId) => deletion.mutate({ memberId });

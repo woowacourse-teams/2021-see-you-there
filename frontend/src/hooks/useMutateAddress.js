@@ -25,7 +25,7 @@ export const useMutateAddress = () => {
       enqueueSnackbar(MESSAGE.USER_ADDRESS.SNACKBAR_CREATE);
       queryClient.invalidateQueries(QUERY_KEY.ADDRESS);
     },
-    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK),
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const createAddress = ({ nickname, address }) => {
@@ -46,7 +46,7 @@ export const useMutateAddress = () => {
       enqueueSnackbar(MESSAGE.USER_ADDRESS.SNACKBAR_UPDATE);
       queryClient.invalidateQueries(QUERY_KEY.ADDRESS);
     },
-    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK),
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const updateAddress = ({ id, nickname, address }) => {
@@ -67,7 +67,7 @@ export const useMutateAddress = () => {
       enqueueSnackbar(MESSAGE.USER_ADDRESS.SNACKBAR_DELETE);
       queryClient.invalidateQueries(QUERY_KEY.ADDRESS);
     },
-    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK),
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const deleteAddress = (id) => {

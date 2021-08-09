@@ -26,7 +26,7 @@ export const useMutateProfile = () => {
       setUser((prevState) => ({ ...prevState, ...data }));
       enqueueSnackbar(MESSAGE.USER_PROFILE.SNACKBAR_UPDATE);
     },
-    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK),
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const updateProfile = ({ nickname, memberId }) => {

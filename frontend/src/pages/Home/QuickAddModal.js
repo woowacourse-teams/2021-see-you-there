@@ -41,7 +41,7 @@ export const QuickAddModal = (props) => {
 
   const handleClickAddButton = ({ nickname, profileImage, address }) => {
     if (isFullParticipants) {
-      enqueueSnackbar(MESSAGE.SNACKBAR_MAX_PARTICIPANT);
+      enqueueSnackbar(MESSAGE.SNACKBAR_MAX_PARTICIPANT, { variant: 'error' });
       return;
     }
 

@@ -41,7 +41,7 @@ export const ParticipantAddForm = () => {
       return;
     }
     if (isFullParticipants) {
-      enqueueSnackbar(MESSAGE.SNACKBAR_MAX_PARTICIPANT);
+      enqueueSnackbar(MESSAGE.SNACKBAR_MAX_PARTICIPANT, { variant: 'error' });
       return;
     }
 

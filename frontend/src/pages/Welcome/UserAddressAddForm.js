@@ -2,19 +2,20 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { AddressSearchModal, ButtonRound, Icon, Input, Notice } from '../../components';
-import { ROUTE } from '../../constants';
+import { AddForm, Anchor } from './style';
 import { AddFormContext } from '../../contexts';
 import { useAddressNicknameInput, useAddressInput, useMutateAddress } from '../../hooks';
-import { AddForm, Anchor } from './style';
+import { isViewWiderThan } from '../../utils';
+import { ROUTE, LAYOUT } from '../../constants';
 
 export const UserAddressAddForm = () => {
-  const { INPUT, MESSAGE, formRef, isComplete, noticeMessage, setNoticeMessage } = useContext(AddFormContext);
-
   const history = useHistory();
+  const { INPUT, MESSAGE, formRef, isComplete, noticeMessage, setNoticeMessage } = useContext(AddFormContext);
   const { name: nickname, handleChangeName, handleBlurName } = useAddressNicknameInput();
   const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
-
   const { createAddress } = useMutateAddress();
+
+  const isWebView = isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +39,7 @@ export const UserAddressAddForm = () => {
         onBlur={handleBlurName}
         placeholder={INPUT.NAME.PLACEHOLDER}
         Icon={<Icon.Person />}
-        autoFocus
+        autoFocus={isWebView}
       />
       <Input
         name={INPUT.ADDRESS.KEY}

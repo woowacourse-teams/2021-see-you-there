@@ -8,9 +8,9 @@ import GlobalStyle from './globalStyle';
 document.querySelector('#version').innerText = `version: ${VERSION}`;
 
 ReactDOM.render(
-  <React.StrictMode>
+  <>
     <GlobalStyle />
     <App />
-  </React.StrictMode>,
+  </>,
   document.getElementById('root')
 );

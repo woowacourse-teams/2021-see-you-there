@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { Spinner } from '../../';
 import { UserContext } from '../../../contexts';
 import { ROUTE } from '../../../constants';
 
@@ -10,7 +11,11 @@ export const AuthRoute = (props) => {
   const { isUserInfoLoading, isLogin } = useContext(UserContext);
 
   if (isUserInfoLoading) {
-    return null;
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60%' }}>
+        <Spinner />
+      </div>
+    );
   }
 
   return (

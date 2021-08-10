@@ -4,13 +4,16 @@ import React, { useState } from 'react';
 import { InputWithButton, Icon, Modal, ButtonRound } from '../../components';
 import { Top, SearchResult, Nickname, MemberId, ProfileImage, FriendInfo, NoResult, ResultSection } from './style';
 import { useFriendSearch, useMutateFriend } from '../../hooks';
-import { INPUT } from '../../constants';
+import { isViewWiderThan } from '../../utils';
+import { INPUT, LAYOUT } from '../../constants';
 
 export const FriendSearchModal = (props) => {
   const { isModalOpen, closeModal } = props;
   const [memberIdInput, setMemberIdInput] = useState('');
   const { searchResult, memberIdKeyword, setMemberIdKeyword } = useFriendSearch();
   const { requestFriend } = useMutateFriend();
+
+  const isWebView = isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET);
 
   const escapeModal = () => {
     setMemberIdInput('');
@@ -56,7 +59,7 @@ export const FriendSearchModal = (props) => {
           buttonType="button"
           onClickButton={handleClickButton}
           buttonIcon={<Icon.Search width="20" />}
-          autoFocus
+          autoFocus={isWebView}
         />
 
         <ResultSection>

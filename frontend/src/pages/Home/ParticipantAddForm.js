@@ -1,25 +1,29 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 import { QuickAddModal } from './QuickAddModal';
 import { AddressSearchModal, ButtonRound, Icon, Input, Notice } from '../../components';
 import { UserContext, AddFormContext, ParticipantContext } from '../../contexts';
 import { useModal, useParticipantNameInput, useAddressInput } from '../../hooks';
 import { AddForm, ButtonGroup } from './style';
-import { getId, getAvatarKey } from '../../utils';
-import { ROUTE, ID } from '../../constants';
+import { getId, getAvatarKey, isViewWiderThan } from '../../utils';
+import { ROUTE, ID, LAYOUT } from '../../constants';
 import { Image } from '../../assets';
 
 export const ParticipantAddForm = () => {
+  const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
   const { isLogin } = useContext(UserContext);
   const { addParticipant, isFullParticipants } = useContext(ParticipantContext);
   const { INPUT, MESSAGE, formRef, resetForm, isComplete, noticeMessage, setNoticeMessage } =
     useContext(AddFormContext);
   const { isModalOpen, openModal, closeModal } = useModal();
-  const history = useHistory();
 
   const { name, handleChangeName, handleBlurName, focusName } = useParticipantNameInput();
   const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
+
+  const isWebView = isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET);
 
   const handleClickFriendButton = () => {
     if (!isLogin) {
@@ -37,7 +41,7 @@ export const ParticipantAddForm = () => {
       return;
     }
     if (isFullParticipants) {
-      // TODO: 스낵바 알림
+      enqueueSnackbar(MESSAGE.SNACKBAR_MAX_PARTICIPANT, { variant: 'error' });
       return;
     }
 
@@ -50,8 +54,9 @@ export const ParticipantAddForm = () => {
 
     addParticipant(newParticipant);
     resetForm();
-    // TODO: DEVICE_WIDTH_TABLET 이상일 경우에만 focus
-    focusName();
+    if (isWebView) {
+      focusName();
+    }
   };
 
   return (
@@ -64,7 +69,7 @@ export const ParticipantAddForm = () => {
         onBlur={handleBlurName}
         placeholder={INPUT.NAME.PLACEHOLDER}
         Icon={<Icon.Person />}
-        autoFocus
+        autoFocus={isWebView}
         data-testid={ID.PARTICIPANT_NAME}
       />
       <Input

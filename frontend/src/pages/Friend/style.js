@@ -61,10 +61,11 @@ export const FriendTab = styled.button`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 2rem;
+  padding: 0.1rem 2rem;
   min-width: 6rem;
 
   font-size: inherit;
+  font-weight: 600;
   color: ${(props) => (props.isSelected ? COLOR.PARAGRAPH : COLOR.PARAGRAPH_LIGHT)};
 
   &:not(:first-child) {
@@ -72,11 +73,40 @@ export const FriendTab = styled.button`
   }
 
   & > span {
-    color: inherit;
+    font-weight: 200;
     color: ${(props) => (props.isSelected ? COLOR.PRIMARY_LIGHT : COLOR.PARAGRAPH_LIGHT)};
-    margin-top: 0.4rem;
+    margin-top: 0.3rem;
     font-size: 0.7rem;
     letter-spacing: 0.05rem;
+  }
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    border-left: none;
+
+    &::before {
+      display: ${(props) => (props.isSelected ? 'block' : 'none')};
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      width: 85%;
+      height: 5px;
+      background-color: ${COLOR.PRIMARY};
+      opacity: ${(props) => (props.isSelected ? '0.7' : '0.2')};
+    }
+
+    &:hover::before {
+      display: block;
+
+      @keyframes lining {
+        0% {
+          transform: scaleX(0);
+        }
+        100% {
+          transform: scaleX(100%);
+        }
+      }
+      animation: ${(props) => (props.isSelected ? '' : 'lining 0.1s ease-out')};
+    }
   }
 
   &::after {
@@ -92,8 +122,8 @@ export const FriendTab = styled.button`
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    padding: 0.1rem 0.6rem;
     min-width: 5rem;
-    margin: 0 0.6rem;
 
     & > span {
       font-size: 0.6rem;

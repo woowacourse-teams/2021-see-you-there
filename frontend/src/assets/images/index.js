@@ -15,6 +15,7 @@ import drawingWelcome from './drawingWelcome.png';
 import home1 from './home1.png';
 import home2 from './home2.png';
 import logo from './logo.png';
+import logoSquare from './logoSquare.png';
 import logoKakao from './logoKakao.png';
 import logoNaver from './logoNaver.png';
 import pinCafe from './pinCafe.png';
@@ -41,6 +42,7 @@ export {
   home1,
   home2,
   logo,
+  logoSquare,
   logoKakao,
   logoNaver,
   pinCafe,

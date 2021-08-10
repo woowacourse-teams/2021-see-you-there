@@ -19,9 +19,21 @@ export const Top = styled.div`
 `;
 
 export const AddressSearchList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   height: 20rem;
   overflow-y: auto;
   margin: 1.25rem 0.75rem;
+
+  font-size: 0.85rem;
+
+  & > p {
+    margin-top: 2rem;
+    white-space: normal;
+    word-break: keep-all;
+  }
 
   /* 상세 주소 */
   & span {

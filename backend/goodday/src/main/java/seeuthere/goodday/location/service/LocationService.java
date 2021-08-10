@@ -116,8 +116,8 @@ public class LocationService {
         List<UtilityResponse> utilityResponses = findUtility(LocationCategory.SW8.getDescription(),
             middlePoint.getX(), middlePoint.getY());
 
-        // 중복역 제거
-        DuplicateStationRemover duplicateStationRemover = new DuplicateStationRemover(utilityResponses);
+        DuplicateStationRemover duplicateStationRemover = new DuplicateStationRemover(
+            utilityResponses);
         List<UtilityResponse> result = duplicateStationRemover.result();
 
         Map<Point, Map<Point, PathResult>> responsesFromPoint

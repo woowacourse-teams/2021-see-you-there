@@ -20,12 +20,12 @@ public class DuplicateStationRemover {
         List<UtilityResponse> utilityResponses = new ArrayList<>();
         Set<String> stations = new HashSet<>();
         for (UtilityResponse response : utilityResponseList) {
-            extracted(utilityResponses, stations, response);
+            insertValidStation(utilityResponses, stations, response);
         }
         return utilityResponses;
     }
 
-    private void extracted(List<UtilityResponse> utilityResponses, Set<String> stations,
+    private void insertValidStation(List<UtilityResponse> utilityResponses, Set<String> stations,
         UtilityResponse response) {
         String name = translatedStationName(response.getPlaceName());
 

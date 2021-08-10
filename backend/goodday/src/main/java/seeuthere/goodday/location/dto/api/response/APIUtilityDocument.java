@@ -46,10 +46,6 @@ public class APIUtilityDocument {
     }
 
     public Station toStation() {
-        String[] stationFullName = placeName.split("");
-        String name = stationFullName[0];
-        String line = stationFullName[1];
-        Point point = new Point(x, y);
-        return new Station(line, name, point);
+        return new Station(new Point(x, y));
     }
 }

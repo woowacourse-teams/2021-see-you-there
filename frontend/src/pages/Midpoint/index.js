@@ -27,16 +27,8 @@ const TRANSFER = 'transfer';
 
 export const Midpoint = () => {
   const { participants } = useContext(ParticipantContext);
-  const {
-    mapObj,
-    mapViewRef,
-    midpoint,
-    station,
-    isMidpointLoading,
-    isMidpointError,
-    isStationsLoading,
-    isStationError,
-  } = useContext(MapViewContext);
+  const { mapObj, mapViewRef, midpoint, station, isLoading, isMidpointError, isStationError } =
+    useContext(MapViewContext);
   const { showMapView } = useMapViewApi({ mapObj, mapViewRef });
   const { showDefaultBounds, showDefaultMarkers, showCategoryMarkers, hideCategoryMarkers, isSelected } = useMidpoint();
 
@@ -47,7 +39,7 @@ export const Midpoint = () => {
   const tipMessage = TIPS[getKey(TIPS)];
 
   useEffect(() => {
-    if (isMidpointLoading || isStationsLoading) {
+    if (isLoading) {
       return;
     }
     if (!station) {
@@ -71,8 +63,8 @@ export const Midpoint = () => {
   return (
     <>
       <main>
-        {isMidpointLoading || isStationsLoading ? (
-          <MidpointLoader message={tipMessage} />
+        {isLoading ? (
+          <MidpointLoader width="85%" message={tipMessage} />
         ) : (
           <>
             <MapViewArea participantId={participant?.id}>

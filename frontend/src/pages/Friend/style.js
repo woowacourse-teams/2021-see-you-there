@@ -81,7 +81,7 @@ export const FriendTab = styled.button`
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    border-left: none;
+    border-color: transparent;
 
     &::before {
       display: ${(props) => (props.isSelected ? 'block' : 'none')};

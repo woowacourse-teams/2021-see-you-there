@@ -1,13 +1,17 @@
 import React, { useState, useContext } from 'react';
 
+import { ListContent } from './ListContent';
 import { InputWithButton, Icon, Modal } from '../../../components';
-import { AddressSearchList, Top } from './style';
+import { Top, AddressSearchList } from './style';
 import { AddFormContext } from '../../../contexts';
-import { COLOR, INPUT, ID } from '../../../constants';
+import { isViewWiderThan } from '../../../utils';
+import { INPUT, ID, LAYOUT } from '../../../constants';
 
 export const AddressSearchModal = () => {
   const [keywordInput, setKeywordInput] = useState('');
-  const { isModalOpen, escapeModal, addressList, setAddress, setAddressKeyword } = useContext(AddFormContext);
+  const { isModalOpen, escapeModal, setAddressKeyword } = useContext(AddFormContext);
+
+  const isWebView = isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET);
 
   const handleChangeKeywordInput = (e) => {
     setKeywordInput(e.target.value);
@@ -22,12 +26,6 @@ export const AddressSearchModal = () => {
 
   const handleClickButton = () => {
     setAddressKeyword(keywordInput);
-  };
-
-  const handleSelectAddressListItem = (address) => {
-    setAddress(address);
-    setKeywordInput('');
-    escapeModal();
   };
 
   return (
@@ -49,22 +47,12 @@ export const AddressSearchModal = () => {
           buttonType="button"
           onClickButton={handleClickButton}
           buttonIcon={<Icon.Search width="20" />}
-          autoFocus
+          autoFocus={isWebView}
           data-testid={ID.ADDRESS_SEARCH}
         />
-        <AddressSearchList data-testid={ID.ADDRESS_SEARCH}>
-          {addressList?.map((item, index) => {
-            const { x, y, name: addressName, address: fullAddress } = item;
 
-            return (
-              <li key={index}>
-                <button onClick={() => handleSelectAddressListItem({ x, y, addressName, fullAddress })}>
-                  {addressName} <span>{addressName !== fullAddress && fullAddress}</span>
-                  <Icon.Check color={COLOR.PRIMARY} width="20" />
-                </button>
-              </li>
-            );
-          })}
+        <AddressSearchList data-testid={ID.ADDRESS_SEARCH}>
+          <ListContent setKeywordInput={setKeywordInput} />
         </AddressSearchList>
       </Modal>
     )

@@ -9,6 +9,15 @@ export const getAvatarKey = () => {
   return `avatar${avatarIndex++}`;
 };
 
+let tipIndex = 0;
+
+export const getKey = (array) => {
+  if (tipIndex === array.length) {
+    tipIndex = 0;
+  }
+  return tipIndex++;
+};
+
 const adjectives = [
   '귀여운',
   '신나는',

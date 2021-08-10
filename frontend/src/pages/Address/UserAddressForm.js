@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 
 import { AddressSearchModal, Icon, InputUnderline, Notice } from '../../components';
+import { AddForm, ButtonGroup } from './style';
 import { AddFormContext } from '../../contexts';
 import { useAddressNicknameInput, useAddressInput, useMutateAddress } from '../../hooks';
-import { AddForm, ButtonGroup } from './style';
+import { isViewWiderThan } from '../../utils';
+import { LAYOUT } from '../../constants';
 
 export const UserAddressForm = (props) => {
   const { editAddressId, closeForm } = props;
@@ -14,6 +16,7 @@ export const UserAddressForm = (props) => {
   const { name: nickname, handleChangeName, handleBlurName } = useAddressNicknameInput();
   const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
 
+  const isWebView = isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET);
   const isEditing = !!editAddressId;
 
   const handleSubmit = (e) => {
@@ -42,7 +45,7 @@ export const UserAddressForm = (props) => {
         onBlur={handleBlurName}
         placeholder={INPUT.NAME.PLACEHOLDER}
         Icon={<Icon.Star width="18" />}
-        autoFocus
+        autoFocus={isWebView}
       />
       <InputUnderline
         name={INPUT.ADDRESS.KEY}

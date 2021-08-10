@@ -16,11 +16,9 @@ export const useFriendSearch = () => {
     return await response.json();
   };
 
-  const { data: results } = useQuery([QUERY_KEY.FRIEND_SEARCH, memberIdKeyword], fetchFriendSearch, {
+  const { data: searchResult } = useQuery([QUERY_KEY.FRIEND_SEARCH, memberIdKeyword], fetchFriendSearch, {
     enabled: !!memberIdKeyword,
   });
-
-  const searchResult = results?.[0];
 
   return {
     searchResult,

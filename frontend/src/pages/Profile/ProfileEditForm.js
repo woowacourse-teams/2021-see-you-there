@@ -2,17 +2,20 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { Icon, InputUnderline, Notice } from '../../components';
+import { EditForm, ButtonGroup } from './style';
 import { ProfileFormContext } from '../../contexts';
 import { useProfileNicknameInput, useProfileMemberIdInput, useMutateProfile } from '../../hooks';
-import { EditForm, ButtonGroup } from './style';
+import { isViewWiderThan } from '../../utils';
+import { LAYOUT } from '../../constants';
 
 export const ProfileEditForm = (props) => {
   const { closeForm } = props;
   const { INPUT, MESSAGE, isComplete, isUpdated, noticeMessage, setNoticeMessage } = useContext(ProfileFormContext);
-
   const { nickname, handleChangeNickname } = useProfileNicknameInput();
   const { memberId, handleChangeMemberId } = useProfileMemberIdInput();
   const { updateProfile } = useMutateProfile();
+
+  const isWebView = isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +42,7 @@ export const ProfileEditForm = (props) => {
         value={nickname}
         onChange={handleChangeNickname}
         Icon={<Icon.Star width="18" />}
-        autoFocus
+        autoFocus={isWebView}
       />
       <InputUnderline
         name={INPUT.MEMBER_ID.KEY}

@@ -26,6 +26,7 @@ export const AddForm = styled.form`
   & > button {
     position: relative;
     margin-top: 1rem;
+    overflow-x: hidden;
     ${EFFECT.SHINE}
   }
 

@@ -1,26 +1,31 @@
 import { useContext } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
+import { useSnackbar } from 'notistack';
 
 import { UserContext } from '../contexts';
 import { httpRequest } from '../utils';
-import { QUERY_KEY, API_URL, STATUS } from '../constants';
+import { QUERY_KEY, API_URL, MESSAGE } from '../constants';
 
 export const useMutateAddress = () => {
-  const { token, forceLogout } = useContext(UserContext);
   const queryClient = useQueryClient();
+  const { token, forceLogout } = useContext(UserContext);
+  const { enqueueSnackbar } = useSnackbar();
 
   /* 추가 */
   const fetchCreation = async (body) => {
     const response = await httpRequest.post(API_URL.ADDRESS, { token, body });
 
     if (response.status === 401) {
-      throw new Error(STATUS.INVALID_TOKEN_ERROR);
+      forceLogout();
     }
   };
 
   const creation = useMutation((body) => fetchCreation(body), {
-    onSuccess: () => queryClient.invalidateQueries(QUERY_KEY.ADDRESS),
-    onError: forceLogout,
+    onSuccess: () => {
+      enqueueSnackbar(MESSAGE.USER_ADDRESS.SNACKBAR_CREATE);
+      queryClient.invalidateQueries(QUERY_KEY.ADDRESS);
+    },
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const createAddress = ({ nickname, address }) => {
@@ -32,17 +37,19 @@ export const useMutateAddress = () => {
     const response = await httpRequest.put(API_URL.ADDRESS, { token, body });
 
     if (response.status === 401) {
-      throw new Error(STATUS.INVALID_TOKEN_ERROR);
+      forceLogout();
     }
   };
 
   const update = useMutation((body) => fetchUpdate(body), {
-    onSuccess: () => queryClient.invalidateQueries(QUERY_KEY.ADDRESS),
-    onError: forceLogout,
+    onSuccess: () => {
+      enqueueSnackbar(MESSAGE.USER_ADDRESS.SNACKBAR_UPDATE);
+      queryClient.invalidateQueries(QUERY_KEY.ADDRESS);
+    },
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const updateAddress = ({ id, nickname, address }) => {
-    // TODO: react-query ISSUE 답변 결과보고 수정
     update.mutate({ ...address, id, nickname });
   };
 
@@ -51,13 +58,16 @@ export const useMutateAddress = () => {
     const response = await httpRequest.delete(API_URL.ADDRESS, { token, body });
 
     if (response.status === 401) {
-      throw new Error(STATUS.INVALID_TOKEN_ERROR);
+      forceLogout();
     }
   };
 
   const deletion = useMutation((body) => fetchDeletion(body), {
-    onSuccess: () => queryClient.invalidateQueries(QUERY_KEY.ADDRESS),
-    onError: forceLogout,
+    onSuccess: () => {
+      enqueueSnackbar(MESSAGE.USER_ADDRESS.SNACKBAR_DELETE);
+      queryClient.invalidateQueries(QUERY_KEY.ADDRESS);
+    },
+    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
   });
 
   const deleteAddress = (id) => {

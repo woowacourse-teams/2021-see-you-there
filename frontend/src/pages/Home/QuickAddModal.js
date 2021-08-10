@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
 import React, { useContext } from 'react';
+import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 
 import { Icon, Modal } from '../../components';
 import { Top, ModalListSection, NoItem, List, ProfileImage, FriendInfo, AddressName } from './style';
 import { UserContext, ParticipantContext } from '../../contexts';
 import { getId } from '../../utils';
-import { COLOR } from '../../constants';
+import { COLOR, MESSAGE } from '../../constants';
 import { Image } from '../../assets';
 
 export const QuickAddModal = (props) => {
   const { isModalOpen, closeModal } = props;
+  const { enqueueSnackbar } = useSnackbar();
   const { userFriendList = [], userAddressList, user } = useContext(UserContext);
   const { addParticipant, participants, isFullParticipants } = useContext(ParticipantContext);
 
@@ -39,7 +41,7 @@ export const QuickAddModal = (props) => {
 
   const handleClickAddButton = ({ nickname, profileImage, address }) => {
     if (isFullParticipants) {
-      // TODO: 스낵바 알림
+      enqueueSnackbar(MESSAGE.SNACKBAR_MAX_PARTICIPANT, { variant: 'error' });
       return;
     }
 

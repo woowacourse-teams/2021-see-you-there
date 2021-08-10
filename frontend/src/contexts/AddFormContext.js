@@ -30,7 +30,11 @@ export const AddFormContextProvider = ({ initialName, initialAddress, formId, ch
   const [noticeMessage, setNoticeMessage] = useState(INITIAL_STATE.NOTICE_MESSAGE);
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { data: addressList } = useQuery([QUERY_KEY.ADDRESS_SEARCH, addressKeyword], fetchAddressSearch, {
+  const {
+    data: addressList,
+    isLoading,
+    isError,
+  } = useQuery([QUERY_KEY.ADDRESS_SEARCH, addressKeyword], fetchAddressSearch, {
     enabled: !!addressKeyword,
   });
 
@@ -72,6 +76,8 @@ export const AddFormContextProvider = ({ initialName, initialAddress, formId, ch
         addressKeyword,
         setAddressKeyword,
         addressList,
+        isLoading,
+        isError,
 
         noticeMessage,
         setNoticeMessage,

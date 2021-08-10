@@ -1,9 +1,10 @@
 package seeuthere.goodday.path.dto.api.response;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 
-public class APIPathListResponse {
+public class APIPathListResponse implements Serializable {
 
     @XmlElement(name = "fname")
     private String startName;

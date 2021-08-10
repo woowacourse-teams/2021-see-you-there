@@ -17,7 +17,7 @@ public class PathResult implements Serializable {
 
     @Id
     public String id;
-    public int time;
+    public double time;
     public double weight;
 
     @TimeToLive(unit = TimeUnit.DAYS)
@@ -56,7 +56,7 @@ public class PathResult implements Serializable {
         return id;
     }
 
-    public int getTime() {
-        return (int) (time * weight);
+    public double getTime() {
+        return time * weight;
     }
 }

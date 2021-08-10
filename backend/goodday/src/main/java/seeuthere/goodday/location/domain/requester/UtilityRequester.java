@@ -13,7 +13,7 @@ import seeuthere.goodday.location.exception.LocationExceptionSet;
 public class UtilityRequester {
 
     private static final String BASIC_URL = "/v2/local/search/category.json";
-    private static final int BASIC_DISTANCE = 3000;
+    private static final int BASIC_DISTANCE = 5000;
     private final WebClient webClient;
 
     public UtilityRequester(WebClient webClient) {

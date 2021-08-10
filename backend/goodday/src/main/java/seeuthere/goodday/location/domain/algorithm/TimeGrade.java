@@ -2,9 +2,9 @@ package seeuthere.goodday.location.domain.algorithm;
 
 public class TimeGrade {
 
-    private int minTime;
-    private int maxTime;
-    private int totalTime;
+    private double minTime;
+    private double maxTime;
+    private double totalTime;
 
     public TimeGrade() {
         minTime = Integer.MAX_VALUE;
@@ -12,17 +12,17 @@ public class TimeGrade {
         totalTime = 0;
     }
 
-    public void calculateTime(int time) {
+    public void calculateTime(double time) {
         minTime = Math.min(time, minTime);
         maxTime = Math.max(time, maxTime);
         totalTime += time;
     }
 
-    public int diffTime() {
+    public double diffTime() {
         return maxTime - minTime;
     }
 
-    public int getAvgTime(int size) {
+    public double getAvgTime(int size) {
         return totalTime / size;
     }
 }

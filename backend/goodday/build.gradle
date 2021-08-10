@@ -5,6 +5,7 @@ plugins {
 	id 'java'
 	id "org.asciidoctor.jvm.convert" version "3.3.2"
 	id 'org.sonarqube' version '3.0'
+	id 'jacoco'
 }
 sonarqube {
 	properties {
@@ -23,6 +24,7 @@ ext {
 test {
 	useJUnitPlatform()
 	outputs.dir snippetsDir
+	finalizedBy 'jacocoTestReport'
 }
 
 repositories {
@@ -76,6 +78,39 @@ dependencies {
 	implementation "io.micrometer:micrometer-registry-cloudwatch"
 	implementation 'de.codecentric:spring-boot-admin-starter-server:2.4.1'
 	implementation 'de.codecentric:spring-boot-admin-starter-client:2.4.1'
+}
+
+jacoco{
+	toolVersion = "0.8.5"
+}
+
+
+jacocoTestReport{
+	reports {
+		html.enabled true
+		xml.enabled false
+		csv.enabled true
+
+	}
+
+	finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			enabled = true
+			element = 'CLASS'
+
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.0
+			}
+
+			excludes = []
+		}
+	}
 }
 
 asciidoctor {

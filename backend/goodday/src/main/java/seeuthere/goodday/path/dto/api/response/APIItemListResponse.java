@@ -1,9 +1,11 @@
 package seeuthere.goodday.path.dto.api.response;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 
-public class APIItemListResponse {
+public class APIItemListResponse implements Serializable {
 
     @XmlElement(name = "distance")
     private int distance;
@@ -15,7 +17,7 @@ public class APIItemListResponse {
     private int time;
 
     public APIItemListResponse() {
-
+        APIPathListResponse = new ArrayList<>();
     }
 
     public int getDistance() {

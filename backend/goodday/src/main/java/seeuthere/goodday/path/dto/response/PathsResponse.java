@@ -24,7 +24,7 @@ public class PathsResponse {
 
     public static PathsResponse valueOf(APIMsgBodyResponse apiMsgBodyResponse) {
         return new PathsResponse(
-            apiMsgBodyResponse.getItemListAPIResponses()
+            apiMsgBodyResponse.getItemListResponse()
                 .stream()
                 .map(PathResponse::valueOf)
                 .collect(Collectors.toList())

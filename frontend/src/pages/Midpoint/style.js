@@ -40,7 +40,6 @@ export const CategoryChipList = styled.ul`
   display: flex;
   justify-content: center;
   align-items: center;
-  top: ${LAYOUT.CATEGORY_CHIP_TOP};
   width: 100%;
 
   z-index: ${Z_INDEX.MAP_CONTROLLER};
@@ -166,6 +165,21 @@ export const CoreSection = styled.section`
 
   & h2 > span {
     color: ${COLOR.PRIMARY};
+  }
+`;
+
+export const ButtonSection = styled.section`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  margin-left: 3.5rem;
+  width: ${LAYOUT.CONTENT_WIDTH_MAX};
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    margin-left: 2.5rem;
+    width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
+    max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
   }
 `;
 

@@ -9,4 +9,5 @@ export { Midpoint } from './Midpoint';
 export { NotFound } from './NotFound';
 export { OAuth } from './OAuth';
 export { Profile } from './Profile';
+export { Share } from './Share';
 export { Welcome } from './Welcome';

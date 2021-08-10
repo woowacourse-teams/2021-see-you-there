@@ -37,6 +37,9 @@ export const App = () => {
                     <Page.Midpoint />
                   </MapViewContextProvider>
                 </Route>
+                <Route exact path={ROUTE.SHARE.PATH}>
+                  <Page.Share />
+                </Route>
 
                 <AuthRoute path={ROUTE.WELCOME.PATH}>
                   <Page.Welcome />

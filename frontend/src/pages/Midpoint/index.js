@@ -1,15 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import { CategoryChips } from './CategoryChips';
 import { ParticipantChips } from './ParticipantChips';
 import { PersonalPath } from './PersonalPath';
-import { Icon, MidpointLoader } from '../../components';
+import { ButtonRound, Icon, MidpointLoader } from '../../components';
 import {
   MapViewArea,
   MapView,
   ContentArea,
   Drawer,
   Content,
+  ButtonSection,
   CoreSection,
   PathSection,
   TransportTabs,
@@ -17,9 +19,9 @@ import {
   Footer,
 } from './style';
 import { ParticipantContext, MapViewContext } from '../../contexts';
-import { useMapViewApi, useMidpoint } from '../../hooks';
+import { useMapViewApi, useMidpoint, useShareLink } from '../../hooks';
 import { getKey } from '../../utils';
-import { COLOR, TIPS, QUERY_KEY } from '../../constants';
+import { ROUTE, COLOR, TIPS, QUERY_KEY } from '../../constants';
 
 const SUBWAY = 'subway';
 const BUS = 'bus';
@@ -32,8 +34,10 @@ export const Midpoint = () => {
     return <Redirect to={ROUTE.EXPIRED.PATH} />;
   }
 
+  const { mapObj, mapViewRef, midpoint, station, isLoading, isError } = useContext(MapViewContext);
   const { showMapView } = useMapViewApi({ mapObj, mapViewRef });
   const { showDefaultBounds, showDefaultMarkers, showCategoryMarkers, hideCategoryMarkers, isSelected } = useMidpoint();
+  const { share } = useShareLink();
 
   const [participant, setParticipant] = useState(participants?.[0]);
   const [transport, setTransport] = useState(SUBWAY);
@@ -93,9 +97,20 @@ export const Midpoint = () => {
               </Drawer>
 
               <Content>
+                <ButtonSection>
+                  <ButtonRound
+                    id="kakao-link-btn"
+                    type="submit"
+                    size="xs"
+                    Icon={<Icon.Share width="18" color="#fff" />}
+                    onClick={() => share(station?.placeName)}
+                  >
+                    공유하기
+                  </ButtonRound>
+                </ButtonSection>
                 <CoreSection>
                   <h2>
-                            <span>{station?.placeName}</span> 에서 만나요!
+                    <span>{station?.placeName}</span> 에서 만나요!
                   </h2>
 
                   <ParticipantChips

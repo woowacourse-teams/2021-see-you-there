@@ -7,6 +7,7 @@ import { ParticipantContext } from '.';
 import { httpRequest } from '../utils';
 import { API_URL, QUERY_KEY, STATUS } from '../constants';
 
+// TODO: 에러 대응
 const fetchMidpoint = async ({ queryKey }) => {
   const [_, participants] = queryKey;
   const locations = participants.map(({ x, y }) => ({ x, y }));

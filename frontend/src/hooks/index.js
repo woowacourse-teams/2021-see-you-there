@@ -16,3 +16,5 @@ export { useFriendSearch } from './useFriendSearch';
 export { useMutateAddress } from './useMutateAddress';
 export { useMutateFriend } from './useMutateFriend';
 export { useMutateProfile } from './useMutateProfile';
+
+export { useShareLink } from './useShareLink';

@@ -36,6 +36,7 @@ export const MapViewArea = styled.section`
 
 export const CategoryChipList = styled.ul`
   position: absolute;
+  top: ${LAYOUT.CATEGORY_CHIP_TOP};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -162,7 +163,6 @@ export const CoreSection = styled.section`
   justify-content: flex-end;
   align-items: center;
   background-color: ${COLOR.PRIMARY_BACKGROUND};
-  height: 13rem;
 
   & h2 > span {
     color: ${COLOR.PRIMARY};

@@ -1,4 +1,6 @@
 export { Address } from './Address';
+export { Error } from './Error';
+export { Expired } from './Expired';
 export { Friend } from './Friend';
 export { Home } from './Home';
 export { Login } from './Login';

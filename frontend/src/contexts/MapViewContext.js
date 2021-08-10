@@ -84,6 +84,9 @@ export const MapViewContextProvider = ({ children }) => {
         isStationsLoading,
         isStationError,
 
+        isLoading: isMidpointLoading || isStationsLoading,
+        isError: isMidpointError || isStationError,
+
         category,
         setCategory,
         categoryPlace,

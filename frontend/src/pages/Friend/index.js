@@ -42,13 +42,7 @@ export const Friend = () => {
           </button>
         </MyMemberId>
         <ButtonSection>
-          <ButtonRound
-            type="submit"
-            size="xs"
-            Icon={<Icon.People width="18" color="#fff" />}
-            onClick={openModal}
-            disabled={false}
-          >
+          <ButtonRound type="submit" size="xs" Icon={<Icon.People width="18" color="#fff" />} onClick={openModal}>
             친구 추가
           </ButtonRound>
           <FriendSearchModal isModalOpen={isModalOpen} closeModal={closeModal} />

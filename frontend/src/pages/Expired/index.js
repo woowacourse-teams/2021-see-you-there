@@ -4,17 +4,17 @@ import { useHistory } from 'react-router-dom';
 import { ContentArea, Anchor } from './style';
 import { ROUTE } from '../../constants';
 
-export const NotFound = () => {
+export const Expired = () => {
   const history = useHistory();
 
   return (
     <main>
       <ContentArea>
         <h2>
-          <strong>404</strong>
-          <br /> 잘못된 주소로 접속하신 것 같구연.
+          <strong>Expired</strong>
+          <br /> 웹 페이지가 만료된 것 같구연.
         </h2>
-        <Anchor onClick={() => history.goBack()}>이전 화면으로 돌아가기</Anchor>
+        <Anchor onClick={() => history.push(ROUTE.HOME.PATH)}>메인화면으로 가기</Anchor>
       </ContentArea>
     </main>
   );

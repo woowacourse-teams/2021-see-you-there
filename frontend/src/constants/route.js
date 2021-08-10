@@ -14,6 +14,8 @@ export const ROUTE = {
   FRIEND: { NAME: '내 친구관리', PATH: '/friend' },
   HISTORY: { NAME: '검색 히스토리', PATH: '/history' },
 
+  ERROR: { NAME: '에러 페이지', PATH: '/error' },
+  EXPIRED: { NAME: '만료 페이지', PATH: '/expired' },
   NOT_FOUND: { NAME: '404 페이지', PATH: '*' },
 };
 

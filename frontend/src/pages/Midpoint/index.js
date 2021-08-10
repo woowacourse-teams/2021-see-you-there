@@ -26,9 +26,12 @@ const BUS = 'bus';
 const TRANSFER = 'transfer';
 
 export const Midpoint = () => {
-  const { participants } = useContext(ParticipantContext);
-  const { mapObj, mapViewRef, midpoint, station, isLoading, isMidpointError, isStationError } =
-    useContext(MapViewContext);
+  const { participants, isLackParticipants } = useContext(ParticipantContext);
+
+  if (isLackParticipants) {
+    return <Redirect to={ROUTE.EXPIRED.PATH} />;
+  }
+
   const { showMapView } = useMapViewApi({ mapObj, mapViewRef });
   const { showDefaultBounds, showDefaultMarkers, showCategoryMarkers, hideCategoryMarkers, isSelected } = useMidpoint();
 
@@ -65,6 +68,8 @@ export const Midpoint = () => {
       <main>
         {isLoading ? (
           <MidpointLoader width="85%" message={tipMessage} />
+        ) : isError ? (
+          <Redirect to={ROUTE.ERROR.PATH} />
         ) : (
           <>
             <MapViewArea participantId={participant?.id}>
@@ -90,16 +95,9 @@ export const Midpoint = () => {
               <Content>
                 <CoreSection>
                   <h2>
-                    {isMidpointError
-                      ? '흑흑 네트워크 문제로 중간지점을 찾지 못했어요...'
-                      : isStationError
-                      ? '흑흑 중간지점 반경 1km 이내에는 역이 없네요...'
-                      : station && (
-                          <>
                             <span>{station?.placeName}</span> 에서 만나요!
-                          </>
-                        )}
                   </h2>
+
                   <ParticipantChips
                     items={participants}
                     participantId={participant.id}

@@ -61,6 +61,12 @@ export const App = () => {
                   <Page.Logout />
                 </Route>
 
+                <Route exact path={ROUTE.ERROR.PATH}>
+                  <Page.Error />
+                </Route>
+                <Route exact path={ROUTE.EXPIRED.PATH}>
+                  <Page.Expired />
+                </Route>
                 <Route exact path={ROUTE.NOT_FOUND.PATH}>
                   <Page.NotFound />
                 </Route>

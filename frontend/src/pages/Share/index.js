@@ -8,17 +8,22 @@ import { ROUTE } from '../../constants';
 export const Share = () => {
   const { search } = useLocation();
 
-  if (!search) {
-    return <Redirect to={ROUTE.NOT_FOUND.PATH} />;
-  }
-
   const { getParticipants } = useShareLink();
   const { setParticipants } = useContext(ParticipantContext);
 
   useEffect(() => {
+    if (!search) {
+      return;
+    }
+
     const participants = getParticipants(search);
+
     setParticipants(participants);
   }, []);
+
+  if (!search) {
+    return <Redirect to={ROUTE.NOT_FOUND.PATH} />;
+  }
 
   return <Redirect to={ROUTE.MIDPOINT.PATH} />;
 };

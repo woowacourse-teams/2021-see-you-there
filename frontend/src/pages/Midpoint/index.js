@@ -29,11 +29,6 @@ const TRANSFER = 'transfer';
 
 export const Midpoint = () => {
   const { participants, isLackParticipants } = useContext(ParticipantContext);
-
-  if (isLackParticipants) {
-    return <Redirect to={ROUTE.EXPIRED.PATH} />;
-  }
-
   const { mapObj, mapViewRef, midpoint, station, isLoading, isError } = useContext(MapViewContext);
   const { showMapView } = useMapViewApi({ mapObj, mapViewRef });
   const { showDefaultBounds, showDefaultMarkers, showCategoryMarkers, hideCategoryMarkers, isSelected } = useMidpoint();
@@ -46,7 +41,7 @@ export const Midpoint = () => {
   const tipMessage = TIPS[getKey(TIPS)];
 
   useEffect(() => {
-    if (isLoading) {
+    if (isLackParticipants || isLoading) {
       return;
     }
     if (!station) {
@@ -66,6 +61,10 @@ export const Midpoint = () => {
     }
     showCategoryMarkers(nextCategory);
   };
+
+  if (isLackParticipants) {
+    return <Redirect to={ROUTE.EXPIRED.PATH} />;
+  }
 
   return (
     <>

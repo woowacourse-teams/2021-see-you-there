@@ -1,7 +1,9 @@
-import { useContext, useEffect } from 'react';
+/* eslint no-undef: "off" */
+import { useContext } from 'react';
 
 import { ParticipantContext } from '../contexts';
 import { getId } from '../utils';
+import { LINK_SHARE_TEMPLATE_ID } from '../constants';
 
 const keys = ['name', 'x', 'y', 'addressName', 'avatar'];
 
@@ -40,7 +42,7 @@ export const useShareLink = () => {
 
   const share = (placeName) => {
     Kakao.Link.sendCustom({
-      templateId: 58904,
+      templateId: LINK_SHARE_TEMPLATE_ID,
       templateArgs: {
         placeName,
         path: `share?${getSearch()}`,

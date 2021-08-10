@@ -177,7 +177,7 @@ export const ButtonSection = styled.section`
   width: ${LAYOUT.CONTENT_WIDTH_MAX};
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    margin-left: 2.5rem;
+    margin-left: 3rem;
     width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
     max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
   }

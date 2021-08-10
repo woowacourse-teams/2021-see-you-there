@@ -42,7 +42,7 @@ const fetchCategory = async ({ queryKey }) => {
 export const MapViewContext = createContext();
 
 export const MapViewContextProvider = ({ children }) => {
-  const { participants } = useContext(ParticipantContext);
+  const { participants, isLackParticipants } = useContext(ParticipantContext);
   const { pathname } = useLocation();
   const mapObj = useRef(null);
   const mapViewRef = useRef(null);
@@ -53,7 +53,7 @@ export const MapViewContextProvider = ({ children }) => {
     isLoading: isMidpointLoading,
     isError: isMidpointError,
   } = useQuery([QUERY_KEY.MIDPOINT, participants], fetchMidpoint, {
-    enabled: pathname === '/midpoint',
+    enabled: pathname === '/midpoint' && !isLackParticipants,
   });
 
   const {

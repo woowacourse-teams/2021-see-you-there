@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import seeuthere.goodday.location.domain.algorithm.DuplicateStationRemover;
 import seeuthere.goodday.location.domain.algorithm.PathResult;
 import seeuthere.goodday.location.domain.algorithm.StationGrades;
 import seeuthere.goodday.location.domain.combiner.AxisKeywordCombiner;
@@ -115,11 +116,15 @@ public class LocationService {
         List<UtilityResponse> utilityResponses = findUtility(LocationCategory.SW8.getDescription(),
             middlePoint.getX(), middlePoint.getY());
 
+        // 중복역 제거
+        DuplicateStationRemover duplicateStationRemover = new DuplicateStationRemover(utilityResponses);
+        List<UtilityResponse> result = duplicateStationRemover.result();
+
         Map<Point, Map<Point, PathResult>> responsesFromPoint
-            = getPointsToPath(points, utilityResponses);
+            = getPointsToPath(points, result);
 
         StationGrades stationGrades
-            = StationGrades.valueOf(points, utilityResponses, responsesFromPoint);
+            = StationGrades.valueOf(points, result, responsesFromPoint);
 
         UtilityResponse finalResponse = stationGrades.finalUtilityResponse();
         return new MiddlePointResponse(finalResponse.getX(), finalResponse.getY());

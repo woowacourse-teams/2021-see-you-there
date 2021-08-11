@@ -41,7 +41,7 @@ public class UtilityRequester {
                     .queryParam("category_group_code", categoryCode)
                     .queryParam("radius", BASIC_DISTANCE)
                     .queryParam("page", page)
-//                    .queryParam("sort", "distance")
+                    .queryParam("sort", "distance")
                     .build()
             )
             .accept(MediaType.APPLICATION_JSON)

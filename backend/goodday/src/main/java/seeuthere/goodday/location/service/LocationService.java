@@ -3,6 +3,7 @@ package seeuthere.goodday.location.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import seeuthere.goodday.location.domain.algorithm.DuplicateStationRemover;
@@ -114,6 +115,16 @@ public class LocationService {
         MiddlePoint middlePoint = MiddlePoint.valueOf(points);
 
         List<UtilityResponse> utilityResponses = findSubway(middlePoint.getX(), middlePoint.getY());
+        Set<String> keys = weightStations.getKeys();
+        for (String key: keys) {
+            Point point = weightStations.get(key);
+            UtilityResponse utilityResponse = new UtilityResponse.Builder()
+                .placeName(key)
+                .x(point.getX())
+                .y(point.getY())
+                .build();
+            utilityResponses.add(utilityResponse);
+        }
 
         DuplicateStationRemover duplicateStationRemover = new DuplicateStationRemover(
             utilityResponses);

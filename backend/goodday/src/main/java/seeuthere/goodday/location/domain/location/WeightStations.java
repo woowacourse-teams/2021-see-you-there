@@ -1,25 +1,35 @@
 package seeuthere.goodday.location.domain.location;
 
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class WeightStations {
 
-    private final Set<String> stations;
+    private final Map<String, Point> stations;
 
     public WeightStations() {
-        this(new HashSet<>());
+        this(new HashMap<>());
     }
 
-    public WeightStations(Set<String> stations) {
+    public WeightStations(Map<String, Point> stations) {
         this.stations = stations;
     }
 
-    public void add(String station) {
-        stations.add(station);
+    public void add(String station, Point point) {
+        stations.put(station, point);
     }
 
     public boolean contains(String station) {
-        return stations.contains(station);
+        return stations.containsKey(station);
+    }
+
+    public Point get(String station) {
+        return stations.get(station);
+    }
+
+    public Set<String> getKeys() {
+        return stations.keySet();
     }
 }

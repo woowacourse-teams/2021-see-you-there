@@ -23,13 +23,14 @@ public class Member {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<FriendShip> friends = new HashSet<>();
 
+    @Column(nullable = false)
     private String nickname;
     @Column(name = "PROFILE_IMAGE")
     private String profileImage;
     @Id
     @Column(name = "MEMBER_ID")
     private String id;
-    @Column(name = "MEMBER_SEARCH_ID", unique = true)
+    @Column(name = "MEMBER_SEARCH_ID", unique = true, nullable = false)
     private String memberId;
 
     public Member() {

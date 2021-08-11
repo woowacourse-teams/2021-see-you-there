@@ -248,7 +248,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
     void acceptFriend() {
         String identifier = "member/acceptance";
         String path = "/api/members/friends/acceptance";
-        List<RequestFriendResponse> requestFriends = memberService.findRequestFriends(와이비.getId());
+        List<RequestFriendResponse> requestFriends = memberService.findReceiveFriends(와이비.getId());
         RequestFriendRequest request = new RequestFriendRequest(requestFriends.get(0).getId());
         postResponse(identifier, path, request);
 
@@ -264,7 +264,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
     void refuseFriend() {
         String identifier = "member/refuse";
         String path = "/api/members/friends/refuse";
-        List<RequestFriendResponse> requestFriends = memberService.findRequestFriends(와이비.getId());
+        List<RequestFriendResponse> requestFriends = memberService.findReceiveFriends(와이비.getId());
         RequestFriendRequest request = new RequestFriendRequest(requestFriends.get(0).getId());
         postResponse(identifier, path, request);
 
@@ -280,13 +280,13 @@ class MemberAcceptanceTest extends AcceptanceTest {
     void requestCancel() {
         String identifier = "request/cancel";
         String path = "/api/members/friends/request/cancel";
-        List<RequestFriendResponse> requestFriends = memberService.findReceiveFriends(하루.getId());
+        List<RequestFriendResponse> requestFriends = memberService.findRequestFriends(하루.getId());
         RequestFriendRequest request = new RequestFriendRequest(requestFriends.get(0).getId());
         postResponse(identifier, path, request);
 
         assertThat(memberService.findFriends(하루.getId()).size()).isEqualTo(0);
         assertThat(memberService.findFriends(와이비.getId()).size()).isEqualTo(2);
-        assertThat(memberService.findReceiveFriends(하루.getId()).size()).isEqualTo(0);
+        assertThat(memberService.findRequestFriends(하루.getId()).size()).isEqualTo(0);
     }
 
     private ExtractableResponse<Response> getResponse(String identifier, String path) {

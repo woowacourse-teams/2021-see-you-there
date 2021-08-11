@@ -62,11 +62,11 @@ public class UtilityResponse {
 
     public static class Builder {
 
-        private String placeName;
-        private String distance;
-        private String addressName;
-        private String roadAddressName;
-        private String placeUrl;
+        private String placeName = "";
+        private String distance = "";
+        private String addressName = "";
+        private String roadAddressName = "";
+        private String placeUrl = "";
         private double x;
         private double y;
 

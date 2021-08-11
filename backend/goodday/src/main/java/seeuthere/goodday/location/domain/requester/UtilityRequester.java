@@ -1,5 +1,6 @@
 package seeuthere.goodday.location.domain.requester;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.http.MediaType;
@@ -9,6 +10,7 @@ import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.location.dto.api.response.APIUtilityDocument;
 import seeuthere.goodday.location.dto.api.response.APIUtilityResponse;
 import seeuthere.goodday.location.exception.LocationExceptionSet;
+import seeuthere.goodday.location.util.LocationCategory;
 
 public class UtilityRequester {
 
@@ -22,14 +24,15 @@ public class UtilityRequester {
 
     public List<APIUtilityDocument> requestUtility(String categoryCode, double x, double y) {
         try {
-            APIUtilityResponse apiUtilityResponse = receivedUtilityResponse(categoryCode, x, y);
+            APIUtilityResponse apiUtilityResponse = receivedUtilityResponse(categoryCode, x, y, 1);
             return Objects.requireNonNull(apiUtilityResponse).getDocuments();
         } catch (WebClientResponseException e) {
             throw new GoodDayException(LocationExceptionSet.INVALID_LOCATION);
         }
     }
 
-    private APIUtilityResponse receivedUtilityResponse(String categoryCode, double x, double y) {
+    private APIUtilityResponse receivedUtilityResponse(String categoryCode, double x, double y,
+        int page) {
         return webClient.get()
             .uri(uriBuilder ->
                 uriBuilder.path(BASIC_URL)
@@ -37,6 +40,7 @@ public class UtilityRequester {
                     .queryParam("y", y)
                     .queryParam("category_group_code", categoryCode)
                     .queryParam("radius", BASIC_DISTANCE)
+                    .queryParam("page", page)
                     .queryParam("sort", "distance")
                     .build()
             )
@@ -44,5 +48,19 @@ public class UtilityRequester {
             .retrieve()
             .bodyToMono(APIUtilityResponse.class)
             .block();
+    }
+
+    public List<APIUtilityDocument> requestSubway(double x, double y) {
+        List<APIUtilityDocument> apiUtilityDocuments = new ArrayList<>();
+
+        APIUtilityResponse apiUtilityResponse;
+        int page = 1;
+        do {
+            apiUtilityResponse
+                = receivedUtilityResponse(LocationCategory.SW8.getCode(), x, y, page++);
+            apiUtilityDocuments.addAll(apiUtilityResponse.getDocuments());
+        } while (!apiUtilityResponse.getMeta().isEnd());
+
+        return apiUtilityDocuments;
     }
 }

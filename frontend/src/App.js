@@ -25,9 +25,9 @@ export const App = () => {
     <QueryClientProvider client={queryClient}>
       <Router>
         <SnackbarProvider {...snackbarOptions}>
-          <UserContextProvider>
-            <NavBar />
-            <ParticipantContextProvider>
+          <ParticipantContextProvider>
+            <UserContextProvider>
+              <NavBar />
               <Switch>
                 <Route exact path={ROUTE.HOME.PATH}>
                   <Page.Home />
@@ -74,8 +74,8 @@ export const App = () => {
                   <Page.NotFound />
                 </Route>
               </Switch>
-            </ParticipantContextProvider>
-          </UserContextProvider>
+            </UserContextProvider>
+          </ParticipantContextProvider>
         </SnackbarProvider>
       </Router>
       <ReactQueryDevtools panelProps={REACT_QUERY_DEV_TOOL} />

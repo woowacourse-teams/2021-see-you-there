@@ -45,6 +45,6 @@ ParticipantChips.propTypes = {
       avatar: PropTypes.string,
     })
   ).isRequired,
-  participantId: PropTypes.string,
+  participantId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   setParticipant: PropTypes.func,
 };

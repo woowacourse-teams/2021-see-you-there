@@ -37,6 +37,9 @@ export const App = () => {
                     <Page.Midpoint />
                   </MapViewContextProvider>
                 </Route>
+                <Route exact path={ROUTE.SHARE.PATH}>
+                  <Page.Share />
+                </Route>
 
                 <AuthRoute path={ROUTE.WELCOME.PATH}>
                   <Page.Welcome />
@@ -61,6 +64,12 @@ export const App = () => {
                   <Page.Logout />
                 </Route>
 
+                <Route exact path={ROUTE.ERROR.PATH}>
+                  <Page.Error />
+                </Route>
+                <Route exact path={ROUTE.EXPIRED.PATH}>
+                  <Page.Expired />
+                </Route>
                 <Route exact path={ROUTE.NOT_FOUND.PATH}>
                   <Page.NotFound />
                 </Route>

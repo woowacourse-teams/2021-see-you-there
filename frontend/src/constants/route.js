@@ -1,6 +1,7 @@
 export const ROUTE = {
   HOME: { PATH: '/' },
   MIDPOINT: { NAME: '중간지점찾기', PATH: '/midpoint' },
+  SHARE: { NAME: '결과공유', PATH: '/share' },
 
   LOGIN: { NAME: '로그인', PATH: '/login' },
   LOGIN_KAKAO: { NAME: '카카오 로그인', PATH: '/kakao/callback' },
@@ -14,15 +15,17 @@ export const ROUTE = {
   FRIEND: { NAME: '내 친구관리', PATH: '/friend' },
   HISTORY: { NAME: '검색 히스토리', PATH: '/history' },
 
+  ERROR: { NAME: '에러 페이지', PATH: '/error' },
+  EXPIRED: { NAME: '만료 페이지', PATH: '/expired' },
   NOT_FOUND: { NAME: '404 페이지', PATH: '*' },
 };
 
-export const PUBLIC_ROUTES = [ROUTE.HOME, ROUTE.MIDPOINT, ROUTE.LOGIN];
+export const PUBLIC_ROUTES = [ROUTE.HOME, ROUTE.MIDPOINT, ROUTE.LOGIN, ROUTE.NOT_FOUND, ROUTE.EXPIRED, ROUTE.ERROR];
 export const PRIVATE_ROUTES = [ROUTE.PROFILE, ROUTE.ADDRESS, ROUTE.FRIEND];
 
 export const OAUTH_ROUTES = [ROUTE.LOGIN, ROUTE.LOGOUT, ROUTE.LOGIN_KAKAO, ROUTE.WELCOME];
 
-export const CANNOT_GO_BACK_ROUTES = [ROUTE.HOME, ROUTE.LOGIN_KAKAO, ROUTE.LOGOUT, ROUTE.WELCOME];
+export const CANNOT_GO_BACK_ROUTES = [ROUTE.HOME, ROUTE.LOGIN_KAKAO, ROUTE.LOGOUT, ROUTE.WELCOME, ROUTE.EXPIRED];
 
 export const ROUTES_WITH_MAP = [ROUTE.HOME, ROUTE.MIDPOINT];
 export const ROUTES_WITHOUT_MAP = [

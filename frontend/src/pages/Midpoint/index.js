@@ -1,15 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import { CategoryChips } from './CategoryChips';
 import { ParticipantChips } from './ParticipantChips';
 import { PersonalPath } from './PersonalPath';
-import { Icon, MidpointLoader } from '../../components';
+import { ButtonRound, Icon, MidpointLoader } from '../../components';
 import {
   MapViewArea,
   MapView,
   ContentArea,
   Drawer,
   Content,
+  ButtonSection,
   CoreSection,
   PathSection,
   TransportTabs,
@@ -17,28 +19,20 @@ import {
   Footer,
 } from './style';
 import { ParticipantContext, MapViewContext } from '../../contexts';
-import { useMapViewApi, useMidpoint } from '../../hooks';
+import { useMapViewApi, useMidpoint, useShareLink } from '../../hooks';
 import { getKey } from '../../utils';
-import { COLOR, TIPS, QUERY_KEY } from '../../constants';
+import { ROUTE, COLOR, TIPS, QUERY_KEY } from '../../constants';
 
 const SUBWAY = 'subway';
 const BUS = 'bus';
 const TRANSFER = 'transfer';
 
 export const Midpoint = () => {
-  const { participants } = useContext(ParticipantContext);
-  const {
-    mapObj,
-    mapViewRef,
-    midpoint,
-    station,
-    isMidpointLoading,
-    isMidpointError,
-    isStationsLoading,
-    isStationError,
-  } = useContext(MapViewContext);
+  const { participants, isLackParticipants } = useContext(ParticipantContext);
+  const { mapObj, mapViewRef, midpoint, station, isLoading, isError } = useContext(MapViewContext);
   const { showMapView } = useMapViewApi({ mapObj, mapViewRef });
   const { showDefaultBounds, showDefaultMarkers, showCategoryMarkers, hideCategoryMarkers, isSelected } = useMidpoint();
+  const { share } = useShareLink();
 
   const [participant, setParticipant] = useState(participants?.[0]);
   const [transport, setTransport] = useState(SUBWAY);
@@ -47,7 +41,7 @@ export const Midpoint = () => {
   const tipMessage = TIPS[getKey(TIPS)];
 
   useEffect(() => {
-    if (isMidpointLoading || isStationsLoading) {
+    if (isLackParticipants || isLoading) {
       return;
     }
     if (!station) {
@@ -68,11 +62,17 @@ export const Midpoint = () => {
     showCategoryMarkers(nextCategory);
   };
 
+  if (isLackParticipants) {
+    return <Redirect to={ROUTE.EXPIRED.PATH} />;
+  }
+
   return (
     <>
       <main>
-        {isMidpointLoading || isStationsLoading ? (
-          <MidpointLoader message={tipMessage} />
+        {isLoading ? (
+          <MidpointLoader width="85%" message={tipMessage} />
+        ) : isError ? (
+          <Redirect to={ROUTE.ERROR.PATH} />
         ) : (
           <>
             <MapViewArea participantId={participant?.id}>
@@ -96,18 +96,22 @@ export const Midpoint = () => {
               </Drawer>
 
               <Content>
+                <ButtonSection>
+                  <ButtonRound
+                    id="kakao-link-btn"
+                    type="submit"
+                    size="xs"
+                    Icon={<Icon.Share width="18" color="#fff" />}
+                    onClick={() => share(station?.placeName)}
+                  >
+                    공유하기
+                  </ButtonRound>
+                </ButtonSection>
                 <CoreSection>
                   <h2>
-                    {isMidpointError
-                      ? '흑흑 네트워크 문제로 중간지점을 찾지 못했어요...'
-                      : isStationError
-                      ? '흑흑 중간지점 반경 1km 이내에는 역이 없네요...'
-                      : station && (
-                          <>
-                            <span>{station?.placeName}</span> 에서 만나요!
-                          </>
-                        )}
+                    <span>{station?.placeName}</span> 에서 만나요!
                   </h2>
+
                   <ParticipantChips
                     items={participants}
                     participantId={participant.id}

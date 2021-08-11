@@ -1,4 +1,6 @@
 export { Address } from './Address';
+export { Error } from './Error';
+export { Expired } from './Expired';
 export { Friend } from './Friend';
 export { Home } from './Home';
 export { Login } from './Login';
@@ -7,4 +9,5 @@ export { Midpoint } from './Midpoint';
 export { NotFound } from './NotFound';
 export { OAuth } from './OAuth';
 export { Profile } from './Profile';
+export { Share } from './Share';
 export { Welcome } from './Welcome';

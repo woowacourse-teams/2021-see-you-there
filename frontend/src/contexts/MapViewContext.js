@@ -7,6 +7,7 @@ import { ParticipantContext } from '.';
 import { httpRequest } from '../utils';
 import { API_URL, QUERY_KEY, STATUS } from '../constants';
 
+// TODO: 에러 대응
 const fetchMidpoint = async ({ queryKey }) => {
   const [_, participants] = queryKey;
   const locations = participants.map(({ x, y }) => ({ x, y }));
@@ -41,7 +42,7 @@ const fetchCategory = async ({ queryKey }) => {
 export const MapViewContext = createContext();
 
 export const MapViewContextProvider = ({ children }) => {
-  const { participants } = useContext(ParticipantContext);
+  const { participants, isLackParticipants } = useContext(ParticipantContext);
   const { pathname } = useLocation();
   const mapObj = useRef(null);
   const mapViewRef = useRef(null);
@@ -52,7 +53,7 @@ export const MapViewContextProvider = ({ children }) => {
     isLoading: isMidpointLoading,
     isError: isMidpointError,
   } = useQuery([QUERY_KEY.MIDPOINT, participants], fetchMidpoint, {
-    enabled: pathname === '/midpoint',
+    enabled: pathname === '/midpoint' && !isLackParticipants,
   });
 
   const {
@@ -83,6 +84,9 @@ export const MapViewContextProvider = ({ children }) => {
         stations,
         isStationsLoading,
         isStationError,
+
+        isLoading: isMidpointLoading || isStationsLoading,
+        isError: isMidpointError || isStationError,
 
         category,
         setCategory,

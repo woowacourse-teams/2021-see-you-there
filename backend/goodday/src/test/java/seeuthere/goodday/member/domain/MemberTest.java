@@ -142,7 +142,7 @@ class MemberTest {
     @DisplayName("나한테 들어온 요청 목록을 불러온다.")
     @Test
     void getRequestFriends() {
-        List<RequestFriendResponse> requestFriends = memberService.findRequestFriends(와이비.getId());
+        List<RequestFriendResponse> requestFriends = memberService.findReceiveFriends(와이비.getId());
 
         assertThat(requestFriends.size()).isEqualTo(1);
         assertThat(requestFriends.get(0).getRequester().getId()).isEqualTo(하루.getId());
@@ -151,7 +151,7 @@ class MemberTest {
     @DisplayName("내가 요청한 목록을 불러온다.")
     @Test
     void getReceiveFriends() {
-        List<RequestFriendResponse> receiveFriends = memberService.findReceiveFriends(하루.getId());
+        List<RequestFriendResponse> receiveFriends = memberService.findRequestFriends(하루.getId());
 
         assertThat(receiveFriends.size()).isEqualTo(1);
         assertThat(receiveFriends.get(0).getReceiver().getId()).isEqualTo(와이비.getId());
@@ -169,7 +169,7 @@ class MemberTest {
     @DisplayName("나에게 온 친구 요청을 수락한다")
     @Test
     void acceptFriend() {
-        List<RequestFriendResponse> requestFriends = memberService.findRequestFriends(와이비.getId());
+        List<RequestFriendResponse> requestFriends = memberService.findReceiveFriends(와이비.getId());
         memberService
             .acceptFriend(와이비.getId(), new RequestFriendRequest(requestFriends.get(0).getId()));
 
@@ -184,7 +184,7 @@ class MemberTest {
     @DisplayName("나에게 온 친구 요청을 거절한다")
     @Test
     void refuseFriend() {
-        List<RequestFriendResponse> requestFriends = memberService.findRequestFriends(와이비.getId());
+        List<RequestFriendResponse> requestFriends = memberService.findReceiveFriends(와이비.getId());
         memberService
             .refuseFriend(와이비.getId(), new RequestFriendRequest(requestFriends.get(0).getId()));
 
@@ -199,7 +199,7 @@ class MemberTest {
     @DisplayName("내가 보낸 요청을 취소한다")
     @Test
     void requestCancel() {
-        List<RequestFriendResponse> receiveFriends = memberService.findReceiveFriends(하루.getId());
+        List<RequestFriendResponse> receiveFriends = memberService.findRequestFriends(하루.getId());
         memberService.cancelRequest(new RequestFriendRequest(receiveFriends.get(0).getId()));
 
         assertThat(requestFriendRepository.findAll().size()).isEqualTo(0);

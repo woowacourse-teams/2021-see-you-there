@@ -54,7 +54,7 @@ public class DataLoader implements CommandLineRunner {
 
         memberService.requestFriend(멍토.getId(), new FriendRequest(와이비.getMemberId()));
         memberService.requestFriend(심바.getId(), new FriendRequest(와이비.getMemberId()));
-        List<RequestFriendResponse> requestFriends = memberService.findRequestFriends(와이비.getId());
+        List<RequestFriendResponse> requestFriends = memberService.findReceiveFriends(와이비.getId());
         requestFriends.stream()
             .map(RequestFriendResponse::getId)
             .forEach(id -> memberService.acceptFriend(와이비.getId(), new RequestFriendRequest(id)));

@@ -1,6 +1,7 @@
 package seeuthere.goodday.member.domain;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.MapsId;
 public class FriendShip {
 
     @EmbeddedId
-    private Key key = new Key();
+    private final Key key = new Key();
 
     @ManyToOne
     @MapsId("ownerId")
@@ -34,32 +35,18 @@ public class FriendShip {
         return key;
     }
 
-    public void setKey(Key key) {
-        this.key = key;
-    }
-
     public Member getOwner() {
         return owner;
-    }
-
-    public void setOwner(Member owner) {
-        this.owner = owner;
     }
 
     public Member getFriend() {
         return friend;
     }
 
-    public void setFriend(Member friend) {
-        this.friend = friend;
-    }
-
     @Embeddable
     public static class Key implements Serializable {
 
         private String ownerId;
-
         private String friendId;
     }
-
 }

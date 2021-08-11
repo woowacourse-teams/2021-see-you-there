@@ -1,5 +1,6 @@
 package seeuthere.goodday.member.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,7 +10,8 @@ import javax.persistence.ManyToOne;
 @Entity
 public class RequestFriend {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     @ManyToOne
@@ -37,23 +39,11 @@ public class RequestFriend {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Member getRequester() {
         return requester;
     }
 
-    public void setRequester(Member requester) {
-        this.requester = requester;
-    }
-
     public Member getReceiver() {
         return receiver;
-    }
-
-    public void setReceiver(Member receiver) {
-        this.receiver = receiver;
     }
 }

@@ -25,6 +25,7 @@ import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
 import seeuthere.goodday.member.dto.RequestFriendRequest;
 import seeuthere.goodday.member.dto.RequestFriendResponse;
+import seeuthere.goodday.member.exception.MemberExceptionSet;
 
 @Service
 public class MemberService {
@@ -69,6 +70,10 @@ public class MemberService {
     @Transactional
     public MemberResponse updateMemberInfo(String id, MemberRequest request) {
         Member member = find(id);
+        if (memberRepository.existsByMemberId(request.getMemberId())
+            && !member.getMemberId().equals(request.getMemberId())) {
+            throw new GoodDayException(MemberExceptionSet.ALREADY_EXIST_MEMBER);
+        }
         member.update(request);
         return new MemberResponse(member);
     }
@@ -135,9 +140,15 @@ public class MemberService {
     }
 
     public MemberResponse searchFriend(String id, String searchWord) {
-        Member member = memberRepository.findByMemberId(searchWord);
-
-        return new MemberResponse(member);
+        Member member = find(id);
+        Member findMember = memberRepository.findByMemberId(searchWord);
+        if (findMember.getId().isBlank()) {
+            throw new GoodDayException(MemberExceptionSet.INVALID_MEMBER);
+        }
+        if (member.getId().equals(findMember.getId())) {
+            throw new GoodDayException(MemberExceptionSet.SELF_SEARCH);
+        }
+        return new MemberResponse(findMember);
     }
 
     public String createRandomMemberId() {
@@ -148,17 +159,16 @@ public class MemberService {
         return memberId;
     }
 
-
-    public List<RequestFriendResponse> findRequestFriends(String receiverId) {
+    public List<RequestFriendResponse> findReceiveFriends(String receiverId) {
         List<RequestFriend> requestFriends = requestFriendRepository.findByReceiver(receiverId);
         return requestFriends.stream()
             .map(RequestFriendResponse::new)
             .collect(Collectors.toList());
     }
 
-    public List<RequestFriendResponse> findReceiveFriends(String requesterId) {
-        List<RequestFriend> requestFriends = requestFriendRepository.findByRequester(requesterId);
-        return requestFriends.stream()
+    public List<RequestFriendResponse> findRequestFriends(String requesterId) {
+        List<RequestFriend> receiveFriends = requestFriendRepository.findByRequester(requesterId);
+        return receiveFriends.stream()
             .map(RequestFriendResponse::new)
             .collect(Collectors.toList());
     }
@@ -169,10 +179,10 @@ public class MemberService {
         Member receiver = memberRepository.findByMemberId(friendRequest.getMemberId());
         if (requester.hasFriend(receiver) || requestFriendRepository
             .isExistRequest(id, friendRequest.getMemberId())) {
-            throw new RuntimeException();
+            throw new GoodDayException(MemberExceptionSet.ALREADY_REQUEST_FRIEND);
         }
         if (requestFriendRepository.isExistRequest(receiver.getId(), requester.getMemberId())) {
-            throw new RuntimeException();
+            throw new GoodDayException(MemberExceptionSet.OPPONENT_ALREADY_REQUEST_FRIEND);
         }
         requestFriendRepository.save(new RequestFriend(requester, receiver));
     }
@@ -197,12 +207,12 @@ public class MemberService {
 
     private RequestFriend getRequestFriend(RequestFriendRequest request) {
         return requestFriendRepository.findById(request.getId())
-            .orElseThrow(RuntimeException::new);
+            .orElseThrow(() -> new GoodDayException(MemberExceptionSet.INVALID_FRIEND_REQUEST));
     }
 
     private void validateReceiver(Member receiver, RequestFriend requestFriend) {
         if (!requestFriend.getReceiver().getId().equals(receiver.getId())) {
-            throw new RuntimeException();
+            throw new GoodDayException(MemberExceptionSet.INVALID_FRIEND_REQUEST);
         }
     }
 

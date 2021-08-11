@@ -48,14 +48,14 @@ public class FriendController {
     }
 
     @GetMapping("/receiveList")
-    public ResponseEntity<List<RequestFriendResponse>> getRequestFriends(@EnableAuth String id) {
-        List<RequestFriendResponse> response = memberService.findRequestFriends(id);
+    public ResponseEntity<List<RequestFriendResponse>> getReceiveFriends(@EnableAuth String id) {
+        List<RequestFriendResponse> response = memberService.findReceiveFriends(id);
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/requestList")
-    public ResponseEntity<List<RequestFriendResponse>> getReceiveFriends(@EnableAuth String id) {
-        List<RequestFriendResponse> response = memberService.findReceiveFriends(id);
+    public ResponseEntity<List<RequestFriendResponse>> getRequestFriends(@EnableAuth String id) {
+        List<RequestFriendResponse> response = memberService.findRequestFriends(id);
         return ResponseEntity.ok().body(response);
     }
 

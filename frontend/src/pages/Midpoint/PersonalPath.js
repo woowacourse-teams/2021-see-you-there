@@ -15,9 +15,7 @@ const fetchPath = async (transport, participant, station) => {
 
 export const PersonalPath = (props) => {
   const { transport, participant, station } = props;
-
-  // TODO: 경로 캐싱 쿼리 변경
-  const { data } = useQuery([participant.name, transport], () => fetchPath(transport, participant, station), {
+  const { data } = useQuery([participant.name, transport, station], () => fetchPath(transport, participant, station), {
     enabled: !!participant && !!station,
   });
   const paths = data?.paths;

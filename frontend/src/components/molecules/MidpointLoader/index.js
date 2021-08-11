@@ -7,13 +7,13 @@ import { COLOR } from '../../../constants';
 import { Image } from '../../../assets';
 
 export const MidpointLoader = (props) => {
-  const { color, width, message, ...rest } = props;
+  const { duration, color, width, message, ...rest } = props;
 
   return (
     <LoadingSection {...rest}>
       <img src={Image.logoSquare} width="45" alt="로고" />
       <LoadingMessage>모든 참석자의 경로를 검토중입니다.</LoadingMessage>
-      <ProgressBar width={width} />
+      <ProgressBar width={width} duration={duration} />
       <RandomMessage>
         <Notice color={color}>
           알고있나요?<p>{message}</p>
@@ -24,6 +24,7 @@ export const MidpointLoader = (props) => {
 };
 
 MidpointLoader.propTypes = {
+  duration: PropTypes.string,
   color: PropTypes.string,
   width: PropTypes.string,
   message: PropTypes.string,

@@ -21,7 +21,7 @@ ProgressBar.propTypes = {
 };
 
 ProgressBar.defaultProps = {
+  duration: '4s',
   color: COLOR.PRIMARY,
   width: '17.25rem',
-  duration: '4s',
 };

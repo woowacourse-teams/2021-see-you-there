@@ -5,6 +5,7 @@ export const Container = styled.div`
   width: ${(props) => props.width};
   height: 0.875rem;
 
+  border-radius: 0.5rem;
   background-color: #eee;
 `;
 
@@ -16,11 +17,13 @@ export const Bar = styled.div`
     left: 0;
     width: 99%;
     height: 100%;
+
+    border-radius: 0.5rem;
     background-color: ${(props) => props.color};
-    transform-origin: 100% 0%;
     animation: progress ${(props) => props.duration} ease-out 1;
-    -webkit-transform-origin: 100% 0%;
+    transform-origin: 100% 0%;
     -webkit-animation: progress ${(props) => props.duration} ease-out 1;
+    -webkit-transform-origin: 100% 0%;
   }
 
   @keyframes progress {

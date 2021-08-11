@@ -11,7 +11,6 @@ import {
   ContentArea,
   Drawer,
   Content,
-  ButtonSection,
   CoreSection,
   PathSection,
   TransportTabs,
@@ -99,7 +98,7 @@ export const Midpoint = () => {
           </Drawer>
 
           <Content>
-            <ButtonSection>
+            <CoreSection>
               <ButtonRound
                 id="kakao-link-btn"
                 type="submit"
@@ -109,8 +108,6 @@ export const Midpoint = () => {
               >
                 공유하기
               </ButtonRound>
-            </ButtonSection>
-            <CoreSection>
               <h2>
                 <span>{station?.placeName}</span> 에서 만나요!
               </h2>

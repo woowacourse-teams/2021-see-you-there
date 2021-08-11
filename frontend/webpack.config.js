@@ -42,6 +42,7 @@ const config = ({ isDev }) => ({
   plugins: [
     new webpack.DefinePlugin({
       VERSION: JSON.stringify(package.version),
+      KAKAO: JSON.stringify('1b0ee776c585e8fb3a1ab8da4a771a75'),
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({

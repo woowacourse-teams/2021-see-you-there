@@ -68,7 +68,9 @@ export const Z_INDEX = {
   ON_IMAGE: 15,
   NAVBAR: 20,
   HAMBURGER_MENU: 30,
+
   MODAL: 100,
+  LOADING: 100,
 };
 
 export const REACT_QUERY_DEV_TOOL = {
@@ -219,7 +221,7 @@ export const EFFECT = {
         left: -60%;
         width: 120%;
         height: 120%;
-        z-index: 2;
+        z-index: ${Z_INDEX.MAP_PIN_EFFECT};
 
         background-color: ${COLOR.PRIMARY_LIGHT};
         border-radius: 50%;

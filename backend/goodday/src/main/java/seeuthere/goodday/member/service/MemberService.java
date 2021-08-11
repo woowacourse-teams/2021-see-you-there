@@ -142,7 +142,7 @@ public class MemberService {
     public MemberResponse searchFriend(String id, String searchWord) {
         Member member = find(id);
         Member findMember = memberRepository.findByMemberId(searchWord);
-        if (findMember.getId().isBlank()) {
+        if (findMember == null) {
             throw new GoodDayException(MemberExceptionSet.INVALID_MEMBER);
         }
         if (member.getId().equals(findMember.getId())) {

@@ -21,11 +21,11 @@ public enum MemberExceptionSet implements CustomException {
 
     @Override
     public String getMessage() {
-        return null;
+        return message;
     }
 
     @Override
     public int getStatus() {
-        return 0;
+        return status;
     }
 }

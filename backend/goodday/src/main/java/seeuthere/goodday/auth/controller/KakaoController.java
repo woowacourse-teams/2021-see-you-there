@@ -34,7 +34,7 @@ public class KakaoController {
 
     @GetMapping(value = "/oauth")
     public String kakaoConnect() {
-        StringBuffer url = new StringBuffer();
+        StringBuilder url = new StringBuilder();
         url.append(KAKAO_AUTH_URI + "/oauth/authorize?");
         url.append("client_id=" + SecretKey.KAKAO_API_KEY);
         url.append("&redirect_uri=" + KakaoUtil.DOMAIN_URI + "/kakao/callback");

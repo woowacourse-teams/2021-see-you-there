@@ -41,6 +41,7 @@ export const ParticipantContextProvider = ({ children }) => {
     <ParticipantContext.Provider
       value={{
         participants,
+        setParticipants,
         addParticipant,
         removeParticipant,
 

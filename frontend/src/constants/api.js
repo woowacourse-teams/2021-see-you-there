@@ -1,9 +1,10 @@
 // export const API_DOMAIN = 'http://localhost:8080';
 // export const API_END_POINT = 'http://localhost:8080/api';
-const SERVER_ORIGIN =
-  window.location.origin.includes('dev') || window.location.origin.includes('localhost')
-    ? 'https://dev.seeyouthere.o-r.kr'
-    : 'https://seeyouthere.o-r.kr';
+const isDev = window.location.origin.includes('dev') || window.location.origin.includes('localhost');
+
+const SERVER_ORIGIN = isDev ? 'https://dev.seeyouthere.o-r.kr' : 'https://seeyouthere.o-r.kr';
+
+export const LINK_SHARE_TEMPLATE_ID = isDev ? 58904 : 58921;
 
 export const API_DOMAIN = SERVER_ORIGIN;
 export const API_END_POINT = `${SERVER_ORIGIN}/api`;

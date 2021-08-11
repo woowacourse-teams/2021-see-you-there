@@ -36,10 +36,10 @@ export const MapViewArea = styled.section`
 
 export const CategoryChipList = styled.ul`
   position: absolute;
+  top: ${LAYOUT.CATEGORY_CHIP_TOP};
   display: flex;
   justify-content: center;
   align-items: center;
-  top: ${LAYOUT.CATEGORY_CHIP_TOP};
   width: 100%;
 
   z-index: ${Z_INDEX.MAP_CONTROLLER};
@@ -162,10 +162,24 @@ export const CoreSection = styled.section`
   justify-content: flex-end;
   align-items: center;
   background-color: ${COLOR.PRIMARY_BACKGROUND};
-  height: 13rem;
 
   & h2 > span {
     color: ${COLOR.PRIMARY};
+  }
+`;
+
+export const ButtonSection = styled.section`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  margin-left: 3.5rem;
+  width: ${LAYOUT.CONTENT_WIDTH_MAX};
+
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    margin-left: 3rem;
+    width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
+    max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
   }
 `;
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { COLOR } from '../../../constants';
+import { COLOR, Z_INDEX } from '../../../constants';
 
 export const LoadingSection = styled.section`
   position: fixed;
@@ -13,7 +13,7 @@ export const LoadingSection = styled.section`
   align-items: center;
   width: 100%;
   height: 100%;
-  z-index: 100;
+  z-index: ${Z_INDEX.LOADING};
 
   background-color: ${COLOR.ON_PRIMARY};
 `;

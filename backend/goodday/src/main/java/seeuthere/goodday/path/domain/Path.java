@@ -7,6 +7,8 @@ import seeuthere.goodday.path.domain.algorithm.Distance;
 
 public class Path implements Comparable<Path> {
 
+    private static final int PENALTY_WEIGHT = 7;
+
     private final List<Route> routes;
     private final int distance;
     private final int time;
@@ -43,6 +45,8 @@ public class Path implements Comparable<Path> {
         Distance startWalkDistance = startWalkDistance(startPointWithName.getPoint());
         Distance endWalkDistance = endWalkDistance(endPointWithName.getPoint());
 
+        int penaltyTime = (routes.size() - 1) * PENALTY_WEIGHT;
+
         if (startWalkDistance.isValidate()) {
             addStartRoute(startPointWithName);
         }
@@ -52,7 +56,7 @@ public class Path implements Comparable<Path> {
         }
 
         int newDistance = distance + startWalkDistance.value() + endWalkDistance.value();
-        int newTime = startWalkDistance.walkTime() + endWalkDistance.walkTime();
+        int newTime = startWalkDistance.walkTime() + endWalkDistance.walkTime() + penaltyTime;
         return new Path(routes, newDistance, time + newTime, newTime);
     }
 

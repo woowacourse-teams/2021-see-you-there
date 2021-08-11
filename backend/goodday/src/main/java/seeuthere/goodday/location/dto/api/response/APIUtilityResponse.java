@@ -4,13 +4,10 @@ import java.util.List;
 
 public class APIUtilityResponse {
 
+    private Meta meta;
     private List<APIUtilityDocument> documents;
 
     public APIUtilityResponse() {
-    }
-
-    public List<APIUtilityDocument> getDocuments() {
-        return documents;
     }
 
     @Override
@@ -18,5 +15,13 @@ public class APIUtilityResponse {
         return "APIUtilityResponse{" +
             "documents=" + documents +
             '}';
+    }
+
+    public List<APIUtilityDocument> getDocuments() {
+        return documents;
+    }
+
+    public Meta getMeta() {
+        return meta;
     }
 }

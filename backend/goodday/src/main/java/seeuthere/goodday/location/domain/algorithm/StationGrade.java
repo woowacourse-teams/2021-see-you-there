@@ -4,29 +4,19 @@ import java.util.Objects;
 
 public class StationGrade implements Comparable<StationGrade> {
 
+    private final double criteria;
     private final double interval;
     private final double averageTime;
 
     public StationGrade(double interval, double averageTime) {
         this.interval = interval;
         this.averageTime = averageTime;
+        this.criteria = interval * 0.3 + averageTime * 0.7;
     }
 
     @Override
     public int compareTo(StationGrade o) {
-        if (this.averageTime < o.averageTime) {
-            return -1;
-        }
-
-        if (this.averageTime == o.averageTime) {
-            return compareIntervalTime(o);
-        }
-
-        return 1;
-    }
-
-    private int compareIntervalTime(StationGrade o) {
-        if (this.interval < o.interval) {
+        if (this.criteria < o.criteria) {
             return -1;
         }
         return 1;
@@ -41,12 +31,13 @@ public class StationGrade implements Comparable<StationGrade> {
             return false;
         }
         StationGrade that = (StationGrade) o;
-        return interval == that.interval && averageTime == that.averageTime;
+        return interval == that.interval && averageTime == that.averageTime
+            && criteria == that.criteria;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(interval, averageTime);
+        return Objects.hash(interval, averageTime, criteria);
     }
 
     public double getInterval() {

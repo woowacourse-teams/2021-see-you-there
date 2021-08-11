@@ -75,7 +75,7 @@ export const Midpoint = () => {
   return (
     <>
       <main>
-        {(isDataLoading || isMapViewLoading) && <MidpointLoader duration="4s" width="85%" message={tipMessage} />}
+        {(isDataLoading || isMapViewLoading) && <MidpointLoader duration="20s" width="85%" message={tipMessage} />}
 
         <MapViewArea participantId={participant?.id}>
           <MapView ref={mapViewRef} />

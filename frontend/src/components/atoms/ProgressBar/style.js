@@ -15,7 +15,7 @@ export const Bar = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    width: 99%;
+    width: 99.5%;
     height: 100%;
 
     border-radius: 0.5rem;
@@ -30,41 +30,41 @@ export const Bar = styled.div`
     0% {
       width: 0px;
     }
-    5% {
+    1% {
       width: 5%;
     }
-    10% {
+    2% {
       width: 25%;
     }
-    20% {
+    4% {
       width: 27%;
     }
-    30% {
+    5% {
       width: 30%;
     }
-    40% {
+    8% {
       width: 32%;
     }
-    50% {
+    10% {
       width: 42%;
     }
-    55% {
+    11% {
       width: 45%;
     }
-    60% {
+    12% {
       width: 75%;
     }
-    70% {
+    14% {
       width: 77%;
     }
-    80% {
+    16% {
       width: 80%;
     }
-    90% {
-      width: 92%;
+    18% {
+      width: 90%;
     }
     100% {
-      width: 99%;
+      width: 99.5%;
     }
   }
 
@@ -72,41 +72,41 @@ export const Bar = styled.div`
     0% {
       width: 0px;
     }
-    5% {
+    1% {
       width: 5%;
     }
-    10% {
+    2% {
       width: 25%;
     }
-    20% {
+    4% {
       width: 27%;
     }
-    30% {
+    5% {
       width: 30%;
     }
-    40% {
+    8% {
       width: 32%;
     }
-    50% {
+    10% {
       width: 42%;
     }
-    55% {
+    11% {
       width: 45%;
     }
-    60% {
+    12% {
       width: 75%;
     }
-    70% {
+    14% {
       width: 77%;
     }
-    80% {
+    16% {
       width: 80%;
     }
-    90% {
-      width: 92%;
+    18% {
+      width: 90%;
     }
     100% {
-      width: 99%;
+      width: 99.5%;
     }
   }
 `;

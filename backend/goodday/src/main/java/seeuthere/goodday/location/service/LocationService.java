@@ -113,8 +113,7 @@ public class LocationService {
         Points points = Points.valueOf(locationsRequest);
         MiddlePoint middlePoint = MiddlePoint.valueOf(points);
 
-        List<UtilityResponse> utilityResponses = findUtility(LocationCategory.SW8.getDescription(),
-            middlePoint.getX(), middlePoint.getY());
+        List<UtilityResponse> utilityResponses = findSubway(middlePoint.getX(), middlePoint.getY());
 
         DuplicateStationRemover duplicateStationRemover = new DuplicateStationRemover(
             utilityResponses);
@@ -176,5 +175,10 @@ public class LocationService {
                 weightStations.contains(placeName));
 
         return PathResult.minTimePathResult(subwayResult, busSubwayResult);
+    }
+
+    private List<UtilityResponse> findSubway( double x, double y) {
+        List<APIUtilityDocument> apiUtilityDocuments = utilityRequester.requestSubway(x, y);
+        return toUtilityResponse(apiUtilityDocuments);
     }
 }

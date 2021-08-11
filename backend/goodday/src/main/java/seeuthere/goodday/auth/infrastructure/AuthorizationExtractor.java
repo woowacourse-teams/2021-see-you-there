@@ -10,13 +10,17 @@ public class AuthorizationExtractor {
         AuthorizationExtractor.class.getSimpleName() + ".ACCESS_TOKEN_TYPE";
     public static final String BEARER_TYPE = "Bearer";
 
-    public static String extract(HttpServletRequest reqeust) {
-        Enumeration<String> headers = reqeust.getHeaders(AUTHORIZATION);
+    private AuthorizationExtractor() {
+
+    }
+
+    public static String extract(HttpServletRequest request) {
+        Enumeration<String> headers = request.getHeaders(AUTHORIZATION);
         while (headers.hasMoreElements()) {
             String value = headers.nextElement();
             if (value.toLowerCase().startsWith(BEARER_TYPE.toLowerCase())) {
                 String authHeaderValue = value.substring(BEARER_TYPE.length()).trim();
-                reqeust.setAttribute(ACCESS_TOKEN_TYPE,
+                request.setAttribute(ACCESS_TOKEN_TYPE,
                     value.substring(0, BEARER_TYPE.length()).trim());
                 int commaIndex = authHeaderValue.indexOf(',');
                 if (commaIndex > 0) {

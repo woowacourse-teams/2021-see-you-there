@@ -11,7 +11,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.member.dto.MemberRequest;
+import seeuthere.goodday.member.exception.MemberExceptionSet;
 
 @Entity
 public class Member {
@@ -21,13 +23,14 @@ public class Member {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<FriendShip> friends = new HashSet<>();
 
+    @Column(nullable = false)
     private String nickname;
     @Column(name = "PROFILE_IMAGE")
     private String profileImage;
     @Id
     @Column(name = "MEMBER_ID")
     private String id;
-    @Column(name = "MEMBER_SEARCH_ID")
+    @Column(name = "MEMBER_SEARCH_ID", unique = true, nullable = false)
     private String memberId;
 
     public Member() {
@@ -78,8 +81,7 @@ public class Member {
             friend.friends.removeIf(friendShip -> friendShip.getFriend().equals(this));
             return;
         }
-        // TODO : 친구 추가 에러
-        throw new RuntimeException();
+        throw new GoodDayException(MemberExceptionSet.INVALID_MEMBER);
     }
 
     public List<Member> getMemberFriends() {

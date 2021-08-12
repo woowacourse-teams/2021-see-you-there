@@ -58,10 +58,11 @@ export const LAYOUT = {
 };
 
 export const Z_INDEX = {
-  MAP: 0,
-  MAP_PIN_EFFECT: 1,
-  MAP_PIN: 2,
-  MAP_TOOLTIP: 3,
+  HIDDEN: 0,
+  MAP: 1,
+  MAP_PIN_EFFECT: 2,
+  MAP_PIN: 3,
+  MAP_TOOLTIP: 4,
   MAP_CONTROLLER: 5,
 
   CONTENT: 10,

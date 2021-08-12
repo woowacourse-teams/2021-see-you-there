@@ -18,6 +18,16 @@ export const useMutateProfile = () => {
       forceLogout();
       return;
     }
+    // TODO: 아래 새로 추가된 에러처리 => 다른 코드에도 적용할지 추후 검토
+    if (!response.ok) {
+      if (typeof response.body === 'object') {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
+
     return await response.json();
   };
 
@@ -26,7 +36,9 @@ export const useMutateProfile = () => {
       setUser((prevState) => ({ ...prevState, ...data }));
       enqueueSnackbar(MESSAGE.USER_PROFILE.SNACKBAR_UPDATE);
     },
-    onError: () => enqueueSnackbar(MESSAGE.ERROR.NETWORK, { variant: 'error' }),
+    onError: (error) => {
+      enqueueSnackbar(error.message || MESSAGE.ERROR.NETWORK, { variant: 'error' });
+    },
   });
 
   const updateProfile = ({ nickname, memberId }) => {

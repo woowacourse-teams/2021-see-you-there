@@ -32,6 +32,7 @@ export const ParticipantContextProvider = ({ children }) => {
     enqueueSnackbar(MESSAGE.PARTICIPANT.SNACKBAR_DELETE);
   };
 
+  const resetParticipants = () => setParticipants([]);
   const resetLastParticipant = () => setLastParticipant(null);
 
   const isFullParticipants = participants.length === PARTICIPANT.MAX_LENGTH;
@@ -44,6 +45,7 @@ export const ParticipantContextProvider = ({ children }) => {
         setParticipants,
         addParticipant,
         removeParticipant,
+        resetParticipants,
 
         lastParticipant,
         resetLastParticipant,

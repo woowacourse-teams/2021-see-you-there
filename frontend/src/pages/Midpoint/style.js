@@ -96,6 +96,7 @@ export const MapView = styled.div`
 
 export const ContentArea = styled.section`
   ${CONTENT_AREA.MAP}
+  background-color: ${COLOR.BACKGROUND};
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     position: fixed;
@@ -163,23 +164,20 @@ export const CoreSection = styled.section`
   align-items: center;
   background-color: ${COLOR.PRIMARY_BACKGROUND};
 
-  & h2 > span {
+  & > h2 > span {
     color: ${COLOR.PRIMARY};
   }
-`;
 
-export const ButtonSection = styled.section`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  margin-left: 3.5rem;
-  width: ${LAYOUT.CONTENT_WIDTH_MAX};
+  /* 공유하기 버튼 Section */
+  & > button {
+    align-self: flex-end;
+    margin: 1.5rem;
+  }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    margin-left: 3rem;
-    width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
-    max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
+    & > button {
+      margin: 1rem;
+    }
   }
 `;
 

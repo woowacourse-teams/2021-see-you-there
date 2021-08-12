@@ -105,32 +105,37 @@ public class LocationService {
 
     public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest) {
         Points points = Points.valueOf(locationsRequest);
-        MiddlePoint middlePoint = MiddlePoint.valueOf(points);
+        List<UtilityResponse> result = middleUtilityResponses(points);
 
+        Map<Point, Map<Point, PathResult>> responsesFromPoint = getPointsToPath(points, result);
+
+        StationGrades stationGrades = StationGrades.valueOf(points, result, responsesFromPoint);
+
+        UtilityResponse finalResponse = stationGrades.finalUtilityResponse();
+        return new MiddlePointResponse(finalResponse.getX(), finalResponse.getY());
+    }
+
+    private List<UtilityResponse> middleUtilityResponses(Points points) {
+        MiddlePoint middlePoint = MiddlePoint.valueOf(points);
         List<UtilityResponse> utilityResponses = findSubway(middlePoint.getX(), middlePoint.getY());
         Set<String> keys = weightStations.getKeys();
         for (String key : keys) {
-            Point point = weightStations.get(key);
-            UtilityResponse utilityResponse = new UtilityResponse.Builder()
-                .placeName(key)
-                .x(point.getX())
-                .y(point.getY())
-                .build();
-            utilityResponses.add(utilityResponse);
+            insertMiddleUtilityResponse(utilityResponses, key);
         }
 
         DuplicateStationRemover duplicateStationRemover = new DuplicateStationRemover(
             utilityResponses);
-        List<UtilityResponse> result = duplicateStationRemover.result();
+        return duplicateStationRemover.result();
+    }
 
-        Map<Point, Map<Point, PathResult>> responsesFromPoint
-            = getPointsToPath(points, result);
-
-        StationGrades stationGrades
-            = StationGrades.valueOf(points, result, responsesFromPoint);
-
-        UtilityResponse finalResponse = stationGrades.finalUtilityResponse();
-        return new MiddlePointResponse(finalResponse.getX(), finalResponse.getY());
+    private void insertMiddleUtilityResponse(List<UtilityResponse> utilityResponses, String key) {
+        Point point = weightStations.get(key);
+        UtilityResponse utilityResponse = new UtilityResponse.Builder()
+            .placeName(key)
+            .x(point.getX())
+            .y(point.getY())
+            .build();
+        utilityResponses.add(utilityResponse);
     }
 
     private Map<Point, Map<Point, PathResult>> getPointsToPath(Points points,
@@ -148,7 +153,20 @@ public class LocationService {
 
         final Point target = new Point(response.getX(), response.getY());
 
-        List<PathTransferResult> pathTransferResults = points.getPoints().parallelStream()
+        List<PathTransferResult> pathTransferResults = calculatedPathTransferResults(points,
+            response, target);
+
+        for (PathTransferResult pathTransferResult : pathTransferResults) {
+            Map<Point, PathResult> responses
+                = responsesFromPoint.getOrDefault(pathTransferResult.getSource(), new HashMap<>());
+            responses.put(pathTransferResult.getTarget(), pathTransferResult.getPathResult());
+            responsesFromPoint.put(pathTransferResult.getSource(), responses);
+        }
+    }
+
+    private List<PathTransferResult> calculatedPathTransferResults(Points points,
+        UtilityResponse response, Point target) {
+        return points.getPoints().parallelStream()
             .map((source) -> new PathTransferResult(
                 source,
                 target,
@@ -157,13 +175,6 @@ public class LocationService {
                         () -> saveRedisCachePathResult(source, target, response.getPlaceName())))
             )
             .collect(Collectors.toList());
-
-        for (PathTransferResult pathTransferResult : pathTransferResults) {
-            Map<Point, PathResult> responses
-                = responsesFromPoint.getOrDefault(pathTransferResult.getSource(), new HashMap<>());
-            responses.put(pathTransferResult.getTarget(), pathTransferResult.getPathResult());
-            responsesFromPoint.put(pathTransferResult.getSource(), responses);
-        }
     }
 
     private PathResult saveRedisCachePathResult(Point source, Point target, String placeName) {

@@ -6,6 +6,7 @@ import seeuthere.goodday.location.config.Requesters;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.path.domain.Paths;
 import seeuthere.goodday.path.domain.PointWithName;
+import seeuthere.goodday.path.domain.TransportCache;
 import seeuthere.goodday.path.domain.algorithm.Station;
 import seeuthere.goodday.path.domain.algorithm.Stations;
 import seeuthere.goodday.path.domain.requester.TransportRequester;
@@ -21,8 +22,7 @@ public class PathService {
     private final Requesters requesters;
     private final SubwayRedisRepository subwayRedisRepository;
 
-    public PathService(TransportRequester transportRequester,
-        Requesters requesters,
+    public PathService(TransportRequester transportRequester, Requesters requesters,
         SubwayRedisRepository subwayRedisRepository) {
         this.transportRequester = transportRequester;
         this.requesters = requesters;

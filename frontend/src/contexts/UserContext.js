@@ -17,28 +17,7 @@ const INITIAL_STATE = {
   memberId: null,
 };
 
-// TODO: 중복코드 제거
-/*
-const httpRequestAuth = async (method, url, body) => {
-  const response = await httpRequest[method](url, { token, body });
-
-  if (response.status === 401) {
-    forceLogout();
-    return;
-  }
-
-  if (!response.ok) {
-    if (typeof response.body === 'object') {
-      const error = await response.json();
-      throw new Error(error.message);
-    }
-    const errorMessage = await response.text();
-    throw new Error(errorMessage);
-  }
-
-  return await response.json();
-};
-*/
+// TODO: httpAuthRequest 중복코드 제거
 
 export const UserContext = createContext();
 

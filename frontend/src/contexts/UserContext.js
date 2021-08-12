@@ -1,9 +1,10 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { useSnackbar } from 'notistack';
 
+import { ParticipantContext } from './';
 import { httpRequest, storage } from '../utils';
 import { API_URL, STORAGE_KEY, PATHS, ROUTE, STATUS, QUERY_KEY, MESSAGE } from '../constants';
 
@@ -16,12 +17,15 @@ const INITIAL_STATE = {
   memberId: null,
 };
 
+// TODO: httpAuthRequest 중복코드 제거
+
 export const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
   const history = useHistory();
   const { pathname } = useLocation();
   const { enqueueSnackbar } = useSnackbar();
+  const { resetParticipants } = useContext(ParticipantContext);
 
   const [token, setToken] = useState(INITIAL_TOKEN);
   const [user, setUser] = useState(INITIAL_STATE);
@@ -40,6 +44,7 @@ export const UserContextProvider = ({ children }) => {
     storage.session.remove(STORAGE_KEY.PARTICIPANT);
     setUser(INITIAL_STATE);
     setToken(null);
+    resetParticipants();
     enqueueSnackbar(MESSAGE.AUTH.LOGOUT(nickname));
   };
 
@@ -48,8 +53,9 @@ export const UserContextProvider = ({ children }) => {
     storage.session.remove(STORAGE_KEY.PARTICIPANT);
     setUser(INITIAL_STATE);
     setToken(null);
-
+    resetParticipants();
     enqueueSnackbar(MESSAGE.ERROR.INVALID_TOKEN, { variant: 'error' });
+
     if (PATHS.PRIVATE.includes(pathname)) {
       history.push(ROUTE.LOGIN.PATH);
     }

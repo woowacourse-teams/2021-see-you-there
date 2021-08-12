@@ -10,6 +10,10 @@ export const useMapViewApi = ({ mapObj, mapViewRef }) => {
     mapObj.current = new kakao.maps.Map(mapViewRef?.current, options);
   };
 
+  const addMapViewLoadingEventListener = (callback) => {
+    kakao.maps.event.addListener(mapObj.current, 'tilesloaded', () => setTimeout(callback, 150));
+  };
+
   const showAroundPoint = (midpoint, level = 3) => {
     const { x, y } = midpoint;
     const position = new kakao.maps.LatLng(y, x);
@@ -137,6 +141,8 @@ export const useMapViewApi = ({ mapObj, mapViewRef }) => {
 
   return {
     showMapView,
+    addMapViewLoadingEventListener,
+
     showAroundPoint,
     setBounds,
 

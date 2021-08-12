@@ -46,6 +46,7 @@ export const MapViewContextProvider = ({ children }) => {
   const { pathname } = useLocation();
   const mapObj = useRef(null);
   const mapViewRef = useRef(null);
+  const [isMapViewLoading, setIsMapViewLoading] = useState(true);
   const [category, setCategory] = useState(null);
 
   const {
@@ -85,8 +86,10 @@ export const MapViewContextProvider = ({ children }) => {
         isStationsLoading,
         isStationError,
 
-        isLoading: isMidpointLoading || isStationsLoading,
         isError: isMidpointError || isStationError,
+        isDataLoading: isMidpointLoading || isStationsLoading,
+        isMapViewLoading,
+        setIsMapViewLoading,
 
         category,
         setCategory,

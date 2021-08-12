@@ -67,6 +67,10 @@ export const MapViewContextProvider = ({ children }) => {
 
   const [station] = stations || [];
 
+  if (station) {
+    station.placeName = station.placeName?.split(' ')[0];
+  }
+
   const { data: categoryPlace, isLoading: isCategoryPlaceLoading } = useQuery([category, station], fetchCategory, {
     enabled: !!station && !!category,
   });

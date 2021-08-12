@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import seeuthere.goodday.location.domain.algorithm.DuplicateStationRemover;
 import seeuthere.goodday.location.domain.algorithm.PathResult;
 import seeuthere.goodday.location.domain.algorithm.StationGrades;
+import seeuthere.goodday.location.dto.PathTransferResult;
 import seeuthere.goodday.location.domain.combiner.AxisKeywordCombiner;
 import seeuthere.goodday.location.domain.location.MiddlePoint;
 import seeuthere.goodday.location.domain.location.Point;
@@ -152,16 +153,23 @@ public class LocationService {
 
     private void calculateSource(Points points,
         Map<Point, Map<Point, PathResult>> responsesFromPoint, UtilityResponse response) {
-        for (Point source : points.getPoints()) {
-            Map<Point, PathResult> responses
-                = responsesFromPoint.getOrDefault(source, new HashMap<>());
-            Point target = new Point(response.getX(), response.getY());
 
-            PathResult pathResult = pathResultRedisRepository
-                .findById(source.toString() + target)
-                .orElseGet(() -> saveRedisCachePathResult(source, target, response.getPlaceName()));
-            responses.put(target, pathResult);
-            responsesFromPoint.put(source, responses);
+        final Point target = new Point(response.getX(), response.getY());
+
+        List<PathTransferResult> pathTransferResults = points.getPoints().parallelStream()
+            .map((source) -> new PathTransferResult(
+                source,
+                target,
+                pathResultRedisRepository.findById(source.toString() + target)
+                .orElseGet(() -> saveRedisCachePathResult(source, target, response.getPlaceName())))
+            )
+            .collect(Collectors.toList());
+
+        for (PathTransferResult pathTransferResult : pathTransferResults) {
+            Map<Point, PathResult> responses
+                = responsesFromPoint.getOrDefault(pathTransferResult.getSource(), new HashMap<>());
+            responses.put(pathTransferResult.getTarget(), pathTransferResult.getPathResult());
+            responsesFromPoint.put(pathTransferResult.getSource(), responses);
         }
     }
 

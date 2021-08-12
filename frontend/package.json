@@ -8,7 +8,7 @@
     "lint": "eslint src",
     "build": "webpack --mode=production",
     "cypress": "cypress open --config watchForFileChanges=false --config pluginsFile=false --config-file false",
-    "cypress:run": "cypress run --config pluginsFile=false --config-file false",
+    "cypress:run": "cypress open --config pluginsFile=false --config-file false",
     "test": "start-server-and-test start http-get://localhost:9000 cypress:run"
   },
   "contributors": [

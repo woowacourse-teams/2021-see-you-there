@@ -17,10 +17,6 @@ describe('HomePage & MidpointPage', () => {
       cy.addParticipant(p);
 
       cy.get(`ul[data-testid=${ID.PARTICIPANT_LIST}]`).contains('li', participants[i].name);
-
-      // i === 0
-      //   ? cy.get(`button[data-testid=${ID.MIDPOINT_FINDER}]`).should('be.disabled')
-      //   : cy.get(`button[data-testid=${ID.MIDPOINT_FINDER}]`).should('be.enabled');
     });
   });
 

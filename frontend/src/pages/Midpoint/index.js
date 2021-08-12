@@ -136,7 +136,9 @@ export const Midpoint = () => {
 
               <PersonalPath transport={transport} participant={participant} station={station} />
             </PathSection>
-            <Footer>공공 API 를 사용하고 있습니다.</Footer> {/* //TODO: 정확한 명칭으로 수정 */}
+            <Footer>
+              서울특별시_대중교통환승경로 조회 서비스 <br /> by 서울특별시 교통정보과, CC BY
+            </Footer>
           </Content>
         </ContentArea>
       </main>

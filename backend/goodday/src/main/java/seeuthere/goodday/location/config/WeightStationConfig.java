@@ -35,7 +35,7 @@ public class WeightStationConfig {
             String name = datas[0];
             double x = Double.parseDouble(datas[1]);
             double y = Double.parseDouble(datas[2]);
-            Point point = new Point(x,y);
+            Point point = new Point(x, y);
             weightstations.add(name, point);
             data = input.readLine();
         }

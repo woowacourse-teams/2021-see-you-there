@@ -9,6 +9,8 @@ Cypress.Commands.add('addParticipant', ({ fixture, name, addressSearchKeyword })
 
   cy.get(`input[data-testid=${ID.ADDRESS_SEARCH}]`).type(addressSearchKeyword);
   cy.get(`input[data-testid=${ID.ADDRESS_SEARCH}]`).siblings('button').click();
+
+  cy.wait(2000);
   cy.get(`ul[data-testid=${ID.ADDRESS_SEARCH}]`).children().first().click();
 
   cy.get(`button[data-testid=${ID.PARTICIPANT_ADD_BUTTON}]`).click();

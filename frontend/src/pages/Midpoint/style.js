@@ -456,6 +456,7 @@ export const Footer = styled.div`
   margin: ${LAYOUT.MARGIN};
   margin-top: 3rem;
 
+  text-align: end;
   font-size: 0.6rem;
   color: ${COLOR.PARAGRAPH_LIGHT};
 `;

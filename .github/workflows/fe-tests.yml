@@ -1,0 +1,25 @@
+name: Front-End Cypress Tests
+
+on:
+  push:
+    branches: ['**/front*']
+
+  workflow_dispatch:
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-20.04
+    env:
+      working-directory: ./frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install NPM dependencies
+        run: npm install
+        working-directory: ${{ env.working-directory }}
+
+      - name: Run browser & cypress
+        run: npm run test
+        working-directory: ${{ env.working-directory }}

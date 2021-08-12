@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  cypress-run:
+    runs-on: ubuntu-20.04
+    env:
+      working-directory: ./frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install NPM dependencies
+        run: |
+          npm install
+          npm install --save-dev start-server-and-test
+        working-directory: ${{ env.working-directory }}
+
+      - name: Run Browser & Run cypress
+        run: npm run test
+        working-directory: ${{ env.working-directory }}

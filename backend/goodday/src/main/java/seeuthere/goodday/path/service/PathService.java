@@ -2,8 +2,8 @@ package seeuthere.goodday.path.service;
 
 import java.util.Objects;
 import org.springframework.stereotype.Service;
+import seeuthere.goodday.location.config.Requesters;
 import seeuthere.goodday.location.domain.location.Point;
-import seeuthere.goodday.location.domain.requester.UtilityRequester;
 import seeuthere.goodday.path.domain.Paths;
 import seeuthere.goodday.path.domain.PointWithName;
 import seeuthere.goodday.path.domain.algorithm.Station;
@@ -18,14 +18,14 @@ import seeuthere.goodday.path.util.TransportURL;
 public class PathService {
 
     private final TransportRequester transportRequester;
-    private final UtilityRequester utilityRequester;
+    private final Requesters requesters;
     private final SubwayRedisRepository subwayRedisRepository;
 
     public PathService(TransportRequester transportRequester,
-        UtilityRequester utilityRequester,
+        Requesters requesters,
         SubwayRedisRepository subwayRedisRepository) {
         this.transportRequester = transportRequester;
-        this.utilityRequester = utilityRequester;
+        this.requesters = requesters;
         this.subwayRedisRepository = subwayRedisRepository;
     }
 
@@ -46,13 +46,13 @@ public class PathService {
 
     public PathsResponse findSubwayPath(PointWithName startPointWithName,
         PointWithName endPointWithName) {
-        Station startStation = Stations.of(utilityRequester, startPointWithName.getPoint())
+        Station startStation = Stations.of(requesters.utility(), startPointWithName.getPoint())
             .getNearestStation();
-        Station endStation = Stations.of(utilityRequester, endPointWithName.getPoint())
+        Station endStation = Stations.of(requesters.utility(), endPointWithName.getPoint())
             .getNearestStation();
 
         TransportCache transportCache = subwayRedisRepository.findById(
-            redisId(startStation, endStation))
+                redisId(startStation, endStation))
             .orElseGet(() -> saveRedisCachePathsResponse(startStation, endStation));
 
         APITransportResponse apiTransportResponse = validAPITransportResponse(transportCache);

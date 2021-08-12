@@ -1,4 +1,4 @@
-package seeuthere.goodday.path.service;
+package seeuthere.goodday.path.domain;
 
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;

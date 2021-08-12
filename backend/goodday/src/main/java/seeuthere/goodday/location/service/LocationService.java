@@ -6,19 +6,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import seeuthere.goodday.location.config.Requesters;
 import seeuthere.goodday.location.domain.algorithm.DuplicateStationRemover;
 import seeuthere.goodday.location.domain.algorithm.PathResult;
 import seeuthere.goodday.location.domain.algorithm.StationGrades;
-import seeuthere.goodday.location.dto.PathTransferResult;
 import seeuthere.goodday.location.domain.combiner.AxisKeywordCombiner;
 import seeuthere.goodday.location.domain.location.MiddlePoint;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.domain.location.Points;
 import seeuthere.goodday.location.domain.location.WeightStations;
 import seeuthere.goodday.location.domain.requester.CoordinateRequester;
-import seeuthere.goodday.location.domain.requester.LocationRequester;
 import seeuthere.goodday.location.domain.requester.SearchRequester;
-import seeuthere.goodday.location.domain.requester.UtilityRequester;
+import seeuthere.goodday.location.dto.PathTransferResult;
 import seeuthere.goodday.location.dto.api.response.APIAxisDocument;
 import seeuthere.goodday.location.dto.api.response.APILocationDocument;
 import seeuthere.goodday.location.dto.api.response.APIUtilityDocument;
@@ -35,30 +34,23 @@ import seeuthere.goodday.path.service.PathService;
 @Service
 public class LocationService {
 
-    private final CoordinateRequester coordinateRequester;
-    private final LocationRequester locationRequester;
-    private final SearchRequester searchRequester;
-    private final UtilityRequester utilityRequester;
+    private final Requesters requesters;
     private final PathService pathService;
     private final PathResultRedisRepository pathResultRedisRepository;
     private final WeightStations weightStations;
 
     public LocationService(
-        CoordinateRequester coordinateRequester, LocationRequester locationRequester,
-        SearchRequester searchRequester, UtilityRequester utilityRequester,
+        Requesters requesters,
         PathService pathService, PathResultRedisRepository pathResultRedisRepository,
         WeightStations weightStations) {
-        this.coordinateRequester = coordinateRequester;
-        this.locationRequester = locationRequester;
-        this.searchRequester = searchRequester;
-        this.utilityRequester = utilityRequester;
+        this.requesters = requesters;
         this.pathService = pathService;
         this.pathResultRedisRepository = pathResultRedisRepository;
         this.weightStations = weightStations;
     }
 
     public List<SpecificLocationResponse> findAddress(double x, double y) {
-        List<APILocationDocument> apiLocationDocuments = locationRequester.requestAddress(x, y);
+        List<APILocationDocument> apiLocationDocuments = requesters.location().requestAddress(x, y);
 
         return toSpecificLocationResponse(apiLocationDocuments);
     }
@@ -72,7 +64,7 @@ public class LocationService {
 
     public List<LocationResponse> findAxis(String address) {
         AxisKeywordCombiner axisKeywordCombiner = combinedAxisKeywordCombiner(
-            address, coordinateRequester, searchRequester);
+            address, requesters.coordinate(), requesters.search());
 
         return toLocationResponse(axisKeywordCombiner);
     }
@@ -95,13 +87,13 @@ public class LocationService {
 
     public List<UtilityResponse> findUtility(String category, double x, double y) {
         String categoryCode = LocationCategory.translatedCode(category);
-        List<APIUtilityDocument> apiUtilityDocuments = utilityRequester
+        List<APIUtilityDocument> apiUtilityDocuments = requesters.utility()
             .requestUtility(categoryCode, x, y);
         return toUtilityResponse(apiUtilityDocuments);
     }
 
     public List<UtilityResponse> findSearch(String keyword) {
-        List<APIUtilityDocument> apiUtilityDocuments = searchRequester.requestSearch(keyword);
+        List<APIUtilityDocument> apiUtilityDocuments = requesters.search().requestSearch(keyword);
         return toUtilityResponse(apiUtilityDocuments);
     }
 
@@ -113,32 +105,37 @@ public class LocationService {
 
     public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest) {
         Points points = Points.valueOf(locationsRequest);
-        MiddlePoint middlePoint = MiddlePoint.valueOf(points);
+        List<UtilityResponse> result = middleUtilityResponses(points);
 
+        Map<Point, Map<Point, PathResult>> responsesFromPoint = getPointsToPath(points, result);
+
+        StationGrades stationGrades = StationGrades.valueOf(points, result, responsesFromPoint);
+
+        UtilityResponse finalResponse = stationGrades.finalUtilityResponse();
+        return new MiddlePointResponse(finalResponse.getX(), finalResponse.getY());
+    }
+
+    private List<UtilityResponse> middleUtilityResponses(Points points) {
+        MiddlePoint middlePoint = MiddlePoint.valueOf(points);
         List<UtilityResponse> utilityResponses = findSubway(middlePoint.getX(), middlePoint.getY());
         Set<String> keys = weightStations.getKeys();
-        for (String key: keys) {
-            Point point = weightStations.get(key);
-            UtilityResponse utilityResponse = new UtilityResponse.Builder()
-                .placeName(key)
-                .x(point.getX())
-                .y(point.getY())
-                .build();
-            utilityResponses.add(utilityResponse);
+        for (String key : keys) {
+            insertMiddleUtilityResponse(utilityResponses, key);
         }
 
         DuplicateStationRemover duplicateStationRemover = new DuplicateStationRemover(
             utilityResponses);
-        List<UtilityResponse> result = duplicateStationRemover.result();
+        return duplicateStationRemover.result();
+    }
 
-        Map<Point, Map<Point, PathResult>> responsesFromPoint
-            = getPointsToPath(points, result);
-
-        StationGrades stationGrades
-            = StationGrades.valueOf(points, result, responsesFromPoint);
-
-        UtilityResponse finalResponse = stationGrades.finalUtilityResponse();
-        return new MiddlePointResponse(finalResponse.getX(), finalResponse.getY());
+    private void insertMiddleUtilityResponse(List<UtilityResponse> utilityResponses, String key) {
+        Point point = weightStations.get(key);
+        UtilityResponse utilityResponse = new UtilityResponse.Builder()
+            .placeName(key)
+            .x(point.getX())
+            .y(point.getY())
+            .build();
+        utilityResponses.add(utilityResponse);
     }
 
     private Map<Point, Map<Point, PathResult>> getPointsToPath(Points points,
@@ -156,14 +153,8 @@ public class LocationService {
 
         final Point target = new Point(response.getX(), response.getY());
 
-        List<PathTransferResult> pathTransferResults = points.getPoints().parallelStream()
-            .map((source) -> new PathTransferResult(
-                source,
-                target,
-                pathResultRedisRepository.findById(source.toString() + target)
-                .orElseGet(() -> saveRedisCachePathResult(source, target, response.getPlaceName())))
-            )
-            .collect(Collectors.toList());
+        List<PathTransferResult> pathTransferResults = calculatedPathTransferResults(points,
+            response, target);
 
         for (PathTransferResult pathTransferResult : pathTransferResults) {
             Map<Point, PathResult> responses
@@ -171,6 +162,19 @@ public class LocationService {
             responses.put(pathTransferResult.getTarget(), pathTransferResult.getPathResult());
             responsesFromPoint.put(pathTransferResult.getSource(), responses);
         }
+    }
+
+    private List<PathTransferResult> calculatedPathTransferResults(Points points,
+        UtilityResponse response, Point target) {
+        return points.getPoints().parallelStream()
+            .map((source) -> new PathTransferResult(
+                source,
+                target,
+                pathResultRedisRepository.findById(source.toString() + target)
+                    .orElseGet(
+                        () -> saveRedisCachePathResult(source, target, response.getPlaceName())))
+            )
+            .collect(Collectors.toList());
     }
 
     private PathResult saveRedisCachePathResult(Point source, Point target, String placeName) {
@@ -196,8 +200,8 @@ public class LocationService {
         return PathResult.minTimePathResult(subwayResult, busSubwayResult);
     }
 
-    private List<UtilityResponse> findSubway( double x, double y) {
-        List<APIUtilityDocument> apiUtilityDocuments = utilityRequester.requestSubway(x, y);
+    private List<UtilityResponse> findSubway(double x, double y) {
+        List<APIUtilityDocument> apiUtilityDocuments = requesters.utility().requestSubway(x, y);
         return toUtilityResponse(apiUtilityDocuments);
     }
 }

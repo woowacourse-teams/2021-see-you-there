@@ -3,8 +3,10 @@ package seeuthere.goodday.path.domain.requester;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.path.dto.api.response.APITransportResponse;
+import seeuthere.goodday.path.exception.PathExceptionSet;
 import seeuthere.goodday.path.util.TransportURL;
 import seeuthere.goodday.secret.SecretKey;
 
@@ -29,7 +31,9 @@ public class TransportRequester {
             )
             .accept(MediaType.APPLICATION_XML)
             .retrieve()
-            .bodyToMono(APITransportResponse.class)
-            .block();
+            .bodyToFlux(APITransportResponse.class)
+            .toStream()
+            .findFirst()
+            .orElseThrow(() -> new GoodDayException(PathExceptionSet.API_SERVER));
     }
 }

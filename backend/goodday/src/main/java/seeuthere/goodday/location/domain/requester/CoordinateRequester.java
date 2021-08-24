@@ -36,7 +36,9 @@ public class CoordinateRequester {
                     .build())
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
-            .bodyToMono(APIAxisResponse.class)
-            .block();
+            .bodyToFlux(APIAxisResponse.class)
+            .toStream()
+            .findFirst()
+            .orElseThrow(() -> new GoodDayException(LocationExceptionSet.KAKAO_SERVER));
     }
 }

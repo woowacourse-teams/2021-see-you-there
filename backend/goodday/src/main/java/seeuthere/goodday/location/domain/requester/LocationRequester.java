@@ -39,7 +39,9 @@ public class LocationRequester {
             )
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
-            .bodyToMono(APILocationResponse.class)
-            .block();
+            .bodyToFlux(APILocationResponse.class)
+            .toStream()
+            .findFirst()
+            .orElseThrow(() -> new GoodDayException(LocationExceptionSet.KAKAO_SERVER));
     }
 }

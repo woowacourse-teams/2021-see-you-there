@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.dto.ProfileResponse;
+import seeuthere.goodday.auth.exception.AuthExceptionSet;
+import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.secret.SecretKey;
 
 @Component
@@ -34,7 +36,11 @@ public class KakaoUtil {
         JSONObject response = webClient.post()
             .uri(uriBuilder -> uriBuilder.path("/v2/user/me").build())
             .header("Authorization", "Bearer " + accessToken)
-            .retrieve().bodyToMono(JSONObject.class).block();
+            .retrieve()
+            .bodyToFlux(JSONObject.class)
+            .toStream()
+            .findFirst()
+            .orElseThrow(() -> new GoodDayException(AuthExceptionSet.KAKAO_USER_INFO));
         return convertToProfileDto(response, memberId);
     }
 
@@ -63,7 +69,11 @@ public class KakaoUtil {
                 .queryParam("redirect_uri", DOMAIN_URI + "/kakao/callback")
                 .queryParam("code", code)
                 .build())
-            .retrieve().bodyToMono(JSONObject.class).block();
+            .retrieve()
+            .bodyToFlux(JSONObject.class)
+            .toStream()
+            .findFirst()
+            .orElseThrow(() -> new GoodDayException(AuthExceptionSet.KAKAO_CALLBACK));
         return extractTokens(Objects.requireNonNull(response));
     }
 

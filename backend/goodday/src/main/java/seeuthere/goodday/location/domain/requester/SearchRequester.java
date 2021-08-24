@@ -37,7 +37,9 @@ public class SearchRequester {
             )
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
-            .bodyToMono(APIUtilityResponse.class)
-            .block();
+            .bodyToFlux(APIUtilityResponse.class)
+            .toStream()
+            .findFirst()
+            .orElseThrow(() -> new GoodDayException(LocationExceptionSet.KAKAO_SERVER));
     }
 }

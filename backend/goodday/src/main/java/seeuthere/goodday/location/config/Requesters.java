@@ -8,10 +8,10 @@ import seeuthere.goodday.location.domain.requester.UtilityRequester;
 
 public class Requesters {
 
-    private CoordinateRequester coordinateRequester;
-    private LocationRequester locationRequester;
-    private SearchRequester searchRequester;
-    private UtilityRequester utilityRequester;
+    private final CoordinateRequester coordinateRequester;
+    private final LocationRequester locationRequester;
+    private final SearchRequester searchRequester;
+    private final UtilityRequester utilityRequester;
 
     public Requesters(WebClient webClient) {
         this.coordinateRequester = new CoordinateRequester(webClient);

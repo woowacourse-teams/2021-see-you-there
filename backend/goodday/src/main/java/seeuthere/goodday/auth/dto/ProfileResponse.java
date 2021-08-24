@@ -22,7 +22,9 @@ public class ProfileResponse {
         return id;
     }
 
-    public String getMemberId() {return memberId;}
+    public String getMemberId() {
+        return memberId;
+    }
 
     public String getNickname() {
         return nickname;
@@ -31,5 +33,4 @@ public class ProfileResponse {
     public String getProfileImage() {
         return profileImage;
     }
-
 }

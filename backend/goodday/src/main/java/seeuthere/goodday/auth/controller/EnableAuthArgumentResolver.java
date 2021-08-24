@@ -1,5 +1,6 @@
 package seeuthere.goodday.auth.controller;
 
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -18,7 +19,6 @@ public class EnableAuthArgumentResolver implements HandlerMethodArgumentResolver
         this.authService = authService;
     }
 
-
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(EnableAuth.class);
@@ -26,9 +26,9 @@ public class EnableAuthArgumentResolver implements HandlerMethodArgumentResolver
 
     @Override
     public String resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-        NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+        NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        String token = AuthorizationExtractor.extract(request);
+        String token = AuthorizationExtractor.extract(Objects.requireNonNull(request));
         return authService.findMemberIdByToken(token);
     }
 }

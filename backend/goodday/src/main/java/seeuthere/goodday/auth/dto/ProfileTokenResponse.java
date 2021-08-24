@@ -10,6 +10,9 @@ public class ProfileTokenResponse {
     private String profileImage;
     private String token;
 
+    public ProfileTokenResponse() {
+    }
+
     public ProfileTokenResponse(Member member, String token) {
         this.id = member.getId();
         this.memberId = member.getMemberId();

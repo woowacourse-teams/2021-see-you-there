@@ -1,7 +1,5 @@
 package seeuthere.goodday.auth.controller;
 
-import static seeuthere.goodday.auth.utils.NaverUtil.NAVER_AUTH_URI;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +11,6 @@ import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.dto.ProfileTokenResponse;
 import seeuthere.goodday.auth.service.AuthService;
 import seeuthere.goodday.auth.service.NaverService;
-import seeuthere.goodday.auth.utils.NaverUtil;
 import seeuthere.goodday.member.service.MemberService;
 import seeuthere.goodday.secret.SecretKey;
 
@@ -34,17 +31,16 @@ public class NaverController {
 
     @GetMapping("/oauth")
     public String naverConnect() {
-        String state = NaverUtil.generateState();
-        StringBuilder url = new StringBuilder("redirect:");
-        url.append(NAVER_AUTH_URI)
-            .append("/oauth2.0/authorize?client_id=")
-            .append(SecretKey.NAVER_API_KEY)
-            .append("&response_type=code&redirect_uri=")
-            .append(NaverAuthRequester.NAVER_AUTH_URI)
-            .append("/api/naver/callback&state=")
-            .append(state);
 
-        return url.toString();
+        return String.join("",
+            "redirect:",
+            NaverAuthRequester.NAVER_AUTH_URI,
+            "/oauth2.0/authorize?client_id=",
+            SecretKey.NAVER_API_KEY,
+            "&response_type=code&redirect_uri=",
+            NaverAuthRequester.NAVER_AUTH_URI,
+            "/api/naver/callback&state=",
+            NaverAuthRequester.generateState());
     }
 
     @RequestMapping(value = "/callback", method = {RequestMethod.GET,

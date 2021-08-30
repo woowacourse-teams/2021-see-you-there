@@ -33,15 +33,14 @@ public class KakaoController {
 
     @GetMapping(value = "/oauth")
     public String kakaoConnect() {
-        StringBuilder url = new StringBuilder("redirect:");
-        url.append(KAKAO_AUTH_URI)
-            .append("/oauth/authorize?client_id=")
-            .append(SecretKey.KAKAO_API_KEY)
-            .append("&redirect_uri=")
-            .append(KakaoAuthRequester.getDomainUrl())
-            .append("/kakao/callback&response_type=code");
-
-        return url.toString();
+        return String.join("",
+            "redirect:",
+            KAKAO_AUTH_URI,
+            "/oauth/authorize?client_id=",
+            SecretKey.KAKAO_API_KEY,
+            "&redirect_uri=",
+            KakaoAuthRequester.getDomainUrl(),
+            "/kakao/callback&response_type=code");
     }
 
     @RequestMapping(value = "/callback", produces = "application/json", method = {RequestMethod.GET,

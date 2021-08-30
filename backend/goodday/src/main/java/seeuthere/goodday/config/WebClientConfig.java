@@ -68,6 +68,17 @@ public class WebClientConfig {
             .build();
     }
 
+    @Bean
+    @Qualifier("NaverAuthClient")
+    public WebClient naverAuthClient(ObjectMapper baseConfig) {
+        ExchangeStrategies exchangeStrategies = getExchangeStrategies(baseConfig);
+        return WebClient.builder()
+            .baseUrl("https://nid.naver.com")
+            .exchangeStrategies(exchangeStrategies)
+            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .build();
+    }
+
     private ExchangeStrategies getExchangeStrategies(ObjectMapper baseConfig) {
         ObjectMapper newMapper = baseConfig.copy();
         newMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);

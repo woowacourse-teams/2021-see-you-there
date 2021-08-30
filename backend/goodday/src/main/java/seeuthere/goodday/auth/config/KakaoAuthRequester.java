@@ -23,7 +23,7 @@ public class KakaoAuthRequester {
         this.kakaoAuthWebClient = kakaoAuthWebClient;
     }
 
-    @Value("${url.kakao}")
+    @Value("${url.server}")
     public void setKey(String value) {
         domainUrl = value;
     }

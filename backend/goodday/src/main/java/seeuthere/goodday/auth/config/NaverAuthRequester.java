@@ -5,6 +5,7 @@ import java.security.SecureRandom;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.dto.TokenResponse;
@@ -19,16 +20,18 @@ public class NaverAuthRequester {
 
     private final WebClient naverWebClient;
 
+    private static String domainUrl;
+
     public NaverAuthRequester(WebClient naverWebClient) {
         this.naverWebClient = naverWebClient;
     }
 
-    public static String generateState() {
-        SecureRandom random = new SecureRandom();
-        return new BigInteger(130, random).toString(32);
+    @Value("${url.server}")
+    public void setKey(String value) {
+        domainUrl = value;
     }
 
-    public ProfileResponse getUserInfo(String accessToken, String memberId) {
+    public ProfileResponse userInfo(String accessToken, String memberId) {
         JSONObject response = naverWebClient.get()
             .uri(uriBuilder -> uriBuilder
                 .path("/v1/nid/me")
@@ -52,7 +55,7 @@ public class NaverAuthRequester {
         return new ProfileResponse(id, memberId, nickName, profileImage);
     }
 
-    public TokenResponse getAccessToken(String code, String state) {
+    public TokenResponse accessToken(String code, String state) {
         return naverWebClient.post()
             .uri(uriBuilder -> uriBuilder
                 .path("/oauth2.0/token")
@@ -69,4 +72,16 @@ public class NaverAuthRequester {
             .orElseThrow(() -> new GoodDayException(AuthExceptionSet.KAKAO_CALLBACK));
     }
 
+    public static String generateState() {
+        SecureRandom random = new SecureRandom();
+        return new BigInteger(130, random).toString(32);
+    }
+
+    private String extractTokens(JSONObject responseBody) {
+        return (String) responseBody.get("access_token");
+    }
+
+    public static String getDomainUrl() {
+        return domainUrl;
+    }
 }

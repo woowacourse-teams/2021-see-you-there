@@ -6,6 +6,9 @@ import java.util.Objects;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.reactive.function.client.WebClient;
+import seeuthere.goodday.auth.dto.KakaoAccount;
+import seeuthere.goodday.auth.dto.KakaoProfile;
+import seeuthere.goodday.auth.dto.KakaoResponse;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.exception.AuthExceptionSet;
 import seeuthere.goodday.exception.GoodDayException;
@@ -29,15 +32,20 @@ public class KakaoAuthRequester {
     }
 
     public ProfileResponse kakaoUserInfo(String accessToken, String memberId) {
-        JSONObject response = kakaoAuthWebClient.post()
+        KakaoResponse kakaoResponse = kakaoAuthWebClient.post()
             .uri(uriBuilder -> uriBuilder.path("/v2/user/me").build())
             .header("Authorization", "Bearer " + accessToken)
             .retrieve()
-            .bodyToFlux(JSONObject.class)
+            .bodyToFlux(KakaoResponse.class)
             .toStream()
             .findFirst()
             .orElseThrow(() -> new GoodDayException(AuthExceptionSet.KAKAO_USER_INFO));
-        return convertToProfileDto(response, memberId);
+
+
+        KakaoAccount kakaoAccount = kakaoResponse.getKakaoAccount();
+        KakaoProfile kakaoProfile = kakaoAccount.getProfile();
+        return new ProfileResponse(String.valueOf(kakaoResponse.getId()), memberId, kakaoProfile.getNickName(), kakaoProfile.getThumbnailImageUrl());
+
     }
 
     private ProfileResponse convertToProfileDto(JSONObject response, String memberId) {

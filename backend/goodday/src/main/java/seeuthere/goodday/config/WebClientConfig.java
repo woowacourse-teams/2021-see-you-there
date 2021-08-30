@@ -1,6 +1,7 @@
 package seeuthere.goodday.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -81,7 +82,7 @@ public class WebClientConfig {
 
     private ExchangeStrategies getExchangeStrategies(ObjectMapper baseConfig) {
         ObjectMapper newMapper = baseConfig.copy();
-        newMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        newMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 
         return ExchangeStrategies.builder()
             .codecs(configurer ->

@@ -21,12 +21,12 @@ public class AuthRequestConfig {
     }
 
     @Bean
-    public AuthRequesters authRequesters() {
-        return new AuthRequesters(kakaoHostClient, kakaoAuthClient);
+    public NaverAuthRequester naverAuthRequester() {
+        return new NaverAuthRequester(naverAuthClient);
     }
 
     @Bean
-    public NaverAuthRequester naverAuthRequester() {
-        return new NaverAuthRequester(naverAuthClient);
+    public KakaoAuthRequester kakaoAuthRequester() {
+        return new KakaoAuthRequester(kakaoHostClient, kakaoAuthClient);
     }
 }

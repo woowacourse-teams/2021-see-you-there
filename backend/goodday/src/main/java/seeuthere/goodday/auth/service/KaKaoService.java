@@ -1,7 +1,7 @@
 package seeuthere.goodday.auth.service;
 
 import org.springframework.stereotype.Service;
-import seeuthere.goodday.auth.config.AuthRequesters;
+import seeuthere.goodday.auth.config.KakaoAuthRequester;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.member.service.MemberService;
 
@@ -9,20 +9,20 @@ import seeuthere.goodday.member.service.MemberService;
 public class KaKaoService {
 
     private final MemberService memberService;
-    private final AuthRequesters requesters;
+    private final KakaoAuthRequester kakaoAuthRequester;
 
-    public KaKaoService(MemberService memberService, AuthRequesters requesters) {
+    public KaKaoService(MemberService memberService, KakaoAuthRequester kakaoAuthRequester) {
         this.memberService = memberService;
-        this.requesters = requesters;
+        this.kakaoAuthRequester = kakaoAuthRequester;
     }
 
     public ProfileResponse getProfileWithToken(String code) {
-        String accessToken = requesters.kakaoAccessToken(code);
+        String accessToken = kakaoAuthRequester.kakaoAccessToken(code);
         String memberId = memberService.createRandomMemberId();
-        return requesters.kakaoUserInfo(accessToken, memberId);
+        return kakaoAuthRequester.kakaoUserInfo(accessToken, memberId);
     }
 
     public String getDomainUrl() {
-        return requesters.getDomainUrl();
+        return kakaoAuthRequester.getDomainUrl();
     }
 }

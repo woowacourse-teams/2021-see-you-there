@@ -18,4 +18,8 @@ public class AuthRequesters {
     public String kakaoAccessToken(String code) {
         return this.kakaoAuthRequester.kakaoAccessToken(code);
     }
+
+    public String getDomainUrl() {
+        return kakaoAuthRequester.getDomainUrl();
+    }
 }

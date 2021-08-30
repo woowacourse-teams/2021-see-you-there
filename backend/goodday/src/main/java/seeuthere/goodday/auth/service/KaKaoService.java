@@ -21,4 +21,8 @@ public class KaKaoService {
         String memberId = memberService.createRandomMemberId();
         return requesters.kakaoUserInfo(accessToken, memberId);
     }
+
+    public String getDomainUrl() {
+        return requesters.getDomainUrl();
+    }
 }

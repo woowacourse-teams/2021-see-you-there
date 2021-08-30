@@ -19,16 +19,12 @@ public class KakaoAuthRequester {
     private final WebClient kakaoHostWebClient;
     private final WebClient kakaoAuthWebClient;
 
-    private static String domainUrl;
+    @Value("${url.server}")
+    private String domainUrl;
 
     public KakaoAuthRequester(WebClient kakaoHostWebClient, WebClient kakaoAuthWebClient) {
         this.kakaoHostWebClient = kakaoHostWebClient;
         this.kakaoAuthWebClient = kakaoAuthWebClient;
-    }
-
-    @Value("${url.server}")
-    public void setKey(String value) {
-        domainUrl = value;
     }
 
     public ProfileResponse kakaoUserInfo(String accessToken, String memberId) {
@@ -45,7 +41,6 @@ public class KakaoAuthRequester {
         KakaoAccount kakaoAccount = kakaoResponse.getKakaoAccount();
         KakaoProfile kakaoProfile = kakaoAccount.getProfile();
         return new ProfileResponse(String.valueOf(kakaoResponse.getId()), memberId, kakaoProfile.getNickName(), kakaoProfile.getThumbnailImageUrl());
-
     }
 
     private ProfileResponse convertToProfileDto(JSONObject response, String memberId) {
@@ -80,7 +75,7 @@ public class KakaoAuthRequester {
         return (String) responseBody.get("access_token");
     }
 
-    public static String getDomainUrl() {
+    public String getDomainUrl() {
         return domainUrl;
     }
 }

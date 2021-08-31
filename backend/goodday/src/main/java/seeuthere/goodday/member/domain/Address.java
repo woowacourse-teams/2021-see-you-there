@@ -51,7 +51,7 @@ public class Address {
         this.id = builder.id;
         this.nickname = builder.nickname;
         this.addressName = builder.addressName;
-        this.fullAddress = builder. fullAddress;
+        this.fullAddress = builder.fullAddress;
         this.x = builder.x;
         this.y = builder.y;
     }

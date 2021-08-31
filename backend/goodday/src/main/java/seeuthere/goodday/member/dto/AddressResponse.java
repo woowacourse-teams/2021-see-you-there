@@ -11,7 +11,8 @@ public class AddressResponse {
     private Double x;
     private Double y;
 
-    public AddressResponse() { }
+    public AddressResponse() {
+    }
 
     private AddressResponse(Builder builder) {
         this.id = builder.id;
@@ -55,7 +56,8 @@ public class AddressResponse {
         private Double x;
         private Double y;
 
-        public Builder() {}
+        public Builder() {
+        }
 
         public Builder id(Long id) {
             this.id = id;

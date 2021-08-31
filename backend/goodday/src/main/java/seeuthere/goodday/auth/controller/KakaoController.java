@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.dto.ProfileTokenResponse;
 import seeuthere.goodday.auth.service.AuthService;
-import seeuthere.goodday.auth.service.KaKaoService;
+import seeuthere.goodday.auth.service.KakaoService;
 import seeuthere.goodday.member.service.MemberService;
 import seeuthere.goodday.secret.SecretKey;
 
@@ -21,10 +21,10 @@ public class KakaoController {
 
     private final MemberService memberService;
     private final AuthService authService;
-    private final KaKaoService kakaoService;
+    private final KakaoService kakaoService;
 
     public KakaoController(MemberService memberService, AuthService authService,
-        KaKaoService kaKaoService) {
+        KakaoService kaKaoService) {
         this.memberService = memberService;
         this.authService = authService;
         this.kakaoService = kaKaoService;

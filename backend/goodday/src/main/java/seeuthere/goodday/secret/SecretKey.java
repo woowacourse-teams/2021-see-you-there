@@ -13,7 +13,8 @@ public class SecretKey {
     public static Integer JWT_VALIDITY_TIME;
     public static String TRANSPORT_API_KEY;
 
-    private SecretKey () {}
+    private SecretKey() {
+    }
 
     @Value("${security.kakao.apikey}")
     public void setKakaoApiKey(String kakaoApiKey) {

@@ -6,18 +6,19 @@ import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.member.service.MemberService;
 
 @Service
-public class KaKaoService {
+public class KakaoService {
 
     private final MemberService memberService;
     private final KakaoAuthRequester kakaoAuthRequester;
 
-    public KaKaoService(MemberService memberService, KakaoAuthRequester kakaoAuthRequester) {
+    public KakaoService(MemberService memberService, KakaoAuthRequester kakaoAuthRequester) {
         this.memberService = memberService;
         this.kakaoAuthRequester = kakaoAuthRequester;
     }
 
     public ProfileResponse getProfileWithToken(String code) {
         String accessToken = kakaoAuthRequester.kakaoAccessToken(code);
+        System.out.println(accessToken);
         String memberId = memberService.createRandomMemberId();
         return kakaoAuthRequester.kakaoUserInfo(accessToken, memberId);
     }

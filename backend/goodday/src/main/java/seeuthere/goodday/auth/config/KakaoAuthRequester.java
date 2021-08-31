@@ -1,8 +1,5 @@
 package seeuthere.goodday.auth.config;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -28,7 +25,7 @@ public class KakaoAuthRequester {
     }
 
     public ProfileResponse kakaoUserInfo(String accessToken, String memberId) {
-        KakaoResponse kakaoResponse = kakaoAuthWebClient.post()
+        KakaoResponse kakaoResponse = kakaoHostWebClient.post()
             .uri(uriBuilder -> uriBuilder.path("/v2/user/me").build())
             .header("Authorization", "Bearer " + accessToken)
             .retrieve()
@@ -37,25 +34,14 @@ public class KakaoAuthRequester {
             .findFirst()
             .orElseThrow(() -> new GoodDayException(AuthExceptionSet.KAKAO_USER_INFO));
 
-
         KakaoAccount kakaoAccount = kakaoResponse.getKakaoAccount();
         KakaoProfile kakaoProfile = kakaoAccount.getProfile();
-        return new ProfileResponse(String.valueOf(kakaoResponse.getId()), memberId, kakaoProfile.getNickName(), kakaoProfile.getThumbnailImageUrl());
-    }
-
-    private ProfileResponse convertToProfileDto(JSONObject response, String memberId) {
-        String id = String.valueOf(response.get("id"));
-        Map<String, Object> kakaoAccount = (LinkedHashMap<String, Object>) response
-            .get("kakao_account");
-        Map<String, Object> profile = (LinkedHashMap<String, Object>) kakaoAccount.get("profile");
-        String nickName = (String) profile.get("nickname");
-        String profileImage = (String) profile.get("thumbnail_image_url");
-
-        return new ProfileResponse(id, memberId, nickName, profileImage);
+        return new ProfileResponse(String.valueOf(kakaoResponse.getId()), memberId,
+            kakaoProfile.getNickname(), kakaoProfile.getThumbnailImageUrl());
     }
 
     public String kakaoAccessToken(String code) {
-        JSONObject response = kakaoHostWebClient.post()
+        JSONObject response = kakaoAuthWebClient.post()
             .uri(uriBuilder -> uriBuilder
                 .path("/oauth/token")
                 .queryParam("grant_type", "authorization_code")
@@ -68,7 +54,8 @@ public class KakaoAuthRequester {
             .toStream()
             .findFirst()
             .orElseThrow(() -> new GoodDayException(AuthExceptionSet.KAKAO_CALLBACK));
-        return extractTokens(Objects.requireNonNull(response));
+
+        return extractTokens(response);
     }
 
     private String extractTokens(JSONObject responseBody) {

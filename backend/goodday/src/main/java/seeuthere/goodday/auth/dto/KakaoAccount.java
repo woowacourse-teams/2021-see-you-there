@@ -7,6 +7,10 @@ public class KakaoAccount {
     public KakaoAccount() {
     }
 
+    public KakaoAccount(KakaoProfile profile) {
+        this.profile = profile;
+    }
+
     public KakaoProfile getProfile() {
         return profile;
     }

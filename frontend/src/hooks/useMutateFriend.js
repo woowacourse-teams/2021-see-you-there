@@ -3,31 +3,16 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useSnackbar } from 'notistack';
 
 import { UserContext } from '../contexts';
-import { httpRequest } from '../utils';
 import { QUERY_KEY, API_URL, MESSAGE } from '../constants';
 
 export const useMutateFriend = () => {
-  const { token, forceLogout } = useContext(UserContext);
+  const { httpAuthRequest } = useContext(UserContext);
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
 
   /* 요청 */
   const fetchFriendRequest = async (body) => {
-    const response = await httpRequest.post(API_URL.FRIEND_REQUEST, { token, body });
-
-    if (response.status === 401) {
-      forceLogout();
-      return;
-    }
-
-    if (!response.ok) {
-      if (typeof response.body === 'object') {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    }
+    await httpAuthRequest({ method: 'post', url: API_URL.FRIEND_REQUEST, body });
   };
 
   const request = useMutation((body) => fetchFriendRequest(body), {
@@ -45,21 +30,7 @@ export const useMutateFriend = () => {
   /* 취소 */
 
   const fetchFriendCancel = async (body) => {
-    const response = await httpRequest.post(API_URL.FRIEND_CANCEL, { token, body });
-
-    if (response.status === 401) {
-      forceLogout();
-      return;
-    }
-
-    if (!response.ok) {
-      if (typeof response.body === 'object') {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    }
+    await httpAuthRequest({ method: 'post', url: API_URL.FRIEND_CANCEL, body });
   };
 
   const cancel = useMutation((body) => fetchFriendCancel(body), {
@@ -77,21 +48,7 @@ export const useMutateFriend = () => {
   /* 수락 */
 
   const fetchFriendAccept = async (body) => {
-    const response = await httpRequest.post(API_URL.FRIEND_ACCEPT, { token, body });
-
-    if (response.status === 401) {
-      forceLogout();
-      return;
-    }
-
-    if (!response.ok) {
-      if (typeof response.body === 'object') {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    }
+    await httpAuthRequest({ method: 'post', url: API_URL.FRIEND_ACCEPT, body });
   };
 
   const accept = useMutation((body) => fetchFriendAccept(body), {
@@ -110,21 +67,7 @@ export const useMutateFriend = () => {
   /* 거절 */
 
   const fetchFriendRefuse = async (body) => {
-    const response = await httpRequest.post(API_URL.FRIEND_REFUSE, { token, body });
-
-    if (response.status === 401) {
-      forceLogout();
-      return;
-    }
-
-    if (!response.ok) {
-      if (typeof response.body === 'object') {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    }
+    await httpAuthRequest({ method: 'post', url: API_URL.FRIEND_REFUSE, body });
   };
 
   const refuse = useMutation((body) => fetchFriendRefuse(body), {
@@ -141,21 +84,7 @@ export const useMutateFriend = () => {
 
   /* 삭제 */
   const fetchDeletion = async (body) => {
-    const response = await httpRequest.delete(API_URL.FRIEND_USER, { token, body });
-
-    if (response.status === 401) {
-      forceLogout();
-      return;
-    }
-
-    if (!response.ok) {
-      if (typeof response.body === 'object') {
-        const error = await response.json();
-        throw new Error(error.message);
-      }
-      const errorMessage = await response.text();
-      throw new Error(errorMessage);
-    }
+    await httpAuthRequest({ method: 'delete', url: API_URL.FRIEND_USER, body });
   };
 
   const deletion = useMutation((body) => fetchDeletion(body), {

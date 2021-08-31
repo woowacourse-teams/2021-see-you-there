@@ -1,8 +1,8 @@
 package seeuthere.goodday.auth.config;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.reactive.function.client.WebClient;
+import seeuthere.goodday.auth.dto.AccessTokenResponse;
 import seeuthere.goodday.auth.dto.KakaoAccount;
 import seeuthere.goodday.auth.dto.KakaoProfile;
 import seeuthere.goodday.auth.dto.KakaoResponse;
@@ -41,7 +41,7 @@ public class KakaoAuthRequester {
     }
 
     public String kakaoAccessToken(String code) {
-        JSONObject response = kakaoAuthWebClient.post()
+        AccessTokenResponse response = kakaoAuthWebClient.post()
             .uri(uriBuilder -> uriBuilder
                 .path("/oauth/token")
                 .queryParam("grant_type", "authorization_code")
@@ -50,16 +50,12 @@ public class KakaoAuthRequester {
                 .queryParam("code", code)
                 .build())
             .retrieve()
-            .bodyToFlux(JSONObject.class)
+            .bodyToFlux(AccessTokenResponse.class)
             .toStream()
             .findFirst()
             .orElseThrow(() -> new GoodDayException(AuthExceptionSet.KAKAO_CALLBACK));
 
-        return extractTokens(response);
-    }
-
-    private String extractTokens(JSONObject responseBody) {
-        return (String) responseBody.get("access_token");
+        return response.getAccessToken();
     }
 
     public String getDomainUrl() {

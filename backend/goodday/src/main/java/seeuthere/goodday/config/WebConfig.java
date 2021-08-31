@@ -12,8 +12,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
             .allowedOrigins("http://localhost:9000",
-                "https://seeyouthere.o-r.kr",
-                "https://dev.seeyouthere.o-r.kr",
                 "https://seeyouthere.co.kr",
                 "https://dev.seeyouthere.co.kr")
             .allowedMethods(

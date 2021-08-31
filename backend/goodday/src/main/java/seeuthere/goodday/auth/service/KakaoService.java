@@ -18,7 +18,6 @@ public class KakaoService {
 
     public ProfileResponse getProfileWithToken(String code) {
         String accessToken = kakaoAuthRequester.kakaoAccessToken(code);
-        System.out.println(accessToken);
         String memberId = memberService.createRandomMemberId();
         return kakaoAuthRequester.kakaoUserInfo(accessToken, memberId);
     }

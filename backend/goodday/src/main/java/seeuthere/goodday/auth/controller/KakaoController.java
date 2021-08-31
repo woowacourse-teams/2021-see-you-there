@@ -1,7 +1,5 @@
 package seeuthere.goodday.auth.controller;
 
-import static seeuthere.goodday.auth.utils.KakaoUtil.KAKAO_AUTH_URI;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,22 +9,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.dto.ProfileTokenResponse;
 import seeuthere.goodday.auth.service.AuthService;
-import seeuthere.goodday.auth.service.KaKaoService;
-import seeuthere.goodday.auth.utils.KakaoUtil;
+import seeuthere.goodday.auth.service.KakaoService;
 import seeuthere.goodday.member.service.MemberService;
 import seeuthere.goodday.secret.SecretKey;
-
 
 @Controller
 @RequestMapping("/api/kakao")
 public class KakaoController {
 
+    private static final String KAKAO_AUTH_URI = "https://kauth.kakao.com";
+
     private final MemberService memberService;
     private final AuthService authService;
-    private final KaKaoService kakaoService;
+    private final KakaoService kakaoService;
 
     public KakaoController(MemberService memberService, AuthService authService,
-        KaKaoService kaKaoService) {
+        KakaoService kaKaoService) {
         this.memberService = memberService;
         this.authService = authService;
         this.kakaoService = kaKaoService;
@@ -34,13 +32,14 @@ public class KakaoController {
 
     @GetMapping(value = "/oauth")
     public String kakaoConnect() {
-        StringBuilder url = new StringBuilder();
-        url.append(KAKAO_AUTH_URI + "/oauth/authorize?");
-        url.append("client_id=" + SecretKey.KAKAO_API_KEY);
-        url.append("&redirect_uri=" + KakaoUtil.DOMAIN_URI + "/kakao/callback");
-        url.append("&response_type=code");
-
-        return "redirect:" + url;
+        return String.join("",
+            "redirect:",
+            KAKAO_AUTH_URI,
+            "/oauth/authorize?client_id=",
+            SecretKey.KAKAO_API_KEY,
+            "&redirect_uri=",
+            kakaoService.getDomainUrl(),
+            "/kakao/callback&response_type=code");
     }
 
     @RequestMapping(value = "/callback", produces = "application/json", method = {RequestMethod.GET,

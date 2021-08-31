@@ -27,9 +27,10 @@ public class JwtTokenProvider {
             .compact();
     }
 
-
     public String extractId(String token) {
-        validateToken(token);
+        if (!validateToken(token)) {
+            throw new GoodDayException(AuthExceptionSet.INVALID_TOKEN);
+        }
         return Jwts.parser().setSigningKey(SecretKey.JWT_SECRET_KEY).parseClaimsJws(token).getBody()
             .getSubject();
     }

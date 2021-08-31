@@ -1,13 +1,11 @@
-package seeuthere.goodday.auth.utils;
-
+package seeuthere.goodday.auth.config;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.json.simple.JSONObject;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.reactive.function.client.WebClient;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.dto.TokenResponse;
@@ -15,26 +13,26 @@ import seeuthere.goodday.auth.exception.AuthExceptionSet;
 import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.secret.SecretKey;
 
-public class NaverUtil {
+public class NaverAuthRequester {
 
-    public static String NAVER_HOST_URI = "https://openapi.naver.com";
-    public static String NAVER_AUTH_URI = "https://nid.naver.com";
+    public static final String NAVER_HOST_URI = "https://openapi.naver.com";
+    public static final String NAVER_AUTH_URI = "https://nid.naver.com";
 
-    private NaverUtil() {
+    private final WebClient naverWebClient;
+
+    private static String domainUrl;
+
+    public NaverAuthRequester(WebClient naverWebClient) {
+        this.naverWebClient = naverWebClient;
     }
 
-    public static String generateState() {
-        SecureRandom random = new SecureRandom();
-        return new BigInteger(130, random).toString(32);
+    @Value("${url.server}")
+    public void setKey(String value) {
+        domainUrl = value;
     }
 
-    public static ProfileResponse getUserInfo(String accessToken, String memberId) {
-        WebClient webclient = WebClient.builder()
-            .baseUrl(NAVER_HOST_URI)
-            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .build();
-
-        JSONObject response = webclient.get()
+    public ProfileResponse userInfo(String accessToken, String memberId) {
+        JSONObject response = naverWebClient.get()
             .uri(uriBuilder -> uriBuilder
                 .path("/v1/nid/me")
                 .build())
@@ -47,7 +45,7 @@ public class NaverUtil {
         return convertToProfileDto(response, memberId);
     }
 
-    private static ProfileResponse convertToProfileDto(JSONObject response, String memberId) {
+    private ProfileResponse convertToProfileDto(JSONObject response, String memberId) {
         Map<String, Object> res = (LinkedHashMap<String, Object>) response.get("response");
 
         String id = (String) res.get("id");
@@ -57,13 +55,8 @@ public class NaverUtil {
         return new ProfileResponse(id, memberId, nickName, profileImage);
     }
 
-    public static TokenResponse getAccessToken(String code, String state) {
-        WebClient webclient = WebClient.builder()
-            .baseUrl(NAVER_AUTH_URI)
-            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .build();
-
-        return webclient.post()
+    public TokenResponse accessToken(String code, String state) {
+        return naverWebClient.post()
             .uri(uriBuilder -> uriBuilder
                 .path("/oauth2.0/token")
                 .queryParam("client_id", SecretKey.NAVER_API_KEY)
@@ -77,5 +70,18 @@ public class NaverUtil {
             .toStream()
             .findFirst()
             .orElseThrow(() -> new GoodDayException(AuthExceptionSet.KAKAO_CALLBACK));
+    }
+
+    public static String generateState() {
+        SecureRandom random = new SecureRandom();
+        return new BigInteger(130, random).toString(32);
+    }
+
+    private String extractTokens(JSONObject responseBody) {
+        return (String) responseBody.get("access_token");
+    }
+
+    public static String getDomainUrl() {
+        return domainUrl;
     }
 }

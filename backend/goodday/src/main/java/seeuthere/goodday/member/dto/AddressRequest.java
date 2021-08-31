@@ -8,7 +8,8 @@ public class AddressRequest {
     private Double x;
     private Double y;
 
-    public AddressRequest() {}
+    public AddressRequest() {
+    }
 
     public AddressRequest(String nickname, String addressName, String fullAddress, Double x,
         Double y) {

@@ -4,11 +4,11 @@ import seeuthere.goodday.member.domain.Member;
 
 public class ProfileTokenResponse {
 
-    private String id;
-    private String memberId;
-    private String nickname;
-    private String profileImage;
-    private String token;
+    private final String id;
+    private final String memberId;
+    private final String nickname;
+    private final String profileImage;
+    private final String token;
 
     public ProfileTokenResponse(Member member, String token) {
         this.id = member.getId();

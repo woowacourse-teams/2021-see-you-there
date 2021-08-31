@@ -16,7 +16,6 @@ public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
 
     public AuthenticationPrincipalConfig(AuthService authService) {
         this.authService = authService;
-
     }
 
     @Override

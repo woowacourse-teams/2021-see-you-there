@@ -52,7 +52,7 @@ public class PathService {
             .getNearestStation();
 
         TransportCache transportCache = subwayRedisRepository.findById(
-                redisId(startStation, endStation))
+            redisId(startStation, endStation))
             .orElseGet(() -> saveRedisCachePathsResponse(startStation, endStation));
 
         APITransportResponse apiTransportResponse = validAPITransportResponse(transportCache);

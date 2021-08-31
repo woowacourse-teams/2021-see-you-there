@@ -49,21 +49,21 @@ export const MapViewContextProvider = ({ children }) => {
   const [isMapViewLoading, setIsMapViewLoading] = useState(true);
   const [category, setCategory] = useState(null);
 
-  const {
-    data: midpoint,
-    isLoading: isMidpointLoading,
-    isError: isMidpointError,
-  } = useQuery([QUERY_KEY.MIDPOINT, participants], fetchMidpoint, {
-    enabled: pathname === '/midpoint' && !isLackParticipants,
-  });
+  const { data: midpoint, isLoading: isMidpointLoading, isError: isMidpointError } = useQuery(
+    [QUERY_KEY.MIDPOINT, participants],
+    fetchMidpoint,
+    {
+      enabled: pathname === '/midpoint' && !isLackParticipants,
+    }
+  );
 
-  const {
-    data: stations,
-    isLoading: isStationsLoading,
-    isError: isStationError,
-  } = useQuery([QUERY_KEY.STATION, midpoint], fetchCategory, {
-    enabled: !!midpoint?.x && !!midpoint?.y,
-  });
+  const { data: stations, isLoading: isStationsLoading, isError: isStationError } = useQuery(
+    [QUERY_KEY.STATION, midpoint],
+    fetchCategory,
+    {
+      enabled: !!midpoint?.x && !!midpoint?.y,
+    }
+  );
 
   const [station] = stations || [];
 

@@ -16,8 +16,9 @@ export const ParticipantAddForm = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { isLogin } = useContext(UserContext);
   const { addParticipant, isFullParticipants } = useContext(ParticipantContext);
-  const { INPUT, MESSAGE, formRef, resetForm, isComplete, noticeMessage, setNoticeMessage } =
-    useContext(AddFormContext);
+  const { INPUT, MESSAGE, formRef, resetForm, isComplete, noticeMessage, setNoticeMessage } = useContext(
+    AddFormContext
+  );
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const { name, handleChangeName, handleBlurName, focusName } = useParticipantNameInput();

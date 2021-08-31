@@ -4,7 +4,7 @@ import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { Nav, Button, Title, ProfileImage, MenuList, MenuItem, Divider } from './style';
 import { Icon } from '../../';
 import { UserContext } from '../../../contexts';
-import { COLOR, LAYOUT, ROUTE, PRIVATE_ROUTES, PATHS } from '../../../constants';
+import { COLOR, LAYOUT, ROUTE, ROUTES, PATHS } from '../../../constants';
 import { Image } from '../../../assets';
 
 export const NavBar = () => {
@@ -49,7 +49,7 @@ export const NavBar = () => {
             <strong>{user.nickname}</strong> 님 안녕하세요!
           </MenuItem>
           <Divider />
-          {PRIVATE_ROUTES.map((ROUTE, index) => (
+          {ROUTES.PRIVATE.map((ROUTE, index) => (
             <MenuItem key={index} hasNotice={ROUTE.NAME === '내 친구관리' && hasReceiveFriend}>
               <NavLink to={ROUTE.PATH}>{ROUTE.NAME}</NavLink>
             </MenuItem>

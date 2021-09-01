@@ -48,3 +48,6 @@ out/
 **/BOOT-INF/
 **/custom/
 
+##flyway
+**/src/main/resources/db/migration/
+

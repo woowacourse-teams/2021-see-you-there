@@ -3,21 +3,16 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useSnackbar } from 'notistack';
 
 import { UserContext } from '../contexts';
-import { httpRequest } from '../utils';
 import { QUERY_KEY, API_URL, MESSAGE } from '../constants';
 
 export const useMutateAddress = () => {
+  const { httpAuthRequest } = useContext(UserContext);
   const queryClient = useQueryClient();
-  const { token, forceLogout } = useContext(UserContext);
   const { enqueueSnackbar } = useSnackbar();
 
   /* 추가 */
   const fetchCreation = async (body) => {
-    const response = await httpRequest.post(API_URL.ADDRESS, { token, body });
-
-    if (response.status === 401) {
-      forceLogout();
-    }
+    await httpAuthRequest({ method: 'post', url: API_URL.ADDRESS, body });
   };
 
   const creation = useMutation((body) => fetchCreation(body), {
@@ -34,11 +29,7 @@ export const useMutateAddress = () => {
 
   /* 수정 */
   const fetchUpdate = async (body) => {
-    const response = await httpRequest.put(API_URL.ADDRESS, { token, body });
-
-    if (response.status === 401) {
-      forceLogout();
-    }
+    await httpAuthRequest({ method: 'put', url: API_URL.ADDRESS, body });
   };
 
   const update = useMutation((body) => fetchUpdate(body), {
@@ -55,11 +46,7 @@ export const useMutateAddress = () => {
 
   /* 삭제 */
   const fetchDeletion = async (body) => {
-    const response = await httpRequest.delete(API_URL.ADDRESS, { token, body });
-
-    if (response.status === 401) {
-      forceLogout();
-    }
+    await httpAuthRequest({ method: 'delete', url: API_URL.ADDRESS, body });
   };
 
   const deletion = useMutation((body) => fetchDeletion(body), {

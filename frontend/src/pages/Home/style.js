@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import { ButtonRound } from '../../components';
 import { COLOR, LAYOUT, Z_INDEX, EFFECT, CONTENT_AREA } from '../../constants';
 
 export const MapViewArea = styled.section`
@@ -28,7 +29,7 @@ export const ContentArea = styled.section`
 /* 참가자 추가 Section */
 
 export const AddSection = styled.section`
-  height: 22.5rem;
+  height: 19.5rem;
   background-color: ${COLOR.BACKGROUND};
 
   > h2 {
@@ -37,6 +38,8 @@ export const AddSection = styled.section`
 `;
 
 export const AddForm = styled.form`
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
   width: ${LAYOUT.CONTENT_WIDTH_RIGHT};
 
@@ -46,10 +49,19 @@ export const AddForm = styled.form`
   }
 `;
 
-export const ButtonGroup = styled.div`
+export const QuickAddButton = styled(ButtonRound)`
+  align-self: flex-end;
+  margin: 0.125rem 0;
+`;
+
+export const InputWithButtonWrapper = styled.div`
   display: flex;
-  justify-content: space-evenly;
-  margin-top: 1.25rem;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  & > button {
+    margin-bottom: 0.25rem;
+  }
 `;
 
 /* 참가자 목록 Section */
@@ -210,7 +222,7 @@ export const NoItem = styled.div`
   align-items: center;
 
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   line-height: 1.75;
 
   & > span:first-child {
@@ -224,6 +236,10 @@ export const NoItem = styled.div`
   & > img {
     margin: 0.5rem;
     width: 4rem;
+  }
+
+  & > button {
+    margin-top: 1.5rem;
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {

@@ -6,7 +6,7 @@ import { useSnackbar } from 'notistack';
 
 import { ParticipantContext } from './';
 import { httpRequest, storage } from '../utils';
-import { API_URL, STORAGE_KEY, PATHS, ROUTE, STATUS, QUERY_KEY, MESSAGE } from '../constants';
+import { API_URL, STORAGE_KEY, PATHS, ROUTE, QUERY_KEY, MESSAGE } from '../constants';
 
 const INITIAL_TOKEN = storage.local.get(STORAGE_KEY.TOKEN);
 
@@ -16,8 +16,6 @@ const INITIAL_STATE = {
   profileImage: null,
   memberId: null,
 };
-
-// TODO: httpAuthRequest 중복코드 제거
 
 export const UserContext = createContext();
 
@@ -61,88 +59,88 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  const httpAuthRequest = async ({ method, url, body }) => {
+    const response = await httpRequest[method](url, { token, body });
+
+    if (response.status === 401) {
+      forceLogout();
+      return;
+    }
+
+    if (!response.ok) {
+      const contentType = response.headers.get('content-type');
+
+      if (contentType === 'application/json') {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
+
+    return response;
+  };
+
   /* 유저정보 */
 
-  const fetchUserInfo = async (token) => {
+  const fetchUserInfo = async () => {
     if (!token) {
       return null;
     }
-    const response = await httpRequest.get(API_URL.USER, { token });
+    const response = await httpAuthRequest({ method: 'get', url: API_URL.USER });
 
-    if (response.status === 401) {
-      forceLogout();
-      throw new Error(STATUS.INVALID_TOKEN_ERROR);
-    }
     return await response.json();
   };
 
-  const { data: userInfo, isLoading: isUserInfoLoading } = useQuery([QUERY_KEY.TOKEN_VALIDATION, token], () =>
-    fetchUserInfo(token)
-  );
+  const { data: userInfo, isLoading: isUserInfoLoading } = useQuery([QUERY_KEY.TOKEN_VALIDATION, token], fetchUserInfo);
 
   /* 내 주소목록 */
 
-  const fetchUserAddressList = async (token) => {
-    const response = await httpRequest.get(API_URL.ADDRESS, { token });
+  const fetchUserAddressList = async () => {
+    const response = await httpAuthRequest({ method: 'get', url: API_URL.ADDRESS });
 
-    if (response.status === 401) {
-      forceLogout();
-      throw new Error(STATUS.INVALID_TOKEN_ERROR);
-    }
     return await response.json();
   };
 
-  const { data: userAddressList } = useQuery(QUERY_KEY.ADDRESS, () => fetchUserAddressList(token), {
+  const { data: userAddressList } = useQuery(QUERY_KEY.ADDRESS, fetchUserAddressList, {
     enabled: !!userInfo,
   });
 
   /* 내 친구목록 */
 
-  const fetchUserFriendList = async (token) => {
-    const response = await httpRequest.get(API_URL.FRIEND_USER, { token });
+  const fetchUserFriendList = async () => {
+    const response = await httpAuthRequest({ method: 'get', url: API_URL.FRIEND_USER });
 
-    if (response.status === 401) {
-      forceLogout();
-      throw new Error(STATUS.INVALID_TOKEN_ERROR);
-    }
     return await response.json();
   };
 
-  const { data: userFriendList } = useQuery(QUERY_KEY.FRIEND, () => fetchUserFriendList(token), {
+  const { data: userFriendList } = useQuery(QUERY_KEY.FRIEND, fetchUserFriendList, {
     enabled: !!userInfo,
     refetchInterval: pathname === ROUTE.FRIEND.PATH ? 10_000 : 300_000,
   });
 
   /* 보낸 친구요청 */
 
-  const fetchRequestFriendList = async (token) => {
-    const response = await httpRequest.get(API_URL.FRIEND_REQUEST_LIST, { token });
+  const fetchRequestFriendList = async () => {
+    const response = await httpAuthRequest({ method: 'get', url: API_URL.FRIEND_REQUEST_LIST });
 
-    if (response.status === 401) {
-      forceLogout();
-      throw new Error(STATUS.INVALID_TOKEN_ERROR);
-    }
     return await response.json();
   };
 
-  const { data: requestFriendList } = useQuery(QUERY_KEY.FRIEND_REQUEST, () => fetchRequestFriendList(token), {
+  const { data: requestFriendList } = useQuery(QUERY_KEY.FRIEND_REQUEST, fetchRequestFriendList, {
     enabled: !!userInfo,
     refetchInterval: pathname === ROUTE.FRIEND.PATH ? 10_000 : 300_000,
   });
 
   /* 받은 친구요청 */
 
-  const fetchReceiveFriendList = async (token) => {
-    const response = await httpRequest.get(API_URL.FRIEND_RECEIVE_LIST, { token });
+  const fetchReceiveFriendList = async () => {
+    const response = await httpAuthRequest({ method: 'get', url: API_URL.FRIEND_RECEIVE_LIST });
 
-    if (response.status === 401) {
-      forceLogout();
-      throw new Error(STATUS.INVALID_TOKEN_ERROR);
-    }
     return await response.json();
   };
 
-  const { data: receiveFriendList } = useQuery(QUERY_KEY.FRIEND_RECEIVE, () => fetchReceiveFriendList(token), {
+  const { data: receiveFriendList } = useQuery(QUERY_KEY.FRIEND_RECEIVE, fetchReceiveFriendList, {
     enabled: !!userInfo,
     refetchInterval: pathname === ROUTE.FRIEND.PATH ? 10_000 : 300_000,
   });
@@ -165,6 +163,8 @@ export const UserContextProvider = ({ children }) => {
         nickname,
         profileImage,
         token,
+
+        httpAuthRequest,
 
         userAddressList,
         userFriendList,

@@ -18,7 +18,7 @@ export const INPUT = {
     NAME: {
       KEY: 'name',
       LABEL: '주소 별명',
-      PLACEHOLDER: '1 ~ 10자로 입력해주세요.',
+      PLACEHOLDER: '주소 별명을 1 ~ 10자로 입력해주세요.',
       MIN_LENGTH: 1,
       MAX_LENGTH: 10,
     },

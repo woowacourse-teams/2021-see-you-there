@@ -57,7 +57,12 @@ const animals = [
   '캥거루',
 ];
 
-const nicknames = adjectives.map((v) => v + animals.splice(Math.floor(Math.random() * (animals.length - 1)), 1));
+const nicknames = Array.from({ length: adjectives.length }).map(() => {
+  const adjective = adjectives.splice(Math.floor(Math.random() * (adjectives.length - 1)), 1);
+  const animal = animals.splice(Math.floor(Math.random() * (animals.length - 1)), 1);
+
+  return adjective + animal;
+});
 
 let nicknameIndex = 0;
 
@@ -65,5 +70,5 @@ export const getNickname = () => {
   if (nicknameIndex >= nicknames.length) {
     nicknameIndex = 0;
   }
-  return nicknames[nicknameIndex];
+  return nicknames[nicknameIndex++];
 };

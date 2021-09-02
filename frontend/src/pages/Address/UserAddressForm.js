@@ -14,7 +14,7 @@ export const UserAddressForm = (props) => {
   const { createAddress, updateAddress } = useMutateAddress();
 
   const { name: nickname, handleChangeName, handleBlurName } = useAddressNicknameInput();
-  const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
+  const { address, handleClickAddress, handleKeyPressAddress } = useAddressInput();
 
   const isWebView = isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET);
   const isEditing = !!editAddressId;
@@ -37,6 +37,18 @@ export const UserAddressForm = (props) => {
 
   return (
     <AddForm ref={formRef}>
+      <AddressSearchModal />
+      <InputUnderline
+        name={INPUT.ADDRESS.KEY}
+        label={INPUT.ADDRESS.LABEL}
+        value={address.addressName}
+        placeholder={INPUT.ADDRESS.PLACEHOLDER}
+        Icon={<Icon.Place width="18" />}
+        onKeyPress={handleKeyPressAddress}
+        onClick={handleClickAddress}
+        autoFocus={isWebView}
+        readOnly
+      />
       <InputUnderline
         name={INPUT.NAME.KEY}
         label={INPUT.NAME.LABEL}
@@ -45,20 +57,7 @@ export const UserAddressForm = (props) => {
         onBlur={handleBlurName}
         placeholder={INPUT.NAME.PLACEHOLDER}
         Icon={<Icon.Star width="18" />}
-        autoFocus={isWebView}
       />
-      <InputUnderline
-        name={INPUT.ADDRESS.KEY}
-        label={INPUT.ADDRESS.LABEL}
-        value={address.addressName}
-        placeholder={INPUT.ADDRESS.PLACEHOLDER}
-        Icon={<Icon.Place width="18" />}
-        onKeyPress={handleKeyPressAddress}
-        onFocus={handleFocusAddress}
-        onClick={handleClickAddress}
-        readOnly
-      />
-      <AddressSearchModal />
       <Notice>{noticeMessage}</Notice>
       <ButtonGroup>
         <button type="button" onClick={closeForm}>

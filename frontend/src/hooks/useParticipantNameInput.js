@@ -1,10 +1,12 @@
 import { useContext } from 'react';
 
 import { AddFormContext, ParticipantContext } from '../contexts';
+import { getNickname } from '../utils';
 
 export const useParticipantNameInput = () => {
   const { isLackParticipants } = useContext(ParticipantContext);
-  const { INPUT, MESSAGE, name, setName, focusName, setNoticeMessage, resetNoticeMessage } = useContext(AddFormContext);
+  const { INPUT, MESSAGE, name, setName, focusName, dragAndSelectName, setNoticeMessage, resetNoticeMessage } =
+    useContext(AddFormContext);
 
   const handleChangeName = (e) => {
     const name = e.target.value;
@@ -31,5 +33,11 @@ export const useParticipantNameInput = () => {
     resetNoticeMessage();
   };
 
-  return { name, handleChangeName, handleBlurName, focusName };
+  const setRandomName = () => {
+    const randomName = getNickname();
+
+    setName(randomName);
+  };
+
+  return { name, handleChangeName, handleBlurName, focusName, dragAndSelectName, setRandomName };
 };

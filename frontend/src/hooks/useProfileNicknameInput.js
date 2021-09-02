@@ -3,9 +3,8 @@ import { useContext } from 'react';
 import { ProfileFormContext } from '../contexts';
 
 export const useProfileNicknameInput = () => {
-  const { nickname, setNickname, INPUT, MESSAGE, setNoticeMessage, resetNoticeMessage } = useContext(
-    ProfileFormContext
-  );
+  const { nickname, setNickname, INPUT, MESSAGE, setNoticeMessage, resetNoticeMessage } =
+    useContext(ProfileFormContext);
 
   const handleChangeNickname = (e) => {
     const nickname = e.target.value;

@@ -15,13 +15,15 @@ export const useFriendSearch = () => {
     return await response.json();
   };
 
-  const { data: searchResult, isLoading, isSuccess, isError, error } = useQuery(
-    [QUERY_KEY.FRIEND_SEARCH, memberIdKeyword],
-    fetchFriendSearch,
-    {
-      enabled: !!memberIdKeyword,
-    }
-  );
+  const {
+    data: searchResult,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useQuery([QUERY_KEY.FRIEND_SEARCH, memberIdKeyword], fetchFriendSearch, {
+    enabled: !!memberIdKeyword,
+  });
 
   return {
     searchResult,

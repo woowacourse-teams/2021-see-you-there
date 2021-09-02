@@ -12,9 +12,8 @@ import { MESSAGE, ROUTE, POBI_POINT, ID } from '../../constants';
 const formId = 'PARTICIPANT';
 
 export const Home = () => {
-  const { participants, removeParticipant, lastParticipant, resetLastParticipant, isLackParticipants } = useContext(
-    ParticipantContext
-  );
+  const { participants, removeParticipant, lastParticipant, resetLastParticipant, isLackParticipants } =
+    useContext(ParticipantContext);
   const mapObj = useRef(null);
   const mapViewRef = useRef(null);
   const { showMapView, setBounds, getMarker, showMarkers, hideMarkers } = useMapViewApi({ mapObj, mapViewRef });

@@ -40,10 +40,10 @@
     },
     "extends": [
       "eslint:recommended",
-      "plugin:prettier/recommended",
       "plugin:react/recommended",
       "plugin:react-hooks/recommended",
-      "plugin:jsx-a11y/recommended"
+      "plugin:jsx-a11y/recommended",
+      "plugin:prettier/recommended"
     ],
     "parser": "@babel/eslint-parser",
     "parserOptions": {
@@ -80,7 +80,9 @@
     "printWidth": 120,
     "singleQuote": true,
     "quoteProps": "consistent",
-    "endOfLine": "auto"
+    "endOfLine": "auto",
+    "tabWidth": 2,
+    "useTabs": false
   },
   "dependencies": {
     "@material-ui/core": "4.12.3",

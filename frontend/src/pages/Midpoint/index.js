@@ -28,16 +28,8 @@ const TRANSFER = 'transfer';
 
 export const Midpoint = () => {
   const { participants, isLackParticipants } = useContext(ParticipantContext);
-  const {
-    mapObj,
-    mapViewRef,
-    midpoint,
-    station,
-    isDataLoading,
-    isError,
-    isMapViewLoading,
-    setIsMapViewLoading,
-  } = useContext(MapViewContext);
+  const { mapObj, mapViewRef, midpoint, station, isDataLoading, isError, isMapViewLoading, setIsMapViewLoading } =
+    useContext(MapViewContext);
   const { showMapView, addMapViewLoadingEventListener } = useMapViewApi({ mapObj, mapViewRef });
   const { showDefaultBounds, showDefaultMarkers, showCategoryMarkers, hideCategoryMarkers, isSelected } = useMidpoint();
   const { share } = useShareLink();

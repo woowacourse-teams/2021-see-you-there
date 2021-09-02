@@ -3,9 +3,8 @@ import { useContext } from 'react';
 import { ProfileFormContext } from '../contexts';
 
 export const useProfileMemberIdInput = () => {
-  const { memberId, setMemberId, INPUT, MESSAGE, setNoticeMessage, resetNoticeMessage } = useContext(
-    ProfileFormContext
-  );
+  const { memberId, setMemberId, INPUT, MESSAGE, setNoticeMessage, resetNoticeMessage } =
+    useContext(ProfileFormContext);
 
   const handleChangeMemberId = (e) => {
     const MemberId = e.target.value;

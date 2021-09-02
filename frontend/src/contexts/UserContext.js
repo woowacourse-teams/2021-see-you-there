@@ -6,7 +6,7 @@ import { useSnackbar } from 'notistack';
 
 import { ParticipantContext } from './';
 import { httpRequest, storage } from '../utils';
-import { API_URL, STORAGE_KEY, PATHS, ROUTE, STATUS, QUERY_KEY, MESSAGE } from '../constants';
+import { API_URL, STORAGE_KEY, PATHS, ROUTE, QUERY_KEY, MESSAGE } from '../constants';
 
 const INITIAL_TOKEN = storage.local.get(STORAGE_KEY.TOKEN);
 

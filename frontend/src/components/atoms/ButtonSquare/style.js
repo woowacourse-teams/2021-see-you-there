@@ -1,21 +1,12 @@
 import styled, { css } from 'styled-components';
+
 import { COLOR } from '../../../constants';
 
 const styleSize = {
   base: css`
-    width: 14.25rem;
-    height: 3rem;
-    font-size: 1rem;
-  `,
-  xs: css`
-    width: 6rem;
-    height: 1.625rem;
-    font-size: 0.75rem;
-  `,
-  sm: css`
-    width: 8.75rem;
-    height: 2rem;
-    font-size: 0.75rem;
+    width: 4rem;
+    height: 2.75rem;
+    font-size: 0.9rem;
   `,
 };
 
@@ -42,12 +33,15 @@ export const Button = styled.button`
   justify-content: center;
   align-items: center;
 
-  border-radius: 3rem;
+  border-radius: 0.375rem;
+
+  & > svg {
+    margin-right: 0.25rem;
+  }
 
   & > span {
     color: inherit;
     letter-spacing: -0.06rem;
-    margin-left: 0.25rem;
   }
 
   &:disabled {

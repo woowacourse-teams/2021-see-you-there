@@ -3,10 +3,10 @@ import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
 import { QuickAddModal } from './QuickAddModal';
-import { AddressSearchModal, ButtonRound, Icon, Input, Notice } from '../../components';
+import { AddressSearchModal, ButtonSquare, Icon, Input, Notice } from '../../components';
 import { UserContext, AddFormContext, ParticipantContext } from '../../contexts';
 import { useModal, useParticipantNameInput, useAddressInput } from '../../hooks';
-import { AddForm, ButtonGroup } from './style';
+import { AddForm, QuickAddButton, InputWithButtonWrapper } from './style';
 import { getId, getAvatarKey, isViewWiderThan } from '../../utils';
 import { ROUTE, ID, LAYOUT } from '../../constants';
 import { Image } from '../../assets';
@@ -26,6 +26,7 @@ export const ParticipantAddForm = () => {
   const isWebView = isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET);
 
   const handleClickFriendButton = () => {
+    // TODO: 로그인 되어있지 않을 경우에도 모달은 열어주되, 모달 내용에서 로그인 필요 내용 안내 및 로그인 링크 제공
     if (!isLogin) {
       history.push(ROUTE.LOGIN.PATH);
       return;
@@ -68,6 +69,16 @@ export const ParticipantAddForm = () => {
 
   return (
     <AddForm ref={formRef} onSubmit={handleSubmit}>
+      <QuickAddButton
+        type="button"
+        size="xs"
+        Icon={<Icon.People width="18" color="#fff" />}
+        onClick={handleClickFriendButton}
+      >
+        간편 추가
+      </QuickAddButton>
+      <QuickAddModal isModalOpen={isModalOpen} closeModal={closeModal} />
+
       <AddressSearchModal />
       <Input
         name={INPUT.ADDRESS.KEY}
@@ -81,39 +92,30 @@ export const ParticipantAddForm = () => {
         autoFocus={isWebView}
         data-testid={ID.PARTICIPANT_ADDRESS}
       />
-      <Input
-        name={INPUT.NAME.KEY}
-        label={INPUT.NAME.LABEL}
-        value={name}
-        onChange={handleChangeName}
-        onBlur={handleBlurName}
-        placeholder={INPUT.NAME.PLACEHOLDER}
-        Icon={<Icon.Person />}
-        data-testid={ID.PARTICIPANT_NAME}
-      />
-      <Notice>{noticeMessage}</Notice>
-
-      <ButtonGroup>
-        <ButtonRound
-          type="button"
-          size="sm"
-          Icon={<Icon.People width="18" />}
-          color="gray"
-          onClick={handleClickFriendButton}
-        >
-          {isLogin ? '간편 추가' : '로그인하고 간편추가'}
-        </ButtonRound>
-        <QuickAddModal isModalOpen={isModalOpen} closeModal={closeModal} />
-        <ButtonRound
+      <InputWithButtonWrapper>
+        <Input
+          name={INPUT.NAME.KEY}
+          label={INPUT.NAME.LABEL}
+          value={name}
+          onChange={handleChangeName}
+          onBlur={handleBlurName}
+          placeholder={INPUT.NAME.PLACEHOLDER}
+          Icon={<Icon.Person />}
+          data-testid={ID.PARTICIPANT_NAME}
+          width="77%"
+        />
+        <ButtonSquare
           type="submit"
-          size="sm"
-          Icon={<Icon.SubmitRight width="18" color="#fff" />}
-          disabled={!isComplete || isFullParticipants}
+          size="base"
+          color="gray"
+          // Icon={<Icon.SubmitRight width="18" color="#fff" />}
+          // disabled={!isComplete || isFullParticipants}
           data-testid={ID.PARTICIPANT_ADD_BUTTON}
         >
-          만날 사람 추가
-        </ButtonRound>
-      </ButtonGroup>
+          추가
+        </ButtonSquare>
+      </InputWithButtonWrapper>
+      <Notice>{noticeMessage}</Notice>
     </AddForm>
   );
 };

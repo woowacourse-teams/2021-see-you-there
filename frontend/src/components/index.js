@@ -1,5 +1,6 @@
 export { Animation } from './atoms/Animation';
 export { ButtonRound } from './atoms/ButtonRound';
+export { ButtonSquare } from './atoms/ButtonSquare';
 export { Icon } from './atoms/Icon';
 export { Input } from './atoms/Input';
 export { InputUnderline } from './atoms/InputUnderline';

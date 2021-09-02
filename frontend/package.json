@@ -1,6 +1,6 @@
 {
   "name": "see-you-there-frontend",
-  "version": "3.4.2",
+  "version": "4.1.0",
   "description": "여기서만나(프론트엔드)",
   "main": "index.js",
   "scripts": {

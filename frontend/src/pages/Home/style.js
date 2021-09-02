@@ -222,7 +222,7 @@ export const NoItem = styled.div`
   align-items: center;
 
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   line-height: 1.75;
 
   & > span:first-child {
@@ -236,6 +236,10 @@ export const NoItem = styled.div`
   & > img {
     margin: 0.5rem;
     width: 4rem;
+  }
+
+  & > button {
+    margin-top: 1.5rem;
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {

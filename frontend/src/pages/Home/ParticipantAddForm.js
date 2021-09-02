@@ -1,20 +1,17 @@
 import React, { useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
 import { QuickAddModal } from './QuickAddModal';
 import { AddressSearchModal, ButtonSquare, Icon, Input, Notice } from '../../components';
-import { UserContext, AddFormContext, ParticipantContext } from '../../contexts';
+import { AddFormContext, ParticipantContext } from '../../contexts';
 import { useModal, useParticipantNameInput, useAddressInput } from '../../hooks';
 import { AddForm, QuickAddButton, InputWithButtonWrapper } from './style';
 import { getId, getAvatarKey, isViewWiderThan } from '../../utils';
-import { ROUTE, ID, LAYOUT } from '../../constants';
+import { ID, LAYOUT } from '../../constants';
 import { Image } from '../../assets';
 
 export const ParticipantAddForm = () => {
-  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const { isLogin } = useContext(UserContext);
   const { addParticipant, isFullParticipants } = useContext(ParticipantContext);
   const { INPUT, MESSAGE, formRef, resetForm, isComplete, noticeMessage, setNoticeMessage } =
     useContext(AddFormContext);
@@ -24,15 +21,6 @@ export const ParticipantAddForm = () => {
   const { address, handleClickAddress, handleKeyPressAddress, focusAddress } = useAddressInput();
 
   const isWebView = isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET);
-
-  const handleClickFriendButton = () => {
-    // TODO: 로그인 되어있지 않을 경우에도 모달은 열어주되, 모달 내용에서 로그인 필요 내용 안내 및 로그인 링크 제공
-    if (!isLogin) {
-      history.push(ROUTE.LOGIN.PATH);
-      return;
-    }
-    openModal();
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -69,12 +57,7 @@ export const ParticipantAddForm = () => {
 
   return (
     <AddForm ref={formRef} onSubmit={handleSubmit}>
-      <QuickAddButton
-        type="button"
-        size="xs"
-        Icon={<Icon.People width="18" color="#fff" />}
-        onClick={handleClickFriendButton}
-      >
+      <QuickAddButton type="button" size="xs" Icon={<Icon.People width="18" color="#fff" />} onClick={openModal}>
         간편 추가
       </QuickAddButton>
       <QuickAddModal isModalOpen={isModalOpen} closeModal={closeModal} />
@@ -104,14 +87,7 @@ export const ParticipantAddForm = () => {
           data-testid={ID.PARTICIPANT_NAME}
           width="77%"
         />
-        <ButtonSquare
-          type="submit"
-          size="base"
-          color="gray"
-          // Icon={<Icon.SubmitRight width="18" color="#fff" />}
-          // disabled={!isComplete || isFullParticipants}
-          data-testid={ID.PARTICIPANT_ADD_BUTTON}
-        >
+        <ButtonSquare type="submit" size="base" color="gray" data-testid={ID.PARTICIPANT_ADD_BUTTON}>
           추가
         </ButtonSquare>
       </InputWithButtonWrapper>

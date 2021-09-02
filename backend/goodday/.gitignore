@@ -47,7 +47,3 @@ out/
 **/src/main/resources/templates/
 **/BOOT-INF/
 **/custom/
-
-##flyway
-**/src/main/resources/db/migration/
-

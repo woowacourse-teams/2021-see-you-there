@@ -2,10 +2,14 @@ package seeuthere.goodday.auth.dto;
 
 public class ProfileResponse {
 
-    private final String id;
-    private final String memberId;
-    private final String nickname;
-    private final String profileImage;
+    private String id;
+    private String memberId;
+    private String nickname;
+    private String profileImage;
+
+    public ProfileResponse() {
+
+    }
 
     public ProfileResponse(String id, String memberId, String nickname, String profileImage) {
         this.id = id;

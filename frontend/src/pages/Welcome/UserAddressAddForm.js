@@ -12,7 +12,7 @@ export const UserAddressAddForm = () => {
   const history = useHistory();
   const { INPUT, MESSAGE, formRef, isComplete, noticeMessage, setNoticeMessage } = useContext(AddFormContext);
   const { name: nickname, handleChangeName, handleBlurName } = useAddressNicknameInput();
-  const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
+  const { address, handleClickAddress, handleKeyPressAddress } = useAddressInput();
   const { createAddress } = useMutateAddress();
 
   const isWebView = isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET);
@@ -31,6 +31,18 @@ export const UserAddressAddForm = () => {
 
   return (
     <AddForm ref={formRef} onSubmit={handleSubmit}>
+      <AddressSearchModal />
+      <Input
+        name={INPUT.ADDRESS.KEY}
+        label={INPUT.ADDRESS.LABEL}
+        value={address.addressName}
+        placeholder={INPUT.ADDRESS.PLACEHOLDER}
+        Icon={<Icon.Place />}
+        onKeyPress={handleKeyPressAddress}
+        onClick={handleClickAddress}
+        autoFocus={isWebView}
+        readOnly
+      />
       <Input
         name={INPUT.NAME.KEY}
         label={INPUT.NAME.LABEL}
@@ -39,20 +51,7 @@ export const UserAddressAddForm = () => {
         onBlur={handleBlurName}
         placeholder={INPUT.NAME.PLACEHOLDER}
         Icon={<Icon.Person />}
-        autoFocus={isWebView}
       />
-      <Input
-        name={INPUT.ADDRESS.KEY}
-        label={INPUT.ADDRESS.LABEL}
-        value={address.addressName}
-        placeholder={INPUT.ADDRESS.PLACEHOLDER}
-        Icon={<Icon.Place />}
-        onKeyPress={handleKeyPressAddress}
-        onFocus={handleFocusAddress}
-        onClick={handleClickAddress}
-        readOnly
-      />
-      <AddressSearchModal />
       <Notice>{noticeMessage}</Notice>
 
       <ButtonRound Icon={<Icon.SubmitRight color="#fff" />} onClick={handleSubmit}>

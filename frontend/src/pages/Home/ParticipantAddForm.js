@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
@@ -16,13 +16,12 @@ export const ParticipantAddForm = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { isLogin } = useContext(UserContext);
   const { addParticipant, isFullParticipants } = useContext(ParticipantContext);
-  const { INPUT, MESSAGE, formRef, resetForm, isComplete, noticeMessage, setNoticeMessage } = useContext(
-    AddFormContext
-  );
+  const { INPUT, MESSAGE, formRef, resetForm, isComplete, noticeMessage, setNoticeMessage } =
+    useContext(AddFormContext);
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { name, handleChangeName, handleBlurName, focusName } = useParticipantNameInput();
-  const { address, handleClickAddress, handleFocusAddress, handleKeyPressAddress } = useAddressInput();
+  const { name, handleChangeName, handleBlurName, dragAndSelectName, setRandomName } = useParticipantNameInput();
+  const { address, handleClickAddress, handleKeyPressAddress, focusAddress } = useAddressInput();
 
   const isWebView = isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET);
 
@@ -56,12 +55,32 @@ export const ParticipantAddForm = () => {
     addParticipant(newParticipant);
     resetForm();
     if (isWebView) {
-      focusName();
+      focusAddress();
     }
   };
 
+  useEffect(() => {
+    if (address.id && !name) {
+      setRandomName();
+      dragAndSelectName();
+    }
+  }, [address]);
+
   return (
     <AddForm ref={formRef} onSubmit={handleSubmit}>
+      <AddressSearchModal />
+      <Input
+        name={INPUT.ADDRESS.KEY}
+        label={INPUT.ADDRESS.LABEL}
+        value={address.addressName}
+        placeholder={INPUT.ADDRESS.PLACEHOLDER}
+        Icon={<Icon.Place />}
+        onKeyPress={handleKeyPressAddress}
+        onClick={handleClickAddress}
+        readOnly
+        autoFocus={isWebView}
+        data-testid={ID.PARTICIPANT_ADDRESS}
+      />
       <Input
         name={INPUT.NAME.KEY}
         label={INPUT.NAME.LABEL}
@@ -70,22 +89,8 @@ export const ParticipantAddForm = () => {
         onBlur={handleBlurName}
         placeholder={INPUT.NAME.PLACEHOLDER}
         Icon={<Icon.Person />}
-        autoFocus={isWebView}
         data-testid={ID.PARTICIPANT_NAME}
       />
-      <Input
-        name={INPUT.ADDRESS.KEY}
-        label={INPUT.ADDRESS.LABEL}
-        value={address.addressName}
-        placeholder={INPUT.ADDRESS.PLACEHOLDER}
-        Icon={<Icon.Place />}
-        onKeyPress={handleKeyPressAddress}
-        onFocus={handleFocusAddress}
-        onClick={handleClickAddress}
-        readOnly
-        data-testid={ID.PARTICIPANT_ADDRESS}
-      />
-      <AddressSearchModal />
       <Notice>{noticeMessage}</Notice>
 
       <ButtonGroup>

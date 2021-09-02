@@ -30,18 +30,22 @@ export const AddFormContextProvider = ({ initialName, initialAddress, formId, ch
   const [noticeMessage, setNoticeMessage] = useState(INITIAL_STATE.NOTICE_MESSAGE);
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { data: addressList, isLoading, isError } = useQuery(
-    [QUERY_KEY.ADDRESS_SEARCH, addressKeyword],
-    fetchAddressSearch,
-    {
-      enabled: !!addressKeyword,
-    }
-  );
+  const {
+    data: addressList,
+    isLoading,
+    isError,
+  } = useQuery([QUERY_KEY.ADDRESS_SEARCH, addressKeyword], fetchAddressSearch, {
+    enabled: !!addressKeyword,
+  });
 
   const isComplete = name && address.addressName && address.x && address.y && !noticeMessage;
 
-  const focusName = () => formRef.current[INPUT[formId].NAME.KEY].focus();
-  const focusAddress = () => formRef.current[INPUT[formId].ADDRESS.KEY].focus();
+  const $name = formRef.current?.[INPUT[formId].NAME.KEY];
+  const $address = formRef.current?.[INPUT[formId]?.ADDRESS.KEY];
+
+  const focusName = () => $name.focus();
+  const focusAddress = () => $address.focus();
+  const dragAndSelectName = () => setTimeout(() => $name.select(), 0);
 
   const escapeModal = () => {
     focusAddress();
@@ -68,6 +72,7 @@ export const AddFormContextProvider = ({ initialName, initialAddress, formId, ch
         name,
         setName,
         focusName,
+        dragAndSelectName,
 
         address,
         setAddress,

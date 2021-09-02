@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 
 import { Spinner, Icon } from '../..';
 import { AddFormContext } from '../../../contexts';
+import { getId } from '../../../utils';
 import { COLOR } from '../../../constants';
 
 export const ListContent = (props) => {
   const { setKeywordInput } = props;
-  const { escapeModal, addressList, isLoading, isError, setAddress } = useContext(AddFormContext);
+  const { escapeModal, addressList, isLoading, isError, setAddress, focusName } = useContext(AddFormContext);
 
   const handleSelectAddressListItem = (address) => {
-    setAddress(address);
+    setAddress({ ...address, id: getId() });
     setKeywordInput('');
     escapeModal();
+    focusName();
   };
 
   if (isLoading) {

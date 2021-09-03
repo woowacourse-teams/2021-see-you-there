@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Icon } from '../../';
 import { List, Item, DeleteButton, Avatar, Name, Address } from './style';
 import { COLOR, ID } from '../../../constants';
+import { image2x, image3x } from '../../../utils';
 
 export const ParticipantList = (props) => {
   const { items, onClickToDelete } = props;
@@ -18,7 +19,10 @@ export const ParticipantList = (props) => {
             </DeleteButton>
           )}
           <Avatar>
-            <img src={avatar} alt={name} />
+            <picture>
+              <source type="image/png" src={avatar.x1} srcSet={`${avatar.x1} 1x, ${avatar.x2} 2x, ${avatar.x3} 3x`} />
+              <img src={avatar.x1} alt={name} />
+            </picture>
           </Avatar>
           <Name>{name}</Name>
           <Address>{addressName}</Address>

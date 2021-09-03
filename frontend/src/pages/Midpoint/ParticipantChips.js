@@ -23,7 +23,14 @@ export const ParticipantChips = (props) => {
             <li key={id}>
               <ParticipantChip onClick={() => setParticipant(item)}>
                 <Avatar isSelected={id === participantId}>
-                  <img src={avatar} alt={name} />
+                  <picture>
+                    <source
+                      type="image/png"
+                      src={avatar.x1}
+                      srcSet={`${avatar.x1} 1x, ${avatar.x2} 2x, ${avatar.x3} 3x`}
+                    />
+                    <img src={avatar.x1} alt={name} />
+                  </picture>
                 </Avatar>
                 <Name>{name}</Name>
               </ParticipantChip>

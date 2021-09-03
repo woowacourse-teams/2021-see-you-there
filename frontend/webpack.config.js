@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const package = require('./package.json');
 
 const config = ({ isDev }) => ({
@@ -21,12 +22,15 @@ const config = ({ isDev }) => ({
   module: {
     rules: [
       {
-        test: /\.(png|jpg|svg|gif)$/,
-        loader: 'url-loader',
-        options: {
-          name: '[name].[ext]?[hash]',
-          limit: 5000,
+        test: /\.(png|jpe?g|gif|webp)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]',
         },
+      },
+      {
+        test: /\.(svg)$/i,
+        type: 'asset/inline',
       },
       {
         test: /\.(js|jsx)$/,
@@ -49,6 +53,14 @@ const config = ({ isDev }) => ({
       template: './src/index.html',
     }),
     new ReactRefreshWebpackPlugin(),
+    new ImageMinimizerPlugin({
+      test: /\.(gif|png)$/i,
+      deleteOriginalAssets: false,
+      filename: '/static/[name][ext].webp',
+      minimizerOptions: {
+        plugins: ['imagemin-webp'],
+      },
+    }),
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),

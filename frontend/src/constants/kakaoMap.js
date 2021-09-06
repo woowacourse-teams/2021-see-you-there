@@ -24,14 +24,26 @@ export const HTML = {
     DEFAULT: ({ title, key, id }) =>
       `
       <div ${id ? `id=_${id}` : ''} style="cursor: default;" data-testid=${TEST_ID[key]} >
-        <img src=${PIN_IMAGE[key].src} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
+        <picture>
+          <source
+            type="image/png"
+            srcSet="${PIN_IMAGE[key].src.x1} 1x, ${PIN_IMAGE[key].src.x2} 2x, ${PIN_IMAGE[key].src.x3} 3x"
+          />
+          <img src=${PIN_IMAGE[key].src.x1} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
+        </picture>
         <span></span>
       </div>
     `,
     INTERACTIVE: ({ title, key, url }) =>
       `
       <a href=${url} target="_blank" rel="noreferrer" data-testid=${TEST_ID[key]} >
-        <img src=${PIN_IMAGE[key].src} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
+        <picture>
+          <source
+            type="image/png"
+            srcSet="${PIN_IMAGE[key].src.x1} 1x, ${PIN_IMAGE[key].src.x2} 2x, ${PIN_IMAGE[key].src.x3} 3x"
+          />
+          <img src=${PIN_IMAGE[key].src.x1} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
+        </picture>
       </a>
     `,
   },

@@ -52,11 +52,21 @@ import logoNaverx1 from './logoNaver.png';
 import logoNaverx2 from './logoNaver@2x.png';
 import logoNaverx3 from './logoNaver@3x.png';
 
-import pinCafe from './pinCafe.png';
-import pinDining from './pinDining.png';
-import pinParticipant from './pinParticipant.png';
-import pinParty from './pinParty.png';
-import pinStation from './pinStation.png';
+import pinCafex1 from './pinCafe.png';
+import pinCafex2 from './pinCafe@2x.png';
+import pinCafex3 from './pinCafe@3x.png';
+import pinDiningx1 from './pinDining.png';
+import pinDiningx2 from './pinDining@2x.png';
+import pinDiningx3 from './pinDining@3x.png';
+import pinParticipantx1 from './pinParticipant.png';
+import pinParticipantx2 from './pinParticipant@2x.png';
+import pinParticipantx3 from './pinParticipant@3x.png';
+import pinPartyx1 from './pinParty.png';
+import pinPartyx2 from './pinParty@2x.png';
+import pinPartyx3 from './pinParty@3x.png';
+import pinStationx1 from './pinStation.png';
+import pinStationx2 from './pinStation@2x.png';
+import pinStationx3 from './pinStation@3x.png';
 
 export const avatar1 = { x1: avatar1x1, x2: avatar1x2, x3: avatar1x3 };
 export const avatar2 = { x1: avatar2x1, x2: avatar2x2, x3: avatar2x3 };
@@ -75,15 +85,10 @@ export const logoSquare = { x1: logoSquarex1, x2: logoSquarex2, x3: logoSquarex3
 export const logoKakao = { x1: logoKakaox1, x2: logoKakaox2, x3: logoKakaox3 };
 export const logoNaver = { x1: logoNaverx1, x2: logoNaverx2, x3: logoNaverx3 };
 
-export {
-  drawingFriend,
-  drawingLogin,
-  drawingWelcome,
-  home1,
-  home2,
-  pinCafe,
-  pinDining,
-  pinParticipant,
-  pinParty,
-  pinStation,
-};
+export const pinCafe = { x1: pinCafex1, x2: pinCafex2, x3: pinCafex3 };
+export const pinDining = { x1: pinDiningx1, x2: pinDiningx2, x3: pinDiningx3 };
+export const pinParticipant = { x1: pinParticipantx1, x2: pinParticipantx2, x3: pinParticipantx3 };
+export const pinParty = { x1: pinPartyx1, x2: pinPartyx2, x3: pinPartyx3 };
+export const pinStation = { x1: pinStationx1, x2: pinStationx2, x3: pinStationx3 };
+
+export { drawingFriend, drawingLogin, drawingWelcome, home1, home2 };

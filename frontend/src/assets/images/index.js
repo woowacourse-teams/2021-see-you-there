@@ -1,4 +1,3 @@
-import avatarWonder from './avatarWonder.png';
 import avatar1x1 from './avatar1.png';
 import avatar1x2 from './avatar1@2x.png';
 import avatar1x3 from './avatar1@3x.png';
@@ -29,11 +28,17 @@ import avatar9x3 from './avatar9@3x.png';
 import avatar10x1 from './avatar10.png';
 import avatar10x2 from './avatar10@2x.png';
 import avatar10x3 from './avatar10@3x.png';
+import avatarWonderx1 from './avatarWonder.png';
+import avatarWonderx2 from './avatarWonder@2x.png';
+import avatarWonderx3 from './avatarWonder@3x.png';
+
 import drawingFriend from './drawingFriend.png';
 import drawingLogin from './drawingLogin.png';
 import drawingWelcome from './drawingWelcome.png';
+
 import home1 from './home1.png';
 import home2 from './home2.png';
+
 import logo from './logo.png';
 import logoSquare from './logoSquare.png';
 import logoKakao from './logoKakao.png';
@@ -43,6 +48,28 @@ import pinDining from './pinDining.png';
 import pinParticipant from './pinParticipant.png';
 import pinParty from './pinParty.png';
 import pinStation from './pinStation.png';
+
+// 반응형이면
+// tablet 1,2,3
+// 그냥 1,2,3
+
+// 아니면
+// 그냥 1,2,3
+
+// avatar wonder
+// 왕큰이미지들 (drawing-*)
+// pin 이미지
+// 로고
+// home
+
+// export const temp = {
+//   x1Tablet: temp1x1,
+//   x2Tablet: temp1x2,
+//   x3Tablet: temp1x3,
+//   x1: temp1x1,
+//   x2: temp1x2,
+//   x3: temp1x3,
+// };
 
 export const avatar1 = { x1: avatar1x1, x2: avatar1x2, x3: avatar1x3 };
 export const avatar2 = { x1: avatar2x1, x2: avatar2x2, x3: avatar2x3 };
@@ -54,9 +81,9 @@ export const avatar7 = { x1: avatar7x1, x2: avatar7x2, x3: avatar7x3 };
 export const avatar8 = { x1: avatar8x1, x2: avatar8x2, x3: avatar8x3 };
 export const avatar9 = { x1: avatar9x1, x2: avatar9x2, x3: avatar9x3 };
 export const avatar10 = { x1: avatar10x1, x2: avatar10x2, x3: avatar10x3 };
+export const avatarWonder = { x1: avatarWonderx1, x2: avatarWonderx2, x3: avatarWonderx3 };
 
 export {
-  avatarWonder,
   drawingFriend,
   drawingLogin,
   drawingWelcome,

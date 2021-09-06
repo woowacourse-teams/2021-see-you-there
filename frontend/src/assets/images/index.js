@@ -36,8 +36,12 @@ import drawingFriend from './drawingFriend.png';
 import drawingLogin from './drawingLogin.png';
 import drawingWelcome from './drawingWelcome.png';
 
-import home1 from './home1.png';
-import home2 from './home2.png';
+import home1x1 from './home1.png';
+import home1x2 from './home1@2x.png';
+import home1x3 from './home1@3x.png';
+import home2x1 from './home2.png';
+import home2x2 from './home2@2x.png';
+import home2x3 from './home2@3x.png';
 
 import logox1 from './logo.png';
 import logox2 from './logo@2x.png';
@@ -91,4 +95,7 @@ export const pinParticipant = { x1: pinParticipantx1, x2: pinParticipantx2, x3: 
 export const pinParty = { x1: pinPartyx1, x2: pinPartyx2, x3: pinPartyx3 };
 export const pinStation = { x1: pinStationx1, x2: pinStationx2, x3: pinStationx3 };
 
-export { drawingFriend, drawingLogin, drawingWelcome, home1, home2 };
+export const home1 = { x1: home1x1, x2: home1x2, x3: home1x3 };
+export const home2 = { x1: home2x1, x2: home2x2, x3: home2x3 };
+
+export { drawingFriend, drawingLogin, drawingWelcome };

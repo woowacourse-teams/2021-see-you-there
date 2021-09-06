@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 
 import { UserAddressForm } from './UserAddressForm';
 import { ContentArea, ButtonGroup, Nickname, AddressName, FullAddress, ListItem, AddSection } from './style';
-import { ButtonRound, Confirm } from '../../components';
+import { ButtonRound, Confirm, Picture } from '../../components';
 import { AddFormContextProvider, UserContext } from '../../contexts';
 import { useConfirm, useMutateAddress } from '../../hooks';
 import { MESSAGE } from '../../constants';
@@ -44,7 +44,8 @@ export const Address = () => {
             }
             return (
               <ListItem key={id} isButtonVisible={!isEditing && !isAdding}>
-                <img src={index % 2 ? Image.home1 : Image.home2} alt="내 주소 일러스트" />
+                <Picture image={index % 2 ? Image.home1 : Image.home2} alt="내 주소 일러스트" />
+                {/* <img src={index % 2 ? Image.home1 : Image.home2} alt="내 주소 일러스트" /> */}
                 <Nickname>{nickname}</Nickname>
                 <AddressName>{addressName}</AddressName>
                 <FullAddress>{fullAddress}</FullAddress>

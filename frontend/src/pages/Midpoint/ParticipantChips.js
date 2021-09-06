@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon } from '../../components';
+import { Icon, Picture } from '../../components';
 import { ParticipantChipContainer, ParticipantChipList, ParticipantChip, Avatar, Name } from './style';
 
 export const ParticipantChips = (props) => {
@@ -23,14 +23,7 @@ export const ParticipantChips = (props) => {
             <li key={id}>
               <ParticipantChip onClick={() => setParticipant(item)}>
                 <Avatar isSelected={id === participantId}>
-                  <picture>
-                    <source
-                      type="image/png"
-                      src={avatar.x1}
-                      srcSet={`${avatar.x1} 1x, ${avatar.x2} 2x, ${avatar.x3} 3x`}
-                    />
-                    <img src={avatar.x1} alt={name} />
-                  </picture>
+                  <Picture image={avatar} alt={name} />
                 </Avatar>
                 <Name>{name}</Name>
               </ParticipantChip>

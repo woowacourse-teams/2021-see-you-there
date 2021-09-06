@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 
-import { Icon, Modal, ButtonRound } from '../../components';
+import { Icon, Modal, ButtonRound, Picture } from '../../components';
 import { Top, ModalListSection, NoItem, List, ProfileImage, FriendInfo, AddressName } from './style';
 import { UserContext, ParticipantContext } from '../../contexts';
 import { getId } from '../../utils';
@@ -127,13 +127,7 @@ export const QuickAddModal = (props) => {
           {noItemMessage && (
             <NoItem>
               <span>{noItemMessage.situation}</span>
-              <picture>
-                <source
-                  type="image/png"
-                  srcSet={`${Image.avatarWonder.x1} 1x, ${Image.avatarWonder.x2} 2x, ${Image.avatarWonder.x3} 3x`}
-                />
-                <img src={Image.avatarWonder.x1} alt="놀라는 표정 일러스트" />
-              </picture>
+              <Picture image={Image.avatarWonder} alt="놀라는 표정 일러스트" />
               <span>
                 <strong>{noItemMessage.subject}</strong>
                 {noItemMessage.action}

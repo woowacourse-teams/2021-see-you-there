@@ -8,7 +8,7 @@ export const Source = (props) => {
     <source
       type={`image/${type}`}
       srcSet={`${image.x1} 1x, ${image.x2} 2x, ${image.x3} 3x`}
-      media={`(max-width: ${maxWidth}`}
+      media={`(max-width: ${maxWidth})`}
     />
   ) : (
     <source type={`image/${type}`} srcSet={`${image.x1} 1x, ${image.x2} 2x, ${image.x3} 3x`} />

@@ -1,4 +1,4 @@
-export const convertPathExt = (path, from = '.png', to = '.webp') => {
+export const convertPathExt = (path, from = 'png', to = 'webp') => {
   return path.slice(0, path.length - from.length) + to;
 };
 

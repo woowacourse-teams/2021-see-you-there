@@ -103,16 +103,20 @@ export const CONTENT_AREA = {
       line-height: 2rem;
     }
 
-    & > img {
+    & > picture {
       position: fixed;
       bottom: 0;
+      display: flex;
+    }
+
+    & > picture > img {
       width: ${LAYOUT.CONTENT_DRAWING_WIDTH};
     }
 
     @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
       padding-top: ${LAYOUT.CONTENT_PADDING_TOP_TABLET};
 
-      & > img {
+      & > picture > img {
         width: ${LAYOUT.CONTENT_DRAWING_WIDTH_TABLET};
       }
     }

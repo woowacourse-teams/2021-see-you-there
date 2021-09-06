@@ -26,7 +26,12 @@ export const Login = () => {
             <span>{name} 계정으로 로그인</span>
           </Anchor>
         ))}
-        <img src={Image.drawingLogin} alt="로그인 페이지 일러스트" />
+        <Picture
+          image={Image.drawingLogin}
+          tabletImage={Image.drawingLoginTablet}
+          minType="webp"
+          alt="로그인 페이지 일러스트"
+        />
       </ContentArea>
     </main>
   );

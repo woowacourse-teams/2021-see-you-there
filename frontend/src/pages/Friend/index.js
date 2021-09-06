@@ -5,7 +5,7 @@ import { ListRequestFriend } from './ListRequestFriend';
 import { ListReceiveFriend } from './ListReceiveFriend';
 import { FriendSearchModal } from './FriendSearchModal';
 import { ContentArea, MyMemberId, ButtonSection, FriendTabs, FriendTab } from './style';
-import { ButtonRound, Icon } from '../../components';
+import { ButtonRound, Icon, Picture } from '../../components';
 import { UserContext } from '../../contexts';
 import { useModal } from '../../hooks';
 
@@ -67,7 +67,12 @@ export const Friend = () => {
         <ListRequestFriend list={requestFriendList} isVisible={tab === REQUEST_LIST} />
         <ListReceiveFriend list={receiveFriendList} isVisible={tab === RECEIVE_LIST} />
 
-        <img src={Image.drawingFriend} alt="내 친구목록 페이지 일러스트" />
+        <Picture
+          image={Image.drawingFriend}
+          tabletImage={Image.drawingFriendTablet}
+          minType="webp"
+          alt="내 친구목록 페이지 일러스트"
+        />
       </ContentArea>
     </main>
   );

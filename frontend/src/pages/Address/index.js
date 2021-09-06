@@ -45,7 +45,6 @@ export const Address = () => {
             return (
               <ListItem key={id} isButtonVisible={!isEditing && !isAdding}>
                 <Picture image={index % 2 ? Image.home1 : Image.home2} alt="내 주소 일러스트" />
-                {/* <img src={index % 2 ? Image.home1 : Image.home2} alt="내 주소 일러스트" /> */}
                 <Nickname>{nickname}</Nickname>
                 <AddressName>{addressName}</AddressName>
                 <FullAddress>{fullAddress}</FullAddress>

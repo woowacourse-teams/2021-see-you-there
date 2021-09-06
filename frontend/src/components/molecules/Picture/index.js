@@ -2,16 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Source } from '../..';
+import { convertPathExt } from '../../../utils';
 import { LAYOUT } from '../../../constants';
+
+const convertToMinType = (image, type, minType) =>
+  Object.keys(image).reduce((acc, cur) => {
+    acc[cur] = convertPathExt(image[cur], type, minType);
+    return acc;
+  }, {});
 
 export const Picture = (props) => {
   const { type, minType, image, tabletImage, alt } = props;
+  const minTypeImage = convertToMinType(image, type, minType);
+  const minTypeTabletImage = tabletImage && convertToMinType(tabletImage, type, minType);
 
   if (!tabletImage) {
     return (
       <picture>
+        {minType && <Source type={minType} image={minTypeImage} />}
         <Source type={type} image={image} />
-        {minType && <Source type={minType} image={image} />}
 
         <img src={image.x1} alt={alt} />
       </picture>
@@ -20,14 +29,14 @@ export const Picture = (props) => {
 
   return (
     <picture>
-      <Source type={type} image={image} />
-      <Source type={type} image={tabletImage} maxWidth={LAYOUT.DEVICE_WIDTH_TABLET} />
       {minType && (
         <>
-          <Source type={minType} image={image} />
-          <Source type={minType} image={tabletImage} maxWidth={LAYOUT.DEVICE_WIDTH_TABLET} />
+          <Source type={minType} image={minTypeTabletImage} maxWidth={LAYOUT.DEVICE_WIDTH_TABLET} />
+          <Source type={minType} image={minTypeImage} />
         </>
       )}
+      <Source type={type} image={tabletImage} maxWidth={LAYOUT.DEVICE_WIDTH_TABLET} />
+      <Source type={type} image={image} />
       <img src={image.x1} alt={alt} />
     </picture>
   );

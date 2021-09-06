@@ -20,7 +20,7 @@ export const ParticipantList = (props) => {
           )}
           <Avatar>
             <picture>
-              <source type="image/png" src={avatar.x1} srcSet={`${avatar.x1} 1x, ${avatar.x2} 2x, ${avatar.x3} 3x`} />
+              <source type="image/png" srcSet={`${avatar.x1} 1x, ${avatar.x2} 2x, ${avatar.x3} 3x`} />
               <img src={avatar.x1} alt={name} />
             </picture>
           </Avatar>

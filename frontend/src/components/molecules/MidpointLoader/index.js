@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 
 import { LoadingSection, LoadingMessage, RandomMessage } from './style';
-import { ProgressBar, Notice } from '../..';
+import { ProgressBar, Notice, Picture } from '../..';
 import { COLOR } from '../../../constants';
 import { Image } from '../../../assets';
 
@@ -11,7 +11,7 @@ export const MidpointLoader = (props) => {
 
   return (
     <LoadingSection {...rest}>
-      <img src={Image.logoSquare} width="45" alt="로고" />
+      <Picture image={Image.logoSquare} alt="로고" />
       <LoadingMessage>모든 참석자의 경로를 검토중입니다.</LoadingMessage>
       <ProgressBar width={width} duration={duration} />
       <RandomMessage>

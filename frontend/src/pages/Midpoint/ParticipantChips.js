@@ -42,7 +42,11 @@ ParticipantChips.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
-      avatar: PropTypes.string,
+      avatar: PropTypes.shape({
+        x1: PropTypes.string,
+        x2: PropTypes.string,
+        x3: PropTypes.string,
+      }),
     })
   ).isRequired,
   participantId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

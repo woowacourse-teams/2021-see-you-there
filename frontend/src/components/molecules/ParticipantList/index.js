@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon } from '../../';
+import { Icon, Picture } from '../../';
 import { List, Item, DeleteButton, Avatar, Name, Address } from './style';
 import { COLOR, ID } from '../../../constants';
 import { image2x, image3x } from '../../../utils';
@@ -19,10 +19,7 @@ export const ParticipantList = (props) => {
             </DeleteButton>
           )}
           <Avatar>
-            <picture>
-              <source type="image/png" srcSet={`${avatar.x1} 1x, ${avatar.x2} 2x, ${avatar.x3} 3x`} />
-              <img src={avatar.x1} alt={name} />
-            </picture>
+            <Picture image={avatar} alt={name} />
           </Avatar>
           <Name>{name}</Name>
           <Address>{addressName}</Address>
@@ -37,7 +34,11 @@ ParticipantList.propTypes = {
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       addressName: PropTypes.string.isRequired,
-      avatar: PropTypes.string.isRequired,
+      avatar: PropTypes.shape({
+        x1: PropTypes.string,
+        x2: PropTypes.string,
+        x3: PropTypes.string,
+      }).isRequired,
     })
   ).isRequired,
   onClickToDelete: PropTypes.func,

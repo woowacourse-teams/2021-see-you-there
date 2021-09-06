@@ -54,7 +54,7 @@ const config = ({ isDev }) => ({
     }),
     new ReactRefreshWebpackPlugin(),
     new ImageMinimizerPlugin({
-      test: /\.(gif|png)$/i,
+      test: /\.(png)$/i,
       deleteOriginalAssets: false,
       filename: '/static/[name][ext].webp',
       minimizerOptions: {

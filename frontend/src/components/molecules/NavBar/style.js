@@ -82,6 +82,10 @@ export const Title = styled.div`
     letter-spacing: 0.125rem;
     line-height: 1.25rem;
   }
+
+  & > picture > img {
+    width: 1.5rem;
+  }
 `;
 
 export const ProfileImage = styled.img`

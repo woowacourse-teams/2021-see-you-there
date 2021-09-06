@@ -30,7 +30,7 @@ export const Anchor = styled.a`
   border: 1px solid ${COLOR.BORDER};
   border-radius: 0.375rem;
 
-  & > img {
+  & > picture > img {
     height: 2.25rem;
   }
 

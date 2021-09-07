@@ -11,13 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import seeuthere.goodday.AcceptanceTest;
-import seeuthere.goodday.DataLoader;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
 import seeuthere.goodday.board.domain.Board;
 import seeuthere.goodday.board.domain.BoardLabel;
 import seeuthere.goodday.board.dto.request.BoardRequest;
 
-public class BoardAcceptanceTest extends AcceptanceTest {
+class BoardAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
@@ -30,15 +29,15 @@ public class BoardAcceptanceTest extends AcceptanceTest {
         String content = "밥사주세요";
         BoardLabel boardLabel = BoardLabel.FIX;
         String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
-        BoardRequest boardRequest = new BoardRequest(title, content, "FIX");
+        BoardRequest boardRequest = new BoardRequest(title, content, boardLabel);
 
         //when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
+        ExtractableResponse<Response> response = RestAssured.given()
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
             .body(boardRequest)
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .when().post("/api/boards")
-            .then().log().all()
+            .then()
             .extract();
         Board board = response.as(Board.class);
 

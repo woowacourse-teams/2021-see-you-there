@@ -8,21 +8,20 @@ public class BoardRequest {
 
     private String title;
     private String content;
-    private String label;
+    private BoardLabel label;
 
     public BoardRequest() {
 
     }
 
-    public BoardRequest(String title, String content, String label) {
+    public BoardRequest(String title, String content, BoardLabel label) {
         this.title = title;
         this.content = content;
         this.label = label;
     }
 
     public Board toBoard(Member member) {
-        BoardLabel boardLabel = BoardLabel.valueOf(label);
-        return new Board(title, content, boardLabel, member);
+        return new Board(title, content, label, member);
     }
 
     public String getTitle() {
@@ -33,7 +32,7 @@ public class BoardRequest {
         return content;
     }
 
-    public String getLabel() {
+    public BoardLabel getLabel() {
         return label;
     }
 }

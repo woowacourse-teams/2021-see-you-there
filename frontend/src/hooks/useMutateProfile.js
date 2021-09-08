@@ -11,7 +11,7 @@ export const useMutateProfile = () => {
 
   /* 수정 */
   const fetchUpdate = async (body) => {
-    const response = httpAuthRequest({ method: 'put', url: API_URL.USER, body });
+    const response = await httpAuthRequest({ method: 'put', url: API_URL.USER, body });
 
     return await response.json();
   };

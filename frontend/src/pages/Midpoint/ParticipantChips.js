@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon, Picture } from '../../components';
+import { Icon } from '../../components';
 import { ParticipantChipContainer, ParticipantChipList, ParticipantChip, Avatar, Name } from './style';
 
 export const ParticipantChips = (props) => {
@@ -23,7 +23,7 @@ export const ParticipantChips = (props) => {
             <li key={id}>
               <ParticipantChip onClick={() => setParticipant(item)}>
                 <Avatar isSelected={id === participantId}>
-                  <Picture image={avatar} alt={name} />
+                  <img src={avatar} alt={name} />
                 </Avatar>
                 <Name>{name}</Name>
               </ParticipantChip>
@@ -42,11 +42,7 @@ ParticipantChips.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
-      avatar: PropTypes.shape({
-        x1: PropTypes.string,
-        x2: PropTypes.string,
-        x3: PropTypes.string,
-      }),
+      avatar: PropTypes.string,
     })
   ).isRequired,
   participantId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

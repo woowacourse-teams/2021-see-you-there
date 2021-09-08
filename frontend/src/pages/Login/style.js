@@ -31,8 +31,8 @@ export const Anchor = styled.a`
   border-radius: 0.375rem;
   z-index: ${Z_INDEX.ON_IMAGE};
 
-  & > picture > img {
-    height: 2.25rem;
+  & img {
+    width: 2.25rem;
   }
 
   & > span {

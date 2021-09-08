@@ -22,7 +22,7 @@ const LoginPage = () => {
 
         {companies.map(({ backgroundColor, url, imgSrc, name }) => (
           <Anchor key={name} backgroundColor={backgroundColor} href={url}>
-            <Picture image={imgSrc} alt={`${name} 로고`} />
+            <img src={imgSrc} alt={`${name} 로고`} />
             <span>{name} 계정으로 로그인</span>
           </Anchor>
         ))}

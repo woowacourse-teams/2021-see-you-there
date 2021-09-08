@@ -26,13 +26,19 @@ const getConfig = ({ isDev, isAnalyzeMode }) => ({
     rules: [
       {
         test: /\.(png|jpe?g|gif|webp)$/i,
+        exclude: [/[\\/]images[\\/]home.*/, /[\\/]images[\\/]avatar.*/, /[\\/]images[\\/]logo.*/],
         type: 'asset/resource',
         generator: {
           filename: 'images/[name][ext]',
         },
       },
       {
-        test: /\.(svg)$/i,
+        test: /.png$/i,
+        include: [/[\\/]images[\\/]home.*/, /[\\/]images[\\/]avatar.*/, /[\\/]images[\\/]logo.*/],
+        type: 'asset/inline',
+      },
+      {
+        test: /\.svg$/i,
         type: 'asset/inline',
       },
       {

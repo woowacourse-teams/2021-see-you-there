@@ -109,14 +109,14 @@ export const CONTENT_AREA = {
       display: flex;
     }
 
-    & > picture > img {
+    & img {
       width: ${LAYOUT.CONTENT_DRAWING_WIDTH};
     }
 
     @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
       padding-top: ${LAYOUT.CONTENT_PADDING_TOP_TABLET};
 
-      & > picture > img {
+      & img {
         width: ${LAYOUT.CONTENT_DRAWING_WIDTH_TABLET};
       }
     }

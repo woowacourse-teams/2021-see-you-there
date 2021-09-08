@@ -83,7 +83,7 @@ export const Title = styled.div`
     line-height: 1.25rem;
   }
 
-  & > picture > img {
+  & img {
     width: 1.5rem;
   }
 `;

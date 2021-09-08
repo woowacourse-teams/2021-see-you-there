@@ -27,7 +27,7 @@ export const NavBar = () => {
         <NavLink to={ROUTE.HOME.PATH}>
           <Title>
             <img src={logo} alt="logo" />
-            <h2>여기서만나</h2>
+            <h2 className="sr-only">여기서만나</h2>
           </Title>
         </NavLink>
 

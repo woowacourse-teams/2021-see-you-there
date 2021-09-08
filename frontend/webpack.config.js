@@ -4,9 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const package = require('./package.json');
 
-const config = ({ isDev }) => ({
+const getConfig = ({ isDev, isAnalyzeMode }) => ({
   mode: isDev ? 'development' : 'production',
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -17,7 +18,9 @@ const config = ({ isDev }) => ({
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
-    filename: '[name].js',
+    filename: 'bundle.[name].[chunkhash].js',
+    chunkFilename: 'chunk.[name].[chunkhash].js',
+    clean: true,
   },
   module: {
     rules: [
@@ -61,7 +64,12 @@ const config = ({ isDev }) => ({
         plugins: ['imagemin-webp'],
       },
     }),
-  ],
+    isAnalyzeMode &&
+      new BundleAnalyzerPlugin({
+        generateStatsFile: true,
+        statsFilename: 'bundle-stats.json',
+      }),
+  ].filter(Boolean),
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     port: 9000,
@@ -72,4 +80,11 @@ const config = ({ isDev }) => ({
   },
 });
 
-module.exports = (env, argv) => config({ isDev: argv.mode === 'development' });
+module.exports = (env, argv) => {
+  const config = getConfig({
+    isDev: argv.mode === 'development',
+    isAnalyzeMode: env.bundleAnalyze,
+  });
+
+  return config;
+};

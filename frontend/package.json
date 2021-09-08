@@ -3,10 +3,12 @@
   "version": "4.1.0",
   "description": "여기서만나(프론트엔드)",
   "main": "index.js",
+  "sideEffects": false,
   "scripts": {
     "start": "webpack serve --mode=development",
     "lint": "eslint src",
     "build": "webpack --mode=production",
+    "bundle": "webpack --mode=production --env bundleAnalyze=true",
     "cypress": "cypress open --config watchForFileChanges=false,pluginsFile=false --config-file false",
     "cypress:run": "cypress run --config pluginsFile=false --config-file false",
     "test": "start-server-and-test start http-get://localhost:9000 cypress:run"
@@ -119,6 +121,7 @@
     "start-server-and-test": "1.13.1",
     "url-loader": "4.1.1",
     "webpack": "5.45.1",
+    "webpack-bundle-analyzer": "4.4.2",
     "webpack-cli": "4.7.2",
     "webpack-dev-server": "3.11.2"
   }

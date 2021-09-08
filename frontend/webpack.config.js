@@ -78,6 +78,17 @@ const getConfig = ({ isDev, isAnalyzeMode }) => ({
     hot: true,
     stats: 'errors-only',
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/](?!.*lottie|core-js|babel-runtime).*[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 });
 
 module.exports = (env, argv) => {

@@ -9,7 +9,7 @@ import { Top, ModalListSection, NoItem, List, ProfileImage, FriendInfo, AddressN
 import { UserContext, ParticipantContext } from '../../contexts';
 import { getId } from '../../utils';
 import { ROUTE, COLOR, MESSAGE } from '../../constants';
-import { Image } from '../../assets';
+import { avatarWonder } from '../../assets';
 
 export const QuickAddModal = (props) => {
   const { isModalOpen, closeModal } = props;
@@ -127,7 +127,7 @@ export const QuickAddModal = (props) => {
           {noItemMessage && (
             <NoItem>
               <span>{noItemMessage.situation}</span>
-              <Picture image={Image.avatarWonder} alt="놀라는 표정 일러스트" />
+              <Picture image={avatarWonder} alt="놀라는 표정 일러스트" />
               <span>
                 <strong>{noItemMessage.subject}</strong>
                 {noItemMessage.action}

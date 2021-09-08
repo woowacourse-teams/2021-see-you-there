@@ -1,5 +1,5 @@
 import { getAvatarKey } from '../utils';
-import { Image } from '../assets';
+import { avatar } from '../assets';
 
 export const MOCK_PARTICIPANT_LIST = [
   {
@@ -8,7 +8,7 @@ export const MOCK_PARTICIPANT_LIST = [
     address: '서울시 송파구 잠실 루터회관 999-999',
     x: '0.00',
     y: '0.00',
-    avatar: Image.avatar1,
+    avatar: avatar.avatar1,
   },
   {
     id: 1,
@@ -16,7 +16,7 @@ export const MOCK_PARTICIPANT_LIST = [
     address: '서울시 송파구 잠실 루터회관 888-888',
     x: '0.00',
     y: '0.00',
-    avatar: Image.avatar2,
+    avatar: avatar.avatar2,
   },
   {
     id: 2,
@@ -24,7 +24,7 @@ export const MOCK_PARTICIPANT_LIST = [
     address: '서울시 송파구 잠실 루터회관 ',
     x: '0.00',
     y: '0.00',
-    avatar: Image.avatar3,
+    avatar: avatar.avatar3,
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ export const MOCK_PARTICIPANT_LIST = [
     address: '서울시 송파구 잠실 루터회관',
     x: '0.00',
     y: '0.00',
-    avatar: Image.avatar4,
+    avatar: avatar.avatar4,
   },
   {
     id: 4,
@@ -40,7 +40,7 @@ export const MOCK_PARTICIPANT_LIST = [
     address: '서울시 송파구 잠실 루터회관',
     x: '0.00',
     y: '0.00',
-    avatar: Image.avatar5,
+    avatar: avatar.avatar5,
   },
   {
     id: 5,
@@ -48,7 +48,7 @@ export const MOCK_PARTICIPANT_LIST = [
     address: '서울시 송파구 잠실 루터회관',
     x: '0.00',
     y: '0.00',
-    avatar: Image.avatar6,
+    avatar: avatar.avatar6,
   },
 ];
 
@@ -88,25 +88,25 @@ export const MOCK_FRIEND_LIST = [
   {
     memberId: '365kim',
     nickname: '365kim',
-    profileImage: Image[getAvatarKey()],
+    profileImage: avatar[getAvatarKey()],
     addresses: [],
   },
   {
     memberId: '0imbean0',
     nickname: '임심바',
-    profileImage: Image[getAvatarKey()],
+    profileImage: avatar[getAvatarKey()],
     addresses: [],
   },
   {
     memberId: 'daum7766',
     nickname: '김멍토',
-    profileImage: Image[getAvatarKey()],
+    profileImage: avatar[getAvatarKey()],
     addresses: [],
   },
   {
     memberId: 'hybeom0720',
     nickname: '와이빛',
-    profileImage: Image[getAvatarKey()],
+    profileImage: avatar[getAvatarKey()],
     addresses: [],
   },
 ];

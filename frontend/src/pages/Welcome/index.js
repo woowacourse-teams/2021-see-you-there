@@ -4,7 +4,7 @@ import { AddFormContextProvider } from '../../contexts';
 import { UserAddressAddForm } from './UserAddressAddForm';
 import { Picture } from '../../components';
 import { ContentArea } from './style';
-import { Image } from '../../assets';
+import { drawingWelcome, drawingWelcomeTablet } from '../../assets';
 
 const formId = 'USER_ADDRESS';
 
@@ -19,12 +19,7 @@ const WelcomePage = () => {
         <AddFormContextProvider formId={formId}>
           <UserAddressAddForm />
         </AddFormContextProvider>
-        <Picture
-          image={Image.drawingWelcome}
-          tabletImage={Image.drawingWelcomeTablet}
-          minType="webp"
-          alt="웰컴 페이지 일러스트"
-        />
+        <Picture image={drawingWelcome} tabletImage={drawingWelcomeTablet} minType="webp" alt="웰컴 페이지 일러스트" />
       </ContentArea>
     </main>
   );

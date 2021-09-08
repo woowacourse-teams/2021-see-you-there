@@ -8,7 +8,7 @@ import { useModal, useParticipantNameInput, useAddressInput } from '../../hooks'
 import { AddForm, QuickAddButton, InputWithButtonWrapper } from './style';
 import { getId, getAvatarKey, isViewWiderThan } from '../../utils';
 import { ID, LAYOUT } from '../../constants';
-import { Image } from '../../assets';
+import { avatar } from '../../assets';
 
 export const ParticipantAddForm = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -36,7 +36,7 @@ export const ParticipantAddForm = () => {
 
     const newParticipant = {
       id: getId(),
-      avatar: Image[getAvatarKey()],
+      avatar: avatar[getAvatarKey()],
       name,
       ...address,
     };

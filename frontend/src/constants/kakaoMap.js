@@ -1,13 +1,13 @@
 import { QUERY_KEY } from './api';
 import { ID } from './test';
-import { Image } from '../assets';
+import { pinStation, pinParticipant, pinCafe, pinDining, pinParty } from '../assets';
 
 const PIN_IMAGE = {
-  STATION: { w: 60, h: 80, src: Image.pinStation },
-  PARTICIPANT: { w: 45, h: 45, src: Image.pinParticipant },
-  [QUERY_KEY.CAFE]: { w: 36, h: 48, src: Image.pinCafe },
-  [QUERY_KEY.DINING]: { w: 36, h: 48, src: Image.pinDining },
-  [QUERY_KEY.PARTY]: { w: 36, h: 48, src: Image.pinParty },
+  STATION: { w: 60, h: 80, src: pinStation },
+  PARTICIPANT: { w: 45, h: 45, src: pinParticipant },
+  [QUERY_KEY.CAFE]: { w: 36, h: 48, src: pinCafe },
+  [QUERY_KEY.DINING]: { w: 36, h: 48, src: pinDining },
+  [QUERY_KEY.PARTY]: { w: 36, h: 48, src: pinParty },
 };
 
 const TEST_ID = {

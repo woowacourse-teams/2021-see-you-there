@@ -9,7 +9,7 @@ import { ButtonRound, Icon, Picture } from '../../components';
 import { UserContext } from '../../contexts';
 import { useModal } from '../../hooks';
 
-import { Image } from '../../assets';
+import { drawingFriend, drawingFriendTablet } from '../../assets';
 import { COLOR } from '../../constants';
 
 const FRIEND_LIST = 'friendList';
@@ -68,8 +68,8 @@ const FriendPage = () => {
         <ListReceiveFriend list={receiveFriendList} isVisible={tab === RECEIVE_LIST} />
 
         <Picture
-          image={Image.drawingFriend}
-          tabletImage={Image.drawingFriendTablet}
+          image={drawingFriend}
+          tabletImage={drawingFriendTablet}
           minType="webp"
           alt="내 친구목록 페이지 일러스트"
         />

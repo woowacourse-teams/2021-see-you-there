@@ -5,7 +5,7 @@ import { Nav, Button, Title, ProfileImage, MenuList, MenuItem, Divider } from '.
 import { Icon } from '../../';
 import { UserContext } from '../../../contexts';
 import { COLOR, LAYOUT, ROUTE, ROUTES, PATHS } from '../../../constants';
-import { Image } from '../../../assets';
+import { logo } from '../../../assets';
 import { Picture } from '../Picture';
 
 export const NavBar = () => {
@@ -27,7 +27,7 @@ export const NavBar = () => {
 
         <NavLink to={ROUTE.HOME.PATH}>
           <Title>
-            <Picture image={Image.logo} alt="logo" />
+            <Picture image={logo} alt="logo" />
             <h2>여기서만나</h2>
           </Title>
         </NavLink>

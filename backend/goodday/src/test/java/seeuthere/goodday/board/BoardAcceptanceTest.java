@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import java.util.Objects;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import seeuthere.goodday.AcceptanceTest;
 import seeuthere.goodday.DataLoader;
+import seeuthere.goodday.TestMethod;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
 import seeuthere.goodday.board.domain.BoardLabel;
 import seeuthere.goodday.board.dto.request.BoardRequest;
@@ -34,7 +37,11 @@ class BoardAcceptanceTest extends AcceptanceTest {
         String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
         BoardRequest boardRequest = new BoardRequest(title, content, boardLabel);
 
-        BoardResponse board = createBoard(token, boardRequest);
+        BoardResponse board = makeResponse("/api/boards",
+            TestMethod.POST,
+            token,
+            boardRequest
+        ).as(BoardResponse.class);
 
         //then
         assertThat(board.getTitle()).isEqualTo(title);
@@ -51,15 +58,16 @@ class BoardAcceptanceTest extends AcceptanceTest {
         BoardLabel boardLabel = BoardLabel.FIX;
         String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
         BoardRequest boardRequest = new BoardRequest(title, content, boardLabel);
-        BoardResponse board = createBoard(token, boardRequest);
+        BoardResponse board = makeResponse("/api/boards",
+            TestMethod.POST,
+            token,
+            boardRequest
+        ).as(BoardResponse.class);
+
+        String url = "/api/boards/" + board.getId();
 
         // when
-        ExtractableResponse<Response> response = RestAssured.given()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().get("/api/boards/{id}", board.getId())
-            .then()
-            .extract();
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET, token);
         BoardResponse findBoard = response.as(BoardResponse.class);
 
         // then
@@ -71,18 +79,18 @@ class BoardAcceptanceTest extends AcceptanceTest {
     void updateBoard() {
         // given
         String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
-        BoardResponse board = createBoard(token,
-            new BoardRequest("수정 전 제목", "수정 전 글", BoardLabel.FIX));
+        BoardRequest boardRequest = new BoardRequest("수정 전 제목", "수정 전 글", BoardLabel.FIX);
+
+        BoardResponse board = makeResponse("/api/boards",
+            TestMethod.POST,
+            token,
+            boardRequest
+        ).as(BoardResponse.class);
 
         BoardRequest updateRequest = new BoardRequest("수정 후 제목", "수정 후 글", BoardLabel.FIX);
+        String url = "/api/boards/" + board.getId();
         //when
-        ExtractableResponse<Response> response = RestAssured.given()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-            .body(updateRequest)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().put("/api/boards/{id}", board.getId())
-            .then()
-            .extract();
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, token, updateRequest);
 
         BoardResponse updatedBoard = response.as(BoardResponse.class);
 
@@ -100,15 +108,16 @@ class BoardAcceptanceTest extends AcceptanceTest {
         // given
         String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
         BoardRequest boardRequest = new BoardRequest("YB", "글", BoardLabel.FIX);
-        BoardResponse board = createBoard(token, boardRequest);
+        BoardResponse board = makeResponse("/api/boards",
+            TestMethod.POST,
+            token,
+            boardRequest
+        ).as(BoardResponse.class);
+
+        String url = "/api/boards/" + board.getId();
 
         // when
-        ExtractableResponse<Response> response = RestAssured.given()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().delete("/api/boards/{id}", board.getId())
-            .then()
-            .extract();
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE, token);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
@@ -121,15 +130,16 @@ class BoardAcceptanceTest extends AcceptanceTest {
         String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
         String fixToken = jwtTokenProvider.createToken(DataLoader.하루.getId());
         BoardRequest boardRequest = new BoardRequest("YB", "글", BoardLabel.FIX);
-        BoardResponse board = createBoard(token, boardRequest);
+        BoardResponse board = makeResponse("/api/boards",
+            TestMethod.POST,
+            token,
+            boardRequest
+        ).as(BoardResponse.class);
+
+        String url = "/api/boards/" + board.getId();
 
         // when
-        ExtractableResponse<Response> response = RestAssured.given()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + fixToken)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().delete("/api/boards/{id}", board.getId())
-            .then()
-            .extract();
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, fixToken, boardRequest);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
@@ -141,33 +151,34 @@ class BoardAcceptanceTest extends AcceptanceTest {
         // given
         String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
         String fixToken = jwtTokenProvider.createToken(DataLoader.하루.getId());
-        BoardResponse board = createBoard(token,
-            new BoardRequest("수정 전 제목", "수정 전 글", BoardLabel.FIX));
+        BoardRequest boardRequest = new BoardRequest("수정 전 제목", "수정 전 글", BoardLabel.FIX);
+        BoardResponse board = makeResponse("/api/boards",
+            TestMethod.POST,
+            token,
+            boardRequest
+        ).as(BoardResponse.class);
 
-        BoardRequest updateRequest = new BoardRequest("수정 후 제목", "수정 후 글", BoardLabel.FIX);
+        String url = "/api/boards/" + board.getId();
 
         //when
-        ExtractableResponse<Response> response = RestAssured.given()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + fixToken)
-            .body(updateRequest)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().put("/api/boards/{id}", board.getId())
-            .then()
-            .extract();
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE, fixToken);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
     }
 
-    private BoardResponse createBoard(String token, BoardRequest boardRequest) {
-        //when
-        ExtractableResponse<Response> response = RestAssured.given()
+    private ExtractableResponse<Response> makeResponse(String url, TestMethod testMethod, String token) {
+        return makeResponse(url, testMethod, token, null);
+    }
+
+    private ExtractableResponse<Response> makeResponse(String url, TestMethod testMethod,
+        String token, Object requestBody) {
+        RequestSpecification request = RestAssured.given()
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-            .body(boardRequest)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when().post("/api/boards")
-            .then()
-            .extract();
-        return response.as(BoardResponse.class);
+            .contentType(MediaType.APPLICATION_JSON_VALUE);
+        if (Objects.nonNull(requestBody)) {
+            request = request.body(requestBody);
+        }
+        return testMethod.extractedResponse(request, url);
     }
 }

@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { SnackbarProvider } from 'notistack';
 
 import HomePage from './pages/Home';
+import BlankPage from './pages/Blank';
 import { AuthRoute, NavBar } from './components';
 import { UserContextProvider, ParticipantContextProvider, MapViewContextProvider } from './contexts';
 import { useCustomSnackbar } from './hooks';
@@ -41,7 +42,7 @@ export const App = () => {
           <ParticipantContextProvider>
             <UserContextProvider>
               <NavBar />
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<BlankPage />}>
                 <Switch>
                   <Route exact path={ROUTE.HOME.PATH}>
                     <HomePage />

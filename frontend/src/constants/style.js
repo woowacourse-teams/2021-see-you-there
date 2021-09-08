@@ -72,6 +72,7 @@ export const Z_INDEX = {
 
   MODAL: 100,
   LOADING: 100,
+  BLANK: 100,
 };
 
 export const REACT_QUERY_DEV_TOOL = {

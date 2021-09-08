@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import { ContentArea, Anchor } from './style';
 
-export const Error = () => {
+const ErrorPage = () => {
   const history = useHistory();
 
   return (
@@ -18,3 +18,5 @@ export const Error = () => {
     </main>
   );
 };
+
+export default ErrorPage;

@@ -16,7 +16,7 @@ const FRIEND_LIST = 'friendList';
 const REQUEST_LIST = 'requestList';
 const RECEIVE_LIST = 'receiveList';
 
-export const Friend = () => {
+const FriendPage = () => {
   const { memberId, userFriendList, requestFriendList, receiveFriendList, hasReceiveFriend } = useContext(UserContext);
   const { isModalOpen, openModal, closeModal } = useModal();
   const [isMemberIdCopied, setIsMemberIdCopied] = useState(false);
@@ -77,3 +77,5 @@ export const Friend = () => {
     </main>
   );
 };
+
+export default FriendPage;

@@ -8,7 +8,7 @@ import { Image } from '../../assets';
 
 const formId = 'USER_ADDRESS';
 
-export const Welcome = () => {
+const WelcomePage = () => {
   return (
     <main>
       <ContentArea>
@@ -29,3 +29,5 @@ export const Welcome = () => {
     </main>
   );
 };
+
+export default WelcomePage;

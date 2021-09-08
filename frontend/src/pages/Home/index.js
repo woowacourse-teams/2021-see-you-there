@@ -11,7 +11,7 @@ import { MESSAGE, ROUTE, POBI_POINT, ID } from '../../constants';
 
 const formId = 'PARTICIPANT';
 
-export const Home = () => {
+const HomePage = () => {
   const { participants, removeParticipant, lastParticipant, resetLastParticipant, isLackParticipants } =
     useContext(ParticipantContext);
   const mapObj = useRef(null);
@@ -90,3 +90,5 @@ export const Home = () => {
     </>
   );
 };
+
+export default HomePage;

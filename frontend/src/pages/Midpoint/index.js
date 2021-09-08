@@ -26,7 +26,7 @@ const SUBWAY = 'subway';
 const BUS = 'bus';
 const TRANSFER = 'transfer';
 
-export const Midpoint = () => {
+const MidpointPage = () => {
   const { participants, isLackParticipants } = useContext(ParticipantContext);
   const { mapObj, mapViewRef, midpoint, station, isDataLoading, isError, isMapViewLoading, setIsMapViewLoading } =
     useContext(MapViewContext);
@@ -145,3 +145,5 @@ export const Midpoint = () => {
     </>
   );
 };
+
+export default MidpointPage;

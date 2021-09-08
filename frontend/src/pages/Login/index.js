@@ -11,7 +11,7 @@ const companies = [
   // { name: '네이버', imgSrc: Image.logoNaver, backgroundColor: '#FFFFFF', url: API_URL.LOGIN_NAVER },
 ];
 
-export const Login = () => {
+const LoginPage = () => {
   return (
     <main>
       <ContentArea>
@@ -36,3 +36,5 @@ export const Login = () => {
     </main>
   );
 };
+
+export default LoginPage;

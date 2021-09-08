@@ -12,7 +12,7 @@ const fetchUserInfo = async (pathname, search) => {
   return await response.json();
 };
 
-export const OAuth = () => {
+const OAuthPage = () => {
   const { login, userAddressList } = useContext(UserContext);
   const { pathname, search } = useLocation();
   const history = useHistory();
@@ -41,3 +41,5 @@ export const OAuth = () => {
 
   return null;
 };
+
+export default OAuthPage;

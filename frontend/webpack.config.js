@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const package = require('./package.json');
 
@@ -69,6 +70,10 @@ const getConfig = ({ isDev, isAnalyzeMode }) => ({
       minimizerOptions: {
         plugins: ['imagemin-webp'],
       },
+    }),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      test: /\.js$/,
     }),
     isAnalyzeMode &&
       new BundleAnalyzerPlugin({

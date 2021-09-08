@@ -15,9 +15,11 @@ const AddressPage = lazy(() => import(/* webpackChunkName: "Address" */ './pages
 const ErrorPage = lazy(() => import(/* webpackChunkName: "Error" */ './pages/Error'));
 const ExpiredPage = lazy(() => import(/* webpackChunkName: "Expired" */ './pages/Expired'));
 const FriendPage = lazy(() => import(/* webpackChunkName: "Friend" */ './pages/Friend'));
-const LoginPage = lazy(() => import(/* webpackChunkName: "Login" */ './pages/Login'));
+const LoginPage = lazy(() => import(/* webpackChunkName: "Login" */ /* webpackPrefetch: true */ './pages/Login'));
 const LogoutPage = lazy(() => import(/* webpackChunkName: "Logout" */ './pages/Logout'));
-const MidpointPage = lazy(() => import(/* webpackChunkName: "Midpoint" */ './pages/Midpoint'));
+const MidpointPage = lazy(() =>
+  import(/* webpackChunkName: "Midpoint" */ /* webpackPrefetch: true */ './pages/Midpoint')
+);
 const NotFoundPage = lazy(() => import(/* webpackChunkName: "NotFound" */ './pages/NotFound'));
 const OAuthPage = lazy(() => import(/* webpackChunkName: "OAuth" */ './pages/OAuth'));
 const ProfilePage = lazy(() => import(/* webpackChunkName: "Profile" */ './pages/Profile'));

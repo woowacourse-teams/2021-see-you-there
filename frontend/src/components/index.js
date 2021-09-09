@@ -8,6 +8,7 @@ export { InputWithButton } from './atoms/InputWithButton';
 export { Modal } from './atoms/Modal';
 export { Notice } from './atoms/Notice';
 export { ProgressBar } from './atoms/ProgressBar';
+export { Snackbar } from './atoms/Snackbar';
 export { Source } from './atoms/Source';
 export { Spinner } from './atoms/Spinner';
 

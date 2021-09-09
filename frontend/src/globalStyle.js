@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { COLOR } from './constants';
+import { COLOR, Z_INDEX } from './constants';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -207,8 +207,17 @@ const GlobalStyle = createGlobalStyle`
     display: none;
   }
 
-  #notistack-snackbar {
-    color: ${COLOR.ON_PRIMARY};
+  #snackbar .container {
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: 0;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 18rem;
+    z-index: ${Z_INDEX.SNACKBAR};
   }
 
   .sr-only {

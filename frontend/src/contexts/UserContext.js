@@ -2,9 +2,8 @@ import React, { useState, createContext, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { useSnackbar } from 'notistack';
 
-import { ParticipantContext } from './';
+import { ParticipantContext, SnackbarContext } from './';
 import { httpRequest, storage } from '../utils';
 import { API_URL, STORAGE_KEY, PATHS, ROUTE, QUERY_KEY, MESSAGE } from '../constants';
 
@@ -22,7 +21,7 @@ export const UserContext = createContext();
 export const UserContextProvider = ({ children }) => {
   const history = useHistory();
   const { pathname } = useLocation();
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useContext(SnackbarContext);
   const { resetParticipants } = useContext(ParticipantContext);
 
   const [token, setToken] = useState(INITIAL_TOKEN);

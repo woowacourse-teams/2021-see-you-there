@@ -1,14 +1,17 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { SnackbarProvider } from 'notistack';
 
 import HomePage from './pages/Home';
 import BlankPage from './pages/Blank';
 import { AuthRoute, NavBar } from './components';
-import { UserContextProvider, ParticipantContextProvider, MapViewContextProvider } from './contexts';
-import { useCustomSnackbar } from './hooks';
+import {
+  UserContextProvider,
+  ParticipantContextProvider,
+  MapViewContextProvider,
+  SnackbarContextProvider,
+} from './contexts';
 import { ROUTE, REACT_QUERY_DEV_TOOL } from './constants';
 
 const AddressPage = lazy(() => import(/* webpackChunkName: "Address" */ './pages/Address'));
@@ -27,7 +30,6 @@ const SharePage = lazy(() => import(/* webpackChunkName: "Share" */ './pages/Sha
 const WelcomePage = lazy(() => import(/* webpackChunkName: "Welcome" */ './pages/Welcome'));
 
 export const App = () => {
-  const snackbarOptions = useCustomSnackbar();
   const queryClient = new QueryClient();
 
   queryClient.setDefaultOptions({
@@ -40,7 +42,7 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <SnackbarProvider {...snackbarOptions}>
+        <SnackbarContextProvider>
           <ParticipantContextProvider>
             <UserContextProvider>
               <NavBar />
@@ -94,7 +96,7 @@ export const App = () => {
               </Suspense>
             </UserContextProvider>
           </ParticipantContextProvider>
-        </SnackbarProvider>
+        </SnackbarContextProvider>
       </Router>
       <ReactQueryDevtools panelProps={REACT_QUERY_DEV_TOOL} />
     </QueryClientProvider>

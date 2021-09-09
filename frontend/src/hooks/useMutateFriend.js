@@ -1,15 +1,13 @@
 import { useContext } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useSnackbar } from 'notistack';
 
-import { UserContext } from '../contexts';
+import { SnackbarContext, UserContext } from '../contexts';
 import { QUERY_KEY, API_URL, MESSAGE } from '../constants';
 
 export const useMutateFriend = () => {
   const { httpAuthRequest } = useContext(UserContext);
   const queryClient = useQueryClient();
-  const { enqueueSnackbar } = useSnackbar();
-
+  const { enqueueSnackbar } = useContext(SnackbarContext);
   /* 요청 */
   const fetchFriendRequest = async (body) => {
     await httpAuthRequest({ method: 'post', url: API_URL.FRIEND_REQUEST, body });

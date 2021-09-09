@@ -1,12 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
 import PropTypes from 'prop-types';
 
 import { Icon, Modal, ButtonRound } from '../../components';
 import { Top, ModalListSection, NoItem, List, ProfileImage, FriendInfo, AddressName } from './style';
-import { UserContext, ParticipantContext } from '../../contexts';
+import { UserContext, ParticipantContext, SnackbarContext } from '../../contexts';
 import { getId } from '../../utils';
 import { ROUTE, COLOR, MESSAGE } from '../../constants';
 import { avatarWonder } from '../../assets';
@@ -14,7 +13,7 @@ import { avatarWonder } from '../../assets';
 export const QuickAddModal = (props) => {
   const { isModalOpen, closeModal } = props;
   const history = useHistory();
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useContext(SnackbarContext);
   const { userFriendList = [], userAddressList, user, isLogin } = useContext(UserContext);
   const { addParticipant, participants, isFullParticipants } = useContext(ParticipantContext);
 

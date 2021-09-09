@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 
 import { Icon } from '../../components';
-import { PathDetail, PathList, PathSummary, PathPagination, Divider } from './style';
+import { PathDetail, PathList, PathPagination, PageNumber, PathSummary, Divider } from './style';
 import { httpRequest } from '../../utils';
 import { COLOR, API_URL } from '../../constants';
 
@@ -41,7 +41,7 @@ export const PersonalPath = (props) => {
         <button disabled={isLeftButtonDisabled} onClick={() => setPathIndex((index) => --index)}>
           <Icon.TriangleLeft width="8" />
         </button>
-        {currentPage} / {totalPage}
+        <PageNumber>{currentPage}</PageNumber> / <PageNumber>{totalPage}</PageNumber>
         <button disabled={isRightButtonDisabled} onClick={() => setPathIndex((index) => ++index)}>
           <Icon.TriangleRight width="8" />
         </button>

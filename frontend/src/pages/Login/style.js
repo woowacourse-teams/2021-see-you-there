@@ -31,7 +31,7 @@ export const Anchor = styled.a`
   border-radius: 0.375rem;
   z-index: ${Z_INDEX.ON_IMAGE};
 
-  & img {
+  & > img {
     width: 2.25rem;
   }
 

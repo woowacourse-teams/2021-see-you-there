@@ -70,7 +70,7 @@ export const Title = styled.div`
   align-items: center;
   height: 100%;
 
-  & img {
+  & > img {
     width: 8.25rem;
   }
 `;

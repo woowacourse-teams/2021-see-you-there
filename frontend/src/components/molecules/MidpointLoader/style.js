@@ -17,7 +17,7 @@ export const LoadingSection = styled.section`
 
   background-color: ${COLOR.ON_PRIMARY};
 
-  & img {
+  & > img {
     width: 2.8125rem;
   }
 `;

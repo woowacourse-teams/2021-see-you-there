@@ -87,8 +87,6 @@
     "useTabs": false
   },
   "dependencies": {
-    "@material-ui/core": "4.12.3",
-    "notistack": "1.0.10",
     "prop-types": "15.7.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",

@@ -7,10 +7,12 @@ export const Container = styled.span`
   flex-direction: column;
   justify-content: center;
   margin-bottom: ${LAYOUT.MARGIN_HALF};
-  padding: ${LAYOUT.PADDING};
-  width: 100%;
-  height: 3rem;
+  padding: ${LAYOUT.PADDING_HALF} ${LAYOUT.PADDING};
+  width: ${LAYOUT.SNACKBAR_WIDTH};
+  height: auto;
 
+  white-space: normal;
+  word-break: keep-all;
   opacity: 1;
   font-size: 0.9rem;
   color: ${COLOR.ON_PRIMARY};

@@ -51,6 +51,8 @@ export const LAYOUT = {
 
   PIN_SIZE_PARTICIPANT: '2.8125rem',
 
+  SNACKBAR_WIDTH: '18rem',
+
   DEVICE_WIDTH_TABLET: '832px',
 
   MARGIN: '1.5rem',

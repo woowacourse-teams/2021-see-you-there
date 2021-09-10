@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { COLOR, Z_INDEX } from './constants';
+import { COLOR, Z_INDEX, LAYOUT } from './constants';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -216,7 +216,7 @@ const GlobalStyle = createGlobalStyle`
     display:flex;
     flex-direction: column;
     justify-content: center;
-    width: 18rem;
+    width: ${LAYOUT.SNACKBAR_WIDTH}
     z-index: ${Z_INDEX.SNACKBAR};
   }
 

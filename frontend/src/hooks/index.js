@@ -2,7 +2,6 @@ export { useConfirm } from './useConfirm';
 export { useMidpoint } from './useMidpoint';
 export { useMapViewApi } from './useMapViewApi';
 export { useModal } from './useModal';
-export { useCustomSnackbar } from './useCustomSnackbar';
 
 export { useAddressSearch } from './useAddressSearch';
 export { useAddressInput } from './useAddressInput';

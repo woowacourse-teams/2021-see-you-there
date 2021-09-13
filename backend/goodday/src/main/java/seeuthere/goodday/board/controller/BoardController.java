@@ -1,5 +1,7 @@
 package seeuthere.goodday.board.controller;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +17,6 @@ import seeuthere.goodday.board.domain.Comment;
 import seeuthere.goodday.board.dto.request.BoardRequest;
 import seeuthere.goodday.board.dto.request.BoardResponse;
 import seeuthere.goodday.board.dto.request.CommentRequest;
-import seeuthere.goodday.board.dto.request.CommentResponse;
 import seeuthere.goodday.board.service.BoardService;
 import seeuthere.goodday.member.domain.Admin;
 import seeuthere.goodday.member.domain.Member;
@@ -72,25 +73,35 @@ public class BoardController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}/comment")
-    public ResponseEntity<CommentResponse> createComment(@PathVariable Long id,
-        @EnableAuth String memberId, @RequestBody CommentRequest commentRequest) {
+    @PostMapping("/{id}/comments")
+    public ResponseEntity<Void> createComment(@PathVariable Long id,
+        @EnableAuth String memberId, @RequestBody CommentRequest commentRequest)
+        throws URISyntaxException {
         Member member = memberService.find(memberId);
         Admin admin = memberService.findAdminByMember(member);
         Board board = boardService.findBoardById(id);
         Comment comment = commentRequest.toComment(board, admin);
-        return ResponseEntity.ok(new CommentResponse(comment));
+        boardService.addComment(board, comment);
+
+        return ResponseEntity.created(new URI("/api/boards/" + id)).build();
     }
 
-    @PutMapping("/{id}/comment")
-    public void updateComment() {
-
+    @PutMapping("/{id}/comments")
+    public ResponseEntity<Void> updateComment(@PathVariable Long id,
+        @EnableAuth String memberId, @RequestBody CommentRequest commentRequest) {
+        Member member = memberService.find(memberId);
+        Admin admin = memberService.findAdminByMember(member);
+        boardService.updateComment(id, commentRequest.getContent(), admin);
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}/comment")
-    public ResponseEntity<Void> deleteComment() {
+    @DeleteMapping("/{id}/comments")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id,
+        @EnableAuth String memberId) {
+        Member member = memberService.find(memberId);
+        Admin admin = memberService.findAdminByMember(member);
+        boardService.deleteComment(id);
 
         return ResponseEntity.noContent().build();
     }
-
 }

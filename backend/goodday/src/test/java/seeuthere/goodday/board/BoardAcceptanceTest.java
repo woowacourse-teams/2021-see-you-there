@@ -18,14 +18,19 @@ import seeuthere.goodday.AcceptanceTest;
 import seeuthere.goodday.DataLoader;
 import seeuthere.goodday.TestMethod;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
+import seeuthere.goodday.board.domain.Board;
 import seeuthere.goodday.board.domain.BoardLabel;
 import seeuthere.goodday.board.dto.request.BoardRequest;
 import seeuthere.goodday.board.dto.request.BoardResponse;
+import seeuthere.goodday.board.dto.request.CommentRequest;
+import seeuthere.goodday.board.service.BoardService;
 
 class BoardAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private BoardService boardService;
 
     @DisplayName("게시판 작성")
     @Test
@@ -89,6 +94,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
 
         BoardRequest updateRequest = new BoardRequest("수정 후 제목", "수정 후 글", BoardLabel.FIX);
         String url = "/api/boards/" + board.getId();
+
         //when
         ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, token,
             updateRequest);
@@ -169,6 +175,39 @@ class BoardAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
     }
 
+    @Test
+    @DisplayName("답글을 생성한다.")
+    void creteComment() {
+        //given
+        String token = jwtTokenProvider.createToken(DataLoader.하루.getId());
+        Board board = createBoard();
+        CommentRequest commentRequest = new CommentRequest("관리자가 남긴 답변입니다.");
+
+        //when
+        ExtractableResponse<Response> response = makeResponse(
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.POST, token,
+            commentRequest);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
+        Board boardResponse = getBoard(board.getId());
+        assertThat(boardResponse.getComment().getContent()).isEqualTo("관리자가 남긴 답변입니다.");
+    }
+
+    // 답글 수정 기능
+
+    // 답글 삭제 기능
+
+    // 게시글 관련 테스트도 서비스 이용으로
+
+    // 실패제 삭글 답 답
+    //
+    // /// 는다글 답에 글시게데, 는있이 글그답 글시게//게
+
+
+
+    // 멍토가 칭찬을 해줬다 7 예정
+
     private ExtractableResponse<Response> makeResponse(String url, TestMethod testMethod,
         String token) {
         return makeResponse(url, testMethod, token, null);
@@ -183,5 +222,14 @@ class BoardAcceptanceTest extends AcceptanceTest {
             request = request.body(requestBody);
         }
         return testMethod.extractedResponse(request, url);
+    }
+
+    private Board createBoard() {
+        Board board = new Board("여기서 만나 화이팅이에요", "밥사주세요", BoardLabel.FIX, DataLoader.와이비);
+        return boardService.saveBoard(board);
+    }
+
+    private Board getBoard(long id) {
+        return boardService.findBoardById(id);
     }
 }

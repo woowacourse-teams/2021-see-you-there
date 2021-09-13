@@ -1,16 +1,16 @@
 package seeuthere.goodday.board.service;
 
 import java.util.List;
+import java.util.Objects;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import seeuthere.goodday.board.dao.BoardRepository;
 import seeuthere.goodday.board.dao.CommentRepository;
 import seeuthere.goodday.board.domain.Board;
 import seeuthere.goodday.board.domain.Comment;
-import seeuthere.goodday.board.dto.request.BoardResponse;
-import seeuthere.goodday.board.dto.request.CommentResponse;
 import seeuthere.goodday.board.exception.BoardExceptionSet;
 import seeuthere.goodday.exception.GoodDayException;
+import seeuthere.goodday.member.domain.Admin;
 import seeuthere.goodday.member.domain.Member;
 
 @Service
@@ -26,16 +26,6 @@ public class BoardService {
 
     public Board saveBoard(Board board) {
         return boardRepository.save(board);
-    }
-
-    public Comment saveComment(Comment comment) {
-        Comment savedComment = commentRepository.save(comment);
-        return savedComment;
-    }
-
-    public Comment findCommentByBoardId(Long boardId) {
-        return commentRepository.findByBoardId(boardId)
-            .orElseThrow(() -> new GoodDayException(BoardExceptionSet.NOT_FOUND_BOARD));
     }
 
     public List<Board> findAllWithPagination() {
@@ -65,5 +55,27 @@ public class BoardService {
             throw new GoodDayException(BoardExceptionSet.UNAUTHORIZED_BOARD);
         }
         return board;
+    }
+
+    @Transactional
+    public void addComment(Board board, Comment comment) {
+        if (Objects.nonNull(board.getComment())) {
+            throw new GoodDayException(BoardExceptionSet.ALREADY_EXISTED_COMMENT);
+        }
+        commentRepository.save(comment);
+        board.addComment(comment);
+    }
+
+    @Transactional
+    public void updateComment(long boardId, String content, Admin admin) {
+        Board board = findBoardById(boardId);
+        Comment comment = board.getComment();
+        comment.update(content, admin);
+    }
+
+    @Transactional
+    public void deleteComment(Long boardId) {
+        Board board = findBoardById(boardId);
+        board.deleteComment();
     }
 }

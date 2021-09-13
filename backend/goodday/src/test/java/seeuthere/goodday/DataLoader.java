@@ -5,8 +5,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
+import seeuthere.goodday.member.dao.AdminRepository;
 import seeuthere.goodday.member.dao.MemberRepository;
 import seeuthere.goodday.member.domain.Address;
+import seeuthere.goodday.member.domain.Admin;
 import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.FriendRequest;
@@ -33,12 +35,15 @@ public class DataLoader implements CommandLineRunner {
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberService memberService;
+    private final AdminRepository adminRepository;
 
     public DataLoader(MemberRepository memberRepository,
-        JwtTokenProvider jwtTokenProvider, MemberService memberService) {
+        JwtTokenProvider jwtTokenProvider, MemberService memberService,
+        AdminRepository adminRepository) {
         this.memberRepository = memberRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.memberService = memberService;
+        this.adminRepository = adminRepository;
     }
 
     @Override
@@ -51,6 +56,9 @@ public class DataLoader implements CommandLineRunner {
         memberRepository.save(멍토);
         memberRepository.save(심바);
         memberRepository.save(하루);
+
+        adminRepository.save(new Admin(와이비));
+        adminRepository.save(new Admin(하루));
 
         memberService.requestFriend(멍토.getId(), new FriendRequest(와이비.getMemberId()));
         memberService.requestFriend(심바.getId(), new FriendRequest(와이비.getMemberId()));

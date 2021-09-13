@@ -18,7 +18,7 @@ public class CommentRequest {
         return new Comment(content, board, admin);
     }
 
-    public String getComment() {
+    public String getContent() {
         return this.content;
     }
 

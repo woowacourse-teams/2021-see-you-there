@@ -1,6 +1,7 @@
 package seeuthere.goodday.board.domain;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import seeuthere.goodday.board.exception.BoardExceptionSet;
+import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.member.domain.Member;
 
 @Entity
@@ -41,6 +44,7 @@ public class Board {
     private Member member;
 
     @OneToOne(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(nullable = true)
     private Comment comment;
 
     public Board() {
@@ -64,7 +68,14 @@ public class Board {
     }
 
     public void addComment(Comment comment) {
+        if (Objects.isNull(comment)) {
+            throw new GoodDayException(BoardExceptionSet.NO_CONTENT);
+        }
         this.comment = comment;
+    }
+
+    public void deleteComment() {
+        this.comment = null;
     }
 
     public Long getId() {

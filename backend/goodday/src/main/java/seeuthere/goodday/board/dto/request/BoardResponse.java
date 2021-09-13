@@ -13,9 +13,10 @@ public class BoardResponse {
     private final LocalDateTime updateTime;
     private final BoardLabel label;
     private final String memberId;
+    private final CommentResponse commentResponse;
 
     public BoardResponse(Long id, String title, String content, LocalDateTime createTime,
-        LocalDateTime updateTime, BoardLabel label, String memberId) {
+        LocalDateTime updateTime, BoardLabel label, String memberId, CommentResponse commentResponse) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -23,6 +24,7 @@ public class BoardResponse {
         this.updateTime = updateTime;
         this.label = label;
         this.memberId = memberId;
+        this.commentResponse = commentResponse;
     }
 
     public BoardResponse(Board board) {
@@ -33,6 +35,7 @@ public class BoardResponse {
         this.updateTime = board.getUpdateTime();
         this.label = board.getLabel();
         this.memberId = board.getMember().getMemberId();
+        this.commentResponse = CommentResponse.valueOf(board.getComment());
     }
 
     public Long getId() {
@@ -61,5 +64,9 @@ public class BoardResponse {
 
     public LocalDateTime getUpdateTime() {
         return updateTime;
+    }
+
+    public CommentResponse getCommentResponse() {
+        return commentResponse;
     }
 }

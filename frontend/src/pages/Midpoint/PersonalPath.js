@@ -15,7 +15,7 @@ const fetchPath = async (transport, participant, station) => {
 
 export const PersonalPath = (props) => {
   const { transport, participant, station } = props;
-  const { data } = useQuery([participant.name, transport, station], () => fetchPath(transport, participant, station), {
+  const { data } = useQuery([participant.id, transport, station], () => fetchPath(transport, participant, station), {
     enabled: !!participant && !!station,
   });
   const paths = data?.paths;

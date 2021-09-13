@@ -1,8 +1,21 @@
 import styled from 'styled-components';
 
-import { LAYOUT, COLOR } from '../../../constants';
+import { LAYOUT, COLOR, Z_INDEX } from '../../../constants';
 
-export const Container = styled.span`
+export const Container = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: ${LAYOUT.SNACKBAR_WIDTH};
+  z-index: ${Z_INDEX.SNACKBAR};
+`;
+
+export const Message = styled.span`
   display: flex;
   flex-direction: column;
   justify-content: center;

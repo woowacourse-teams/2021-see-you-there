@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react';
-import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
 import { Snackbar } from '../components';
@@ -7,13 +6,10 @@ import { getId } from '../utils';
 
 // TODO: 스낵바 최대 개수 제한 기능 추가
 // TODO: Component props로 받아서 우리의 Snackbar 컴포넌트 받을 수 있도록
-const SnackbarContainer = ({ children }) => {
-  return createPortal(<div className="container">{children}</div>, document.getElementById('snackbar'));
-};
 
 export const SnackbarContext = createContext();
 
-export const SnackbarContextProvider = ({ children }) => {
+export const SnackbarContextProvider = ({ maxSize = 3, children }) => {
   const [queue, setQueue] = useState([]);
 
   const dequeueSnackbar = () => {
@@ -46,11 +42,7 @@ export const SnackbarContextProvider = ({ children }) => {
       }}
     >
       {children}
-      <SnackbarContainer>
-        {queue.map(({ key, message, variant, duration }) => (
-          <Snackbar key={key} message={message} variant={variant} duration={duration} />
-        ))}
-      </SnackbarContainer>
+      <Snackbar messages={queue} />
     </SnackbarContext.Provider>
   );
 };

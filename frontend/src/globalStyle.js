@@ -207,19 +207,6 @@ const GlobalStyle = createGlobalStyle`
     display: none;
   }
 
-  #snackbar .container {
-    position: fixed;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    bottom: 0;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    width: ${LAYOUT.SNACKBAR_WIDTH}
-    z-index: ${Z_INDEX.SNACKBAR};
-  }
-
   .sr-only {
     position: absolute;
     width: 1px;

@@ -1,24 +1,30 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
-import { Container } from './style';
+import { Container, Message } from './style';
 
 export const Snackbar = (props) => {
-  const { message, variant, duration } = props;
+  const { messages } = props;
 
-  return (
-    <Container variant={variant} duration={duration / 1000 + 's'}>
-      {message}
-    </Container>
+  return createPortal(
+    <Container>
+      {messages.map(({ key, message, variant, duration }) => (
+        <Message key={key} variant={variant} duration={duration / 1000 + 's'}>
+          {message}
+        </Message>
+      ))}
+    </Container>,
+    document.getElementById('snackbar')
   );
 };
 
 Snackbar.propTypes = {
-  message: PropTypes.node,
-  variant: PropTypes.string,
-  duration: PropTypes.number,
-};
-
-Snackbar.defaultProps = {
-  variant: 'success',
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      message: PropTypes.node,
+      variant: PropTypes.string,
+      duration: PropTypes.number,
+    })
+  ),
 };

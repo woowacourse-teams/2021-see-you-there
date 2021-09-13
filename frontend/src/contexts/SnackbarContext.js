@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 import { Snackbar } from '../components';
 import { getId } from '../utils';
 
-// TODO: 스낵바 최대 개수 제한 기능 추가
-// TODO: Component props로 받아서 우리의 Snackbar 컴포넌트 받을 수 있도록
-
 export const SnackbarContext = createContext();
 
 export const SnackbarContextProvider = ({ maxSize = 3, children }) => {
@@ -23,7 +20,15 @@ export const SnackbarContextProvider = ({ maxSize = 3, children }) => {
       dequeueSnackbar();
     }, duration);
 
-    setQueue((queue) => [...queue, { key, message, variant, duration, timerId }]);
+    setQueue((queue) => {
+      if (queue.length >= maxSize) {
+        const { timerId } = queue.shift();
+
+        clearTimeout(timerId);
+      }
+
+      return [...queue, { key, message, variant, duration, timerId }];
+    });
   };
 
   const clearSnackbar = () => {

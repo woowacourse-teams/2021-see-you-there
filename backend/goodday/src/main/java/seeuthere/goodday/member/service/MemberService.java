@@ -10,9 +10,11 @@ import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.exception.AuthExceptionSet;
 import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.member.dao.AddressRepository;
+import seeuthere.goodday.member.dao.AdminRepository;
 import seeuthere.goodday.member.dao.MemberRepository;
 import seeuthere.goodday.member.dao.RequestFriendRepository;
 import seeuthere.goodday.member.domain.Address;
+import seeuthere.goodday.member.domain.Admin;
 import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.domain.RequestFriend;
 import seeuthere.goodday.member.dto.AddressDeleteRequest;
@@ -33,12 +35,14 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final AddressRepository addressRepository;
     private final RequestFriendRepository requestFriendRepository;
+    private final AdminRepository adminRepository;
 
     public MemberService(MemberRepository memberRepository, AddressRepository addressRepository,
-        RequestFriendRepository requestFriendRepository) {
+        RequestFriendRepository requestFriendRepository, AdminRepository adminRepository) {
         this.memberRepository = memberRepository;
         this.addressRepository = addressRepository;
         this.requestFriendRepository = requestFriendRepository;
+        this.adminRepository = adminRepository;
     }
 
     public Member add(ProfileResponse profile) {
@@ -60,11 +64,13 @@ public class MemberService {
     }
 
     public Member find(String id) {
-        Optional<Member> member = memberRepository.findById(id);
-        if (member.isEmpty()) {
-            throw new GoodDayException(AuthExceptionSet.NOT_FOUND_USER);
-        }
-        return member.get();
+        return memberRepository.findById(id)
+            .orElseThrow(() -> new GoodDayException(AuthExceptionSet.NOT_FOUND_USER));
+    }
+
+    public Admin findAdminByMember(Member member) {
+        return adminRepository.findAdminByMember(member)
+            .orElseThrow(() -> new GoodDayException(MemberExceptionSet.NOT_ADMIN));
     }
 
     @Transactional

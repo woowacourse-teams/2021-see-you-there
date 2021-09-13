@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import seeuthere.goodday.auth.domain.EnableAuth;
 import seeuthere.goodday.board.domain.Board;
+import seeuthere.goodday.board.domain.Comment;
 import seeuthere.goodday.board.dto.request.BoardRequest;
 import seeuthere.goodday.board.dto.request.BoardResponse;
+import seeuthere.goodday.board.dto.request.CommentRequest;
+import seeuthere.goodday.board.dto.request.CommentResponse;
 import seeuthere.goodday.board.service.BoardService;
+import seeuthere.goodday.member.domain.Admin;
 import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.service.MemberService;
 
@@ -37,8 +41,8 @@ public class BoardController {
 
     @GetMapping("/{id}")
     public ResponseEntity<BoardResponse> findBoard(@PathVariable Long id) {
-        BoardResponse boardResponse = boardService.findById(id);
-        return ResponseEntity.ok(boardResponse);
+        Board board = boardService.findBoardById(id);
+        return ResponseEntity.ok(new BoardResponse(board));
     }
 
     @PostMapping
@@ -46,8 +50,8 @@ public class BoardController {
         @EnableAuth String memberId) {
         Member member = memberService.find(memberId);
         Board board = boardRequest.toBoard(member);
-        BoardResponse boardResponse = boardService.save(board);
-        return ResponseEntity.ok(boardResponse);
+        Board savedBoard = boardService.saveBoard(board);
+        return ResponseEntity.ok(new BoardResponse(savedBoard));
     }
 
     @PutMapping("/{id}")
@@ -56,26 +60,26 @@ public class BoardController {
         @RequestBody BoardRequest boardRequest) {
         Member member = memberService.find(memberId);
         Board board = boardRequest.toBoard(member);
-        BoardResponse updatedBoard = boardService.update(id, member, board);
-        return ResponseEntity.ok(updatedBoard);
+        Board updateBoard = boardService.updateBoard(id, member, board);
+        BoardResponse boardResponse = new BoardResponse(updateBoard);
+        return ResponseEntity.ok(boardResponse);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBoard(@PathVariable Long id, @EnableAuth String memberId) {
         Member member = memberService.find(memberId);
-        boardService.delete(id, member);
+        boardService.deleteBoard(id, member);
         return ResponseEntity.noContent().build();
     }
 
-    // 하단은 관리자만 가능
-    @GetMapping("/{id}/comment")
-    public void findComment() {
-
-    }
-
     @PostMapping("/{id}/comment")
-    public void createComment() {
-
+    public ResponseEntity<CommentResponse> createComment(@PathVariable Long id,
+        @EnableAuth String memberId, @RequestBody CommentRequest commentRequest) {
+        Member member = memberService.find(memberId);
+        Admin admin = memberService.findAdminByMember(member);
+        Board board = boardService.findBoardById(id);
+        Comment comment = commentRequest.toComment(board, admin);
+        return ResponseEntity.ok(new CommentResponse(comment));
     }
 
     @PutMapping("/{id}/comment")
@@ -84,8 +88,9 @@ public class BoardController {
     }
 
     @DeleteMapping("/{id}/comment")
-    public void deleteComment() {
+    public ResponseEntity<Void> deleteComment() {
 
+        return ResponseEntity.noContent().build();
     }
 
 }

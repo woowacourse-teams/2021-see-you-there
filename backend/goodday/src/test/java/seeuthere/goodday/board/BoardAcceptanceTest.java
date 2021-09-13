@@ -90,7 +90,8 @@ class BoardAcceptanceTest extends AcceptanceTest {
         BoardRequest updateRequest = new BoardRequest("수정 후 제목", "수정 후 글", BoardLabel.FIX);
         String url = "/api/boards/" + board.getId();
         //when
-        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, token, updateRequest);
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, token,
+            updateRequest);
 
         BoardResponse updatedBoard = response.as(BoardResponse.class);
 
@@ -139,7 +140,8 @@ class BoardAcceptanceTest extends AcceptanceTest {
         String url = "/api/boards/" + board.getId();
 
         // when
-        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, fixToken, boardRequest);
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, fixToken,
+            boardRequest);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
@@ -167,7 +169,8 @@ class BoardAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
     }
 
-    private ExtractableResponse<Response> makeResponse(String url, TestMethod testMethod, String token) {
+    private ExtractableResponse<Response> makeResponse(String url, TestMethod testMethod,
+        String token) {
         return makeResponse(url, testMethod, token, null);
     }
 

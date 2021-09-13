@@ -1,6 +1,7 @@
 package seeuthere.goodday.board.domain;
 
 import java.time.LocalDateTime;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import seeuthere.goodday.member.domain.Member;
@@ -38,6 +40,9 @@ public class Board {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @OneToOne(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Comment comment;
+
     public Board() {
     }
 
@@ -56,6 +61,10 @@ public class Board {
         this.title = board.getTitle();
         this.content = board.getContent();
         this.label = board.getLabel();
+    }
+
+    public void addComment(Comment comment) {
+        this.comment = comment;
     }
 
     public Long getId() {
@@ -84,5 +93,9 @@ public class Board {
 
     public Member getMember() {
         return member;
+    }
+
+    public Comment getComment() {
+        return comment;
     }
 }

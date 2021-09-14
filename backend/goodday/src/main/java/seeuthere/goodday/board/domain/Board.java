@@ -78,6 +78,12 @@ public class Board {
         this.comment = null;
     }
 
+    public void validateUpdateBoard() {
+        if (Objects.nonNull(comment)) {
+            throw new GoodDayException(BoardExceptionSet.FINISHED_ISSUE);
+        }
+    }
+
     public Long getId() {
         return id;
     }

@@ -2,6 +2,10 @@ package seeuthere.goodday.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -20,6 +24,7 @@ import seeuthere.goodday.TestMethod;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
 import seeuthere.goodday.board.domain.Board;
 import seeuthere.goodday.board.domain.BoardLabel;
+import seeuthere.goodday.board.domain.Comment;
 import seeuthere.goodday.board.dto.request.BoardRequest;
 import seeuthere.goodday.board.dto.request.BoardResponse;
 import seeuthere.goodday.board.dto.request.CommentRequest;
@@ -36,16 +41,17 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @Test
     void writeBoard() {
         //given
+        String identifier = "board/board-create";
         String title = "여기서 만나 화이팅이에요";
         String content = "밥사주세요";
         BoardLabel boardLabel = BoardLabel.FIX;
-        String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
         BoardRequest boardRequest = new BoardRequest(title, content, boardLabel);
 
         BoardResponse board = makeResponse("/api/boards",
             TestMethod.POST,
-            token,
-            boardRequest
+            DataLoader.와이비토큰,
+            boardRequest,
+            identifier
         ).as(BoardResponse.class);
 
         //then
@@ -58,21 +64,13 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @DisplayName("원하는 게시물을 불러온다.")
     void findById() {
         // given
-        String title = "원하는 게시글 찾기";
-        String content = "너의 게시글은?";
-        BoardLabel boardLabel = BoardLabel.FIX;
-        String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
-        BoardRequest boardRequest = new BoardRequest(title, content, boardLabel);
-        BoardResponse board = makeResponse("/api/boards",
-            TestMethod.POST,
-            token,
-            boardRequest
-        ).as(BoardResponse.class);
-
+        String identifier = "board/board-get";
+        BoardResponse board = new BoardResponse(createBoard());
         String url = "/api/boards/" + board.getId();
 
         // when
-        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET, token);
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET,
+            DataLoader.와이비토큰, identifier);
         BoardResponse findBoard = response.as(BoardResponse.class);
 
         // then
@@ -83,21 +81,15 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @Test
     void updateBoard() {
         // given
-        String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
-        BoardRequest boardRequest = new BoardRequest("수정 전 제목", "수정 전 글", BoardLabel.FIX);
-
-        BoardResponse board = makeResponse("/api/boards",
-            TestMethod.POST,
-            token,
-            boardRequest
-        ).as(BoardResponse.class);
+        String identifier = "board/board-update";
+        BoardResponse board = new BoardResponse(createBoard());
 
         BoardRequest updateRequest = new BoardRequest("수정 후 제목", "수정 후 글", BoardLabel.FIX);
         String url = "/api/boards/" + board.getId();
 
         //when
-        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, token,
-            updateRequest);
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, DataLoader.와이비토큰,
+            updateRequest, identifier);
 
         BoardResponse updatedBoard = response.as(BoardResponse.class);
 
@@ -113,18 +105,13 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @DisplayName("게시물을 삭제한다.")
     void deleteBoard() {
         // given
-        String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
-        BoardRequest boardRequest = new BoardRequest("YB", "글", BoardLabel.FIX);
-        BoardResponse board = makeResponse("/api/boards",
-            TestMethod.POST,
-            token,
-            boardRequest
-        ).as(BoardResponse.class);
-
+        String identifier = "board/board-delete";
+        String token = DataLoader.와이비토큰;
+        BoardResponse board = new BoardResponse(createBoard());
         String url = "/api/boards/" + board.getId();
 
         // when
-        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE, token);
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE, token, identifier);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
@@ -134,20 +121,15 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @DisplayName("내 소유의 게시글이 아니라면 수정할 수 없다.")
     void updateException() {
         // given
-        String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
-        String fixToken = jwtTokenProvider.createToken(DataLoader.하루.getId());
+        String identifier = "board/board-update-exception";
         BoardRequest boardRequest = new BoardRequest("YB", "글", BoardLabel.FIX);
-        BoardResponse board = makeResponse("/api/boards",
-            TestMethod.POST,
-            token,
-            boardRequest
-        ).as(BoardResponse.class);
+        BoardResponse board = new BoardResponse(createBoard());
 
         String url = "/api/boards/" + board.getId();
 
         // when
-        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, fixToken,
-            boardRequest);
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, DataLoader.하루토큰,
+            boardRequest, identifier);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
@@ -157,70 +139,237 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @DisplayName("내 소유의 게시글이 아니라면 삭제할 수 없다.")
     void deleteException() {
         // given
-        String token = jwtTokenProvider.createToken(DataLoader.와이비.getId());
-        String fixToken = jwtTokenProvider.createToken(DataLoader.하루.getId());
-        BoardRequest boardRequest = new BoardRequest("수정 전 제목", "수정 전 글", BoardLabel.FIX);
-        BoardResponse board = makeResponse("/api/boards",
-            TestMethod.POST,
-            token,
-            boardRequest
-        ).as(BoardResponse.class);
+        String identifier = "board/board-delete-auth-exception";
+        BoardResponse board = new BoardResponse(createBoard());
 
         String url = "/api/boards/" + board.getId();
 
         //when
-        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE, fixToken);
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE,
+            DataLoader.하루토큰, identifier);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
     }
 
     @Test
+    @DisplayName("없는 게시글을 조회하면 에러가 발생한다.")
+    void notExistReadException() {
+        // given
+        String identifier = "board/board-read-exist-exception";
+        String url = "/api/boards/" + 999;
+
+        //when
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET,
+            DataLoader.하루토큰, identifier);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+
+    @Test
+    @DisplayName("게시글이 없는 상태에서 수정 하면 에러가 발생한다.")
+    void notExistUpdateException() {
+        // given
+        String identifier = "board/board-update-exist-exception";
+        BoardRequest boardRequest = new BoardRequest("YB", "글", BoardLabel.FIX);
+        String url = "/api/boards/" + 999;
+
+        //when
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT,
+            DataLoader.하루토큰, boardRequest, identifier);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("없는 게시글을 삭제하면 에러가 발생한다.")
+    void noBoardDeleteException() {
+        // given
+        String identifier = "board/board-delete-exist-exception";
+        String url = "/api/boards/" + 999;
+
+        //when
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE,
+            DataLoader.하루토큰, identifier);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
     @DisplayName("답글을 생성한다.")
     void creteComment() {
         //given
-        String token = jwtTokenProvider.createToken(DataLoader.하루.getId());
+        String identifier = "board/comment-create";
         Board board = createBoard();
-        CommentRequest commentRequest = new CommentRequest("관리자가 남긴 답변입니다.");
+        String content = "관리자가 남긴 답변입니다.";
+        CommentRequest commentRequest = new CommentRequest(content);
 
         //when
         ExtractableResponse<Response> response = makeResponse(
-            String.format("/api/boards/%d/comments", board.getId()), TestMethod.POST, token,
-            commentRequest);
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.POST,
+            DataLoader.하루토큰,
+            commentRequest, identifier);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         Board boardResponse = getBoard(board.getId());
-        assertThat(boardResponse.getComment().getContent()).isEqualTo("관리자가 남긴 답변입니다.");
+        assertThat(boardResponse.getComment().getContent()).isEqualTo(content);
     }
 
-    // 답글 수정 기능
+    @Test
+    @DisplayName("답글을 수정한다.")
+    void updateComment() {
+        // given
+        String identifier = "board/comment-update";
+        Board board = createBoard();
+        addComment(board);
+        String content = "관리자가 수정한 답변입니다";
+        CommentRequest commentRequest = new CommentRequest(content);
 
-    // 답글 삭제 기능
+        // when
+        ExtractableResponse<Response> response = makeResponse(
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.PUT,
+            DataLoader.하루토큰,
+            commentRequest, identifier);
 
-    // 게시글 관련 테스트도 서비스 이용으로
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        Board boardResponse = getBoard(board.getId());
+        assertThat(boardResponse.getComment().getContent()).isEqualTo(content);
+    }
 
-    // 실패제 삭글 답 답
-    //
-    // /// 는다글 답에 글시게데, 는있이 글그답 글시게//게
+    @Test
+    @DisplayName("답글을 삭제한다.")
+    void deleteComment() {
+        // given
+        String identifier = "board/comment-delete";
+        Board board = createBoard();
+        addComment(board);
 
+        //when
+        ExtractableResponse<Response> response = makeResponse(
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.DELETE,
+            DataLoader.하루토큰, identifier);
 
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+        Board boardResponse = getBoard(board.getId());
+        assertThat(boardResponse.getComment()).isNull();
+    }
 
-    // 멍토가 칭찬을 해줬다 7 예정
+    @Test
+    @DisplayName("답글이 있는 상태에서 생성하면 에러가 발생한다.")
+    void createAnotherCommentException() {
+        String identifier = "board/comment-create-exception";
+        Board board = createBoard();
+        addComment(board);
 
-    private ExtractableResponse<Response> makeResponse(String url, TestMethod testMethod,
-        String token) {
-        return makeResponse(url, testMethod, token, null);
+        String content = "이미 있이 글답음";
+        CommentRequest commentRequest = new CommentRequest(content);
+
+        //when
+        ExtractableResponse<Response> response = makeResponse(
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.POST,
+            DataLoader.하루토큰,
+            commentRequest,
+            identifier);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.CONFLICT.value());
+    }
+
+    @Test
+    @DisplayName("답글이 없는 상태에서 수정하면 에러가 발생한다.")
+    void updateCommentWithoutExistingCommentException() {
+        String identifier = "board/comment-update-exception";
+        Board board = createBoard();
+
+        String content = "답글이 없는데 수정함";
+        CommentRequest commentRequest = new CommentRequest(content);
+
+        //when
+        ExtractableResponse<Response> response = makeResponse(
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.PUT,
+            DataLoader.하루토큰,
+            commentRequest,
+            identifier);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("답글이 없는 상태에서 삭제하면 에러가 발생한다.")
+    void deleteNonExistingCommentException() {
+        String identifier = "board/comment-delete-exception";
+        Board board = createBoard();
+
+        ExtractableResponse<Response> response = makeResponse(
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.DELETE,
+            DataLoader.하루토큰,identifier);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("특정 글자수 이하로 댓글을 생성하면 에러가 발생한다.")
+    void commentContentLengthException() {
+        //given
+        String identifier = "board/comment-content-exception";
+        Board board = createBoard();
+        String content = "일";
+        CommentRequest commentRequest = new CommentRequest(content);
+
+        //when
+        ExtractableResponse<Response> response = makeResponse(
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.POST,
+            DataLoader.하루토큰,
+            commentRequest, identifier);
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    @DisplayName("관리자가 아닌 사람이 답글을 쓰려하면 에러가 발생한다.")
+    void commentAuthorizationException() {
+        String identifier = "board/comment-auth-exception";
+        String token = jwtTokenProvider.createToken(DataLoader.멍토.getId());
+        Board board = createBoard();
+        String content = "관리자가 아닌 사람이 답글을 단다.";
+        CommentRequest commentRequest = new CommentRequest(content);
+
+        //when
+        ExtractableResponse<Response> response = makeResponse(
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.POST, token,
+            commentRequest, identifier);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
     }
 
     private ExtractableResponse<Response> makeResponse(String url, TestMethod testMethod,
-        String token, Object requestBody) {
-        RequestSpecification request = RestAssured.given()
+        String token, String identifier) {
+        return makeResponse(url, testMethod, token, null, identifier);
+    }
+
+    private ExtractableResponse<Response> makeResponse(String url, TestMethod testMethod,
+        String token, Object requestBody, String identifier) {
+        RequestSpecification request = RestAssured.given(this.spec)
+            .filter(
+                document(identifier,
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint())
+                )
+            )
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON_VALUE);
+
         if (Objects.nonNull(requestBody)) {
             request = request.body(requestBody);
         }
+
         return testMethod.extractedResponse(request, url);
     }
 
@@ -231,5 +380,10 @@ class BoardAcceptanceTest extends AcceptanceTest {
 
     private Board getBoard(long id) {
         return boardService.findBoardById(id);
+    }
+
+    private void addComment(Board board) {
+        Comment comment = new Comment("수정전 답변입니다.", board, DataLoader.관리자하루);
+        boardService.addComment(board, comment);
     }
 }

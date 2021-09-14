@@ -37,15 +37,19 @@ public class BoardService {
             orElseThrow(() -> new GoodDayException(BoardExceptionSet.NOT_FOUND_BOARD));
     }
 
+    // todo - 답글 단 후에는 어드민만 수정 삭제 가능하게 처리하기
+
     @Transactional
     public Board updateBoard(Long id, Member member, Board updateBoard) {
         Board board = checkedMyBoard(id, member);
+        board.validateUpdateBoard();
         board.updateBoard(updateBoard);
         return board;
     }
 
     public void deleteBoard(Long id, Member member) {
         Board board = checkedMyBoard(id, member);
+        board.validateUpdateBoard();
         boardRepository.delete(board);
     }
 
@@ -70,12 +74,21 @@ public class BoardService {
     public void updateComment(long boardId, String content, Admin admin) {
         Board board = findBoardById(boardId);
         Comment comment = board.getComment();
+        commentExistValidate(comment);
         comment.update(content, admin);
     }
 
     @Transactional
     public void deleteComment(Long boardId) {
         Board board = findBoardById(boardId);
+        Comment comment = board.getComment();
+        commentExistValidate(comment);
         board.deleteComment();
+    }
+
+    private void commentExistValidate(Comment comment) {
+        if (Objects.isNull(comment)) {
+            throw new GoodDayException(BoardExceptionSet.NO_CONTENT);
+        }
     }
 }

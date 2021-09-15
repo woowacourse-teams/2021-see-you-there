@@ -2,22 +2,13 @@ package seeuthere.goodday.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
-import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import java.util.Objects;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import seeuthere.goodday.AcceptanceTest;
 import seeuthere.goodday.DataLoader;
 import seeuthere.goodday.TestMethod;
@@ -411,30 +402,6 @@ class BoardAcceptanceTest extends AcceptanceTest {
             identifier);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
-    }
-
-    private ExtractableResponse<Response> makeResponse(String url, TestMethod testMethod,
-        String token, String identifier) {
-        return makeResponse(url, testMethod, token, null, identifier);
-    }
-
-    private ExtractableResponse<Response> makeResponse(String url, TestMethod testMethod,
-        String token, Object requestBody, String identifier) {
-        RequestSpecification request = RestAssured.given(this.spec)
-            .filter(
-                document(identifier,
-                    preprocessRequest(prettyPrint()),
-                    preprocessResponse(prettyPrint())
-                )
-            )
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-            .contentType(MediaType.APPLICATION_JSON_VALUE);
-
-        if (Objects.nonNull(requestBody)) {
-            request = request.body(requestBody);
-        }
-
-        return testMethod.extractedResponse(request, url);
     }
 
     private Board createBoard() {

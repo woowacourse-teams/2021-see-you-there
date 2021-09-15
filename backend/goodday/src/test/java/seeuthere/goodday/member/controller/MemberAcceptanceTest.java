@@ -19,7 +19,6 @@ import io.restassured.specification.RequestSpecification;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import seeuthere.goodday.AcceptanceTest;
+import seeuthere.goodday.DataLoader;
 import seeuthere.goodday.auth.dto.ProfileResponse;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
 import seeuthere.goodday.member.domain.Address;
@@ -50,16 +50,11 @@ class MemberAcceptanceTest extends AcceptanceTest {
     private static final String MEMBER_API_PATH = "/api/members";
     private static final String ADDRESS_API_PATH = MEMBER_API_PATH + "/address";
     private static final String FRIEND_API_PATH = MEMBER_API_PATH + "/friends";
-    private static String TOKEN;
+
     @Autowired
-    MemberService memberService;
+    private MemberService memberService;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-
-    @BeforeEach
-    public void setUp() {
-        TOKEN = jwtTokenProvider.createToken(와이비.getId());
-    }
 
     @DisplayName("멤버 정보 가져오기")
     @Test
@@ -72,7 +67,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("멤버 수정 테스트")
     @Test
-    public void memberUpdate() {
+    void memberUpdate() {
         MemberRequest request =
             new MemberRequest("달라진 와이비", "changedImage", 와이비.getMemberId());
 
@@ -86,7 +81,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("멤버의 주소를 조회한다.")
     @Test
-    public void getAddress() {
+    void getAddress() {
         List<AddressResponse> responses =
             getResponse("member/address-info", ADDRESS_API_PATH)
                 .body().jsonPath().getList(".", AddressResponse.class);
@@ -99,7 +94,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("멤버의 주소를 추가한다")
     @Test
     @Transactional
-    public void addAddress() {
+    void addAddress() {
         AddressRequest request = new AddressRequest("회사",
             "서울시 송파구", "서울시 송파구 어쩌구", 123.33, 567.89);
         postResponse("member/address-add", ADDRESS_API_PATH,
@@ -119,7 +114,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("멤버의 주소를 수정한다.")
     @Test
-    public void updateAddress() {
+    void updateAddress() {
         AddressUpdateRequest request = new AddressUpdateRequest(
             1L, "이사간 집", "이사간 주소",
             "이사간 주소 디테일", 123.4, 123.7);
@@ -133,7 +128,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("멤버의 주소를 삭제한다.")
     @Test
-    public void deleteAddress() {
+    void deleteAddress() {
         AddressDeleteRequest addressDeleteRequest = new AddressDeleteRequest(1L);
 
         deleteResponse("member/address-delete", ADDRESS_API_PATH, addressDeleteRequest);
@@ -141,7 +136,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("멤버의 친구를 조회한다.")
     @Test
-    public void findFriends() {
+    void findFriends() {
         List<FriendResponse> response = getResponse("member/friend-find", FRIEND_API_PATH).body()
             .jsonPath()
             .getList(".", FriendResponse.class);
@@ -156,7 +151,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
     @DisplayName("멤버의 친구를 삭제한다.")
     @Test
     @Transactional
-    public void deleteFriend() {
+    void deleteFriend() {
         FriendRequest request = new FriendRequest(멍토.getMemberId());
         deleteResponse("member/friend-delete", FRIEND_API_PATH, request);
 
@@ -170,7 +165,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("추가할 친구를 검색한다")
     @Test
-    public void searchFriend() {
+    void searchFriend() {
         String searchWord = "a";
 
         String identifier = "member/friend-search";
@@ -284,9 +279,9 @@ class MemberAcceptanceTest extends AcceptanceTest {
         RequestFriendRequest request = new RequestFriendRequest(requestFriends.get(0).getId());
         postResponse(identifier, path, request);
 
-        assertThat(memberService.findFriends(하루.getId()).size()).isEqualTo(0);
+        assertThat(memberService.findFriends(하루.getId()).size()).isZero();
         assertThat(memberService.findFriends(와이비.getId()).size()).isEqualTo(2);
-        assertThat(memberService.findRequestFriends(하루.getId()).size()).isEqualTo(0);
+        assertThat(memberService.findRequestFriends(하루.getId()).size()).isZero();
     }
 
     private ExtractableResponse<Response> getResponse(String identifier, String path) {
@@ -327,7 +322,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
                     preprocessResponse(prettyPrint())
                 )
             )
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + TOKEN)
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + DataLoader.와이비토큰)
             .contentType(MediaType.APPLICATION_JSON_VALUE);
     }
 }

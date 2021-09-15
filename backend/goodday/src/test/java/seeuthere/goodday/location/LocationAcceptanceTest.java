@@ -18,7 +18,7 @@ import seeuthere.goodday.exception.ErrorResponse;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.exception.LocationExceptionSet;
 
-public class LocationAcceptanceTest extends AcceptanceTest {
+class LocationAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("coordinate 테스트")

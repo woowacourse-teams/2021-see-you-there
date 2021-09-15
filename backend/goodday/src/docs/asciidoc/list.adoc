@@ -7,8 +7,8 @@
 :sectlinks:
 :operation-http-request-title: Example Request
 :operation-http-response-title: Example Response
-:default-path: https://seeyouthere.o-r.kr/api/docs
-:dev-path: https://dev.seeyouthere.o-r.kr/api/docs
+:default-path: https://seeyouthere.co.kr/api/docs
+:dev-path: https://dev.seeyouthere.co.kr/api/docs
 
 
 ## 서비스 서버
@@ -19,6 +19,8 @@ link:{default-path}/paths[Paths RestDocs]
 
 link:{default-path}/member[Member RestDocs]
 
+link:{default-path}/board[Board RestDocs]
+
 ## 개발 서버
 
 link:{dev-path}/locations[Locations RestDocs]
@@ -26,3 +28,5 @@ link:{dev-path}/locations[Locations RestDocs]
 link:{dev-path}/paths[Paths RestDocs]
 
 link:{dev-path}/member[Member RestDocs]
+
+link:{dev-path}/board[Board RestDocs]

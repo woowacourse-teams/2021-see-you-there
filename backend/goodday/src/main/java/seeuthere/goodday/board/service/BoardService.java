@@ -63,11 +63,8 @@ public class BoardService {
 
     @Transactional
     public void addComment(Board board, Comment comment) {
-        if (Objects.nonNull(board.getComment())) {
-            throw new GoodDayException(BoardExceptionSet.ALREADY_EXISTED_COMMENT);
-        }
-        commentRepository.save(comment);
         board.addComment(comment);
+        commentRepository.save(comment);
     }
 
     @Transactional

@@ -335,7 +335,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("관리자가 아닌 사람이 답글을 쓰려하면 에러가 발생한다.")
     void commentAuthorizationException() {
-        String identifier = "board/comment-auth-exception";
+        String identifier = "board/comment-auth-create-exception";
         String token = jwtTokenProvider.createToken(DataLoader.멍토.getId());
         Board board = createBoard();
         String content = "관리자가 아닌 사람이 답글을 단다.";
@@ -347,6 +347,70 @@ class BoardAcceptanceTest extends AcceptanceTest {
             commentRequest, identifier);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    @DisplayName("관리자가 아닌 사람이 답글을 수정하면 에러가 발생한다.")
+    void commentAuthorizationUpdateException() {
+        String identifier = "board/comment-auth-update-exception";
+        String token = jwtTokenProvider.createToken(DataLoader.멍토.getId());
+        Board board = createBoard();
+        String content = "관리자가 아닌 사람이 답글을 수정한다.";
+        CommentRequest commentRequest = new CommentRequest(content);
+
+        //when
+        ExtractableResponse<Response> response = makeResponse(
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.PUT, token,
+            commentRequest, identifier);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    @DisplayName("관리자가 아닌 사람이 답글을 삭제하면 에러가 발생한다.")
+    void commentAuthorizationDeleteException() {
+        String identifier = "board/comment-auth-delete-exception";
+        String token = jwtTokenProvider.createToken(DataLoader.멍토.getId());
+        Board board = createBoard();
+
+        //when
+        ExtractableResponse<Response> response = makeResponse(
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.DELETE, token,
+            identifier);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    @DisplayName("댓글이 달린 상태에서 게시글을 수정할 수 없다.")
+    void boardUpdateExceptionWithComment() {
+        String identifier = "board/board-update-exception-with-comment";
+        Board board = createBoard();
+        addComment(board);
+
+        BoardRequest boardRequest = new BoardRequest("YB", "글", BoardLabel.FIX);
+        String url = "/api/boards/" + board.getId();
+
+        // when
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.PUT, DataLoader.와이비토큰,
+            boardRequest, identifier);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
+    }
+
+    @Test
+    @DisplayName("댓글이 달린 상태에서 게시글을 삭제할 수 없다.")
+    void boardDeleteExceptionWithComment() {
+        String identifier = "board/board-delete-exception-with-comment";
+        Board board = createBoard();
+        addComment(board);
+
+        String url = "/api/boards/" + board.getId();
+
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE, DataLoader.와이비토큰,
+            identifier);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
     }
 
     private ExtractableResponse<Response> makeResponse(String url, TestMethod testMethod,

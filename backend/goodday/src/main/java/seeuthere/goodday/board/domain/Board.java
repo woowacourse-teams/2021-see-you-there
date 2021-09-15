@@ -68,6 +68,9 @@ public class Board {
     }
 
     public void addComment(Comment comment) {
+        if (Objects.nonNull(this.comment)) {
+            throw new GoodDayException(BoardExceptionSet.ALREADY_EXISTED_COMMENT);
+        }
         if (Objects.isNull(comment)) {
             throw new GoodDayException(BoardExceptionSet.NO_CONTENT);
         }

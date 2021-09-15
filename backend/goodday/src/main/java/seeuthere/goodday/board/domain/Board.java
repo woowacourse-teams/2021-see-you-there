@@ -62,6 +62,7 @@ public class Board {
     }
 
     public void updateBoard(Board board) {
+        validateUpdateBoard();
         this.title = board.getTitle();
         this.content = board.getContent();
         this.label = board.getLabel();

@@ -42,7 +42,6 @@ public class BoardService {
     @Transactional
     public Board updateBoard(Long id, Member member, Board updateBoard) {
         Board board = checkedMyBoard(id, member);
-        board.validateUpdateBoard();
         board.updateBoard(updateBoard);
         return board;
     }

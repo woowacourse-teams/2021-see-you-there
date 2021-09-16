@@ -11,7 +11,7 @@ public class APIItemListResponse implements Serializable {
     private int distance;
 
     @XmlElement(name = "pathList")
-    private final List<APIPathListResponse> APIPathListResponse;
+    private List<APIPathListResponse> APIPathListResponse;
 
     @XmlElement(name = "time")
     private int time;

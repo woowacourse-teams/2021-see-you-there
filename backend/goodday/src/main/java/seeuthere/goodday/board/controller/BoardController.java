@@ -99,7 +99,7 @@ public class BoardController {
     public ResponseEntity<Void> deleteComment(@PathVariable Long id,
         @EnableAuth String memberId) {
         Member member = memberService.find(memberId);
-        Admin admin = memberService.findAdminByMember(member);
+        memberService.findAdminByMember(member);
         boardService.deleteComment(id);
 
         return ResponseEntity.noContent().build();

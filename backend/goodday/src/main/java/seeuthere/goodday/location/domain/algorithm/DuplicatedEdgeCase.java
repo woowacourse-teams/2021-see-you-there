@@ -6,10 +6,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum DuplicatedEdgeCase {
-
     SINCHON("신촌역");
 
-    private static Set<String> EDGE_CASE;
+    private static Set<String> edgeCase;
 
     private final String stationName;
 
@@ -18,12 +17,12 @@ public enum DuplicatedEdgeCase {
     }
 
     public static Set<String> edgeCase() {
-        if (Objects.isNull(EDGE_CASE)) {
-            EDGE_CASE = Arrays.stream(DuplicatedEdgeCase.values())
+        if (Objects.isNull(edgeCase)) {
+            edgeCase = Arrays.stream(DuplicatedEdgeCase.values())
                 .map(DuplicatedEdgeCase::getName)
                 .collect(Collectors.toSet());
         }
-        return EDGE_CASE;
+        return edgeCase;
     }
 
     public static boolean isContain(String name) {

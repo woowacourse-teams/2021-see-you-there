@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import seeuthere.goodday.location.domain.location.Point;
 
-class DistanceTest {
+class IntervalTest {
 
     @DisplayName("위도 경도를 활용하여 거리를 계산하는 로직")
     @Test
@@ -17,10 +17,10 @@ class DistanceTest {
         int value = 776;
 
         //given
-        Distance distance = Distance.calculate(startPoint, endPoint);
+        Interval interval = Interval.calculate(startPoint, endPoint);
 
         //then
-        assertThat(distance.value()).isEqualTo(value);
+        assertThat(interval.distance()).isEqualTo(value);
 
     }
 
@@ -33,9 +33,9 @@ class DistanceTest {
         int value = 11;
 
         //given
-        Distance distance = Distance.calculate(startPoint, endPoint);
+        Interval interval = Interval.calculate(startPoint, endPoint);
 
         //then
-        assertThat(distance.walkTime()).isEqualTo(value);
+        assertThat(interval.walkTime()).isEqualTo(value);
     }
 }

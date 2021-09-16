@@ -3,7 +3,7 @@ package seeuthere.goodday.path.domain;
 import java.util.ArrayList;
 import java.util.List;
 import seeuthere.goodday.location.domain.location.Point;
-import seeuthere.goodday.path.domain.algorithm.Distance;
+import seeuthere.goodday.path.domain.algorithm.Interval;
 
 public class Path implements Comparable<Path> {
 
@@ -25,7 +25,7 @@ public class Path implements Comparable<Path> {
         Point start = startPointWithName.getPoint();
         Point end = endPointWithName.getPoint();
 
-        Distance distance = Distance.calculate(start, end);
+        Interval interval = Interval.calculate(start, end);
         List<Route> routes = new ArrayList<>();
 
         routes.add(new Route.Builder()
@@ -38,37 +38,37 @@ public class Path implements Comparable<Path> {
             .endName(endPointWithName.getName())
             .build()
         );
-        return new Path(routes, distance.value(), distance.walkTime(), distance.walkTime());
+        return new Path(routes, interval.distance(), interval.walkTime(), interval.walkTime());
     }
 
     public Path addWalkRoute(PointWithName startPointWithName, PointWithName endPointWithName) {
-        Distance startWalkDistance = startWalkDistance(startPointWithName.getPoint());
-        Distance endWalkDistance = endWalkDistance(endPointWithName.getPoint());
+        Interval startWalkInterval = startWalkDistance(startPointWithName.getPoint());
+        Interval endWalkInterval = endWalkDistance(endPointWithName.getPoint());
 
         int penaltyTime = (routes.size() - 1) * PENALTY_WEIGHT;
 
-        if (startWalkDistance.isValidate()) {
+        if (startWalkInterval.isValidate()) {
             addStartRoute(startPointWithName);
         }
 
-        if (endWalkDistance.isValidate()) {
+        if (endWalkInterval.isValidate()) {
             addLastRoute(endPointWithName);
         }
 
-        int newDistance = distance + startWalkDistance.value() + endWalkDistance.value();
-        int newTime = startWalkDistance.walkTime() + endWalkDistance.walkTime() + penaltyTime;
+        int newDistance = distance + startWalkInterval.distance() + endWalkInterval.distance();
+        int newTime = startWalkInterval.walkTime() + endWalkInterval.walkTime() + penaltyTime;
         return new Path(routes, newDistance, time + newTime, newTime);
     }
 
-    private Distance startWalkDistance(Point point) {
+    private Interval startWalkDistance(Point point) {
         Route route = routes.get(0);
-        return Distance.calculate(point, new Point(route.getStartX(),
+        return Interval.calculate(point, new Point(route.getStartX(),
             route.getStartY()));
     }
 
-    private Distance endWalkDistance(Point point) {
+    private Interval endWalkDistance(Point point) {
         Route route = routes.get(routes.size() - 1);
-        return Distance.calculate(point, new Point(route.getEndX(),
+        return Interval.calculate(point, new Point(route.getEndX(),
             route.getEndY()));
     }
 

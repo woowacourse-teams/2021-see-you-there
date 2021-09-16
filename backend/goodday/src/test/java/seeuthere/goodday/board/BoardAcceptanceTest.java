@@ -28,6 +28,8 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @Autowired
     private BoardService boardService;
 
+    // todo 관리자가 아닌 자가 댓글을 삭제하면 에러가 발생한다.
+
     @DisplayName("게시판 작성")
     @Test
     void writeBoard() {

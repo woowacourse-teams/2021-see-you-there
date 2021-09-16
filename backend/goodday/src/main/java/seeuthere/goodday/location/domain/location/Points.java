@@ -10,11 +10,11 @@ import seeuthere.goodday.location.exception.LocationExceptionSet;
 
 public class Points {
 
-    private final List<Point> points;
+    private final List<Point> pointRegistry;
 
-    public Points(List<Point> points) {
-        validation(points);
-        this.points = points;
+    public Points(List<Point> pointRegistry) {
+        validation(pointRegistry);
+        this.pointRegistry = pointRegistry;
     }
 
     public static Points valueOf(LocationsRequest locationsRequest) {
@@ -34,10 +34,10 @@ public class Points {
     }
 
     public int size() {
-        return points.size();
+        return pointRegistry.size();
     }
 
-    public List<Point> getPoints() {
-        return points;
+    public List<Point> getPointRegistry() {
+        return pointRegistry;
     }
 }

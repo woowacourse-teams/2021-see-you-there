@@ -16,9 +16,9 @@ public class PathResult implements Serializable {
     private static final double WEIGHT_POINT = 0.7;
 
     @Id
-    public String id;
-    public double time;
-    public double weight;
+    private String id;
+    private double time;
+    private double weight;
 
     @TimeToLive(unit = TimeUnit.DAYS)
     private long timeToLive;

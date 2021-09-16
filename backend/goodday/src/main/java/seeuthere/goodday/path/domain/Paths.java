@@ -6,27 +6,27 @@ import java.util.stream.Collectors;
 
 public class Paths {
 
-    private final List<Path> paths;
+    private final List<Path> pathRegistry;
 
-    public Paths(List<Path> paths) {
-        this.paths = paths;
+    public Paths(List<Path> pathRegistry) {
+        this.pathRegistry = pathRegistry;
     }
 
     public List<Path> getPaths() {
-        return paths;
+        return pathRegistry;
     }
 
     public Paths pathsWithWalk(PointWithName startPointWithName, PointWithName endPointWithName) {
-        if (paths.isEmpty()) {
+        if (pathRegistry.isEmpty()) {
             return onlyWalkPath(startPointWithName, endPointWithName);
         }
-        return new Paths(paths.stream()
+        return new Paths(pathRegistry.stream()
             .map(path -> path.addWalkRoute(startPointWithName, endPointWithName))
             .collect(Collectors.toList()));
     }
 
     public void sort() {
-        Collections.sort(paths);
+        Collections.sort(pathRegistry);
     }
 
     private Paths onlyWalkPath(PointWithName startPointWithName, PointWithName endPointWithName) {

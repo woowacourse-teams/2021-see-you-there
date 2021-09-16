@@ -166,7 +166,7 @@ public class LocationService {
 
     private List<PathTransferResult> calculatedPathTransferResults(Points points,
         UtilityResponse response, Point target) {
-        return points.getPoints().parallelStream()
+        return points.getPointRegistry().parallelStream()
             .map((source) -> new PathTransferResult(
                 source,
                 target,

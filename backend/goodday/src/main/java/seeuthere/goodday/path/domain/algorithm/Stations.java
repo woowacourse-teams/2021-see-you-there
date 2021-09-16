@@ -11,12 +11,12 @@ import seeuthere.goodday.path.exception.PathExceptionSet;
 
 public class Stations {
 
-    List<Station> stations;
+    private final List<Station> stationRegistry;
 
-    public Stations(List<Station> stations) {
-        validate(stations);
+    public Stations(List<Station> stationRegistry) {
+        validate(stationRegistry);
 
-        this.stations = stations;
+        this.stationRegistry = stationRegistry;
     }
 
     public static Stations of(UtilityRequester utilityRequester, Point point) {
@@ -36,6 +36,6 @@ public class Stations {
     }
 
     public Station getNearestStation() {
-        return stations.get(0);
+        return stationRegistry.get(0);
     }
 }

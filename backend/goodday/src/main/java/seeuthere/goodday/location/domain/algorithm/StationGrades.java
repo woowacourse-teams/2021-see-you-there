@@ -32,7 +32,7 @@ public class StationGrades {
 
         TimeGrade timeGrade = new TimeGrade();
 
-        for (Point sourcePoint : points.getPoints()) {
+        for (Point sourcePoint : points.getPointRegistry()) {
             Point targetPoint = new Point(utilityResponse.getX(), utilityResponse.getY());
             PathResult pathResult = map.get(sourcePoint).get(targetPoint);
             timeGrade.calculateTime(pathResult.getTime());

@@ -2,18 +2,17 @@ package seeuthere.goodday.path.domain.algorithm;
 
 import seeuthere.goodday.location.domain.location.Point;
 
-public class Distance {
+public class Interval {
 
-    private static final int MAX_WALK_TIME = 15;
     private static final int MIN_DISTANCE = 67;
 
     private final int distance;
 
-    private Distance(int distance) {
+    private Interval(int distance) {
         this.distance = distance;
     }
 
-    public static Distance calculate(Point start, Point end) {
+    public static Interval calculate(Point start, Point end) {
         double theta = start.getX() - end.getX();
         double dist =
             Math.sin(deg2rad(start.getY())) * Math.sin(deg2rad(end.getY())) + Math.cos(deg2rad(
@@ -23,7 +22,7 @@ public class Distance {
         dist = rad2deg(dist);
         dist = dist * 60 * 1.1515 * 1609.344;
 
-        return new Distance((int) dist);
+        return new Interval((int) dist);
     }
 
     private static double deg2rad(double deg) {
@@ -34,7 +33,7 @@ public class Distance {
         return (rad * 180 / Math.PI);
     }
 
-    public int value() {
+    public int distance() {
         if (!isValidate()) {
             return 0;
         }
@@ -42,13 +41,7 @@ public class Distance {
     }
 
     public int walkTime() {
-        return (int) (value() / 66.6);
-
-//        if (value > MAX_WALK_TIME) {
-//            throw new GoodDayException(PathExceptionSet.OVER_WALK_TIME);
-//        }
-
-//        return value;
+        return (int) (distance() / 66.6);
     }
 
     public boolean isValidate() {

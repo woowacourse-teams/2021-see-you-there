@@ -17,7 +17,7 @@ public class MiddlePoint {
     private static Point calculation(Points points) {
         double sumX = 0;
         double sumY = 0;
-        for (Point point : points.getPoints()) {
+        for (Point point : points.getPointRegistry()) {
             sumX += point.getX();
             sumY += point.getY();
         }

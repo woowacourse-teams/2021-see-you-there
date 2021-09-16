@@ -8,6 +8,7 @@ public class GoodDayException extends RuntimeException {
         this.customException = customException;
     }
 
+    @Override
     public String getMessage() {
         return customException.getMessage();
     }

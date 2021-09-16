@@ -17,7 +17,7 @@ import seeuthere.goodday.board.domain.Board;
 import seeuthere.goodday.board.domain.BoardLabel;
 import seeuthere.goodday.board.domain.Comment;
 import seeuthere.goodday.board.dto.request.BoardRequest;
-import seeuthere.goodday.board.dto.request.BoardResponse;
+import seeuthere.goodday.board.dto.response.BoardResponse;
 import seeuthere.goodday.board.dto.request.CommentRequest;
 import seeuthere.goodday.board.service.BoardService;
 

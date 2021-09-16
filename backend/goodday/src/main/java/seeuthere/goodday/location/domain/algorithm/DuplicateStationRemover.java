@@ -8,7 +8,7 @@ import seeuthere.goodday.location.dto.response.UtilityResponse;
 
 public class DuplicateStationRemover {
 
-    private final static String DELIMITER = " ";
+    private static final String DELIMITER = " ";
 
     private final List<UtilityResponse> utilityResponseList;
 

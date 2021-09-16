@@ -1,4 +1,4 @@
-package seeuthere.goodday.board.dto.request;
+package seeuthere.goodday.board.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

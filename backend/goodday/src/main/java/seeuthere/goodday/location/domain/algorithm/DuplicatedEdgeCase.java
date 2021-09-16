@@ -17,10 +17,6 @@ public enum DuplicatedEdgeCase {
         this.stationName = stationName;
     }
 
-    public String getName() {
-        return this.stationName;
-    }
-
     public static Set<String> edgeCase() {
         if (Objects.isNull(EDGE_CASE)) {
             EDGE_CASE = Arrays.stream(DuplicatedEdgeCase.values())
@@ -32,5 +28,9 @@ public enum DuplicatedEdgeCase {
 
     public static boolean isContain(String name) {
         return edgeCase().contains(name);
+    }
+
+    public String getName() {
+        return this.stationName;
     }
 }

@@ -17,12 +17,6 @@ public class Points {
         this.points = points;
     }
 
-    private void validation(List<Point> points) {
-        if (Objects.isNull(points) || points.size() <= 1) {
-            throw new GoodDayException(LocationExceptionSet.NOT_ENOUGH_LOCATION);
-        }
-    }
-
     public static Points valueOf(LocationsRequest locationsRequest) {
         List<Point> points = new ArrayList<>();
 
@@ -31,6 +25,12 @@ public class Points {
         }
 
         return new Points(points);
+    }
+
+    private void validation(List<Point> points) {
+        if (Objects.isNull(points) || points.size() <= 1) {
+            throw new GoodDayException(LocationExceptionSet.NOT_ENOUGH_LOCATION);
+        }
     }
 
     public int size() {

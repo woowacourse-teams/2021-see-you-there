@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class APITransportResponse implements Serializable {
 
     @XmlElement(name = "msgBody")
-    private APIMsgBodyResponse msgBody;
+    private final APIMsgBodyResponse msgBody;
 
     public APITransportResponse() {
         this.msgBody = new APIMsgBodyResponse();

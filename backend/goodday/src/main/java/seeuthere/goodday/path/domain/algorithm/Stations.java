@@ -19,12 +19,6 @@ public class Stations {
         this.stations = stations;
     }
 
-    private void validate(List<Station> stations) {
-        if (stations.isEmpty()) {
-            throw new GoodDayException(PathExceptionSet.NOT_FOUND_PATH);
-        }
-    }
-
     public static Stations of(UtilityRequester utilityRequester, Point point) {
         List<Station> stations = utilityRequester
             .requestUtility(LocationCategory.SW8.getCode(), point.getX(), point.getY())
@@ -33,6 +27,12 @@ public class Stations {
             .collect(Collectors.toList());
 
         return new Stations(stations);
+    }
+
+    private void validate(List<Station> stations) {
+        if (stations.isEmpty()) {
+            throw new GoodDayException(PathExceptionSet.NOT_FOUND_PATH);
+        }
     }
 
     public Station getNearestStation() {

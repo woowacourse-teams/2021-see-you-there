@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 public class APIMsgBodyResponse implements Serializable {
 
     @XmlElement(name = "itemList")
-    private List<APIItemListResponse> itemListResponse;
+    private final List<APIItemListResponse> itemListResponse;
 
     public APIMsgBodyResponse() {
         itemListResponse = new ArrayList<>();

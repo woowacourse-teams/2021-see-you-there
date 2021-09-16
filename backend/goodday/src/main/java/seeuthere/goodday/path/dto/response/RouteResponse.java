@@ -45,59 +45,6 @@ public class RouteResponse {
         return new RouteResponse(startX, startY, startName, routeName, endX, endY, endName);
     }
 
-    public static class Builder {
-
-        private double startX = 0;
-        private double startY = 0;
-        private String startName = "";
-        private String routeName = "";
-        private double endX = 0;
-        private double endY = 0;
-        private String endName = "";
-
-        public Builder() {
-        }
-
-        public Builder startX(double startX) {
-            this.startX = startX;
-            return this;
-        }
-
-        public Builder startY(double startY) {
-            this.startY = startY;
-            return this;
-        }
-
-        public Builder startName(String startName) {
-            this.startName = startName;
-            return this;
-        }
-
-        public Builder routeName(String routeName) {
-            this.routeName = routeName;
-            return this;
-        }
-
-        public Builder endX(double endX) {
-            this.endX = endX;
-            return this;
-        }
-
-        public Builder endY(double endY) {
-            this.endY = endY;
-            return this;
-        }
-
-        public Builder endName(String endName) {
-            this.endName = endName;
-            return this;
-        }
-
-        public RouteResponse build() {
-            return new RouteResponse(this);
-        }
-    }
-
     public static RouteResponse valueOf(Route route) {
         return new Builder()
             .startX(route.getStartX())
@@ -148,5 +95,55 @@ public class RouteResponse {
 
     public String getEndName() {
         return endName;
+    }
+
+    public static class Builder {
+
+        private double startX = 0;
+        private double startY = 0;
+        private String startName = "";
+        private String routeName = "";
+        private double endX = 0;
+        private double endY = 0;
+        private String endName = "";
+
+        public Builder startX(double startX) {
+            this.startX = startX;
+            return this;
+        }
+
+        public Builder startY(double startY) {
+            this.startY = startY;
+            return this;
+        }
+
+        public Builder startName(String startName) {
+            this.startName = startName;
+            return this;
+        }
+
+        public Builder routeName(String routeName) {
+            this.routeName = routeName;
+            return this;
+        }
+
+        public Builder endX(double endX) {
+            this.endX = endX;
+            return this;
+        }
+
+        public Builder endY(double endY) {
+            this.endY = endY;
+            return this;
+        }
+
+        public Builder endName(String endName) {
+            this.endName = endName;
+            return this;
+        }
+
+        public RouteResponse build() {
+            return new RouteResponse(this);
+        }
     }
 }

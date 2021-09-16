@@ -15,13 +15,16 @@ public class KakaoAuthRequester {
 
     private final WebClient kakaoHostWebClient;
     private final WebClient kakaoAuthWebClient;
+    private final SecretKey secretKey;
 
     @Value("${url.server}")
     private String domainUrl;
 
-    public KakaoAuthRequester(WebClient kakaoHostWebClient, WebClient kakaoAuthWebClient) {
+    public KakaoAuthRequester(WebClient kakaoHostWebClient, WebClient kakaoAuthWebClient,
+        SecretKey secretKey) {
         this.kakaoHostWebClient = kakaoHostWebClient;
         this.kakaoAuthWebClient = kakaoAuthWebClient;
+        this.secretKey = secretKey;
     }
 
     public ProfileResponse kakaoUserInfo(String accessToken, String memberId) {
@@ -45,7 +48,7 @@ public class KakaoAuthRequester {
             .uri(uriBuilder -> uriBuilder
                 .path("/oauth/token")
                 .queryParam("grant_type", "authorization_code")
-                .queryParam("client_id", SecretKey.KAKAO_API_KEY)
+                .queryParam("client_id", secretKey.getKakaoApiKey())
                 .queryParam("redirect_uri", domainUrl + "/kakao/callback")
                 .queryParam("code", code)
                 .build())

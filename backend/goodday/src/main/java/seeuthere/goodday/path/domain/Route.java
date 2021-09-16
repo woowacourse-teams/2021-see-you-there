@@ -20,6 +20,34 @@ public class Route {
         this.endName = builder.endName;
     }
 
+    public double getStartX() {
+        return startX;
+    }
+
+    public double getStartY() {
+        return startY;
+    }
+
+    public String getStartName() {
+        return startName;
+    }
+
+    public String getRouteName() {
+        return routeName;
+    }
+
+    public double getEndX() {
+        return endX;
+    }
+
+    public double getEndY() {
+        return endY;
+    }
+
+    public String getEndName() {
+        return endName;
+    }
+
     public static class Builder {
 
         private double startX = 0;
@@ -29,9 +57,6 @@ public class Route {
         private double endX = 0;
         private double endY = 0;
         private String endName = "";
-
-        public Builder() {
-        }
 
         public Builder startX(double startX) {
             this.startX = startX;
@@ -71,33 +96,5 @@ public class Route {
         public Route build() {
             return new Route(this);
         }
-    }
-
-    public double getStartX() {
-        return startX;
-    }
-
-    public double getStartY() {
-        return startY;
-    }
-
-    public String getStartName() {
-        return startName;
-    }
-
-    public String getRouteName() {
-        return routeName;
-    }
-
-    public double getEndX() {
-        return endX;
-    }
-
-    public double getEndY() {
-        return endY;
-    }
-
-    public String getEndName() {
-        return endName;
     }
 }

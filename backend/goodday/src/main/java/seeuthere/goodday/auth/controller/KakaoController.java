@@ -22,12 +22,14 @@ public class KakaoController {
     private final MemberService memberService;
     private final AuthService authService;
     private final KakaoService kakaoService;
+    private final SecretKey secretKey;
 
     public KakaoController(MemberService memberService, AuthService authService,
-        KakaoService kaKaoService) {
+        KakaoService kaKaoService, SecretKey secretKey) {
         this.memberService = memberService;
         this.authService = authService;
         this.kakaoService = kaKaoService;
+        this.secretKey = secretKey;
     }
 
     @GetMapping(value = "/oauth")
@@ -36,7 +38,7 @@ public class KakaoController {
             "redirect:",
             KAKAO_AUTH_URI,
             "/oauth/authorize?client_id=",
-            SecretKey.KAKAO_API_KEY,
+            secretKey.getKakaoApiKey(),
             "&redirect_uri=",
             kakaoService.getDomainUrl(),
             "/kakao/callback&response_type=code");

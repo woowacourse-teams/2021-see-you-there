@@ -12,24 +12,18 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Address {
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMBER_ID")
+    Member member;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ADDRESS_ID")
     private Long id;
-
     private String nickname;
-
     private String addressName;
-
     private String fullAddress;
-
     private Double x;
-
     private Double y;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MEMBER_ID")
-    Member member;
 
     public Address() {
     }
@@ -103,9 +97,6 @@ public class Address {
         private String fullAddress;
         private Double x;
         private Double y;
-
-        public Builder() {
-        }
 
         public Builder id(Long id) {
             this.id = id;

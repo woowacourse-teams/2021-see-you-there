@@ -19,6 +19,12 @@ import seeuthere.goodday.secret.SecretKey;
 @DependsOn("SecretKey")
 public class WebClientConfig {
 
+    private final SecretKey secretKey;
+
+    public WebClientConfig(SecretKey secretKey) {
+        this.secretKey = secretKey;
+    }
+
     @Bean
     @Qualifier("KakaoWebClient")
     public WebClient kakaoWebClient(ObjectMapper baseConfig) {
@@ -27,7 +33,7 @@ public class WebClientConfig {
         return WebClient.builder()
             .baseUrl("https://dapi.kakao.com")
             .exchangeStrategies(exchangeStrategies)
-            .defaultHeader("Authorization", "KakaoAK " + SecretKey.KAKAO_API_KEY)
+            .defaultHeader("Authorization", "KakaoAK " + secretKey.getKakaoApiKey())
             .build();
     }
 

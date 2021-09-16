@@ -23,6 +23,17 @@ public class AddressResponse {
         this.y = builder.y;
     }
 
+    public static AddressResponse valueOf(Address address) {
+        return new Builder()
+            .id(address.getId())
+            .nickname(address.getNickname())
+            .addressName(address.getAddressName())
+            .fullAddress(address.getFullAddress())
+            .x(address.getX())
+            .y(address.getY())
+            .build();
+    }
+
     public Long getId() {
         return id;
     }
@@ -55,9 +66,6 @@ public class AddressResponse {
         private String fullAddress;
         private Double x;
         private Double y;
-
-        public Builder() {
-        }
 
         public Builder id(Long id) {
             this.id = id;
@@ -92,16 +100,5 @@ public class AddressResponse {
         public AddressResponse build() {
             return new AddressResponse(this);
         }
-    }
-
-    public static AddressResponse valueOf(Address address) {
-        return new Builder()
-            .id(address.getId())
-            .nickname(address.getNickname())
-            .addressName(address.getAddressName())
-            .fullAddress(address.getFullAddress())
-            .x(address.getX())
-            .y(address.getY())
-            .build();
     }
 }

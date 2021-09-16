@@ -5,7 +5,6 @@ public class FriendRequest {
     private String memberId;
 
     public FriendRequest() {
-
     }
 
     public FriendRequest(String memberId) {

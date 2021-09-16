@@ -30,9 +30,6 @@ public class APIPathListResponse implements Serializable {
     @XmlElement(name = "ty")
     private double endY;
 
-    public APIPathListResponse() {
-    }
-
     public String getStartName() {
         return startName;
     }

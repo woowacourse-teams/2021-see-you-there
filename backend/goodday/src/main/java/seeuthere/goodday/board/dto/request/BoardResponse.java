@@ -16,7 +16,8 @@ public class BoardResponse {
     private final CommentResponse commentResponse;
 
     public BoardResponse(Long id, String title, String content, LocalDateTime createTime,
-        LocalDateTime updateTime, BoardLabel label, String memberId, CommentResponse commentResponse) {
+        LocalDateTime updateTime, BoardLabel label, String memberId,
+        CommentResponse commentResponse) {
         this.id = id;
         this.title = title;
         this.content = content;

@@ -9,7 +9,6 @@ public class RequestFriendResponse {
     private MemberResponse receiver;
 
     public RequestFriendResponse() {
-
     }
 
     public RequestFriendResponse(RequestFriend requester) {

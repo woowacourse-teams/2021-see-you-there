@@ -9,7 +9,7 @@ import seeuthere.goodday.member.domain.Member;
 
 @Transactional
 @Repository
-public interface AdminRepository extends JpaRepository<Admin, Long>{
+public interface AdminRepository extends JpaRepository<Admin, Long> {
 
     Optional<Admin> findAdminByMember(Member member);
 }

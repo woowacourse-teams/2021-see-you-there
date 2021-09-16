@@ -16,6 +16,14 @@ public class DuplicateStationRemover {
         this.utilityResponseList = utilityResponseList;
     }
 
+    public static String translatedStationName(String placeName) {
+        String name = placeName.split(DELIMITER)[0];
+        if (DuplicatedEdgeCase.isContain(name)) {
+            return placeName;
+        }
+        return name;
+    }
+
     public List<UtilityResponse> result() {
         List<UtilityResponse> utilityResponses = new ArrayList<>();
         Set<String> stations = new HashSet<>();
@@ -46,13 +54,5 @@ public class DuplicateStationRemover {
             .placeUrl(response.getPlaceUrl())
             .placeName(name)
             .build();
-    }
-
-    public static String translatedStationName(String placeName) {
-        String name = placeName.split(DELIMITER)[0];
-        if (DuplicatedEdgeCase.isContain(name)) {
-            return placeName;
-        }
-        return name;
     }
 }

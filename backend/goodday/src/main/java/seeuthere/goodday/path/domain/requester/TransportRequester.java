@@ -13,16 +13,19 @@ import seeuthere.goodday.secret.SecretKey;
 public class TransportRequester {
 
     private final WebClient webClient;
+    private final SecretKey secretKey;
 
-    public TransportRequester(@Qualifier("TransportWebClient") WebClient webClient) {
+    public TransportRequester(@Qualifier("TransportWebClient") WebClient webClient,
+        SecretKey secretKey) {
         this.webClient = webClient;
+        this.secretKey = secretKey;
     }
 
     public APITransportResponse transportPath(Point start, Point end, TransportURL transportURL) {
         return webClient.get()
             .uri(uriBuilder ->
                 uriBuilder.path(transportURL.getUrl())
-                    .queryParam("ServiceKey", SecretKey.TRANSPORT_API_KEY)
+                    .queryParam("ServiceKey", secretKey.getTransportApiKey())
                     .queryParam("startX", start.getX())
                     .queryParam("startY", start.getY())
                     .queryParam("endX", end.getX())

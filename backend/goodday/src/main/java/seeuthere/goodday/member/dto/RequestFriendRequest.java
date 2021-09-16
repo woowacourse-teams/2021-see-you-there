@@ -5,7 +5,6 @@ public class RequestFriendRequest {
     private Long id;
 
     public RequestFriendRequest() {
-
     }
 
     public RequestFriendRequest(Long id) {

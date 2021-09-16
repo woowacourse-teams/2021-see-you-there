@@ -12,7 +12,6 @@ public class FriendResponse {
     private List<Address> addresses;
 
     public FriendResponse() {
-
     }
 
     public FriendResponse(Member friend) {

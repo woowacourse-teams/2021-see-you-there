@@ -15,14 +15,6 @@ public class StationGrades {
         this.grades = grades;
     }
 
-    public void add(StationGrade stationGrade, UtilityResponse utilityResponse) {
-        grades.put(stationGrade, utilityResponse);
-    }
-
-    public UtilityResponse finalUtilityResponse() {
-        return grades.firstEntry().getValue();
-    }
-
     public static StationGrades valueOf(Points points,
         List<UtilityResponse> utilityResponses, Map<Point, Map<Point, PathResult>> map) {
 
@@ -48,5 +40,13 @@ public class StationGrades {
 
         grades.put(new StationGrade(timeGrade.diffTime(),
             timeGrade.getAvgTime(points.size())), utilityResponse);
+    }
+
+    public void add(StationGrade stationGrade, UtilityResponse utilityResponse) {
+        grades.put(stationGrade, utilityResponse);
+    }
+
+    public UtilityResponse finalUtilityResponse() {
+        return grades.firstEntry().getValue();
     }
 }

@@ -35,19 +35,19 @@ public class PathResponse {
             path.getWalkTime());
     }
 
+    private static List<RouteResponse> getPathResponses(APIItemListResponse apiItemListResponse) {
+        return apiItemListResponse.getPathListAPIResponse()
+            .stream()
+            .map(RouteResponse::valueOf)
+            .collect(Collectors.toList());
+    }
+
     public Path toPath() {
         return new Path(
             routes.stream()
                 .map(RouteResponse::toRoute)
                 .collect(Collectors.toList()),
             distance, time, 0);
-    }
-
-    private static List<RouteResponse> getPathResponses(APIItemListResponse apiItemListResponse) {
-        return apiItemListResponse.getPathListAPIResponse()
-            .stream()
-            .map(RouteResponse::valueOf)
-            .collect(Collectors.toList());
     }
 
     public List<RouteResponse> getRoutes() {

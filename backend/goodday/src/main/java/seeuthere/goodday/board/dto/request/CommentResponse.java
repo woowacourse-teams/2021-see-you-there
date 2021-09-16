@@ -6,9 +6,9 @@ import seeuthere.goodday.board.domain.Comment;
 
 public class CommentResponse {
 
-    private LocalDateTime createTime;
-    private LocalDateTime updateTime;
-    private String content;
+    private final LocalDateTime createTime;
+    private final LocalDateTime updateTime;
+    private final String content;
 
     public CommentResponse(LocalDateTime createTime, LocalDateTime updateTime, String content) {
         this.createTime = createTime;

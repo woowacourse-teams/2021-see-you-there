@@ -15,7 +15,7 @@ public class TransportCache implements Serializable {
     private APITransportResponse apiTransportResponse;
 
     @TimeToLive(unit = TimeUnit.DAYS)
-    private final Long timeToLive;
+    private Long timeToLive;
 
     public TransportCache() {
         timeToLive = 7L;

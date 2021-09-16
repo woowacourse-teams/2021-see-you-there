@@ -21,7 +21,7 @@ public class PathResult implements Serializable {
     public double weight;
 
     @TimeToLive(unit = TimeUnit.DAYS)
-    private final long timeToLive;
+    private long timeToLive;
 
     public PathResult() {
         timeToLive = 7L;

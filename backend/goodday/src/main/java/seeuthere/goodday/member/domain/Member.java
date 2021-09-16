@@ -64,7 +64,12 @@ public class Member {
     }
 
     public void deleteAddress(Long id) {
-        this.addresses.removeIf(address -> address.getId().equals(id));
+        final Address deleteAddress = addresses.stream()
+            .filter(address -> address.getId().equals(id))
+            .findFirst()
+            .orElseThrow(
+                () -> new GoodDayException(MemberExceptionSet.UNABLE_DELETE_AUTHORIZATION));
+        this.addresses.remove(deleteAddress);
     }
 
     public void addFriend(Member friend) {

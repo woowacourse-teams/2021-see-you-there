@@ -5,8 +5,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
+import seeuthere.goodday.member.dao.AdminRepository;
 import seeuthere.goodday.member.dao.MemberRepository;
 import seeuthere.goodday.member.domain.Address;
+import seeuthere.goodday.member.domain.Admin;
 import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.dto.AddressRequest;
 import seeuthere.goodday.member.dto.FriendRequest;
@@ -22,6 +24,13 @@ public class DataLoader implements CommandLineRunner {
     public static final Member 멍토 = new Member("12", "ab", "멍토", "image2");
     public static final Member 심바 = new Member("123", "abc", "심바", "image3");
     public static final Member 하루 = new Member("1", "a", "하루", "image4");
+
+    public static String 와이비토큰;
+    public static String 하루토큰;
+    public static String 멍토토큰;
+
+    public static final Admin 관리자하루 = new Admin(하루);
+    public static final Admin 관리자와이비 = new Admin(와이비);
     public static final Address 와이비집 = new Address.Builder()
         .nickname("집")
         .addressName("어쩌구")
@@ -33,12 +42,15 @@ public class DataLoader implements CommandLineRunner {
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberService memberService;
+    private final AdminRepository adminRepository;
 
     public DataLoader(MemberRepository memberRepository,
-        JwtTokenProvider jwtTokenProvider, MemberService memberService) {
+        JwtTokenProvider jwtTokenProvider, MemberService memberService,
+        AdminRepository adminRepository) {
         this.memberRepository = memberRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.memberService = memberService;
+        this.adminRepository = adminRepository;
     }
 
     @Override
@@ -52,6 +64,9 @@ public class DataLoader implements CommandLineRunner {
         memberRepository.save(심바);
         memberRepository.save(하루);
 
+        adminRepository.save(관리자하루);
+        adminRepository.save(관리자와이비);
+
         memberService.requestFriend(멍토.getId(), new FriendRequest(와이비.getMemberId()));
         memberService.requestFriend(심바.getId(), new FriendRequest(와이비.getMemberId()));
         List<RequestFriendResponse> requestFriends = memberService.findReceiveFriends(와이비.getId());
@@ -61,9 +76,10 @@ public class DataLoader implements CommandLineRunner {
 
         memberService.requestFriend(하루.getId(), new FriendRequest(와이비.getMemberId()));
 
-        System.out.println("==================YB TOKEN=================\n"
-            + jwtTokenProvider.createToken(와이비.getId()));
-        System.out.println("==================HARU TOKEN=================\n"
-            + jwtTokenProvider.createToken(하루.getId()));
+        와이비토큰 = jwtTokenProvider.createToken(와이비.getId());
+        하루토큰 = jwtTokenProvider.createToken(하루.getId());
+        멍토토큰 = jwtTokenProvider.createToken(멍토.getId());
+        System.out.println("==================YB TOKEN=================\n" + 와이비토큰);
+        System.out.println("==================HARU TOKEN=================\n" + 하루토큰);
     }
 }

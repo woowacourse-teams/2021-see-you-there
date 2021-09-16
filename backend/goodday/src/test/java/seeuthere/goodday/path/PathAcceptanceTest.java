@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import seeuthere.goodday.AcceptanceTest;
 
-public class PathAcceptanceTest extends AcceptanceTest {
+class PathAcceptanceTest extends AcceptanceTest {
 
     private static final String BASIC_URL = "api/path/";
     private static final String BASIC_START_X = "startX=126.98170666658032";

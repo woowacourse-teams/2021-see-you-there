@@ -27,6 +27,7 @@ public class DataLoader implements CommandLineRunner {
 
     public static String 와이비토큰;
     public static String 하루토큰;
+    public static String 멍토토큰;
 
     public static final Admin 관리자하루 = new Admin(하루);
     public static final Admin 관리자와이비 = new Admin(와이비);
@@ -77,6 +78,7 @@ public class DataLoader implements CommandLineRunner {
 
         와이비토큰 = jwtTokenProvider.createToken(와이비.getId());
         하루토큰 = jwtTokenProvider.createToken(하루.getId());
+        멍토토큰 = jwtTokenProvider.createToken(멍토.getId());
         System.out.println("==================YB TOKEN=================\n" + 와이비토큰);
         System.out.println("==================HARU TOKEN=================\n" + 하루토큰);
     }

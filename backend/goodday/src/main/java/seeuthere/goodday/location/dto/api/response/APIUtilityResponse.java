@@ -7,9 +7,6 @@ public class APIUtilityResponse {
     private Meta meta;
     private List<APIUtilityDocument> documents;
 
-    public APIUtilityResponse() {
-    }
-
     @Override
     public String toString() {
         return "APIUtilityResponse{" +

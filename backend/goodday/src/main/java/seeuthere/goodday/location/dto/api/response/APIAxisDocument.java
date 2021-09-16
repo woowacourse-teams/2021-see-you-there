@@ -9,10 +9,6 @@ public class APIAxisDocument {
     private Address address;
     private Address roadAddress;
 
-    public APIAxisDocument() {
-
-    }
-
     public double getX() {
         return x;
     }

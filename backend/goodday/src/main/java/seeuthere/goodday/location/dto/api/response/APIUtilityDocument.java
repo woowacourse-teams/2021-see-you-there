@@ -13,10 +13,6 @@ public class APIUtilityDocument {
     private double x;
     private double y;
 
-    public APIUtilityDocument() {
-
-    }
-
     public String getPlaceName() {
         return placeName;
     }

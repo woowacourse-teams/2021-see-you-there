@@ -10,19 +10,11 @@ public class AuthRequestConfig {
 
     private final WebClient kakaoHostClient;
     private final WebClient kakaoAuthClient;
-    private final WebClient naverAuthClient;
 
     public AuthRequestConfig(@Qualifier("KakaoHostClient") WebClient kakaoHostClient,
-        @Qualifier("KakaoAuthClient") WebClient kakaoAuthClient,
-        @Qualifier("NaverAuthClient") WebClient naverWebClient) {
+        @Qualifier("KakaoAuthClient") WebClient kakaoAuthClient) {
         this.kakaoHostClient = kakaoHostClient;
         this.kakaoAuthClient = kakaoAuthClient;
-        this.naverAuthClient = naverWebClient;
-    }
-
-    @Bean
-    public NaverAuthRequester naverAuthRequester() {
-        return new NaverAuthRequester(naverAuthClient);
     }
 
     @Bean

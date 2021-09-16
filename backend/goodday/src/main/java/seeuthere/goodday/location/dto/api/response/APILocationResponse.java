@@ -8,9 +8,6 @@ public class APILocationResponse {
     @JsonProperty("documents")
     private List<APILocationDocument> apiLocationDocuments;
 
-    public APILocationResponse() {
-    }
-
     public List<APILocationDocument> getDocuments() {
         return apiLocationDocuments;
     }

@@ -6,9 +6,6 @@ public class APIAxisResponse {
 
     private List<APIAxisDocument> documents;
 
-    public APIAxisResponse() {
-    }
-
     public List<APIAxisDocument> getDocuments() {
         return documents;
     }

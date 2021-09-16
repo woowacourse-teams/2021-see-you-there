@@ -8,9 +8,6 @@ public class Meta {
     @JsonProperty("is_end")
     private boolean end;
 
-    public Meta() {
-    }
-
     public int getPageableCount() {
         return pageableCount;
     }

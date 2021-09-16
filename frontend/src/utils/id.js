@@ -1,23 +1,30 @@
-let id = 0;
-export const getId = () => `${new Date().getTime()}${id++}`;
+export const getId = (() => {
+  let id = 0;
 
-let avatarIndex = 1;
+  return () => `${new Date().getTime()}${id++}`;
+})();
 
-export const getAvatarKey = () => {
-  if (avatarIndex > 10) {
-    avatarIndex = 1;
-  }
-  return `avatar${avatarIndex++}`;
-};
+export const getAvatarKey = (() => {
+  let avatarIndex = 1;
 
-let tipIndex = 0;
+  return () => {
+    if (avatarIndex > 10) {
+      avatarIndex = 1;
+    }
+    return `avatar${avatarIndex++}`;
+  };
+})();
 
-export const getKey = (array) => {
-  if (tipIndex === array.length) {
-    tipIndex = 0;
-  }
-  return tipIndex++;
-};
+export const getKey = (() => {
+  let tipIndex = 0;
+
+  return (array) => {
+    if (tipIndex === array.length) {
+      tipIndex = 0;
+    }
+    return tipIndex++;
+  };
+})();
 
 const adjectives = [
   '귀여운',
@@ -64,11 +71,13 @@ const nicknames = Array.from({ length: adjectives.length }).map(() => {
   return adjective + animal;
 });
 
-let nicknameIndex = 0;
+export const getNickname = (() => {
+  let nicknameIndex = 0;
 
-export const getNickname = () => {
-  if (nicknameIndex >= nicknames.length) {
-    nicknameIndex = 0;
-  }
-  return nicknames[nicknameIndex++];
-};
+  return () => {
+    if (nicknameIndex >= nicknames.length) {
+      nicknameIndex = 0;
+    }
+    return nicknames[nicknameIndex++];
+  };
+})();

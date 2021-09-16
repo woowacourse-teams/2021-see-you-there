@@ -1,13 +1,13 @@
 import { QUERY_KEY } from './api';
 import { ID } from './test';
-import { Image } from '../assets';
+import { pinStation, pinParticipant, pinCafe, pinDining, pinParty } from '../assets';
 
 const PIN_IMAGE = {
-  STATION: { w: 60, h: 80, src: Image.pinStation },
-  PARTICIPANT: { w: 45, h: 45, src: Image.pinParticipant },
-  [QUERY_KEY.CAFE]: { w: 36, h: 48, src: Image.pinCafe },
-  [QUERY_KEY.DINING]: { w: 36, h: 48, src: Image.pinDining },
-  [QUERY_KEY.PARTY]: { w: 36, h: 48, src: Image.pinParty },
+  STATION: { w: 60, h: 80, src: pinStation },
+  PARTICIPANT: { w: 45, h: 45, src: pinParticipant },
+  [QUERY_KEY.CAFE]: { w: 36, h: 48, src: pinCafe },
+  [QUERY_KEY.DINING]: { w: 36, h: 48, src: pinDining },
+  [QUERY_KEY.PARTY]: { w: 36, h: 48, src: pinParty },
 };
 
 const TEST_ID = {
@@ -24,14 +24,26 @@ export const HTML = {
     DEFAULT: ({ title, key, id }) =>
       `
       <div ${id ? `id=_${id}` : ''} style="cursor: default;" data-testid=${TEST_ID[key]} >
-        <img src=${PIN_IMAGE[key].src} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
+        <picture>
+          <source
+            type="image/png"
+            srcSet="${PIN_IMAGE[key].src.x1} 1x, ${PIN_IMAGE[key].src.x2} 2x, ${PIN_IMAGE[key].src.x3} 3x"
+          />
+          <img src=${PIN_IMAGE[key].src.x1} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
+        </picture>
         <span></span>
       </div>
     `,
     INTERACTIVE: ({ title, key, url }) =>
       `
       <a href=${url} target="_blank" rel="noreferrer" data-testid=${TEST_ID[key]} >
-        <img src=${PIN_IMAGE[key].src} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
+        <picture>
+          <source
+            type="image/png"
+            srcSet="${PIN_IMAGE[key].src.x1} 1x, ${PIN_IMAGE[key].src.x2} 2x, ${PIN_IMAGE[key].src.x3} 3x"
+          />
+          <img src=${PIN_IMAGE[key].src.x1} alt="${title}" width=${PIN_IMAGE[key].w} height=${PIN_IMAGE[key].h} />
+        </picture>
       </a>
     `,
   },

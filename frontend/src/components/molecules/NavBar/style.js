@@ -70,17 +70,8 @@ export const Title = styled.div`
   align-items: center;
   height: 100%;
 
-  & > h2 {
-    margin-top: 0.1rem;
-    margin-left: 0.25rem;
-    min-width: 7rem;
-    padding: 0;
-
-    font-family: 'yg-jal-nan';
-    font-size: 1.25rem;
-    color: ${COLOR.ON_PRIMARY};
-    letter-spacing: 0.125rem;
-    line-height: 1.25rem;
+  & > img {
+    width: 8.25rem;
   }
 `;
 

@@ -16,6 +16,10 @@ export const LoadingSection = styled.section`
   z-index: ${Z_INDEX.LOADING};
 
   background-color: ${COLOR.ON_PRIMARY};
+
+  & > img {
+    width: 2.8125rem;
+  }
 `;
 
 export const LoadingMessage = styled.h2`

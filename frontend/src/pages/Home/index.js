@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
 
 import { ParticipantAddForm } from './ParticipantAddForm';
 import { MapViewArea, MapView, ContentArea, AddSection, ListSection, BottomSection } from './style';
 import { ButtonRound, Icon, Confirm, ParticipantList } from '../../components';
-import { ParticipantContext, AddFormContextProvider } from '../../contexts';
+import { ParticipantContext, AddFormContextProvider, SnackbarContext } from '../../contexts';
 import { useConfirm, useMapViewApi } from '../../hooks';
 import { MESSAGE, ROUTE, POBI_POINT, ID } from '../../constants';
 
 const formId = 'PARTICIPANT';
 
-export const Home = () => {
+const HomePage = () => {
   const { participants, removeParticipant, lastParticipant, resetLastParticipant, isLackParticipants } =
     useContext(ParticipantContext);
   const mapObj = useRef(null);
@@ -20,7 +19,7 @@ export const Home = () => {
   const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useConfirm({ approve: removeParticipant });
   const [participantMarkers, setParticipantMarkers] = useState([]);
   const history = useHistory();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar, clearSnackbar } = useContext(SnackbarContext);
 
   const showParticipantsMarkers = () => {
     const markers = participants.map(({ x, y, name: title, id }) => getMarker({ x, y, title, key: 'PARTICIPANT', id }));
@@ -42,7 +41,7 @@ export const Home = () => {
 
   useEffect(() => {
     showMapView(POBI_POINT);
-    return closeSnackbar;
+    return clearSnackbar;
   }, []);
 
   useEffect(() => {
@@ -90,3 +89,5 @@ export const Home = () => {
     </>
   );
 };
+
+export default HomePage;

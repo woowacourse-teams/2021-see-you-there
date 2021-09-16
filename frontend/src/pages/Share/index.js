@@ -5,7 +5,7 @@ import { ParticipantContext } from '../../contexts';
 import { useShareLink } from '../../hooks';
 import { ROUTE } from '../../constants';
 
-export const Share = () => {
+const SharePage = () => {
   const { search } = useLocation();
 
   const { getParticipants } = useShareLink();
@@ -27,3 +27,5 @@ export const Share = () => {
 
   return <Redirect to={ROUTE.MIDPOINT.PATH} />;
 };
+
+export default SharePage;

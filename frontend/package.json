@@ -1,12 +1,14 @@
 {
   "name": "see-you-there-frontend",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "여기서만나(프론트엔드)",
   "main": "index.js",
+  "sideEffects": false,
   "scripts": {
     "start": "webpack serve --mode=development",
     "lint": "eslint src",
     "build": "webpack --mode=production",
+    "bundle": "webpack --mode=production --env bundleAnalyze=true",
     "cypress": "cypress open --config watchForFileChanges=false,pluginsFile=false --config-file false",
     "cypress:run": "cypress run --config pluginsFile=false --config-file false",
     "test": "start-server-and-test start http-get://localhost:9000 cypress:run"
@@ -85,8 +87,6 @@
     "useTabs": false
   },
   "dependencies": {
-    "@material-ui/core": "4.12.3",
-    "notistack": "1.0.10",
     "prop-types": "15.7.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -103,6 +103,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "babel-loader": "8.2.2",
     "clean-webpack-plugin": "4.0.0-alpha.0",
+    "compression-webpack-plugin": "^8.0.1",
     "cypress": "8.1.0",
     "eslint": "7.31.0",
     "eslint-config-prettier": "8.3.0",
@@ -112,11 +113,14 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "file-loader": "6.2.0",
     "html-webpack-plugin": "5.3.2",
+    "image-minimizer-webpack-plugin": "2.2.0",
+    "imagemin-webp": "6.0.0",
     "prettier": "2.3.2",
     "react-refresh": "0.10.0",
     "start-server-and-test": "1.13.1",
     "url-loader": "4.1.1",
     "webpack": "5.45.1",
+    "webpack-bundle-analyzer": "4.4.2",
     "webpack-cli": "4.7.2",
     "webpack-dev-server": "3.11.2"
   }

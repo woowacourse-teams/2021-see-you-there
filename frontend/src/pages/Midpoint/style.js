@@ -337,6 +337,11 @@ export const PathPagination = styled.div`
   }
 `;
 
+export const PageNumber = styled.span`
+  min-width: 1.125rem;
+  margin: 0 0.125rem;
+`;
+
 export const PathSummary = styled.div`
   display: flex;
   flex-direction: column;

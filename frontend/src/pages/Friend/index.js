@@ -5,18 +5,18 @@ import { ListRequestFriend } from './ListRequestFriend';
 import { ListReceiveFriend } from './ListReceiveFriend';
 import { FriendSearchModal } from './FriendSearchModal';
 import { ContentArea, MyMemberId, ButtonSection, FriendTabs, FriendTab } from './style';
-import { ButtonRound, Icon } from '../../components';
+import { ButtonRound, Icon, Picture } from '../../components';
 import { UserContext } from '../../contexts';
 import { useModal } from '../../hooks';
 
-import { Image } from '../../assets';
+import { drawingFriend, drawingFriendTablet } from '../../assets';
 import { COLOR } from '../../constants';
 
 const FRIEND_LIST = 'friendList';
 const REQUEST_LIST = 'requestList';
 const RECEIVE_LIST = 'receiveList';
 
-export const Friend = () => {
+const FriendPage = () => {
   const { memberId, userFriendList, requestFriendList, receiveFriendList, hasReceiveFriend } = useContext(UserContext);
   const { isModalOpen, openModal, closeModal } = useModal();
   const [isMemberIdCopied, setIsMemberIdCopied] = useState(false);
@@ -67,8 +67,15 @@ export const Friend = () => {
         <ListRequestFriend list={requestFriendList} isVisible={tab === REQUEST_LIST} />
         <ListReceiveFriend list={receiveFriendList} isVisible={tab === RECEIVE_LIST} />
 
-        <img src={Image.drawingFriend} alt="내 친구목록 페이지 일러스트" />
+        <Picture
+          image={drawingFriend}
+          tabletImage={drawingFriendTablet}
+          minType="webp"
+          alt="내 친구목록 페이지 일러스트"
+        />
       </ContentArea>
     </main>
   );
 };
+
+export default FriendPage;

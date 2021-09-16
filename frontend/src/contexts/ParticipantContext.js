@@ -1,7 +1,7 @@
-import React, { useState, createContext } from 'react';
-import { useSnackbar } from 'notistack';
+import React, { useState, createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
 
+import { SnackbarContext } from '.';
 import { storage } from '../utils';
 import { PARTICIPANT, STORAGE_KEY, MESSAGE } from '../constants';
 
@@ -12,7 +12,7 @@ export const ParticipantContext = createContext();
 export const ParticipantContextProvider = ({ children }) => {
   const [participants, setParticipants] = useState(INITIAL_STATE);
   const [lastParticipant, setLastParticipant] = useState(null);
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useContext(SnackbarContext);
 
   const addParticipant = (participant) => {
     const newParticipants = [...participants, participant];

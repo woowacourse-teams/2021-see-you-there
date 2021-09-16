@@ -1,14 +1,13 @@
 import { useContext } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useSnackbar } from 'notistack';
 
-import { UserContext } from '../contexts';
+import { SnackbarContext, UserContext } from '../contexts';
 import { QUERY_KEY, API_URL, MESSAGE } from '../constants';
 
 export const useMutateAddress = () => {
   const { httpAuthRequest } = useContext(UserContext);
   const queryClient = useQueryClient();
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useContext(SnackbarContext);
 
   /* 추가 */
   const fetchCreation = async (body) => {

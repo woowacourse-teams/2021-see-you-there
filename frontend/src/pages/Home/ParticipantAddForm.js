@@ -1,17 +1,16 @@
 import React, { useContext, useEffect } from 'react';
-import { useSnackbar } from 'notistack';
 
 import { QuickAddModal } from './QuickAddModal';
 import { AddressSearchModal, ButtonSquare, Icon, Input, Notice } from '../../components';
-import { AddFormContext, ParticipantContext } from '../../contexts';
+import { AddFormContext, ParticipantContext, SnackbarContext } from '../../contexts';
 import { useModal, useParticipantNameInput, useAddressInput } from '../../hooks';
 import { AddForm, QuickAddButton, InputWithButtonWrapper } from './style';
 import { getId, getAvatarKey, isViewWiderThan } from '../../utils';
 import { ID, LAYOUT } from '../../constants';
-import { Image } from '../../assets';
+import { avatar } from '../../assets';
 
 export const ParticipantAddForm = () => {
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useContext(SnackbarContext);
   const { addParticipant, isFullParticipants } = useContext(ParticipantContext);
   const { INPUT, MESSAGE, formRef, resetForm, isComplete, noticeMessage, setNoticeMessage } =
     useContext(AddFormContext);
@@ -36,7 +35,7 @@ export const ParticipantAddForm = () => {
 
     const newParticipant = {
       id: getId(),
-      avatar: Image[getAvatarKey()],
+      avatar: avatar[getAvatarKey()],
       name,
       ...address,
     };

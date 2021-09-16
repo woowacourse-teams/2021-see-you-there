@@ -29,9 +29,10 @@ export const Anchor = styled.a`
   background-color: ${(props) => props.backgroundColor};
   border: 1px solid ${COLOR.BORDER};
   border-radius: 0.375rem;
+  z-index: ${Z_INDEX.ON_IMAGE};
 
   & > img {
-    height: 2.25rem;
+    width: 2.25rem;
   }
 
   & > span {

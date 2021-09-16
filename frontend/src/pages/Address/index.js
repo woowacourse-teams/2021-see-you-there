@@ -6,11 +6,11 @@ import { ButtonRound, Confirm } from '../../components';
 import { AddFormContextProvider, UserContext } from '../../contexts';
 import { useConfirm, useMutateAddress } from '../../hooks';
 import { MESSAGE } from '../../constants';
-import { Image } from '../../assets';
+import { home1, home2 } from '../../assets';
 
 const formId = 'USER_ADDRESS';
 
-export const Address = () => {
+const AddressPage = () => {
   const { userAddressList } = useContext(UserContext);
   const { deleteAddress } = useMutateAddress();
   const [editAddressId, setEditAddressId] = useState(null);
@@ -44,7 +44,7 @@ export const Address = () => {
             }
             return (
               <ListItem key={id} isButtonVisible={!isEditing && !isAdding}>
-                <img src={index % 2 ? Image.home1 : Image.home2} alt="내 주소 일러스트" />
+                <img src={index % 2 ? home1 : home2} alt="내 주소 일러스트" />
                 <Nickname>{nickname}</Nickname>
                 <AddressName>{addressName}</AddressName>
                 <FullAddress>{fullAddress}</FullAddress>
@@ -75,3 +75,5 @@ export const Address = () => {
     </main>
   );
 };
+
+export default AddressPage;

@@ -4,14 +4,14 @@ import { PropTypes } from 'prop-types';
 import { LoadingSection, LoadingMessage, RandomMessage } from './style';
 import { ProgressBar, Notice } from '../..';
 import { COLOR } from '../../../constants';
-import { Image } from '../../../assets';
+import { logoSquare } from '../../../assets';
 
 export const MidpointLoader = (props) => {
   const { duration, color, width, message, ...rest } = props;
 
   return (
     <LoadingSection {...rest}>
-      <img src={Image.logoSquare} width="45" alt="로고" />
+      <img src={logoSquare} alt="로고" />
       <LoadingMessage>모든 참석자의 경로를 검토중입니다.</LoadingMessage>
       <ProgressBar width={width} duration={duration} />
       <RandomMessage>

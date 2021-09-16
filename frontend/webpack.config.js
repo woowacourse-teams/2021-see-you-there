@@ -3,9 +3,12 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const package = require('./package.json');
 
-const config = ({ isDev }) => ({
+const getConfig = ({ isDev, isAnalyzeMode }) => ({
   mode: isDev ? 'development' : 'production',
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -16,17 +19,28 @@ const config = ({ isDev }) => ({
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
-    filename: '[name].js',
+    filename: 'bundle.[name].[chunkhash].js',
+    chunkFilename: 'chunk.[name].[chunkhash].js',
+    clean: true,
   },
   module: {
     rules: [
       {
-        test: /\.(png|jpg|svg|gif)$/,
-        loader: 'url-loader',
-        options: {
-          name: '[name].[ext]?[hash]',
-          limit: 5000,
+        test: /\.(png|jpe?g|gif|webp)$/i,
+        exclude: [/[\\/]images[\\/]home.*/, /[\\/]images[\\/]avatar.*/, /[\\/]images[\\/]logo.*/],
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]',
         },
+      },
+      {
+        test: /.png$/i,
+        include: [/[\\/]images[\\/]home.*/, /[\\/]images[\\/]avatar.*/, /[\\/]images[\\/]logo.*/],
+        type: 'asset/inline',
+      },
+      {
+        test: /\.svg$/i,
+        type: 'asset/inline',
       },
       {
         test: /\.(js|jsx)$/,
@@ -49,7 +63,24 @@ const config = ({ isDev }) => ({
       template: './src/index.html',
     }),
     new ReactRefreshWebpackPlugin(),
-  ],
+    new ImageMinimizerPlugin({
+      test: /drawing.*\.png$/i,
+      deleteOriginalAssets: false,
+      filename: '/images/[name].webp',
+      minimizerOptions: {
+        plugins: ['imagemin-webp'],
+      },
+    }),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      test: /\.js$/,
+    }),
+    isAnalyzeMode &&
+      new BundleAnalyzerPlugin({
+        generateStatsFile: true,
+        statsFilename: 'bundle-stats.json',
+      }),
+  ].filter(Boolean),
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     port: 9000,
@@ -58,6 +89,24 @@ const config = ({ isDev }) => ({
     hot: true,
     stats: 'errors-only',
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/](?!.*lottie|core-js|babel-runtime).*[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 });
 
-module.exports = (env, argv) => config({ isDev: argv.mode === 'development' });
+module.exports = (env, argv) => {
+  const config = getConfig({
+    isDev: argv.mode === 'development',
+    isAnalyzeMode: env.bundleAnalyze,
+  });
+
+  return config;
+};

@@ -1,17 +1,16 @@
 import { useContext } from 'react';
 import { useMutation } from 'react-query';
-import { useSnackbar } from 'notistack';
 
-import { UserContext } from '../contexts';
+import { SnackbarContext, UserContext } from '../contexts';
 import { API_URL, MESSAGE } from '../constants';
 
 export const useMutateProfile = () => {
   const { httpAuthRequest, profileImage, setUser } = useContext(UserContext);
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useContext(SnackbarContext);
 
   /* 수정 */
   const fetchUpdate = async (body) => {
-    const response = httpAuthRequest({ method: 'put', url: API_URL.USER, body });
+    const response = await httpAuthRequest({ method: 'put', url: API_URL.USER, body });
 
     return await response.json();
   };

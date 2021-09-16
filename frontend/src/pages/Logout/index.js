@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { UserContext } from '../../contexts';
+// import { Animation } from '../../components/atoms/Animation';
 import { Animation } from '../../components';
 import { ContentArea } from './style';
 import { ROUTE } from '../../constants';
@@ -14,7 +15,7 @@ const logoutUrl = {
   naver: 'http://nid.naver.com/nidlogin.logout',
 };
 
-export const Logout = () => {
+const LogoutPage = () => {
   const { logout } = useContext(UserContext);
   const history = useHistory();
 
@@ -37,3 +38,5 @@ export const Logout = () => {
     </main>
   );
 };
+
+export default LogoutPage;

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { ContentArea, Anchor } from './style';
 import { ROUTE } from '../../constants';
 
-export const Expired = () => {
+const ExpiredPage = () => {
   const history = useHistory();
 
   return (
@@ -19,3 +19,5 @@ export const Expired = () => {
     </main>
   );
 };
+
+export default ExpiredPage;

@@ -5,7 +5,7 @@ import { Nav, Button, Title, ProfileImage, MenuList, MenuItem, Divider } from '.
 import { Icon } from '../../';
 import { UserContext } from '../../../contexts';
 import { COLOR, LAYOUT, ROUTE, ROUTES, PATHS } from '../../../constants';
-import { Image } from '../../../assets';
+import { logo } from '../../../assets';
 
 export const NavBar = () => {
   const { user, isLogin, hasReceiveFriend } = useContext(UserContext);
@@ -26,8 +26,8 @@ export const NavBar = () => {
 
         <NavLink to={ROUTE.HOME.PATH}>
           <Title>
-            <img src={Image.logo} width="24" alt="logo" />
-            <h2>여기서만나</h2>
+            <img src={logo} alt="logo" />
+            <h2 className="sr-only">여기서만나</h2>
           </Title>
         </NavLink>
 

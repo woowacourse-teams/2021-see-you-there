@@ -51,27 +51,34 @@ export const LAYOUT = {
 
   PIN_SIZE_PARTICIPANT: '2.8125rem',
 
+  SNACKBAR_WIDTH: '18rem',
+
   DEVICE_WIDTH_TABLET: '832px',
 
   MARGIN: '1.5rem',
+  MARGIN_HALF: '0.75rem',
   PADDING: '1.5rem',
+  PADDING_HALF: '0.75rem',
 };
 
 export const Z_INDEX = {
   HIDDEN: 0,
-  MAP: 1,
-  MAP_PIN_EFFECT: 2,
-  MAP_PIN: 3,
-  MAP_TOOLTIP: 4,
-  MAP_CONTROLLER: 5,
+  MAP: 2,
+  MAP_PIN_EFFECT: 5,
+  MAP_PIN: 6,
+  MAP_TOOLTIP: 7,
+  MAP_CONTROLLER: 8,
 
   CONTENT: 10,
   ON_IMAGE: 15,
   NAVBAR: 20,
   HAMBURGER_MENU: 30,
 
+  SNACKBAR: 80,
+
   MODAL: 100,
   LOADING: 100,
+  BLANK: 100,
 };
 
 export const REACT_QUERY_DEV_TOOL = {
@@ -103,16 +110,20 @@ export const CONTENT_AREA = {
       line-height: 2rem;
     }
 
-    & > img {
+    & > picture {
       position: fixed;
       bottom: 0;
+      display: flex;
+    }
+
+    & > picture > img {
       width: ${LAYOUT.CONTENT_DRAWING_WIDTH};
     }
 
     @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
       padding-top: ${LAYOUT.CONTENT_PADDING_TOP_TABLET};
 
-      & > img {
+      & > picture > img {
         width: ${LAYOUT.CONTENT_DRAWING_WIDTH_TABLET};
       }
     }

@@ -18,9 +18,6 @@ public class APILocationDocument {
     private double x;
     private double y;
 
-    public APILocationDocument() {
-    }
-
     public String getRegionType() {
         return regionType;
     }

@@ -12,8 +12,8 @@ import seeuthere.goodday.path.dto.response.PathsResponse;
 @RedisHash("PathResult")
 public class PathResult implements Serializable {
 
-    private static final double DEFAULT_WEIGHT = 1;
-    private static final double WEIGHT = 0.7;
+    private static final double DEFAULT_WEIGHT_POINT = 1;
+    private static final double WEIGHT_POINT = 0.7;
 
     @Id
     public String id;
@@ -37,9 +37,9 @@ public class PathResult implements Serializable {
     public static PathResult pathsResponseToPathResult(Point source, Point target,
         PathsResponse pathsResponse, boolean isWeighted) {
         PathResponse pathResponse = pathsResponse.getPaths().get(0);
-        double weight = DEFAULT_WEIGHT;
+        double weight = DEFAULT_WEIGHT_POINT;
         if (isWeighted) {
-            weight = WEIGHT;
+            weight = WEIGHT_POINT;
         }
         return new PathResult(source.toString() + target.toString(),
             pathResponse.getTime(), weight);

@@ -51,9 +51,6 @@ public class Location {
         private String placeUrl = "";
         private String name = "";
 
-        public Builder() {
-        }
-
         public Builder x(double x) {
             this.x = x;
             return this;

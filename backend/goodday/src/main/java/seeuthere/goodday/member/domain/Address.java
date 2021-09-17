@@ -16,7 +16,7 @@ public class Address {
     @JoinColumn(name = "MEMBER_ID")
     Member member;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ADDRESS_ID")
     private Long id;
     private String nickname;

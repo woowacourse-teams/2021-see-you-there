@@ -113,8 +113,8 @@ public class Path implements Comparable<Path> {
     }
 
     @Override
-    public int compareTo(Path o) {
-        if (time <= o.time) {
+    public int compareTo(Path path) {
+        if (time <= path.time) {
             return -1;
         }
         return 1;

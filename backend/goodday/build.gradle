@@ -72,6 +72,9 @@ dependencies {
 
 	// flyway
 	implementation 'org.flywaydb:flyway-core:7.14.0'
+
+	// thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 jacoco{

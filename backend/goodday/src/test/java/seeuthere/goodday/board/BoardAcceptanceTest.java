@@ -5,8 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import seeuthere.goodday.AcceptanceTest;
@@ -17,8 +22,8 @@ import seeuthere.goodday.board.domain.Board;
 import seeuthere.goodday.board.domain.BoardLabel;
 import seeuthere.goodday.board.domain.Comment;
 import seeuthere.goodday.board.dto.request.BoardRequest;
-import seeuthere.goodday.board.dto.response.BoardResponse;
 import seeuthere.goodday.board.dto.request.CommentRequest;
+import seeuthere.goodday.board.dto.response.BoardResponse;
 import seeuthere.goodday.board.service.BoardService;
 
 class BoardAcceptanceTest extends AcceptanceTest {
@@ -27,8 +32,6 @@ class BoardAcceptanceTest extends AcceptanceTest {
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private BoardService boardService;
-
-    // todo 관리자가 아닌 자가 댓글을 삭제하면 에러가 발생한다.
 
     @DisplayName("게시판 작성")
     @Test
@@ -51,6 +54,57 @@ class BoardAcceptanceTest extends AcceptanceTest {
         assertThat(board.getTitle()).isEqualTo(title);
         assertThat(board.getContent()).isEqualTo(content);
         assertThat(board.getLabel()).isEqualTo(boardLabel);
+    }
+
+    @ParameterizedTest
+    @DisplayName("여러 게시물을 불러온다.")
+    @MethodSource("boardsSetting")
+    void loadPagination(String url, int number) {
+        //given
+        String identifier = "board/board-create";
+        generateBoards();
+
+        // when
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET,
+            DataLoader.와이비토큰, identifier);
+        List<BoardResponse> findBoards = response.body().jsonPath()
+            .getList(".", BoardResponse.class);
+
+        // then
+        assertThat(findBoards.size()).isEqualTo(number);
+    }
+
+    private void generateBoards() {
+        for (int i = 0; i < 5; i++) {
+            Board board = new Board("테스트", "테스트", BoardLabel.FIX, DataLoader.와이비);
+            boardService.saveBoard(board);
+        }
+    }
+
+    private static Stream<Arguments> boardsSetting() {
+        return Stream.of(
+            Arguments.of("/api/boards", 5),
+            Arguments.of("/api/boards?size=1&pageNumber=1", 1)
+        );
+    }
+
+    @Test
+    @DisplayName("게시물을 필터링해서 불러온다.")
+    void loadPaginationWithFiltering() {
+        //given
+        String identifier = "board/board-create";
+        String url = "/api/boards?size=5&pageNumber=1&label=SUGGEST";
+        Board board = new Board("테스트", "테스트", BoardLabel.SUGGEST, DataLoader.와이비);
+        boardService.saveBoard(board);
+
+        // when
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET,
+            DataLoader.와이비토큰, identifier);
+        List<BoardResponse> findBoards = response.body().jsonPath()
+            .getList(".", BoardResponse.class);
+
+        // then
+        assertThat(findBoards.size()).isEqualTo(1);
     }
 
     @Test
@@ -104,7 +158,8 @@ class BoardAcceptanceTest extends AcceptanceTest {
         String url = "/api/boards/" + board.getId();
 
         // when
-        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE, token, identifier);
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE, token,
+            identifier);
 
         // then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
@@ -301,7 +356,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
 
         ExtractableResponse<Response> response = makeResponse(
             String.format("/api/boards/%d/comments", board.getId()), TestMethod.DELETE,
-            DataLoader.하루토큰,identifier);
+            DataLoader.하루토큰, identifier);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
@@ -400,7 +455,8 @@ class BoardAcceptanceTest extends AcceptanceTest {
 
         String url = "/api/boards/" + board.getId();
 
-        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE, DataLoader.와이비토큰,
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.DELETE,
+            DataLoader.와이비토큰,
             identifier);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());

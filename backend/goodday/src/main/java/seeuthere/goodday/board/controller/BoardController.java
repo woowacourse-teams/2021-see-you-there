@@ -2,6 +2,8 @@ package seeuthere.goodday.board.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,12 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import seeuthere.goodday.auth.domain.EnableAuth;
 import seeuthere.goodday.board.domain.Board;
+import seeuthere.goodday.board.domain.BoardLabel;
 import seeuthere.goodday.board.domain.Comment;
 import seeuthere.goodday.board.dto.request.BoardRequest;
-import seeuthere.goodday.board.dto.response.BoardResponse;
 import seeuthere.goodday.board.dto.request.CommentRequest;
+import seeuthere.goodday.board.dto.response.BoardResponse;
 import seeuthere.goodday.board.service.BoardService;
 import seeuthere.goodday.member.domain.Admin;
 import seeuthere.goodday.member.domain.Member;
@@ -35,9 +39,15 @@ public class BoardController {
     }
 
     @GetMapping
-    public void loadBoards() {
-        boardService.findAllWithPagination();
-        // 제목만?
+    public ResponseEntity<List<BoardResponse>> loadBoards(
+        @RequestParam(defaultValue = "5") int size,
+        @RequestParam(defaultValue = "1") int pageNumber,
+        @RequestParam(defaultValue = "ALL") BoardLabel label) {
+        List<Board> boards = boardService.findAllWithPagination(pageNumber, size, label);
+        List<BoardResponse> boardResponses = boards.stream()
+            .map(BoardResponse::new)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(boardResponses);
     }
 
     @GetMapping("/{id}")

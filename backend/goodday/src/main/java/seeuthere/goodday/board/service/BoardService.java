@@ -3,10 +3,13 @@ package seeuthere.goodday.board.service;
 import java.util.List;
 import java.util.Objects;
 import javax.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import seeuthere.goodday.board.dao.BoardRepository;
 import seeuthere.goodday.board.dao.CommentRepository;
 import seeuthere.goodday.board.domain.Board;
+import seeuthere.goodday.board.domain.BoardLabel;
 import seeuthere.goodday.board.domain.Comment;
 import seeuthere.goodday.board.exception.BoardExceptionSet;
 import seeuthere.goodday.exception.GoodDayException;
@@ -28,8 +31,14 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    public List<Board> findAllWithPagination() {
-        return null;
+    public List<Board> findAllWithPagination(int pageNumber, int size, BoardLabel boardLabel) {
+        if (boardLabel.equals(BoardLabel.ALL)) {
+            Page<Board> boards = boardRepository.findAll(PageRequest.of(pageNumber - 1, size));
+            return boards.getContent();
+        }
+        Page<Board> boards = boardRepository.findByLabel(boardLabel,
+            PageRequest.of(pageNumber - 1, size));
+        return boards.getContent();
     }
 
     public Board findBoardById(Long id) {

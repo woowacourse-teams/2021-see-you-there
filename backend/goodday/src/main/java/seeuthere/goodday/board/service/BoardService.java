@@ -2,10 +2,10 @@ package seeuthere.goodday.board.service;
 
 import java.util.List;
 import java.util.Objects;
-import javax.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import seeuthere.goodday.board.dao.BoardRepository;
 import seeuthere.goodday.board.dao.CommentRepository;
 import seeuthere.goodday.board.domain.Board;
@@ -31,6 +31,7 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
+    @Transactional(readOnly = true)
     public List<Board> findAllWithPagination(int pageNumber, int size, BoardLabel boardLabel) {
         if (boardLabel.equals(BoardLabel.ALL)) {
             Page<Board> boards = boardRepository.findAll(PageRequest.of(pageNumber - 1, size));
@@ -41,6 +42,7 @@ public class BoardService {
         return boards.getContent();
     }
 
+    @Transactional(readOnly = true)
     public Board findBoardById(Long id) {
         return boardRepository.findById(id).
             orElseThrow(() -> new GoodDayException(BoardExceptionSet.NOT_FOUND_BOARD));

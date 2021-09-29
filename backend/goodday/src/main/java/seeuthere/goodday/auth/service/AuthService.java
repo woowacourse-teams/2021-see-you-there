@@ -17,6 +17,7 @@ public class AuthService {
         this.memberService = memberService;
     }
 
+
     public ProfileTokenResponse createToken(Member member) {
         String token = jwtTokenProvider.createToken(member.getId());
         return new ProfileTokenResponse(member, token);

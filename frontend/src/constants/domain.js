@@ -41,7 +41,7 @@ export const INPUT = {
       KEY: 'memberId',
       LABEL: '아이디',
       PLACEHOLDER: '아이디를 입력해주세요.',
-      MIN_LENGTH: 1,
+      MIN_LENGTH: 4,
       MAX_LENGTH: 10,
     },
   },

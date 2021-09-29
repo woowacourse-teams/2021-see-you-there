@@ -206,3 +206,46 @@ export const MOCK_PATHS = [
     ],
   },
 ];
+
+export const MOCK_BOARD_ITEM_LIST = [
+  {
+    id: 1,
+    createTime: '2021-09-17T05:26:23.91719',
+    updateTime: '2021-09-17T05:26:23.91719',
+    memberId: '0imbean0',
+    title: '글 제목이에요',
+    content: '제안하는 내용이에요',
+    commentResponse: '답변완료',
+    type: 'suggestion',
+  },
+  {
+    id: 2,
+    createTime: '2021-09-17T05:26:23.91719',
+    updateTime: '2021-09-17T05:26:23.91719',
+    memberId: '0imbean0',
+    title: '핫둘셋넷닷핫둘셋넷닷핫둘셋넷닷핫둘셋넷닷...',
+    content: '제안하는 내용이에요',
+    commentResponse: null,
+    type: 'suggestion',
+  },
+  {
+    id: 3,
+    createTime: '2021-09-17T05:26:23.91719',
+    updateTime: '2021-09-17T05:26:23.91719',
+    memberId: '0imbean0',
+    title: '이건 조금 긴 글 제목이에요',
+    content: '제안하는 내용이에요',
+    commentResponse: '답변완료',
+    type: 'suggestion',
+  },
+  {
+    id: 10,
+    createTime: '2021-09-17T05:26:23.91719',
+    updateTime: '2021-09-17T05:26:23.91719',
+    memberId: '0imbean0',
+    title: '점이 찍히나 더 길게 씁니다 이거는 진짜로 더 긴 글 제목이에요',
+    content: '고쳐달라는 내용이에요',
+    commentResponse: null,
+    type: 'fix',
+  },
+];

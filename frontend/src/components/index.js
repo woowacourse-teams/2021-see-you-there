@@ -5,6 +5,7 @@ export { Icon } from './atoms/Icon';
 export { Input } from './atoms/Input';
 export { InputUnderline } from './atoms/InputUnderline';
 export { InputWithButton } from './atoms/InputWithButton';
+export { LinkRound } from './atoms/LinkRound';
 export { Modal } from './atoms/Modal';
 export { Notice } from './atoms/Notice';
 export { ProgressBar } from './atoms/ProgressBar';

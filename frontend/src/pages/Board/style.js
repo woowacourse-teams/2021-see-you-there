@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { COLOR, CONTENT_AREA, LAYOUT, Z_INDEX } from '../../constants';
+import { COLOR, CONTENT_AREA, LAYOUT } from '../../constants';
 
 export const ContentArea = styled.section`
   ${CONTENT_AREA.DEFAULT}
@@ -90,19 +90,24 @@ export const List = styled.ol`
 `;
 
 export const ListItem = styled.li`
-  display: flex;
-  align-items: center;
-  padding: 2.5rem 2rem;
-  gap: 1.75rem;
+  & > a {
+    display: flex;
+    align-items: center;
+    padding: 2.5rem 2rem;
+    gap: 1.75rem;
+  }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.5rem 0.5rem;
-    gap: 0.5rem;
+    & > a {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1.5rem 0.5rem;
+      gap: 0.5rem;
+    }
   }
 `;
 
+/* 제목 그룹 */
 export const TitleGroup = styled.div`
   display: flex;
   flex-grow: 1;
@@ -128,12 +133,15 @@ export const ArticleTitle = styled.div`
   text-overflow: ellipsis;
 `;
 
+/* 태그 그룹 */
 export const TagGroup = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   order: 3;
   gap: 0.25rem;
   width: fit-content;
+  height: 3rem;
 
   & span {
     padding: 0.1rem 0.5rem;
@@ -145,6 +153,7 @@ export const TagGroup = styled.div`
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     flex-direction: row-reverse;
     order: 1;
+    height: auto;
   }
 `;
 
@@ -159,6 +168,7 @@ export const StatusTag = styled.span`
   border: 1.5px solid ${COLOR.PARAGRAPH_LIGHT};
 `;
 
+/* 상세정보 그룹 */
 export const DetailGroup = styled.div`
   display: flex;
   order: 2;

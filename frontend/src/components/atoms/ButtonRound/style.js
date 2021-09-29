@@ -15,7 +15,7 @@ const styleSize = {
   sm: css`
     width: 8.75rem;
     height: 2rem;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
   `,
 };
 

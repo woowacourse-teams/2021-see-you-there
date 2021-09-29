@@ -73,7 +73,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'S-CoreDream-3Light', sans-serif;
   }
 
-  ul {
+  ul, ol {
     list-style-type: none;
   }
 

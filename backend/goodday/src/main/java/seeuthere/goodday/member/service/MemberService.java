@@ -29,6 +29,7 @@ import seeuthere.goodday.member.dto.RequestFriendResponse;
 import seeuthere.goodday.member.exception.MemberExceptionSet;
 
 @Service
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -62,17 +63,18 @@ public class MemberService {
         return memberId;
     }
 
+    @Transactional(readOnly = true)
     public Member find(String id) {
         return memberRepository.findById(id)
             .orElseThrow(() -> new GoodDayException(AuthExceptionSet.NOT_FOUND_USER));
     }
 
+    @Transactional(readOnly = true)
     public Admin findAdminByMember(Member member) {
         return adminRepository.findAdminByMember(member)
             .orElseThrow(() -> new GoodDayException(MemberExceptionSet.NOT_ADMIN));
     }
 
-    @Transactional
     public MemberResponse updateMemberInfo(String id, MemberRequest request) {
         Member member = find(id);
         if (memberRepository.existsByMemberId(request.getMemberId())
@@ -83,7 +85,6 @@ public class MemberService {
         return new MemberResponse(member);
     }
 
-    @Transactional
     public AddressResponse addAddress(String id, AddressRequest request) {
         Member member = find(id);
         Address address = new Address.Builder()
@@ -98,6 +99,7 @@ public class MemberService {
         return AddressResponse.valueOf(address);
     }
 
+    @Transactional(readOnly = true)
     public List<AddressResponse> findAddress(String id) {
         Member member = find(id);
         List<Address> addresses = member.getAddresses();
@@ -106,7 +108,6 @@ public class MemberService {
             .collect(Collectors.toList());
     }
 
-    @Transactional
     public AddressResponse updateAddress(String id, AddressUpdateRequest request) {
         Member findMember = find(id);
         Address address = findMember.updateAddress(
@@ -122,7 +123,6 @@ public class MemberService {
         return AddressResponse.valueOf(address);
     }
 
-    @Transactional
     public void deleteAddress(String id, AddressDeleteRequest request) {
         Member member = find(id);
         member.deleteAddress(request.getId());
@@ -137,7 +137,6 @@ public class MemberService {
             .collect(Collectors.toList());
     }
 
-    @Transactional
     public void deleteFriend(String id, FriendRequest request) {
         Member member = find(id);
         Member friend = memberRepository.findByMemberId(request.getMemberId());
@@ -164,6 +163,7 @@ public class MemberService {
         return memberId;
     }
 
+    @Transactional(readOnly = true)
     public List<RequestFriendResponse> findReceiveFriends(String receiverId) {
         List<RequestFriend> requestFriends = requestFriendRepository.findByReceiver(receiverId);
         return requestFriends.stream()
@@ -171,6 +171,7 @@ public class MemberService {
             .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<RequestFriendResponse> findRequestFriends(String requesterId) {
         List<RequestFriend> receiveFriends = requestFriendRepository.findByRequester(requesterId);
         return receiveFriends.stream()
@@ -178,7 +179,6 @@ public class MemberService {
             .collect(Collectors.toList());
     }
 
-    @Transactional
     public void requestFriend(String id, FriendRequest friendRequest) {
         Member requester = find(id);
         Member receiver = memberRepository.findByMemberId(friendRequest.getMemberId());
@@ -192,7 +192,6 @@ public class MemberService {
         requestFriendRepository.save(new RequestFriend(requester, receiver));
     }
 
-    @Transactional
     public void acceptFriend(String id, RequestFriendRequest request) {
         Member receiver = find(id);
         RequestFriend requestFriend = getRequestFriend(request);
@@ -202,7 +201,6 @@ public class MemberService {
         receiver.addFriend(requester);
     }
 
-    @Transactional
     public void refuseFriend(String id, RequestFriendRequest request) {
         Member receiver = find(id);
         RequestFriend requestFriend = getRequestFriend(request);

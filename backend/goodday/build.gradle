@@ -19,7 +19,8 @@ sourceCompatibility = '11'
 
 processResources.dependsOn("moveYmlFiles")
 task moveYmlFiles(type:Copy) {
-    from "../../build_info" into "src/main/resources"
+    from "../../build_info" 
+    into "src/main/resources"
 }
 
 ext {

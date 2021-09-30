@@ -17,6 +17,11 @@ group = 'seeuthere'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+processResources.dependsOn("moveYmlFiles")
+task moveYmlFiles(type:Copy) {
+    from "../../build_info" into "src/main/resources"
+}
+
 ext {
     snippetsDir = file('build/generated-snippets')
 }

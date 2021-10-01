@@ -2,7 +2,7 @@ package seeuthere.goodday.board.dto.response;
 
 import java.time.LocalDateTime;
 import seeuthere.goodday.board.domain.Board;
-import seeuthere.goodday.board.domain.BoardLabel;
+import seeuthere.goodday.board.domain.BoardType;
 
 public class BoardResponse {
 
@@ -11,7 +11,7 @@ public class BoardResponse {
     private String content;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    private BoardLabel label;
+    private BoardType type;
     private String memberId;
     private CommentResponse commentResponse;
 
@@ -24,7 +24,7 @@ public class BoardResponse {
         this.content = board.getContent();
         this.createTime = board.getCreateTime();
         this.updateTime = board.getUpdateTime();
-        this.label = board.getLabel();
+        this.type = board.getType();
         this.memberId = board.getMember().getMemberId();
         this.commentResponse = CommentResponse.valueOf(board.getComment());
     }
@@ -41,8 +41,8 @@ public class BoardResponse {
         return content;
     }
 
-    public BoardLabel getLabel() {
-        return label;
+    public BoardType getType() {
+        return type;
     }
 
     public String getMemberId() {

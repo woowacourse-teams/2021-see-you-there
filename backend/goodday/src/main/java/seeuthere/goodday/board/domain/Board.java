@@ -37,7 +37,7 @@ public class Board {
     private String content;
 
     @Enumerated(value = EnumType.STRING)
-    private BoardLabel label;
+    private BoardType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
@@ -50,10 +50,10 @@ public class Board {
     public Board() {
     }
 
-    public Board(String title, String content, BoardLabel label, Member member) {
+    public Board(String title, String content, BoardType type, Member member) {
         this.title = title;
         this.content = content;
-        this.label = label;
+        this.type = type;
         this.member = member;
     }
 
@@ -65,7 +65,7 @@ public class Board {
         validateUpdateBoard();
         this.title = board.getTitle();
         this.content = board.getContent();
-        this.label = board.getLabel();
+        this.type = board.getType();
     }
 
     public void addComment(Comment comment) {
@@ -100,8 +100,8 @@ public class Board {
         return content;
     }
 
-    public BoardLabel getLabel() {
-        return label;
+    public BoardType getType() {
+        return type;
     }
 
     public LocalDateTime getCreateTime() {

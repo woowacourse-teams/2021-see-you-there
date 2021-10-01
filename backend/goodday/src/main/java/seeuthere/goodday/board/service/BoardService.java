@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import seeuthere.goodday.board.dao.BoardRepository;
 import seeuthere.goodday.board.dao.CommentRepository;
 import seeuthere.goodday.board.domain.Board;
-import seeuthere.goodday.board.domain.BoardLabel;
+import seeuthere.goodday.board.domain.BoardType;
 import seeuthere.goodday.board.domain.Comment;
 import seeuthere.goodday.board.exception.BoardExceptionSet;
 import seeuthere.goodday.exception.GoodDayException;
@@ -32,12 +32,12 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<Board> findAllWithPagination(int pageNumber, int size, BoardLabel boardLabel) {
-        if (boardLabel.equals(BoardLabel.ALL)) {
+    public List<Board> findAllWithPagination(int pageNumber, int size, BoardType boardType) {
+        if (boardType.equals(BoardType.ALL)) {
             Page<Board> boards = boardRepository.findAll(PageRequest.of(pageNumber - 1, size));
             return boards.getContent();
         }
-        Page<Board> boards = boardRepository.findByLabel(boardLabel,
+        Page<Board> boards = boardRepository.findByType(boardType,
             PageRequest.of(pageNumber - 1, size));
         return boards.getContent();
     }

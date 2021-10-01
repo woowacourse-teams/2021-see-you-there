@@ -61,7 +61,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @MethodSource("boardsSetting")
     void loadPagination(String url, int number) {
         //given
-        String identifier = "board/board-create";
+        String identifier = "board/board-read";
         generateBoards();
 
         // when
@@ -92,7 +92,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @DisplayName("게시물을 필터링해서 불러온다.")
     void loadPaginationWithFiltering() {
         //given
-        String identifier = "board/board-create";
+        String identifier = "board/board-filter";
         String url = "/api/boards?size=5&pageNumber=1&label=SUGGEST";
         Board board = new Board("테스트", "테스트", BoardLabel.SUGGEST, DataLoader.와이비);
         boardService.saveBoard(board);

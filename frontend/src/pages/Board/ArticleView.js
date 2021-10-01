@@ -10,11 +10,11 @@ import {
   DetailGroup,
   ArticleWriter,
   ArticleDate,
-  EditButtonGroup,
   ArticleBody,
   CommentSection,
   CommentHeader,
   CommentBody,
+  EditButtonGroup,
   Divider,
 } from './style';
 import { MOCK_BOARD_ITEM_LIST, ARTICLE_TYPE } from '../../constants';

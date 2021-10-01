@@ -239,32 +239,6 @@ export const ArticleHeader = styled.section`
   }
 `;
 
-export const EditButtonGroup = styled.div`
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  align-self: flex-end;
-  display: flex;
-  gap: 0.25rem;
-
-  & button {
-    padding: 0 0.5rem;
-    color: ${COLOR.PARAGRAPH_LIGHT};
-
-    &:hover {
-      color: ${COLOR.PARAGRAPH};
-    }
-  }
-
-  & button:nth-child(2) {
-    color: ${(props) => (props.isEditing ? COLOR.PRIMARY : COLOR.PARAGRAPH_LIGHT)};
-
-    &:hover {
-      color: ${(props) => (props.isEditing ? COLOR.PRIMARY_DARK : COLOR.PARAGRAPH)};
-    }
-  }
-`;
-
 export const ArticleBody = styled.section`
   position: relative;
   margin: 1.5rem 0;
@@ -339,6 +313,32 @@ export const CommentBody = styled.section`
 
       line-height: 1.9;
       white-space: normal;
+    }
+  }
+`;
+
+export const EditButtonGroup = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  align-self: flex-end;
+  display: flex;
+  gap: 0.25rem;
+
+  & button {
+    padding: 0 0.5rem;
+    color: ${COLOR.PARAGRAPH_LIGHT};
+
+    &:hover {
+      color: ${COLOR.PARAGRAPH};
+    }
+  }
+
+  & button:nth-child(2) {
+    color: ${(props) => (props.isEditing ? COLOR.PRIMARY : COLOR.PARAGRAPH_LIGHT)};
+
+    &:hover {
+      color: ${(props) => (props.isEditing ? COLOR.PRIMARY_DARK : COLOR.PARAGRAPH)};
     }
   }
 `;

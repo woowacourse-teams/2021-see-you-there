@@ -19,11 +19,11 @@ import {
   ArticleDate,
   ArticleWriter,
 } from './style';
-import { MOCK_BOARD_ITEM_LIST } from '../../constants';
+import { MOCK_BOARD_ITEM_LIST, ARTICLE_TYPE } from '../../constants';
 
 export const ArticleList = () => {
   const { url } = useRouteMatch();
-  const data = MOCK_BOARD_ITEM_LIST;
+  const data = [...MOCK_BOARD_ITEM_LIST];
 
   return (
     <>
@@ -38,15 +38,15 @@ export const ArticleList = () => {
           <Icon.Filter width="18" />
           필터
           <ul>
-            <FilterItem type="suggestion">제안합니다</FilterItem>
-            <FilterItem type="fix">고쳐주세요</FilterItem>
+            <FilterItem type={ARTICLE_TYPE.SUGGESTION}>제안합니다</FilterItem>
+            <FilterItem type={ARTICLE_TYPE.FIX}>고쳐주세요</FilterItem>
           </ul>
         </Filter>
 
         <List>
           {data
             .sort((a, b) => b.id - a.id)
-            .map(({ id, createTime, memberId, title, commentResponse, type }) => (
+            .map(({ id, createTime, memberId, title, commentResponse, label: type }) => (
               <ListItem key={id}>
                 <Link to={`${url}/${id}`}>
                   <TitleGroup>
@@ -56,7 +56,7 @@ export const ArticleList = () => {
 
                   <TagGroup>
                     <StatusTag status={commentResponse}>{commentResponse ? '답변완료' : '답변대기'}</StatusTag>
-                    <TypeTag type={type}>{type === 'suggestion' ? '제안합니다' : '고쳐주세요'}</TypeTag>
+                    <TypeTag type={type}>{type === ARTICLE_TYPE.SUGGESTION ? '제안합니다' : '고쳐주세요'}</TypeTag>
                   </TagGroup>
 
                   <DetailGroup>

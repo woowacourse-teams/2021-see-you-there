@@ -147,3 +147,8 @@ export const STORAGE_KEY = {
   TOKEN: 'token',
   PARTICIPANT: 'p',
 };
+
+export const ARTICLE_TYPE = {
+  FIX: 'FIX',
+  SUGGESTION: 'SUGGEST',
+};

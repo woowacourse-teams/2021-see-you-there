@@ -214,9 +214,10 @@ export const MOCK_BOARD_ITEM_LIST = [
     updateTime: '2021-09-17T05:26:23.91719',
     memberId: '0imbean0',
     title: '글 제목이에요',
-    content: '제안하는 내용이에요',
-    commentResponse: '답변완료',
-    type: 'suggestion',
+    content:
+      '제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 제안하는 내용이에요 111111111 222222   3333   4444  5555 ',
+    commentResponse: '좋은 제안 감사합니다. 내일부터 바로 이용가능하십니다. (패기) ',
+    label: 'SUGGEST',
   },
   {
     id: 2,
@@ -226,7 +227,7 @@ export const MOCK_BOARD_ITEM_LIST = [
     title: '핫둘셋넷닷핫둘셋넷닷핫둘셋넷닷핫둘셋넷닷...',
     content: '제안하는 내용이에요',
     commentResponse: null,
-    type: 'suggestion',
+    label: 'FIX',
   },
   {
     id: 3,
@@ -235,8 +236,8 @@ export const MOCK_BOARD_ITEM_LIST = [
     memberId: '0imbean0',
     title: '이건 조금 긴 글 제목이에요',
     content: '제안하는 내용이에요',
-    commentResponse: '답변완료',
-    type: 'suggestion',
+    commentResponse: '좋은 제안 감사합니다. 내일부터 바로 이용가능하십니다. (패기)',
+    label: 'SUGGEST',
   },
   {
     id: 10,
@@ -246,6 +247,6 @@ export const MOCK_BOARD_ITEM_LIST = [
     title: '점이 찍히나 더 길게 씁니다 이거는 진짜로 더 긴 글 제목이에요',
     content: '고쳐달라는 내용이에요',
     commentResponse: null,
-    type: 'fix',
+    label: 'FIX',
   },
 ];

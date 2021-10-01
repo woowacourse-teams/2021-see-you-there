@@ -1,6 +1,36 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { COLOR, CONTENT_AREA, LAYOUT } from '../../constants';
+import { COLOR, CONTENT_AREA, LAYOUT, ARTICLE_TYPE } from '../../constants';
+
+const styleTextArea = css`
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  border-color: ${COLOR.BORDER_LIGHT};
+  resize: none;
+  white-space: normal;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+`;
+
+const styleWidth = {
+  base: css`
+    width: ${LAYOUT.CONTENT_WIDTH_MAX};
+
+    @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+      width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
+      max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
+    }
+  `,
+  board: css`
+    width: ${LAYOUT.CONTENT_BOARD_WIDTH_MAX};
+
+    @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+      width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
+      max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
+    }
+  `,
+};
 
 export const ContentArea = styled.section`
   ${CONTENT_AREA.DEFAULT}
@@ -14,26 +44,18 @@ export const ContentArea = styled.section`
 `;
 
 export const ButtonSection = styled.section`
+  ${styleWidth.board};
+
   display: flex;
   justify-content: flex-end;
   margin-top: 1.25rem;
-  width: ${LAYOUT.CONTENT_BOARD_WIDTH_MAX};
-
-  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
-    max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
-  }
 `;
 
 export const ListSection = styled.section`
+  ${styleWidth.board};
+
   display: flex;
   flex-direction: column;
-  width: ${LAYOUT.CONTENT_BOARD_WIDTH_MAX};
-
-  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    width: ${LAYOUT.CONTENT_WIDTH_RESPONSIVE};
-    max-width: ${LAYOUT.CONTENT_WIDTH_MAX};
-  }
 `;
 
 export const Filter = styled.div`
@@ -69,7 +91,7 @@ export const FilterItem = styled.li`
     width: 0.625rem;
     height: 0.625rem;
     border-radius: 50%;
-    background-color: ${(props) => (props.type === 'suggestion' ? COLOR.PRIMARY : COLOR.ACCENT)};
+    background-color: ${(props) => (props.type === ARTICLE_TYPE.SUGGESTION ? COLOR.PRIMARY : COLOR.ACCENT)};
   }
 `;
 
@@ -158,8 +180,8 @@ export const TagGroup = styled.div`
 `;
 
 export const TypeTag = styled.span`
-  color: ${(props) => (props.type === 'suggestion' ? COLOR.PRIMARY : COLOR.ACCENT)};
-  border: 1.5px solid ${(props) => (props.type === 'suggestion' ? COLOR.PRIMARY : COLOR.ACCENT)};
+  color: ${(props) => (props.type === ARTICLE_TYPE.SUGGESTION ? COLOR.PRIMARY : COLOR.ACCENT)};
+  border: 1.5px solid ${(props) => (props.type === ARTICLE_TYPE.SUGGESTION ? COLOR.PRIMARY : COLOR.ACCENT)};
 `;
 
 export const StatusTag = styled.span`
@@ -195,4 +217,133 @@ export const ArticleDate = styled.span`
 
   font-size: 0.8rem;
   color: ${COLOR.PARAGRAPH_LIGHT};
+`;
+
+/* ArticleView */
+export const ArticleSection = styled.section`
+  ${styleWidth.board};
+
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ArticleHeader = styled.section`
+  position: relative;
+  margin: 2rem 0 0.5rem;
+
+  & h3 {
+    margin: 1rem 0;
+
+    text-align: left;
+    white-space: normal;
+  }
+`;
+
+export const EditButtonGroup = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  align-self: flex-end;
+  display: flex;
+  gap: 0.25rem;
+
+  & button {
+    padding: 0 0.5rem;
+    color: ${COLOR.PARAGRAPH_LIGHT};
+
+    &:hover {
+      color: ${COLOR.PARAGRAPH};
+    }
+  }
+
+  & button:nth-child(2) {
+    color: ${(props) => (props.isEditing ? COLOR.PRIMARY : COLOR.PARAGRAPH_LIGHT)};
+
+    &:hover {
+      color: ${(props) => (props.isEditing ? COLOR.PRIMARY_DARK : COLOR.PARAGRAPH)};
+    }
+  }
+`;
+
+export const ArticleBody = styled.section`
+  position: relative;
+  margin: 1.5rem 0;
+  height: auto;
+
+  font-size: 0.9rem;
+
+  & > p {
+    visibility: ${(props) => (props.isEditing ? 'hidden' : 'visible')};
+    min-height: 12rem;
+
+    line-height: 3;
+    white-space: normal;
+  }
+
+  & > form {
+    display: ${(props) => (props.isEditing ? 'block' : 'none')};
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    & > textarea {
+      ${styleTextArea}
+
+      line-height: 2.9;
+      white-space: normal;
+    }
+  }
+`;
+
+export const CommentSection = styled.section`
+  ${styleWidth.board};
+
+  margin-bottom: 2rem;
+`;
+
+export const CommentHeader = styled.section`
+  position: relative;
+
+  & h4 {
+    margin: 2.5rem 0 1.5rem;
+  }
+`;
+
+export const CommentBody = styled.section`
+  position: relative;
+  margin: 1.5rem 0;
+  height: auto;
+
+  font-size: 0.9rem;
+
+  & > p {
+    visibility: ${(props) => (props.isEditing ? 'hidden' : 'visible')};
+    min-height: 5rem;
+
+    line-height: 2;
+    white-space: normal;
+  }
+
+  & > form {
+    display: ${(props) => (props.isEditing ? 'block' : 'none')};
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    & > textarea {
+      ${styleTextArea}
+
+      line-height: 1.9;
+      white-space: normal;
+    }
+  }
+`;
+
+export const Divider = styled.hr`
+  border-top: 1px solid #eee;
+  margin: 0.5rem 0;
 `;

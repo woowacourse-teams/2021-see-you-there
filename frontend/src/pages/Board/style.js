@@ -1,17 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { COLOR, CONTENT_AREA, LAYOUT, ARTICLE_TYPE } from '../../constants';
-
-const styleTextArea = css`
-  padding: 1rem;
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
-  border-color: ${COLOR.BORDER_LIGHT};
-  resize: none;
-  white-space: normal;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-`;
+import { COLOR, CONTENT_AREA, LAYOUT, ARTICLE } from '../../constants';
 
 const styleWidth = {
   base: css`
@@ -91,7 +80,7 @@ export const FilterItem = styled.li`
     width: 0.625rem;
     height: 0.625rem;
     border-radius: 50%;
-    background-color: ${(props) => (props.type === ARTICLE_TYPE.SUGGESTION ? COLOR.PRIMARY : COLOR.ACCENT)};
+    background-color: ${(props) => (props.type === ARTICLE.TYPE.SUGGESTION ? COLOR.PRIMARY : COLOR.ACCENT)};
   }
 `;
 
@@ -180,8 +169,8 @@ export const TagGroup = styled.div`
 `;
 
 export const TypeTag = styled.span`
-  color: ${(props) => (props.type === ARTICLE_TYPE.SUGGESTION ? COLOR.PRIMARY : COLOR.ACCENT)};
-  border: 1.5px solid ${(props) => (props.type === ARTICLE_TYPE.SUGGESTION ? COLOR.PRIMARY : COLOR.ACCENT)};
+  color: ${(props) => (props.type === ARTICLE.TYPE.SUGGESTION ? COLOR.PRIMARY : COLOR.ACCENT)};
+  border: 1.5px solid ${(props) => (props.type === ARTICLE.TYPE.SUGGESTION ? COLOR.PRIMARY : COLOR.ACCENT)};
 `;
 
 export const StatusTag = styled.span`
@@ -219,7 +208,7 @@ export const ArticleDate = styled.span`
   color: ${COLOR.PARAGRAPH_LIGHT};
 `;
 
-/* ArticleView */
+/* ArticleView.js */
 export const ArticleSection = styled.section`
   ${styleWidth.board};
 
@@ -263,8 +252,6 @@ export const ArticleBody = styled.section`
     height: 100%;
 
     & > textarea {
-      ${styleTextArea}
-
       line-height: 2.9;
       white-space: normal;
     }
@@ -309,8 +296,6 @@ export const CommentBody = styled.section`
     height: 100%;
 
     & > textarea {
-      ${styleTextArea}
-
       line-height: 1.9;
       white-space: normal;
     }
@@ -346,4 +331,75 @@ export const EditButtonGroup = styled.div`
 export const Divider = styled.hr`
   border-top: 1px solid #eee;
   margin: 0.5rem 0;
+`;
+
+/* ArticleNew.js */
+export const ArticleNewForm = styled.form`
+  ${styleWidth.board};
+
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-top: 2.5rem;
+  font-size: 0.9rem;
+
+  /* 주의사항 */
+  & > p {
+    margin: 0 0.25rem;
+    white-space: normal;
+  }
+
+  & > button {
+    align-self: flex-end;
+  }
+`;
+
+export const ArticleTypeSelector = styled.div`
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  width: 20rem;
+  gap: 1rem;
+  padding: 0.75rem 0;
+
+  background-color: ${COLOR.PRIMARY_BACKGROUND};
+  border-radius: 8px;
+
+  & > label {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+`;
+
+export const ArticleFormLabel = styled.label`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  /* 글자수 */
+  > span {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 0.8rem;
+    color: ${COLOR.PARAGRAPH_LIGHT};
+  }
+
+  /* globalStyle의 input 스타일과 같음 */
+  > input {
+    padding: 1rem;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    border: 1px solid ${COLOR.BORDER_LIGHT};
+    resize: none;
+    white-space: normal;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  > textarea {
+    height: 12rem;
+  }
 `;

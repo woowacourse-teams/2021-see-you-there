@@ -17,7 +17,7 @@ import {
   EditButtonGroup,
   Divider,
 } from './style';
-import { MOCK_BOARD_ITEM_LIST, ARTICLE_TYPE } from '../../constants';
+import { MOCK_BOARD_ITEM_LIST, ARTICLE } from '../../constants';
 
 const FORM_ID_ARTICLE_EDIT = 'articleEdit';
 const FORM_ID_COMMENT_EDIT = 'commentEdit';
@@ -45,7 +45,7 @@ export const ArticleView = () => {
         <ArticleHeader>
           <TagGroup style={{ flexDirection: 'row-reverse', height: 'auto' }}>
             <StatusTag status={commentResponse}>{commentResponse ? '답변완료' : '답변대기'}</StatusTag>
-            <TypeTag type={type}>{type === ARTICLE_TYPE.SUGGESTION ? '제안합니다' : '고쳐주세요'}</TypeTag>
+            <TypeTag type={type}>{type === ARTICLE.TYPE.SUGGESTION ? '제안합니다' : '고쳐주세요'}</TypeTag>
           </TagGroup>
 
           <h3>{title}</h3>

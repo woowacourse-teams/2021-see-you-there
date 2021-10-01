@@ -19,7 +19,7 @@ import {
   ArticleDate,
   ArticleWriter,
 } from './style';
-import { MOCK_BOARD_ITEM_LIST, ARTICLE_TYPE } from '../../constants';
+import { MOCK_BOARD_ITEM_LIST, ARTICLE } from '../../constants';
 
 export const ArticleList = () => {
   const { url } = useRouteMatch();
@@ -38,8 +38,8 @@ export const ArticleList = () => {
           <Icon.Filter width="18" />
           필터
           <ul>
-            <FilterItem type={ARTICLE_TYPE.SUGGESTION}>제안합니다</FilterItem>
-            <FilterItem type={ARTICLE_TYPE.FIX}>고쳐주세요</FilterItem>
+            <FilterItem type={ARTICLE.TYPE.SUGGESTION}>제안합니다</FilterItem>
+            <FilterItem type={ARTICLE.TYPE.FIX}>고쳐주세요</FilterItem>
           </ul>
         </Filter>
 
@@ -56,7 +56,7 @@ export const ArticleList = () => {
 
                   <TagGroup>
                     <StatusTag status={commentResponse}>{commentResponse ? '답변완료' : '답변대기'}</StatusTag>
-                    <TypeTag type={type}>{type === ARTICLE_TYPE.SUGGESTION ? '제안합니다' : '고쳐주세요'}</TypeTag>
+                    <TypeTag type={type}>{type === ARTICLE.TYPE.SUGGESTION ? '제안합니다' : '고쳐주세요'}</TypeTag>
                   </TagGroup>
 
                   <DetailGroup>

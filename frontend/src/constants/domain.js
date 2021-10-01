@@ -148,7 +148,12 @@ export const STORAGE_KEY = {
   PARTICIPANT: 'p',
 };
 
-export const ARTICLE_TYPE = {
-  FIX: 'FIX',
-  SUGGESTION: 'SUGGEST',
+export const ARTICLE = {
+  TITLE_MAX_LENGTH: 50,
+  CONTENT_MAX_LENGTH: 2000,
+
+  TYPE: {
+    FIX: 'FIX',
+    SUGGESTION: 'SUGGEST',
+  },
 };

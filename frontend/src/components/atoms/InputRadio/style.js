@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
-import { COLOR } from '../../../constants';
-
-const CONTAINER_SIZE = '1.5rem';
-const CHECK_MARK_SIZE = 'calc(100% - 0.5rem)';
+const CONTAINER_SIZE = '1rem';
+const CHECK_MARK_SIZE = 'calc(100% - 0.25rem)';
 
 export const Container = styled.span`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,26 +17,33 @@ export const Container = styled.span`
 `;
 
 export const CheckMark = styled.span`
-  display: none;
-  flex-direction: center;
-  align-items: center;
+  position: absolute;
   width: ${CHECK_MARK_SIZE};
   height: ${CHECK_MARK_SIZE};
 
+  opacity: 0;
   border-radius: 50%;
 `;
 
 export const Input = styled.input`
-  display: none;
+  width: ${CHECK_MARK_SIZE};
+  height: ${CHECK_MARK_SIZE};
+  opacity: 0;
+  z-index: 1;
 
   &:hover:not(:checked) ~ ${CheckMark} {
-    display: flex;
     background-color: ${(props) => props.color};
-    opacity: 0.7;
+    opacity: 0.5;
   }
+
   &:checked ~ ${CheckMark} {
-    display: flex;
     background-color: ${(props) => props.color};
+    opacity: 1;
+  }
+
+  &:focus-visible ~ ${CheckMark} {
+    background-color: ${(props) => props.color};
+    opacity: 0.5;
   }
 `;
 

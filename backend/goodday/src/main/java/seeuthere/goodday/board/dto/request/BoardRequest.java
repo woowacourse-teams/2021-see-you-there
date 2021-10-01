@@ -1,20 +1,20 @@
 package seeuthere.goodday.board.dto.request;
 
 import seeuthere.goodday.board.domain.Board;
-import seeuthere.goodday.board.domain.BoardLabel;
+import seeuthere.goodday.board.domain.BoardType;
 import seeuthere.goodday.member.domain.Member;
 
 public class BoardRequest {
 
     private String title;
     private String content;
-    private BoardLabel label;
+    private BoardType label;
 
     public BoardRequest() {
 
     }
 
-    public BoardRequest(String title, String content, BoardLabel label) {
+    public BoardRequest(String title, String content, BoardType label) {
         this.title = title;
         this.content = content;
         this.label = label;
@@ -32,7 +32,7 @@ public class BoardRequest {
         return content;
     }
 
-    public BoardLabel getLabel() {
+    public BoardType getLabel() {
         return label;
     }
 }

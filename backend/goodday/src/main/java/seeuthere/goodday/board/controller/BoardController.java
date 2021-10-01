@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import seeuthere.goodday.auth.domain.EnableAuth;
 import seeuthere.goodday.board.domain.Board;
-import seeuthere.goodday.board.domain.BoardLabel;
+import seeuthere.goodday.board.domain.BoardType;
 import seeuthere.goodday.board.domain.Comment;
 import seeuthere.goodday.board.dto.request.BoardRequest;
 import seeuthere.goodday.board.dto.request.CommentRequest;
@@ -42,8 +42,8 @@ public class BoardController {
     public ResponseEntity<List<BoardResponse>> loadBoards(
         @RequestParam(defaultValue = "5") int size,
         @RequestParam(defaultValue = "1") int pageNumber,
-        @RequestParam(defaultValue = "ALL") BoardLabel label) {
-        List<Board> boards = boardService.findAllWithPagination(pageNumber, size, label);
+        @RequestParam(defaultValue = "ALL") BoardType type) {
+        List<Board> boards = boardService.findAllWithPagination(pageNumber, size, type);
         List<BoardResponse> boardResponses = boards.stream()
             .map(BoardResponse::new)
             .collect(Collectors.toList());

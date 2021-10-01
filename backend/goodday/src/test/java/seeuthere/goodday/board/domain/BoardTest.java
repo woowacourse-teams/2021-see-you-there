@@ -18,7 +18,7 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board("안녕하세요", "서비스 좋아요", BoardLabel.FIX,
+        board = new Board("안녕하세요", "서비스 좋아요", BoardType.FIX,
             DataLoader.와이비);
     }
 
@@ -46,7 +46,7 @@ class BoardTest {
     @Test
     void updateBoard() {
         //given
-        Board updatedBoard = new Board("접수됬네요", "서비스 좋아요", BoardLabel.FIX,
+        Board updatedBoard = new Board("접수됬네요", "서비스 좋아요", BoardType.FIX,
             DataLoader.와이비);
 
         //when

@@ -19,7 +19,7 @@ import seeuthere.goodday.DataLoader;
 import seeuthere.goodday.TestMethod;
 import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
 import seeuthere.goodday.board.domain.Board;
-import seeuthere.goodday.board.domain.BoardLabel;
+import seeuthere.goodday.board.domain.BoardType;
 import seeuthere.goodday.board.domain.Comment;
 import seeuthere.goodday.board.dto.request.BoardRequest;
 import seeuthere.goodday.board.dto.request.CommentRequest;
@@ -40,8 +40,8 @@ class BoardAcceptanceTest extends AcceptanceTest {
         String identifier = "board/board-create";
         String title = "여기서 만나 화이팅이에요";
         String content = "밥사주세요";
-        BoardLabel boardLabel = BoardLabel.FIX;
-        BoardRequest boardRequest = new BoardRequest(title, content, boardLabel);
+        BoardType boardType = BoardType.FIX;
+        BoardRequest boardRequest = new BoardRequest(title, content, boardType);
 
         BoardResponse board = makeResponse("/api/boards",
             TestMethod.POST,
@@ -53,7 +53,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
         //then
         assertThat(board.getTitle()).isEqualTo(title);
         assertThat(board.getContent()).isEqualTo(content);
-        assertThat(board.getLabel()).isEqualTo(boardLabel);
+        assertThat(board.getType()).isEqualTo(boardType);
     }
 
     @ParameterizedTest
@@ -76,7 +76,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
 
     private void generateBoards() {
         for (int i = 0; i < 5; i++) {
-            Board board = new Board("테스트", "테스트", BoardLabel.FIX, DataLoader.와이비);
+            Board board = new Board("테스트", "테스트", BoardType.FIX, DataLoader.와이비);
             boardService.saveBoard(board);
         }
     }
@@ -93,8 +93,8 @@ class BoardAcceptanceTest extends AcceptanceTest {
     void loadPaginationWithFiltering() {
         //given
         String identifier = "board/board-filter";
-        String url = "/api/boards?size=5&pageNumber=1&label=SUGGEST";
-        Board board = new Board("테스트", "테스트", BoardLabel.SUGGEST, DataLoader.와이비);
+        String url = "/api/boards?size=5&pageNumber=1&type=SUGGEST";
+        Board board = new Board("테스트", "테스트", BoardType.SUGGEST, DataLoader.와이비);
         boardService.saveBoard(board);
 
         // when
@@ -131,7 +131,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
         String identifier = "board/board-update";
         BoardResponse board = new BoardResponse(createBoard());
 
-        BoardRequest updateRequest = new BoardRequest("수정 후 제목", "수정 후 글", BoardLabel.FIX);
+        BoardRequest updateRequest = new BoardRequest("수정 후 제목", "수정 후 글", BoardType.FIX);
         String url = "/api/boards/" + board.getId();
 
         //when
@@ -144,7 +144,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
         assertAll(
             () -> assertThat(updatedBoard.getTitle()).isEqualTo("수정 후 제목"),
             () -> assertThat(updatedBoard.getContent()).isEqualTo("수정 후 글"),
-            () -> assertThat(updatedBoard.getLabel()).isEqualTo(BoardLabel.FIX)
+            () -> assertThat(updatedBoard.getType()).isEqualTo(BoardType.FIX)
         );
     }
 
@@ -170,7 +170,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
     void updateException() {
         // given
         String identifier = "board/board-update-exception";
-        BoardRequest boardRequest = new BoardRequest("YB", "글", BoardLabel.FIX);
+        BoardRequest boardRequest = new BoardRequest("YB", "글", BoardType.FIX);
         BoardResponse board = new BoardResponse(createBoard());
 
         String url = "/api/boards/" + board.getId();
@@ -221,7 +221,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
     void notExistUpdateException() {
         // given
         String identifier = "board/board-update-exist-exception";
-        BoardRequest boardRequest = new BoardRequest("YB", "글", BoardLabel.FIX);
+        BoardRequest boardRequest = new BoardRequest("YB", "글", BoardType.FIX);
         String url = "/api/boards/" + 999;
 
         //when
@@ -436,7 +436,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
         Board board = createBoard();
         addComment(board);
 
-        BoardRequest boardRequest = new BoardRequest("YB", "글", BoardLabel.FIX);
+        BoardRequest boardRequest = new BoardRequest("YB", "글", BoardType.FIX);
         String url = "/api/boards/" + board.getId();
 
         // when
@@ -463,7 +463,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
     }
 
     private Board createBoard() {
-        Board board = new Board("여기서 만나 화이팅이에요", "밥사주세요", BoardLabel.FIX, DataLoader.와이비);
+        Board board = new Board("여기서 만나 화이팅이에요", "밥사주세요", BoardType.FIX, DataLoader.와이비);
         return boardService.saveBoard(board);
     }
 

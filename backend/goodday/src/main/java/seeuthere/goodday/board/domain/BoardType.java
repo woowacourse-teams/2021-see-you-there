@@ -1,6 +1,6 @@
 package seeuthere.goodday.board.domain;
 
-public enum BoardLabel {
+public enum BoardType {
     FIX,
     SUGGEST,
     ALL

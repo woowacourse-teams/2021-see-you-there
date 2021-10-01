@@ -3,6 +3,7 @@ export { ButtonRound } from './atoms/ButtonRound';
 export { ButtonSquare } from './atoms/ButtonSquare';
 export { Icon } from './atoms/Icon';
 export { Input } from './atoms/Input';
+export { InputRadio } from './atoms/InputRadio';
 export { InputUnderline } from './atoms/InputUnderline';
 export { InputWithButton } from './atoms/InputWithButton';
 export { LinkRound } from './atoms/LinkRound';

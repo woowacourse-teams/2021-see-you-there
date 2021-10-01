@@ -5,10 +5,16 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 public class RoutingDataSource extends AbstractRoutingDataSource {
 
+    private final CircularList<String> dataSourceNames;
+
+    public RoutingDataSource(CircularList<String> dataSourceNames) {
+        this.dataSourceNames = dataSourceNames;
+    }
+
     @Override
     protected Object determineCurrentLookupKey() {
         if (TransactionSynchronizationManager.isCurrentTransactionReadOnly()) {
-            return "slave";
+            return dataSourceNames.getData();
         }
         return "master";
     }

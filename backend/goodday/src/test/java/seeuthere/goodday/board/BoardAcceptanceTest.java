@@ -120,6 +120,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
             DataLoader.와이비토큰, identifier);
         BoardResponse findBoard = response.as(BoardResponse.class);
 
+        BoardResponse temp = new BoardResponse(boardService.findBoardById(board.getId()));
         // then
         assertThat(board).usingRecursiveComparison().isEqualTo(findBoard);
     }

@@ -1,6 +1,8 @@
 package seeuthere.goodday.member.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seeuthere.goodday.DataLoader.멍토;
 import static seeuthere.goodday.DataLoader.심바;
 import static seeuthere.goodday.DataLoader.와이비;
@@ -16,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import seeuthere.goodday.auth.dto.ProfileResponse;
+import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.member.dao.AddressRepository;
 import seeuthere.goodday.member.dao.RequestFriendRepository;
 import seeuthere.goodday.member.dto.AddressDeleteRequest;
@@ -24,6 +27,7 @@ import seeuthere.goodday.member.dto.AddressResponse;
 import seeuthere.goodday.member.dto.AddressUpdateRequest;
 import seeuthere.goodday.member.dto.FriendRequest;
 import seeuthere.goodday.member.dto.FriendResponse;
+import seeuthere.goodday.member.dto.MemberRequest;
 import seeuthere.goodday.member.dto.MemberResponse;
 import seeuthere.goodday.member.dto.RequestFriendRequest;
 import seeuthere.goodday.member.dto.RequestFriendResponse;
@@ -60,6 +64,15 @@ class MemberTest {
             와이비.getProfileImage());
         Member member = memberService.add(profile);
         assertThat(member.getMemberId()).isEqualTo(와이비.getMemberId());
+    }
+
+    @DisplayName("회원 수정시 중복된 nickName 이면 예외 발생")
+    @Test
+    void updateMemberException() {
+        MemberRequest memberRequest = new MemberRequest(와이비.getNickname(), 와이비.getProfileImage(), 멍토.getMemberId());
+        assertThatThrownBy(() -> {
+            memberService.updateMemberInfo(와이비.getId(), memberRequest);
+        }).isInstanceOf(GoodDayException.class);
     }
 
     @DisplayName("회원의 주소를 저장한다")
@@ -161,9 +174,17 @@ class MemberTest {
     @Test
     void requestFriend() {
         memberService.requestFriend(멍토.getId(), new FriendRequest(심바.getMemberId()));
-        List<RequestFriend> requestFriends = requestFriendRepository.findByRequester(멍토.getId());
+        List<RequestFriend> requestFriends = requestFriendRepository.findByRequesterId(멍토.getId());
         assertThat(requestFriends.size()).isEqualTo(1);
         assertThat(requestFriends.get(0).getReceiver().getMemberId()).isEqualTo(심바.getMemberId());
+    }
+
+    @DisplayName("친구 요청을 중복으로하면 예외를 발생시키다..")
+    @Test
+    void requestFriendExeption() {
+        memberService.requestFriend(멍토.getId(), new FriendRequest(심바.getMemberId()));
+        requestFriendRepository.flush();
+        assertThrows(GoodDayException.class, () -> memberService.requestFriend(멍토.getId(), new FriendRequest(심바.getMemberId())));
     }
 
     @DisplayName("나에게 온 친구 요청을 수락한다")

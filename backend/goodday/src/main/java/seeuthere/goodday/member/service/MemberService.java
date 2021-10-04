@@ -165,7 +165,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public List<RequestFriendResponse> findReceiveFriends(String receiverId) {
-        List<RequestFriend> requestFriends = requestFriendRepository.findByReceiver(receiverId);
+        List<RequestFriend> requestFriends = requestFriendRepository.findByReceiverId(receiverId);
         return requestFriends.stream()
             .map(RequestFriendResponse::new)
             .collect(Collectors.toList());
@@ -173,7 +173,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public List<RequestFriendResponse> findRequestFriends(String requesterId) {
-        List<RequestFriend> receiveFriends = requestFriendRepository.findByRequester(requesterId);
+        List<RequestFriend> receiveFriends = requestFriendRepository.findByRequesterId(requesterId);
         return receiveFriends.stream()
             .map(RequestFriendResponse::new)
             .collect(Collectors.toList());

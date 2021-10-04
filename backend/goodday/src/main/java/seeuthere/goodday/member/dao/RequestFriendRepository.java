@@ -10,11 +10,9 @@ import seeuthere.goodday.member.domain.RequestFriend;
 @Repository
 public interface RequestFriendRepository extends JpaRepository<RequestFriend, Long> {
 
-    @Query("SELECT r FROM RequestFriend r WHERE r.receiver.id = :receiverId")
-    List<RequestFriend> findByReceiver(@Param("receiverId") String receiverId);
+    List<RequestFriend> findByReceiverId(String receiverId);
 
-    @Query("SELECT r FROM RequestFriend r WHERE r.requester.id = :requesterId")
-    List<RequestFriend> findByRequester(@Param("requesterId") String requesterId);
+    List<RequestFriend> findByRequesterId(String requesterId);
 
     @Query("SELECT "
         + "CASE WHEN COUNT(r) > 0 "
@@ -24,5 +22,6 @@ public interface RequestFriendRepository extends JpaRepository<RequestFriend, Lo
         + "WHERE r.requester.id = :requesterId "
         + "AND r.receiver.memberId = :receiverId")
     boolean isExistRequest(@Param("requesterId") String id, @Param("receiverId") String memberId);
+
 }
 

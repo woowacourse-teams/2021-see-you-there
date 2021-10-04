@@ -11,10 +11,8 @@ import seeuthere.goodday.member.domain.Member;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, String> {
 
-    @Query("SELECT CASE WHEN COUNT(m) > 0 THEN TRUE ELSE FALSE END FROM Member m WHERE m.memberId = :memberId")
-    boolean existsByMemberId(@Param("memberId") String memberId);
+    boolean existsByMemberId(String memberId);
 
-    @Query("SELECT m FROM Member m WHERE m.memberId = :memberId")
-    Member findByMemberId(@Param("memberId") String memberId);
+    Member findByMemberId(String memberId);
 
 }

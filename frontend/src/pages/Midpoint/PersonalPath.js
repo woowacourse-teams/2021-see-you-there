@@ -76,6 +76,7 @@ export const PersonalPath = (props) => {
 PersonalPath.propTypes = {
   transport: PropTypes.string,
   participant: PropTypes.shape({
+    id: PropTypes.string,
     name: PropTypes.string,
     addressName: PropTypes.string,
     x: PropTypes.number,

@@ -53,5 +53,6 @@ export const SnackbarContextProvider = ({ maxSize = 3, children }) => {
 };
 
 SnackbarContextProvider.propTypes = {
+  maxSize: PropTypes.number,
   children: PropTypes.node.isRequired,
 };

@@ -165,7 +165,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public List<RequestFriendResponse> findReceiveFriends(String receiverId) {
-        List<RequestFriend> requestFriends = requestFriendRepository.findByReceiver(receiverId);
+        List<RequestFriend> requestFriends = requestFriendRepository.findByReceiverId(receiverId);
         return requestFriends.stream()
             .map(RequestFriendResponse::new)
             .collect(Collectors.toList());
@@ -173,7 +173,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public List<RequestFriendResponse> findRequestFriends(String requesterId) {
-        List<RequestFriend> receiveFriends = requestFriendRepository.findByRequester(requesterId);
+        List<RequestFriend> receiveFriends = requestFriendRepository.findByRequesterId(requesterId);
         return receiveFriends.stream()
             .map(RequestFriendResponse::new)
             .collect(Collectors.toList());
@@ -183,10 +183,10 @@ public class MemberService {
         Member requester = find(id);
         Member receiver = memberRepository.findByMemberId(friendRequest.getMemberId());
         if (requester.hasFriend(receiver) || requestFriendRepository
-            .isExistRequest(id, friendRequest.getMemberId())) {
+            .existsByRequesterIdAndReceiverMemberId(id, friendRequest.getMemberId())) {
             throw new GoodDayException(MemberExceptionSet.ALREADY_REQUEST_FRIEND);
         }
-        if (requestFriendRepository.isExistRequest(receiver.getId(), requester.getMemberId())) {
+        if (requestFriendRepository.existsByRequesterIdAndReceiverMemberId(receiver.getId(), requester.getMemberId())) {
             throw new GoodDayException(MemberExceptionSet.OPPONENT_ALREADY_REQUEST_FRIEND);
         }
         requestFriendRepository.save(new RequestFriend(requester, receiver));

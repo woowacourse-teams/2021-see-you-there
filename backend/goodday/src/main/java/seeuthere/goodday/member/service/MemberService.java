@@ -183,10 +183,10 @@ public class MemberService {
         Member requester = find(id);
         Member receiver = memberRepository.findByMemberId(friendRequest.getMemberId());
         if (requester.hasFriend(receiver) || requestFriendRepository
-            .isExistRequest(id, friendRequest.getMemberId())) {
+            .existsByRequesterIdAndReceiverMemberId(id, friendRequest.getMemberId())) {
             throw new GoodDayException(MemberExceptionSet.ALREADY_REQUEST_FRIEND);
         }
-        if (requestFriendRepository.isExistRequest(receiver.getId(), requester.getMemberId())) {
+        if (requestFriendRepository.existsByRequesterIdAndReceiverMemberId(receiver.getId(), requester.getMemberId())) {
             throw new GoodDayException(MemberExceptionSet.OPPONENT_ALREADY_REQUEST_FRIEND);
         }
         requestFriendRepository.save(new RequestFriend(requester, receiver));

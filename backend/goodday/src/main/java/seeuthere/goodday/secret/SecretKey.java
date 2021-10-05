@@ -14,6 +14,8 @@ public class SecretKey {
     private Integer jwtValidityTime;
     @Value("${security.transport.apikey}")
     private String transportApiKey;
+    @Value("${security.converter.key")
+    private String cryptoSecretKey;
 
     private SecretKey() {
     }
@@ -32,5 +34,9 @@ public class SecretKey {
 
     public String getTransportApiKey() {
         return transportApiKey;
+    }
+
+    public byte[] getCryptoSecretKey() {
+        return cryptoSecretKey.getBytes();
     }
 }

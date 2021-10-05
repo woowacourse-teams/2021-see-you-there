@@ -23,7 +23,7 @@ export const COLOR = {
   ICON: '#666',
   HEADING: '#555',
   PARAGRAPH: '#333',
-  PARAGRAPH_LIGHT: '#aaa',
+  PARAGRAPH_LIGHT: '#767676',
 };
 
 /* 웹(너비 832px 이상)에서 지도가 표시될 경우, RIGHT 사용 */
@@ -45,6 +45,8 @@ export const LAYOUT = {
 
   CONTENT_DRAWING_WIDTH: '70rem',
   CONTENT_DRAWING_WIDTH_TABLET: '45rem',
+
+  CONTENT_BOARD_WIDTH_MAX: '45rem',
 
   CATEGORY_CHIP_TOP: '1rem',
   DRAWER_HEIGHT: '2.5rem',

@@ -54,7 +54,15 @@ export const NavBar = () => {
               <NavLink to={ROUTE.PATH}>{ROUTE.NAME}</NavLink>
             </MenuItem>
           ))}
+
           <Divider />
+
+          <MenuItem>
+            <button onClick={() => history.push(ROUTE.BOARD.PATH)}>문의 게시판</button>
+          </MenuItem>
+
+          <Divider />
+
           <MenuItem>
             <button onClick={() => history.push(ROUTE.LOGOUT.PATH)}>
               로그아웃

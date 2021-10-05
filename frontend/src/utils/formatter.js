@@ -9,3 +9,10 @@ export const addPathSuffix = (path, suffix) => {
 
 export const image2x = (path) => addPathSuffix(path, '@2x');
 export const image3x = (path) => addPathSuffix(path, '@3x');
+
+export const addThousandSeparator = (num) => {
+  if (typeof num === 'number') {
+    num = num.toString();
+  }
+  return num.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};

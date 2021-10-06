@@ -146,6 +146,7 @@ export const POBI_POINT = { x: 127.10296, y: 37.515403, name: '어디서 만나?
 export const STORAGE_KEY = {
   TOKEN: 'token',
   PARTICIPANT: 'p',
+  SCROLL: 'scr',
 };
 
 export const ARTICLE = {

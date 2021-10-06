@@ -1,32 +1,32 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
+import { useBoard } from '../../hooks';
 import { ArticleList } from './ArticleList';
 import { ArticleView } from './ArticleView';
 import { ArticleNew } from './ArticleNew';
-import { ContentArea } from './style';
+
+const HEADER_HEIGHT = 280;
+const CARD_HEIGHT = 120;
 
 const BoardPage = () => {
   const { path } = useRouteMatch();
+  const articleCountPerPage = Math.floor(((window.innerHeight - HEADER_HEIGHT) / CARD_HEIGHT) * 2);
+  const board = useBoard({ articleCountPerPage });
 
   return (
     <main>
-      <ContentArea>
-        <h2>무엇이든 얘기해주세요!</h2>
-        <span>관리자가 직접 답변해드릴게요 :)</span>
-
-        <Switch>
-          <Route exact path={path}>
-            <ArticleList />
-          </Route>
-          <Route exact path={`${path}/new`}>
-            <ArticleNew />
-          </Route>
-          <Route path={`${path}/:id`}>
-            <ArticleView />
-          </Route>
-        </Switch>
-      </ContentArea>
+      <Switch>
+        <Route exact path={path}>
+          <ArticleList board={board} />
+        </Route>
+        <Route exact path={`${path}/new`}>
+          <ArticleNew />
+        </Route>
+        <Route path={`${path}/:articleId`}>
+          <ArticleView />
+        </Route>
+      </Switch>
     </main>
   );
 };

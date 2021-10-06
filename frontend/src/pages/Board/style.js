@@ -22,7 +22,9 @@ const styleWidth = {
 };
 
 export const ContentArea = styled.section`
-  ${CONTENT_AREA.DEFAULT}
+  ${CONTENT_AREA.DEFAULT};
+
+  overflow-y: scroll;
 
   & > span:nth-child(2) {
     margin-top: -1rem;
@@ -32,24 +34,27 @@ export const ContentArea = styled.section`
   }
 `;
 
-export const ButtonSection = styled.section`
+export const HeaderSection = styled.section`
   ${styleWidth.board};
 
+  position: sticky;
+  top: calc(${LAYOUT.NAV_HEIGHT} - ${LAYOUT.CONTENT_PADDING_TOP});
   display: flex;
-  justify-content: flex-end;
-  margin-top: 1.25rem;
-`;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${LAYOUT.PADDING} 0;
 
-export const ListSection = styled.section`
-  ${styleWidth.board};
+  background-color: ${COLOR.BACKGROUND};
 
-  display: flex;
-  flex-direction: column;
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    top: calc(${LAYOUT.NAV_HEIGHT} - ${LAYOUT.CONTENT_PADDING_TOP_TABLET});
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
 `;
 
 export const Filter = styled.div`
   display: flex;
-  margin-top: ${LAYOUT.MARGIN};
   padding: ${LAYOUT.PADDING_HALF} ${LAYOUT.PADDING};
   width: fit-content;
 
@@ -62,6 +67,7 @@ export const Filter = styled.div`
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    margin-top: ${LAYOUT.MARGIN};
     justify-content: center;
     width: 100%;
   }
@@ -84,8 +90,15 @@ export const FilterItem = styled.li`
   }
 `;
 
+export const ListSection = styled.section`
+  ${styleWidth.board};
+
+  display: flex;
+  flex-direction: column;
+`;
+
 export const List = styled.ol`
-  margin-top: ${LAYOUT.MARGIN};
+  margin-top: ${LAYOUT.MARGIN_HALF};
   font-size: 0.9rem;
   width: 100%;
 

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { useBoard } from '../../hooks';
 import {
+  ContentArea,
   ArticleSection,
   ArticleHeader,
   TagGroup,
@@ -17,15 +19,14 @@ import {
   EditButtonGroup,
   Divider,
 } from './style';
-import { MOCK_BOARD_ITEM_LIST, ARTICLE } from '../../constants';
+import { ARTICLE } from '../../constants';
 
 const FORM_ID_ARTICLE_EDIT = 'articleEdit';
 const FORM_ID_COMMENT_EDIT = 'commentEdit';
 
 export const ArticleView = () => {
-  const { id } = useParams();
-  const { createTime, memberId, title, content, commentResponse, label: type } = MOCK_BOARD_ITEM_LIST[1];
-  const hasComment = !!commentResponse;
+  const { articleId } = useParams();
+  const { article, isArticleLoading } = useBoard({ articleId });
   const [isArticleEditing, setIsArticleEditing] = useState(false);
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const isAdmin = true;
@@ -39,8 +40,18 @@ export const ArticleView = () => {
     // 생성 api 요청
   };
 
+  if (isArticleLoading) {
+    return null;
+  }
+
+  const { createTime, memberId, title, content, commentResponse, type } = article;
+  const hasComment = !!commentResponse;
+
   return (
-    <>
+    <ContentArea>
+      <h2>무엇이든 얘기해주세요!</h2>
+      <span>관리자가 직접 답변해드릴게요 :)</span>
+
       <ArticleSection>
         <ArticleHeader>
           <TagGroup style={{ flexDirection: 'row-reverse', height: 'auto' }}>
@@ -113,6 +124,6 @@ export const ArticleView = () => {
           </form>
         </CommentBody>
       </CommentSection>
-    </>
+    </ContentArea>
   );
 };

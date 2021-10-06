@@ -28,7 +28,7 @@ public abstract class AbstractCryptoConverter {
             Key key = keyGenerator.generateKey();
             return new SecretKeySpec(key.getEncoded(), AES);
         } catch (Exception e) {
-            throw new ConverterException();
+            throw new ConverterException(e);
         }
     }
 
@@ -39,7 +39,7 @@ public abstract class AbstractCryptoConverter {
             cipher.init(mode, secretKeySpec, gcmParameterSpec);
             return cipher;
         } catch (Exception e) {
-            throw new ConverterException();
+            throw new ConverterException(e);
         }
     }
 }

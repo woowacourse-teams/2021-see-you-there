@@ -17,9 +17,9 @@ public class Address {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
-    Member member;
+    private Member member;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "ADDRESS_ID")
     private Long id;
     private String nickname;
@@ -28,10 +28,8 @@ public class Address {
     @Convert(converter = CryptoStringConverter.class)
     private String fullAddress;
     @Convert(converter = CryptoDoubleConverter.class)
-    @Column(nullable = false)
     private Double x;
     @Convert(converter = CryptoDoubleConverter.class)
-    @Column(nullable = false)
     private Double y;
 
     public Address() {

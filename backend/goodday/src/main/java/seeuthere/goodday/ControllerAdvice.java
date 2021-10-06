@@ -25,7 +25,7 @@ public class ControllerAdvice {
     @ExceptionHandler(ConverterException.class)
     public ResponseEntity<ErrorResponse> handleConverterException(ConverterException e) {
         logger.warn("ConvertException!!: ", e);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(new ErrorResponse(e.getMessage()));
     }
 

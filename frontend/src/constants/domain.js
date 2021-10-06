@@ -41,7 +41,7 @@ export const INPUT = {
       KEY: 'memberId',
       LABEL: '아이디',
       PLACEHOLDER: '아이디를 입력해주세요.',
-      MIN_LENGTH: 1,
+      MIN_LENGTH: 4,
       MAX_LENGTH: 10,
     },
   },
@@ -146,4 +146,14 @@ export const POBI_POINT = { x: 127.10296, y: 37.515403, name: '어디서 만나?
 export const STORAGE_KEY = {
   TOKEN: 'token',
   PARTICIPANT: 'p',
+};
+
+export const ARTICLE = {
+  TITLE_MAX_LENGTH: 50,
+  CONTENT_MAX_LENGTH: 2000,
+
+  TYPE: {
+    FIX: 'FIX',
+    SUGGESTION: 'SUGGEST',
+  },
 };

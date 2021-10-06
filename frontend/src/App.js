@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -28,6 +28,7 @@ const OAuthPage = lazy(() => import(/* webpackChunkName: "OAuth" */ './pages/OAu
 const ProfilePage = lazy(() => import(/* webpackChunkName: "Profile" */ './pages/Profile'));
 const SharePage = lazy(() => import(/* webpackChunkName: "Share" */ './pages/Share'));
 const WelcomePage = lazy(() => import(/* webpackChunkName: "Welcome" */ './pages/Welcome'));
+const BoardPage = lazy(() => import(/* webpackChunkName: "Board" */ './pages/Board'));
 
 export const App = () => {
   const queryClient = new QueryClient();
@@ -72,6 +73,9 @@ export const App = () => {
                   <AuthRoute path={ROUTE.FRIEND.PATH}>
                     <FriendPage />
                   </AuthRoute>
+                  <Route path={ROUTE.BOARD.PATH}>
+                    <BoardPage />
+                  </Route>
 
                   <Route exact path={ROUTE.LOGIN.PATH}>
                     <LoginPage />

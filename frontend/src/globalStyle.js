@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { COLOR, Z_INDEX, LAYOUT } from './constants';
+import { COLOR } from './constants';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -73,7 +73,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'S-CoreDream-3Light', sans-serif;
   }
 
-  ul {
+  ul, ol {
     list-style-type: none;
   }
 
@@ -86,6 +86,17 @@ const GlobalStyle = createGlobalStyle`
     &:disabled {
       cursor: default;
     }
+  }
+
+  textarea {
+    padding: 1rem;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    border: 1px solid ${COLOR.BORDER_LIGHT};
+    resize: none;
+    white-space: normal;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 
   &::-webkit-scrollbar {

@@ -1,4 +1,6 @@
 import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
+
 import { COLOR } from '../../../constants';
 
 const styleSize = {
@@ -23,18 +25,24 @@ const styleColor = {
   primary: css`
     background-color: ${COLOR.PRIMARY};
     border: none;
-    color: ${COLOR.ON_PRIMARY};
     box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.14), 1px 1px 8px rgba(0, 0, 0, 0.12);
+
+    & > span {
+      color: ${COLOR.ON_PRIMARY};
+    }
   `,
   gray: css`
     background-color: #f8f8f8;
     border: 1px solid #ddd;
-    color: ${COLOR.PARAGRAPH};
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
+
+    & > span {
+      color: ${COLOR.PARAGRAPH};
+    }
   `,
 };
 
-export const Button = styled.button`
+export const StyledLink = styled(Link)`
   ${(props) => styleSize[props.size]};
   ${(props) => styleColor[props.color]};
 
@@ -45,7 +53,6 @@ export const Button = styled.button`
   border-radius: 3rem;
 
   & > span {
-    color: inherit;
     letter-spacing: -0.06rem;
     margin-left: 0.25rem;
   }

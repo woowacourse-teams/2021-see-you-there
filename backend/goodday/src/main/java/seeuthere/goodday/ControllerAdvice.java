@@ -13,29 +13,27 @@ import seeuthere.goodday.exception.GoodDayException;
 @RestControllerAdvice
 public class ControllerAdvice {
 
-    private static final String MESSAGE = "예상치 못한 에러가 발생했습니다.";
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler(GoodDayException.class)
     public ResponseEntity<ErrorResponse> handleGoodDayException(GoodDayException e) {
-        logger.warn(e.getMessage());
+        logger.warn("CustomException!!: ", e);
         return ResponseEntity.status(e.getStatus())
             .body(new ErrorResponse(e.getMessage()));
     }
 
     @ExceptionHandler(ConverterException.class)
     public ResponseEntity<ErrorResponse> handleConverterException(ConverterException e) {
-        logger.warn(e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        logger.warn("ConvertException!!: ", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(new ErrorResponse(e.getMessage()));
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRunTimeException(RuntimeException e) {
-        logger.error(e.toString());
+        logger.warn("RuntimeException!!: ", e);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(new ErrorResponse(MESSAGE));
+            .body(new ErrorResponse("예상치 못한 에러가 발생했습니다."));
     }
 }

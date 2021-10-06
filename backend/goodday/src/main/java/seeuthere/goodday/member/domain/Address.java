@@ -1,6 +1,7 @@
 package seeuthere.goodday.member.domain;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import seeuthere.goodday.config.converter.CryptoDoubleConverter;
+import seeuthere.goodday.config.converter.CryptoStringConverter;
 
 @Entity
 public class Address {
@@ -20,9 +23,15 @@ public class Address {
     @Column(name = "ADDRESS_ID")
     private Long id;
     private String nickname;
+    @Convert(converter = CryptoStringConverter.class)
     private String addressName;
+    @Convert(converter = CryptoStringConverter.class)
     private String fullAddress;
+    @Convert(converter = CryptoDoubleConverter.class)
+    @Column(nullable = false)
     private Double x;
+    @Convert(converter = CryptoDoubleConverter.class)
+    @Column(nullable = false)
     private Double y;
 
     public Address() {

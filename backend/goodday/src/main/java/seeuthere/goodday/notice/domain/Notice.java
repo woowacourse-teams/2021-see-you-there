@@ -23,7 +23,7 @@ public class Notice {
     private String title;
     @Lob
     private String content;
-    private Boolean active;
+    private Boolean activation;
 
     public Notice() {
     }
@@ -31,7 +31,7 @@ public class Notice {
     public Notice(String title, String content) {
         this.title = title;
         this.content = content;
-        this.active = true;
+        this.activation = true;
     }
 
     public void changeNotice(String title, String content) {
@@ -39,8 +39,8 @@ public class Notice {
         this.content = content;
     }
 
-    public void changeInactive() {
-        this.active = false;
+    public void changeActivation() {
+        this.activation = false;
     }
 
     public Long getId() {
@@ -61,5 +61,9 @@ public class Notice {
 
     public String getContent() {
         return content;
+    }
+
+    public Boolean getActivation() {
+        return activation;
     }
 }

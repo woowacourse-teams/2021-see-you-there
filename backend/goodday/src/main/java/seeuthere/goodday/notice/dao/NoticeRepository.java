@@ -8,5 +8,5 @@ import seeuthere.goodday.notice.domain.Notice;
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
-    List<Notice> findAllByActive(boolean active);
+    List<Notice> findAllByActivation(boolean activation);
 }

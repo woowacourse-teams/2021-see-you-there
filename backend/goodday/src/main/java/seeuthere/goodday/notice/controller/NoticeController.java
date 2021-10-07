@@ -19,7 +19,7 @@ import seeuthere.goodday.notice.dto.NoticeResponse;
 import seeuthere.goodday.notice.service.NoticeService;
 
 @Controller
-@RequestMapping("/api/notice")
+@RequestMapping("/api/notices")
 public class NoticeController {
 
     private final NoticeService noticeService;
@@ -48,11 +48,11 @@ public class NoticeController {
         return ResponseEntity.ok(new NoticeResponse(notice));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> inactiveNotice(@PathVariable Long id, @EnableAuth String memberId) {
+    @PutMapping("/{id}/deactivation")
+    public ResponseEntity<Void> deActiveNotice(@PathVariable Long id, @EnableAuth String memberId) {
         Member member = memberService.find(memberId);
         memberService.findAdminByMember(member);
-        noticeService.inactive(id);
+        noticeService.deActive(id);
         return ResponseEntity.noContent().build();
     }
 

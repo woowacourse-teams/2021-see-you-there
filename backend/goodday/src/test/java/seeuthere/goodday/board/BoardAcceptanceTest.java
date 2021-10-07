@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import seeuthere.goodday.AcceptanceTest;
 import seeuthere.goodday.DataLoader;
 import seeuthere.goodday.TestMethod;
-import seeuthere.goodday.auth.infrastructure.JwtTokenProvider;
 import seeuthere.goodday.board.domain.Board;
 import seeuthere.goodday.board.domain.BoardType;
 import seeuthere.goodday.board.domain.Comment;
@@ -28,8 +27,6 @@ import seeuthere.goodday.board.service.BoardService;
 
 class BoardAcceptanceTest extends AcceptanceTest {
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private BoardService boardService;
 
@@ -120,9 +117,9 @@ class BoardAcceptanceTest extends AcceptanceTest {
             DataLoader.와이비토큰, identifier);
         BoardResponse findBoard = response.as(BoardResponse.class);
 
-        BoardResponse temp = new BoardResponse(boardService.findBoardById(board.getId()));
+        BoardResponse expected = new BoardResponse(boardService.findBoardById(board.getId()));
         // then
-        assertThat(board).usingRecursiveComparison().isEqualTo(findBoard);
+        assertThat(expected).usingRecursiveComparison().isEqualTo(findBoard);
     }
 
     @DisplayName("게시물을 수정한다.")
@@ -385,14 +382,14 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @DisplayName("관리자가 아닌 사람이 답글을 쓰려하면 에러가 발생한다.")
     void commentAuthorizationException() {
         String identifier = "board/comment-auth-create-exception";
-        String token = jwtTokenProvider.createToken(DataLoader.멍토.getId());
         Board board = createBoard();
         String content = "관리자가 아닌 사람이 답글을 단다.";
         CommentRequest commentRequest = new CommentRequest(content);
 
         //when
         ExtractableResponse<Response> response = makeResponse(
-            String.format("/api/boards/%d/comments", board.getId()), TestMethod.POST, token,
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.POST,
+            DataLoader.멍토토큰,
             commentRequest, identifier);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
@@ -402,14 +399,14 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @DisplayName("관리자가 아닌 사람이 답글을 수정하면 에러가 발생한다.")
     void commentAuthorizationUpdateException() {
         String identifier = "board/comment-auth-update-exception";
-        String token = jwtTokenProvider.createToken(DataLoader.멍토.getId());
         Board board = createBoard();
         String content = "관리자가 아닌 사람이 답글을 수정한다.";
         CommentRequest commentRequest = new CommentRequest(content);
 
         //when
         ExtractableResponse<Response> response = makeResponse(
-            String.format("/api/boards/%d/comments", board.getId()), TestMethod.PUT, token,
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.PUT,
+            DataLoader.멍토토큰,
             commentRequest, identifier);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
@@ -419,12 +416,12 @@ class BoardAcceptanceTest extends AcceptanceTest {
     @DisplayName("관리자가 아닌 사람이 답글을 삭제하면 에러가 발생한다.")
     void commentAuthorizationDeleteException() {
         String identifier = "board/comment-auth-delete-exception";
-        String token = jwtTokenProvider.createToken(DataLoader.멍토.getId());
         Board board = createBoard();
 
         //when
         ExtractableResponse<Response> response = makeResponse(
-            String.format("/api/boards/%d/comments", board.getId()), TestMethod.DELETE, token,
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.DELETE,
+            DataLoader.멍토토큰,
             identifier);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());

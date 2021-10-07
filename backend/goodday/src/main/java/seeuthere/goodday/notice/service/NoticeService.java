@@ -29,14 +29,14 @@ public class NoticeService {
     }
 
     @Transactional
-    public Notice inactive(Long id) {
+    public Notice deActive(Long id) {
         Notice notice = noticeRepository.findById(id)
             .orElseThrow();
-        notice.changeInactive();
+        notice.changeActivation();
         return notice;
     }
 
     public List<Notice> findAll() {
-        return noticeRepository.findAllByActive(true);
+        return noticeRepository.findAllByActivation(true);
     }
 }

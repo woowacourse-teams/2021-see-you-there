@@ -1,0 +1,46 @@
+= Rest Docs API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+:default-path: build/generated-snippets/notice
+
+# 공지 불러오기
+
+## request
+include::{default-path}/notice-read/http-request.adoc[]
+
+## response
+include::{default-path}/notice-read/http-response.adoc[]
+
+# 공지 비활성화
+
+include::{default-path}/notice-inactive/http-request.adoc[]
+
+## response
+include::{default-path}/notice-inactive/http-response.adoc[]
+
+# 공지 수정하기
+
+include::{default-path}/notice-update/http-request.adoc[]
+
+## response
+include::{default-path}/notice-update/http-response.adoc[]
+
+# 관리자가 아닌 사람이 공지 비활성화 에러
+
+include::{default-path}/notice-inactive-exception/http-request.adoc[]
+
+## response
+include::{default-path}/notice-inactive-exception/http-response.adoc[]
+
+# 관리자가 아닌 사람이 공지 수정 에러
+
+include::{default-path}/notice-update-exception/http-request.adoc[]
+
+## response
+include::{default-path}/notice-update-exception/http-response.adoc[]

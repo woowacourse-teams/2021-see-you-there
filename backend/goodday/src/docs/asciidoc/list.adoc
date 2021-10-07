@@ -21,6 +21,8 @@ link:{default-path}/member[Member RestDocs]
 
 link:{default-path}/board[Board RestDocs]
 
+link:{default-path}/notice[Notice RestDocs]
+
 ## 개발 서버
 
 link:{dev-path}/locations[Locations RestDocs]
@@ -30,3 +32,5 @@ link:{dev-path}/paths[Paths RestDocs]
 link:{dev-path}/member[Member RestDocs]
 
 link:{dev-path}/board[Board RestDocs]
+
+link:{dev-path}/notice[Notice RestDocs]

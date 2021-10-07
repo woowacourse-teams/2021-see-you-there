@@ -1,8 +1,10 @@
 package seeuthere.goodday.location.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -104,7 +106,9 @@ public class LocationService {
     }
 
     public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest) {
+        // 모든 유저의 위치 정보
         Points points = Points.valueOf(locationsRequest);
+        // 후보 역들 리스트
         List<UtilityResponse> result = middleUtilityResponses(points);
 
         Map<Point, Map<Point, PathResult>> responsesFromPoint = getPointsToPath(points, result);
@@ -142,6 +146,7 @@ public class LocationService {
         List<UtilityResponse> utilityResponses) {
         Map<Point, Map<Point, PathResult>> responsesFromPoint = new HashMap<>();
 
+        // 여기까지 개선하기
         for (UtilityResponse response : utilityResponses) {
             calculateSource(points, responsesFromPoint, response);
         }
@@ -153,8 +158,16 @@ public class LocationService {
 
         final Point target = new Point(response.getX(), response.getY());
 
+        // redis 에서 있는 친구들 분리
+
+        // 남은 친구들 webClient 요청
+
+        // redis 저장
+
+        // 반환
+        String placeName = response.getPlaceName();
         List<PathTransferResult> pathTransferResults = calculatedPathTransferResults(points,
-            response, target);
+            placeName, target);
 
         for (PathTransferResult pathTransferResult : pathTransferResults) {
             Map<Point, PathResult> responses
@@ -165,19 +178,50 @@ public class LocationService {
     }
 
     private List<PathTransferResult> calculatedPathTransferResults(Points points,
-        UtilityResponse response, Point target) {
+        String placeName, Point target) {
+        // redis에 담긴 친구들
+        List<PathTransferResult> redisResults = new ArrayList<>();
+        // redis에 없는 친구들
+        List<Point> unCalculatePoints = points.getPointRegistry().stream()
+            .filter(source -> {
+                Optional<PathResult> pathResult = pathResultRedisRepository
+                    .findById(source.toString() + target);
+                if (pathResult.isPresent()) {
+                    redisResults.add(new PathTransferResult(source, target, pathResult.get()));
+                    return false;
+                }
+                return true;
+            }).collect(Collectors.toList());
+
+        List<PathTransferResult> pathResults = searchAndCachePath(new Points(unCalculatePoints), target,
+            placeName);
+        // point를 전부 보내서 결과를 한꺼번에 가져온다. - searchPath [v]
+        // 버스랑, 지하철 2개 가져와야 한다. - searchPath 내에서 bus & subway 따로 처리
+        // 버스 몽땅, 지하철 몽땅 가져오는건데
+        // 같은 친구를 찾아서 매핑 - bus출발&도착 - subway출발&도착 같은 것 끼리 비교해 짧은 거 가져와 collect
+        // redis에 save
+
         return points.getPointRegistry().parallelStream()
-            .map((source) -> new PathTransferResult(
+            .map(source -> new PathTransferResult(
                 source,
                 target,
                 pathResultRedisRepository.findById(source.toString() + target)
                     .orElseGet(
-                        () -> saveRedisCachePathResult(source, target, response.getPlaceName())))
+                        () -> cachePathResult(source, target, placeName)))
             )
             .collect(Collectors.toList());
     }
 
-    private PathResult saveRedisCachePathResult(Point source, Point target, String placeName) {
+    private List<PathTransferResult> searchAndCachePath(Points sourcePoints, Point target, String placeName) {
+        return sourcePoints.getPointRegistry().stream()
+            .map(source -> {
+                PathResult result = minPathResult(source, target, placeName);
+                pathResultRedisRepository.save(result);
+                return new PathTransferResult(source, target, result);
+            }).collect(Collectors.toList());
+    }
+
+    private PathResult cachePathResult(Point source, Point target, String placeName) {
         PathResult result = minPathResult(source, target, placeName);
         pathResultRedisRepository.save(result);
         return result;

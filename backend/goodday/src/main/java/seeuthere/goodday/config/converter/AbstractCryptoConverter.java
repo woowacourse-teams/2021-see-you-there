@@ -1,20 +1,19 @@
 package seeuthere.goodday.config.converter;
 
-import java.security.Key;
+import java.security.SecureRandom;
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public abstract class AbstractCryptoConverter {
 
-    protected static final String ALGORITHM = "AES/GCM/NoPadding";
-    protected static final int AES_KEY_SIZE = 256;
-    protected static final int TAG_LENGTH = 16 * 8;
-    protected static final String AES = "AES";
+    private static final String ALGORITHM = "AES/GCM/NoPadding";
+    private static final int TAG_LENGTH = 16 * 8;
+    private static final String AES = "AES";
 
-    protected final SecretKeySpec secretKeySpec;
-    protected final byte[] secretKey;
+    private final SecretKeySpec secretKeySpec;
+    private final byte[] secretKey;
+    private final byte[] IV = new byte[16];
 
     protected AbstractCryptoConverter(byte[] secretKey) {
         this.secretKey = secretKey;
@@ -23,10 +22,9 @@ public abstract class AbstractCryptoConverter {
 
     private SecretKeySpec initSpec() {
         try {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(AES);
-            keyGenerator.init(AES_KEY_SIZE);
-            Key key = keyGenerator.generateKey();
-            return new SecretKeySpec(key.getEncoded(), AES);
+            SecureRandom random = new SecureRandom();
+            random.nextBytes(IV);
+            return new SecretKeySpec(secretKey, AES);
         } catch (Exception e) {
             throw new ConverterException(e);
         }
@@ -35,7 +33,7 @@ public abstract class AbstractCryptoConverter {
     protected Cipher initCipher(int mode) {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
-            GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(TAG_LENGTH, secretKey);
+            GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(TAG_LENGTH, IV);
             cipher.init(mode, secretKeySpec, gcmParameterSpec);
             return cipher;
         } catch (Exception e) {

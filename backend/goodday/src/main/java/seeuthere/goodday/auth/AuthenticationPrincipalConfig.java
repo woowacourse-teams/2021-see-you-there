@@ -41,6 +41,7 @@ public class AuthenticationPrincipalConfig implements WebMvcConfigurer {
         registry.addInterceptor(new MemberInterceptor(jwtTokenProvider))
             .addPathPatterns("/api/members/**");
         registry.addInterceptor(new AdminInterceptor(authService, memberService))
-            .addPathPatterns("/api/boards/*/comments/**");
+            .addPathPatterns("/api/boards/*/comments/**")
+            .addPathPatterns("/api/notices/**");
     }
 }

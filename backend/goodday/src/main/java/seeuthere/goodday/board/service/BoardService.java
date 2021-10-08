@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seeuthere.goodday.board.dao.BoardRepository;
@@ -34,11 +36,12 @@ public class BoardService {
     @Transactional(readOnly = true)
     public List<Board> findAllWithPagination(int pageNumber, int size, BoardType boardType) {
         if (boardType.equals(BoardType.ALL)) {
-            Page<Board> boards = boardRepository.findAll(PageRequest.of(pageNumber - 1, size));
+            Page<Board> boards = boardRepository.findAll(PageRequest.of(pageNumber - 1, size,
+                Sort.by("id").descending()) );
             return boards.getContent();
         }
         Page<Board> boards = boardRepository.findByType(boardType,
-            PageRequest.of(pageNumber - 1, size));
+            PageRequest.of(pageNumber - 1, size, Sort.by("id").descending()));
         return boards.getContent();
     }
 

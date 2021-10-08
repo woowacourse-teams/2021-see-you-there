@@ -8,20 +8,20 @@ public class BoardRequest {
 
     private String title;
     private String content;
-    private BoardType label;
+    private BoardType type;
 
     public BoardRequest() {
 
     }
 
-    public BoardRequest(String title, String content, BoardType label) {
+    public BoardRequest(String title, String content, BoardType type) {
         this.title = title;
         this.content = content;
-        this.label = label;
+        this.type = type;
     }
 
     public Board toBoard(Member member) {
-        return new Board(title, content, label, member);
+        return new Board(title, content, type, member);
     }
 
     public String getTitle() {
@@ -32,7 +32,7 @@ public class BoardRequest {
         return content;
     }
 
-    public BoardType getLabel() {
-        return label;
+    public BoardType getType() {
+        return type;
     }
 }

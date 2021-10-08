@@ -487,7 +487,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
     }
 
     private void addComment(Board board) {
-        Comment comment = new Comment("수정전 답변입니다.", board, DataLoader.관리자하루);
+        Comment comment = new Comment("수정전 답변입니다.", board);
         boardService.addComment(board, comment);
     }
 }

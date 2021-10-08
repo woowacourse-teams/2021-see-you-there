@@ -22,7 +22,6 @@ import seeuthere.goodday.board.dto.request.BoardRequest;
 import seeuthere.goodday.board.dto.request.CommentRequest;
 import seeuthere.goodday.board.dto.response.BoardResponse;
 import seeuthere.goodday.board.service.BoardService;
-import seeuthere.goodday.member.domain.Admin;
 import seeuthere.goodday.member.domain.Member;
 import seeuthere.goodday.member.service.MemberService;
 
@@ -85,12 +84,10 @@ public class BoardController {
 
     @PostMapping("/{id}/comments")
     public ResponseEntity<Void> createComment(@PathVariable Long id,
-        @EnableAuth String memberId, @RequestBody CommentRequest commentRequest)
+        @RequestBody CommentRequest commentRequest)
         throws URISyntaxException {
-        Member member = memberService.find(memberId);
-        Admin admin = memberService.findAdminByMember(member);
         Board board = boardService.findBoardById(id);
-        Comment comment = commentRequest.toComment(board, admin);
+        Comment comment = commentRequest.toComment(board);
         boardService.addComment(board, comment);
 
         return ResponseEntity.created(new URI("/api/boards/" + id)).build();
@@ -98,10 +95,8 @@ public class BoardController {
 
     @PutMapping("/{id}/comments")
     public ResponseEntity<Void> updateComment(@PathVariable Long id,
-        @EnableAuth String memberId, @RequestBody CommentRequest commentRequest) {
-        Member member = memberService.find(memberId);
-        Admin admin = memberService.findAdminByMember(member);
-        boardService.updateComment(id, commentRequest.getContent(), admin);
+        @RequestBody CommentRequest commentRequest) {
+        boardService.updateComment(id, commentRequest.getContent());
         return ResponseEntity.ok().build();
     }
 

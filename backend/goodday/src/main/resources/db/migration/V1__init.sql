@@ -41,5 +41,3 @@ CREATE TABLE `request_friend` (
                                   CONSTRAINT `FKe4wpf34ktqky2h177ps55ye75` FOREIGN KEY (`receiver_id`) REFERENCES `member` (`member_id`),
                                   CONSTRAINT `FKerphlw4he37imviqg9gox9upq` FOREIGN KEY (`requester_id`) REFERENCES `member` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-

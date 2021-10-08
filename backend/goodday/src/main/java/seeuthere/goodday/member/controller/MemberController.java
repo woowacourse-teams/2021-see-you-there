@@ -71,6 +71,4 @@ public class MemberController {
         memberService.deleteAddress(id, request);
         return ResponseEntity.noContent().build();
     }
-
-
 }

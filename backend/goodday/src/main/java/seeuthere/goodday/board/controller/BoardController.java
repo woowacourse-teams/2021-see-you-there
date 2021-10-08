@@ -106,12 +106,8 @@ public class BoardController {
     }
 
     @DeleteMapping("/{id}/comments")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long id,
-        @EnableAuth String memberId) {
-        Member member = memberService.find(memberId);
-        memberService.findAdminByMember(member);
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         boardService.deleteComment(id);
-
         return ResponseEntity.noContent().build();
     }
 }

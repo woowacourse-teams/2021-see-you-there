@@ -15,8 +15,8 @@ public class CommentRequest {
         this.content = content;
     }
 
-    public Comment toComment(Board board, Admin admin) {
-        return new Comment(content, board, admin);
+    public Comment toComment(Board board) {
+        return new Comment(content, board);
     }
 
     public String getContent() {

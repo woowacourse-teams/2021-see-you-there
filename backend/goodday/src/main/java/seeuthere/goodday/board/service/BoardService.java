@@ -81,11 +81,11 @@ public class BoardService {
     }
 
     @Transactional
-    public void updateComment(long boardId, String content, Admin admin) {
+    public void updateComment(long boardId, String content) {
         Board board = findBoardById(boardId);
         Comment comment = board.getComment();
         commentExistValidate(comment);
-        comment.update(content, admin);
+        comment.update(content);
     }
 
     @Transactional

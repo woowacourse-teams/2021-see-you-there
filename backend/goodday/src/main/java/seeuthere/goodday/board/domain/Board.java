@@ -3,6 +3,7 @@ package seeuthere.goodday.board.domain;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -33,9 +34,11 @@ public class Board {
     @UpdateTimestamp
     private LocalDateTime updateTime;
 
+    @Column(nullable = false)
     private String title;
 
     @Lob
+    @Column(nullable = false)
     private String content;
 
     @Enumerated(value = EnumType.STRING)

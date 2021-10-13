@@ -1,4 +1,4 @@
-import { getAvatarKey } from '../utils';
+import { getAvatarId } from '../utils';
 import { avatar } from '../assets';
 
 export const MOCK_PARTICIPANT_LIST = [
@@ -88,25 +88,25 @@ export const MOCK_FRIEND_LIST = [
   {
     memberId: '365kim',
     nickname: '365kim',
-    profileImage: avatar[getAvatarKey()],
+    profileImage: avatar[getAvatarId()],
     addresses: [],
   },
   {
     memberId: '0imbean0',
     nickname: '임심바',
-    profileImage: avatar[getAvatarKey()],
+    profileImage: avatar[getAvatarId()],
     addresses: [],
   },
   {
     memberId: 'daum7766',
     nickname: '김멍토',
-    profileImage: avatar[getAvatarKey()],
+    profileImage: avatar[getAvatarId()],
     addresses: [],
   },
   {
     memberId: 'hybeom0720',
     nickname: '와이빛',
-    profileImage: avatar[getAvatarKey()],
+    profileImage: avatar[getAvatarId()],
     addresses: [],
   },
 ];

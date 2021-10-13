@@ -236,25 +236,6 @@ export const ParticipantChip = styled.button`
   }
 `;
 
-export const Avatar = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-
-  border-radius: 50%;
-  background-color: ${COLOR.BACKGROUND};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border: 2px solid ${(props) => (props.isSelected ? COLOR.PRIMARY : 'transparent')};
-
-  & > img {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-  }
-`;
-
 export const Name = styled.span`
   margin-top: 0.625rem;
 

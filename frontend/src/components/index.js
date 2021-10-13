@@ -1,4 +1,5 @@
 export { Animation } from './atoms/Animation';
+export { Avatar } from './atoms/Avatar';
 export { ButtonRound } from './atoms/ButtonRound';
 export { ButtonSquare } from './atoms/ButtonSquare';
 export { Icon } from './atoms/Icon';

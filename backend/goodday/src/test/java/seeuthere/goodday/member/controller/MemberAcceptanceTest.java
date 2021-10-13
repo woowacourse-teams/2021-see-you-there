@@ -227,7 +227,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         String path = FRIEND_API_PATH + "/request";
         String randomMemberId = memberService.createRandomMemberId();
         ProfileResponse profileResponse = new ProfileResponse(randomMemberId, randomMemberId,
-            "프렌드닉네임",  "testProfileImage");
+            "프렌드닉네임",  "testProfileImage", false);
         Member friendMember = memberService.add(profileResponse);
 
         FriendRequest request = new FriendRequest(friendMember.getMemberId());
@@ -291,7 +291,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
         String randomMemberId = memberService.createRandomMemberId();
         ProfileResponse profileResponse = new ProfileResponse(randomMemberId, randomMemberId,
             "테스트닉네임",
-            "testProfileImage");
+            "testProfileImage", false);
         return memberService.add(profileResponse);
     }
 
@@ -309,7 +309,7 @@ class MemberAcceptanceTest extends AcceptanceTest {
     private Member createRequestFriend() {
         String randomMemberId = memberService.createRandomMemberId();
         ProfileResponse profileResponse = new ProfileResponse(randomMemberId, randomMemberId,
-            "프렌드닉네임",  "testProfileImage");
+            "프렌드닉네임",  "testProfileImage", false);
         Member friendMember = memberService.add(profileResponse);
 
         FriendRequest request = new FriendRequest(friendMember.getMemberId());

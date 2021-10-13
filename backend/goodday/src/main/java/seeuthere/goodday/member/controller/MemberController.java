@@ -35,7 +35,7 @@ public class MemberController {
         Member member = memberService.find(id);
         return ResponseEntity.ok()
             .body(new ProfileResponse(member.getId(), member.getMemberId(), member.getNickname(),
-                member.getProfileImage()));
+                member.getProfileImage(), memberService.isAdmin(id)));
     }
 
     @PutMapping

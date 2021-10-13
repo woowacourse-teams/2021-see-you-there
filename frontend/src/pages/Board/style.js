@@ -117,16 +117,16 @@ export const ListItem = styled.li`
   & > a {
     display: flex;
     align-items: center;
-    padding: 2.5rem 2rem;
     gap: 1.75rem;
+    padding: 2.5rem 2rem;
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     & > a {
       flex-direction: column;
       align-items: flex-start;
-      padding: 1.5rem 0.5rem;
       gap: 0.5rem;
+      padding: 1.5rem 0.5rem;
     }
   }
 `;
@@ -253,10 +253,10 @@ export const ArticleBody = styled.section`
     min-height: 12rem;
 
     line-height: 3;
-    white-space: normal;
+    white-space: pre-wrap;
   }
 
-  & > form {
+  /* & > form {
     display: ${(props) => (props.isEditing ? 'block' : 'none')};
     position: absolute;
     top: 0;
@@ -267,7 +267,7 @@ export const ArticleBody = styled.section`
     & > textarea {
       line-height: 2.9;
       white-space: normal;
-    }
+    } */
   }
 `;
 
@@ -346,8 +346,8 @@ export const Divider = styled.hr`
   margin: 0.5rem 0;
 `;
 
-/* ArticleNew.js */
-export const ArticleNewForm = styled.form`
+/* ArticleForm.js */
+export const Form = styled.form`
   ${styleWidth.board};
 
   display: flex;
@@ -385,7 +385,7 @@ export const ArticleTypeSelector = styled.div`
   }
 `;
 
-export const ArticleFormLabel = styled.label`
+export const FormLabel = styled.label`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -413,6 +413,7 @@ export const ArticleFormLabel = styled.label`
   }
 
   > textarea {
+    line-height: 2;
     height: 12rem;
   }
 `;

@@ -31,10 +31,13 @@ export const API_URL = {
   FRIEND_RECEIVE_LIST: `${API_END_POINT}/members/friends/receiveList`,
   FRIEND_SEARCH: (keyword) => `${API_END_POINT}/members/friends/search?searchWord=${keyword}`,
 
-  ARTICLE: (id) => `${API_END_POINT}/boards/${id}`,
+  ARTICLE: `${API_END_POINT}/boards`,
+  ARTICLE_BY_ID: (id) => `${API_END_POINT}/boards/${id}`,
   ARTICLE_LIST: (size, pageNumber) => `${API_END_POINT}/boards?size=${size}&pageNumber=${pageNumber}`,
   ARTICLE_LIST_FILTERED: (size, pageNumber, type) =>
     `${API_END_POINT}/boards?size=${size}&pageNumber=${pageNumber}&type=${type}`,
+
+  COMMENT: (articleId) => `${API_END_POINT}/boards/${articleId}/comments`,
 };
 
 export const QUERY_KEY = {

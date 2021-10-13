@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useRouteMatch } from 'react-router-dom';
 
-import { useBoard } from '../../hooks';
 import { Icon, LinkRound } from '../../components';
 import {
   ContentArea,
@@ -24,10 +23,10 @@ import {
 } from './style';
 import { storage, throttle } from '../../utils';
 import { ARTICLE, STORAGE_KEY } from '../../constants';
+import { BoardContext } from '../../contexts';
 
-export const ArticleList = (props) => {
-  const { board } = props;
-  const { totalArticleList, fetchNextPage, hasNextPage, isFetchingNextPage } = board;
+export const ArticleList = () => {
+  const { totalArticleList, fetchNextPage, hasNextPage, isFetchingNextPage } = useContext(BoardContext);
   const { url } = useRouteMatch();
 
   const contentAreaRef = useRef(null);

@@ -1,32 +1,41 @@
 import React from 'react';
-import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import { Switch, useRouteMatch } from 'react-router-dom';
 
-import { useBoard } from '../../hooks';
 import { ArticleList } from './ArticleList';
 import { ArticleView } from './ArticleView';
-import { ArticleNew } from './ArticleNew';
+import { ArticleForm } from './ArticleForm';
+import { RouteWithVisitLogging } from '../../components';
+import { BoardContextProvider } from '../../contexts';
 
+const MIN_ARTICLE_COUNT_PER_PAGE = 3;
 const HEADER_HEIGHT = 280;
 const CARD_HEIGHT = 120;
 
 const BoardPage = () => {
   const { path } = useRouteMatch();
-  const articleCountPerPage = Math.floor(((window.innerHeight - HEADER_HEIGHT) / CARD_HEIGHT) * 2);
-  const board = useBoard({ articleCountPerPage });
+  const articleCountPerPage = Math.max(
+    MIN_ARTICLE_COUNT_PER_PAGE,
+    Math.floor(((window.innerHeight - HEADER_HEIGHT) / CARD_HEIGHT) * 2)
+  );
 
   return (
     <main>
-      <Switch>
-        <Route exact path={path}>
-          <ArticleList board={board} />
-        </Route>
-        <Route exact path={`${path}/new`}>
-          <ArticleNew />
-        </Route>
-        <Route path={`${path}/:articleId`}>
-          <ArticleView />
-        </Route>
-      </Switch>
+      <BoardContextProvider articleCountPerPage={articleCountPerPage}>
+        <Switch>
+          <RouteWithVisitLogging exact path={path}>
+            <ArticleList />
+          </RouteWithVisitLogging>
+          <RouteWithVisitLogging exact path={`${path}/new`}>
+            <ArticleForm />
+          </RouteWithVisitLogging>
+          <RouteWithVisitLogging exact path={`${path}/:articleId/edit`}>
+            <ArticleForm />
+          </RouteWithVisitLogging>
+          <RouteWithVisitLogging path={`${path}/:articleId`}>
+            <ArticleView />
+          </RouteWithVisitLogging>
+        </Switch>
+      </BoardContextProvider>
     </main>
   );
 };

@@ -5,11 +5,11 @@ import { Container, Input, CheckMark } from './style';
 import { COLOR } from '../../../constants';
 
 export const InputRadio = (props) => {
-  const { isChecked, value, name, color, onChange } = props;
+  const { isChecked, value, name, color, onChange, ...rest } = props;
 
   return (
     <Container color={color}>
-      <Input type="radio" name={name} value={value} checked={isChecked} color={color} onChange={onChange} />
+      <Input type="radio" name={name} value={value} checked={isChecked} color={color} onChange={onChange} {...rest} />
       <CheckMark />
     </Container>
   );

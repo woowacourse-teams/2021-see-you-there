@@ -73,9 +73,9 @@ export const App = () => {
                   <AuthRoute path={ROUTE.FRIEND.PATH}>
                     <FriendPage />
                   </AuthRoute>
-                  <RouteWithVisitLogging path={ROUTE.BOARD.PATH}>
+                  <AuthRoute path={ROUTE.BOARD.PATH}>
                     <BoardPage />
-                  </RouteWithVisitLogging>
+                  </AuthRoute>
 
                   <RouteWithVisitLogging exact path={ROUTE.LOGIN.PATH}>
                     <LoginPage />

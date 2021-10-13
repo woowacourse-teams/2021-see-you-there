@@ -1,9 +1,12 @@
 package seeuthere.goodday.path.service;
 
+import java.util.List;
 import java.util.Objects;
 import org.springframework.stereotype.Service;
 import seeuthere.goodday.location.config.Requesters;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.location.temp.PathData;
+import seeuthere.goodday.location.temp.Temp;
 import seeuthere.goodday.path.domain.Paths;
 import seeuthere.goodday.path.domain.PointWithName;
 import seeuthere.goodday.path.domain.TransportCache;
@@ -98,5 +101,14 @@ public class PathService {
 
     private String redisId(Station startStation, Station endStation) {
         return "subway:" + startStation + endStation;
+    }
+
+    // todo - findPaths로 추상화할지 정하기
+    public List<PathData> findSubwayPaths(List<Temp> temps) {
+        return transportRequester.pathsByTransport(temps, TransportURL.SUBWAY);
+    }
+
+    public List<PathData> findBusPaths(List<Temp> temps) {
+        return transportRequester.pathsByTransport(temps, TransportURL.BUS);
     }
 }

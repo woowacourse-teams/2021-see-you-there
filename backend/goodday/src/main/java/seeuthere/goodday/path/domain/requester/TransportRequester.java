@@ -1,10 +1,16 @@
 package seeuthere.goodday.path.domain.requester;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.location.temp.PathData;
+import seeuthere.goodday.location.temp.Temp;
+import seeuthere.goodday.location.temp.UtilityParser;
 import seeuthere.goodday.path.dto.api.response.APITransportResponse;
 import seeuthere.goodday.path.exception.PathExceptionSet;
 import seeuthere.goodday.path.util.TransportURL;
@@ -38,5 +44,28 @@ public class TransportRequester {
             .toStream()
             .findFirst()
             .orElseThrow(() -> new GoodDayException(PathExceptionSet.API_SERVER));
+    }
+
+    public List<PathData> pathsByTransport(List<Temp> temps, TransportURL transportURL) {
+        return temps.stream()
+            .map(temp -> {
+                Point nearbyStation = UtilityParser.parsePoint(temp);
+                Point targetPosition = temp.getDestination().getPoint();
+
+                Mono<APITransportResponse> apiTransportResponseMono = webClient.get()
+                    .uri(uriBuilder ->
+                        uriBuilder.path(transportURL.getUrl())
+                            .queryParam("ServiceKey", secretKey.getTransportApiKey())
+                            .queryParam("startX", nearbyStation.getX())
+                            .queryParam("startY", nearbyStation.getY())
+                            .queryParam("endX", targetPosition.getX())
+                            .queryParam("endY", targetPosition.getY())
+                            .build()
+                    )
+                    .accept(MediaType.APPLICATION_XML)
+                    .retrieve()
+                    .bodyToMono(APITransportResponse.class);
+                return new PathData(temp, apiTransportResponseMono);
+            }).collect(Collectors.toList());
     }
 }

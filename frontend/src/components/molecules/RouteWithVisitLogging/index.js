@@ -7,7 +7,7 @@ window.dataLayer = window.dataLayer || [];
 const gtag = (...params) => window.dataLayer.push(...params);
 
 gtag('js', new Date());
-gtag('config', 'G-BPV8LW9CRN');
+gtag('config', GTAG);
 
 export const RouteWithVisitLogging = (props) => {
   const { path, children, ...rest } = props;

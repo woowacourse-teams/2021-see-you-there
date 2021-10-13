@@ -5,7 +5,7 @@ import { ParticipantContext } from '../contexts';
 import { getId } from '../utils';
 import { LINK_SHARE_TEMPLATE_ID } from '../constants';
 
-const keys = ['name', 'x', 'y', 'addressName', 'avatar'];
+const keys = ['name', 'x', 'y', 'addressName', 'src', 'avatarId'];
 
 export const useShareLink = () => {
   const { participants } = useContext(ParticipantContext);
@@ -17,7 +17,7 @@ export const useShareLink = () => {
         keys.forEach((key) => acc[key].push(cur[key]));
         return acc;
       },
-      { name: [], x: [], y: [], addressName: [], avatar: [] }
+      { name: [], x: [], y: [], addressName: [], src: [], avatarId: [] }
     );
 
     Object.entries(searchObj).forEach(([key, value]) => params.set(key, value.join(',')));
@@ -27,14 +27,15 @@ export const useShareLink = () => {
 
   const getParticipants = (search) => {
     const params = new URLSearchParams(search);
-    const [names, xs, ys, addressNames, avatars] = keys.map((key) => params.get(key)?.split(','));
+    const [names, xs, ys, addressNames, srcs, avatarIds] = keys.map((key) => params.get(key)?.split(','));
     const participants = names.map((name, i) => ({
       id: getId(),
       name,
       x: Number(xs[i]),
       y: Number(ys[i]),
       addressName: addressNames[i],
-      avatar: avatars[i],
+      src: srcs?.[i],
+      avatarId: avatarIds?.[i],
     }));
 
     return participants;

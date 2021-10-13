@@ -107,42 +107,41 @@ public class LocationService {
 
     public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest) {
         // 모든 유저의 위치 정보
-        Points points = Points.valueOf(locationsRequest);
+        Points userStartPoints = Points.valueOf(locationsRequest);
         // 후보 역들 리스트
-        List<UtilityResponse> result = middleUtilityResponses(points);
+        List<UtilityResponse> candidateDestinations = middleUtilityResponses(userStartPoints);
 
-        Map<Point, Map<Point, PathResult>> responsesFromPoint = getPointsToPath(points, result);
-
-        StationGrades stationGrades = StationGrades.valueOf(points, result, responsesFromPoint);
+        Map<Point, Map<Point, PathResult>> responsesFromPoint = makePath(userStartPoints, candidateDestinations);
+        StationGrades stationGrades = StationGrades.valueOf(userStartPoints, candidateDestinations, responsesFromPoint);
 
         UtilityResponse finalResponse = stationGrades.finalUtilityResponse();
         return new MiddlePointResponse(finalResponse.getX(), finalResponse.getY());
     }
 
     private List<UtilityResponse> middleUtilityResponses(Points points) {
-        MiddlePoint middlePoint = MiddlePoint.valueOf(points);
-        List<UtilityResponse> utilityResponses = findSubway(middlePoint.getX(), middlePoint.getY());
+        MiddlePoint userMiddlePoint = MiddlePoint.valueOf(points);
+        List<UtilityResponse> candidateDestinations = findSubway(userMiddlePoint.getX(), userMiddlePoint.getY());
         Set<String> keys = weightStations.getKeys();
         for (String key : keys) {
-            insertMiddleUtilityResponse(utilityResponses, key);
+            insertWeight(candidateDestinations, key);
         }
 
         DuplicateStationRemover duplicateStationRemover = new DuplicateStationRemover(
-            utilityResponses);
+            candidateDestinations);
         return duplicateStationRemover.result();
     }
 
-    private void insertMiddleUtilityResponse(List<UtilityResponse> utilityResponses, String key) {
+    private void insertWeight(List<UtilityResponse> candidateDestinations, String key) {
         Point point = weightStations.get(key);
-        UtilityResponse utilityResponse = new UtilityResponse.Builder()
+        UtilityResponse weightedStationResponse = new UtilityResponse.Builder()
             .placeName(key)
             .x(point.getX())
             .y(point.getY())
             .build();
-        utilityResponses.add(utilityResponse);
+        candidateDestinations.add(weightedStationResponse);
     }
 
-    private Map<Point, Map<Point, PathResult>> getPointsToPath(Points points,
+    private Map<Point, Map<Point, PathResult>> makePath(Points points,
         List<UtilityResponse> utilityResponses) {
         Map<Point, Map<Point, PathResult>> responsesFromPoint = new HashMap<>();
 

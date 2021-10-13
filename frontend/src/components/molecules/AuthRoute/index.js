@@ -7,7 +7,7 @@ import { UserContext } from '../../../contexts';
 import { ROUTE } from '../../../constants';
 
 export const AuthRoute = (props) => {
-  const { path, children } = props;
+  const { path, children, ...rest } = props;
   const { isUserInfoLoading, isLogin } = useContext(UserContext);
 
   if (isUserInfoLoading) {
@@ -19,7 +19,7 @@ export const AuthRoute = (props) => {
   }
 
   return (
-    <RouteWithVisitLogging exact path={path}>
+    <RouteWithVisitLogging path={path} {...rest}>
       {isLogin ? children : <Redirect to={ROUTE.LOGIN.PATH} />}
     </RouteWithVisitLogging>
   );

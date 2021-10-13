@@ -21,3 +21,4 @@ export { MidpointLoader } from './molecules/MidpointLoader';
 export { Confirm } from './molecules/Confirm';
 export { ParticipantList } from './molecules/ParticipantList';
 export { Picture } from './molecules/Picture';
+export { RouteWithVisitLogging } from './molecules/RouteWithVisitLogging';

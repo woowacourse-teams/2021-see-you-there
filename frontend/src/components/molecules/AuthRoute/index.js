@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { Spinner } from '../../';
+import { RouteWithVisitLogging, Spinner } from '../../';
 import { UserContext } from '../../../contexts';
 import { ROUTE } from '../../../constants';
 
@@ -19,9 +19,9 @@ export const AuthRoute = (props) => {
   }
 
   return (
-    <Route exact path={path}>
+    <RouteWithVisitLogging exact path={path}>
       {isLogin ? children : <Redirect to={ROUTE.LOGIN.PATH} />}
-    </Route>
+    </RouteWithVisitLogging>
   );
 };
 

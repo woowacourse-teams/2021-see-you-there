@@ -40,7 +40,7 @@ public class KakaoAuthRequester {
         KakaoAccount kakaoAccount = kakaoResponse.getKakaoAccount();
         KakaoProfile kakaoProfile = kakaoAccount.getProfile();
         return new ProfileResponse(String.valueOf(kakaoResponse.getId()), memberId,
-            kakaoProfile.getNickname(), kakaoProfile.getThumbnailImageUrl(), false);
+            kakaoProfile.getNickname(), kakaoProfile.getThumbnailImageUrl());
     }
 
     public String kakaoAccessToken(String code) {

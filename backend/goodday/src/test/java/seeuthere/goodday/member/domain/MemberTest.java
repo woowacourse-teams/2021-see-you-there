@@ -52,7 +52,7 @@ class MemberTest {
     @DisplayName("첫 로그인시 멤버를 저장한다.")
     @Test
     void firstLoginSave() {
-        ProfileResponse profile = new ProfileResponse("12345", "abcd", "영범허", "imageLink", false);
+        ProfileResponse profile = new ProfileResponse("12345", "abcd", "영범허", "imageLink");
         Member member = memberService.add(profile);
         assertThat(memberService.find("12345")).isEqualTo(member);
     }
@@ -61,7 +61,7 @@ class MemberTest {
     @Test
     void alreadyMemberNotSave() {
         ProfileResponse profile = new ProfileResponse(와이비.getId(), "absscd", 와이비.getNickname(),
-            와이비.getProfileImage(), false);
+            와이비.getProfileImage());
         Member member = memberService.add(profile);
         assertThat(member.getMemberId()).isEqualTo(와이비.getMemberId());
     }

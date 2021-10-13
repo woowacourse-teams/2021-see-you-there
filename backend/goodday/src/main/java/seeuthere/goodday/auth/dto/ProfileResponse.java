@@ -13,11 +13,7 @@ public class ProfileResponse {
     }
 
     public ProfileResponse(String id, String memberId, String nickname, String profileImage) {
-        this.id = id;
-        this.memberId = memberId;
-        this.nickname = nickname;
-        this.profileImage = profileImage;
-        this.adminInfo = adminInfo;
+        this(id, memberId, nickname, profileImage, false);
     }
 
     public ProfileResponse(String id, String memberId, String nickname, String profileImage, boolean adminInfo) {

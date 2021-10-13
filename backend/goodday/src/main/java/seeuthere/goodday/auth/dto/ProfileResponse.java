@@ -6,16 +6,22 @@ public class ProfileResponse {
     private String memberId;
     private String nickname;
     private String profileImage;
+    private boolean adminInfo;
 
     public ProfileResponse() {
 
     }
 
     public ProfileResponse(String id, String memberId, String nickname, String profileImage) {
+        this(id, memberId, nickname, profileImage, false);
+    }
+
+    public ProfileResponse(String id, String memberId, String nickname, String profileImage, boolean adminInfo) {
         this.id = id;
         this.memberId = memberId;
         this.nickname = nickname;
         this.profileImage = profileImage;
+        this.adminInfo = adminInfo;
     }
 
     public String getId() {
@@ -32,5 +38,9 @@ public class ProfileResponse {
 
     public String getProfileImage() {
         return profileImage;
+    }
+
+    public boolean isAdminInfo() {
+        return adminInfo;
     }
 }

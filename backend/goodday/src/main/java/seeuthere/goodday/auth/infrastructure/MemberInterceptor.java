@@ -1,31 +1,18 @@
 package seeuthere.goodday.auth.infrastructure;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.servlet.HandlerInterceptor;
-import seeuthere.goodday.auth.service.AuthService;
-import seeuthere.goodday.exception.GoodDayException;
 
-public class MemberInterceptor implements HandlerInterceptor {
+public class MemberInterceptor extends AbstractInterceptor {
 
-    private final AuthService authService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public MemberInterceptor(AuthService authService) {
-        this.authService = authService;
+    public MemberInterceptor(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-        Object handler) {
-        try {
-            if ("OPTIONS".equals(request.getMethod())) {
-                return true;
-            }
-            String token = AuthorizationExtractor.extract(request);
-            authService.validate(token);
-            return true;
-        } catch (GoodDayException goodDayException) {
-            return false;
-        }
+    public boolean process(HttpServletRequest request) {
+        String token = AuthorizationExtractor.extract(request);
+        return jwtTokenProvider.validateToken(token);
     }
 }

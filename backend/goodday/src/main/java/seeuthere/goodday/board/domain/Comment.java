@@ -35,19 +35,13 @@ public class Comment {
     @JoinColumn(name = "BOARD_ID")
     private Board board;
 
-    @OneToOne
-    @JoinColumn(name = "ADMIN_ID")
-    private Admin admin;
-
     public Comment() {
-
     }
 
-    public Comment(String content, Board board, Admin admin) {
+    public Comment(String content, Board board) {
         validate(content);
         this.content = content;
         this.board = board;
-        this.admin = admin;
     }
 
     private void validate(String content) {
@@ -76,13 +70,8 @@ public class Comment {
         return board;
     }
 
-    public Admin getAdmin() {
-        return admin;
-    }
-
-    public void update(String content, Admin admin) {
+    public void update(String content) {
         validate(content);
         this.content = content;
-        this.admin = admin;
     }
 }

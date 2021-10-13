@@ -58,7 +58,7 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
-  const httpAuthRequest = async ({ method, url, body }) => {
+  const httpAuthRequest = async ({ method = 'get', url, body }) => {
     const response = await httpRequest[method](url, { token, body });
 
     if (response.status === 401) {

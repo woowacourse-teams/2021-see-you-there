@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { Spinner } from '../../';
+import { RouteWithVisitLogging, Spinner } from '../../';
 import { UserContext } from '../../../contexts';
 import { ROUTE } from '../../../constants';
 
 export const AuthRoute = (props) => {
-  const { path, children } = props;
+  const { path, children, ...rest } = props;
   const { isUserInfoLoading, isLogin } = useContext(UserContext);
 
   if (isUserInfoLoading) {
@@ -19,9 +19,9 @@ export const AuthRoute = (props) => {
   }
 
   return (
-    <Route exact path={path}>
+    <RouteWithVisitLogging path={path} {...rest}>
       {isLogin ? children : <Redirect to={ROUTE.LOGIN.PATH} />}
-    </Route>
+    </RouteWithVisitLogging>
   );
 };
 

@@ -116,10 +116,12 @@ class LocationAcceptanceTest extends AcceptanceTest {
         LocationsDto locations = new LocationsDto();
         locations.add(new Point(126.93103838968054, 37.488456683299155));
         locations.add(new Point(126.8951914712376, 37.48025238823605));
-
+        long beforeTime = System.currentTimeMillis();
         //when
         ExtractableResponse<Response> response = getPostResponse(path, locations);
-
+        long afterTime = System.currentTimeMillis();
+        long secDiffTime = (afterTime - beforeTime)/1000;
+        System.out.println("time : " + secDiffTime);
         //then
         validateResponse(response);
     }

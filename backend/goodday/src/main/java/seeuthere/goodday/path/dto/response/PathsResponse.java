@@ -2,6 +2,8 @@ package seeuthere.goodday.path.dto.response;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.location.temp.Temp;
 import seeuthere.goodday.path.domain.Paths;
 import seeuthere.goodday.path.dto.api.response.APIMsgBodyResponse;
 
@@ -31,10 +33,12 @@ public class PathsResponse {
         );
     }
 
-    public Paths toPaths() {
+    public Paths toPaths(Point startPoint, Point endPoint) {
         return new Paths(paths.stream()
             .map(PathResponse::toPath)
             .collect(Collectors.toList())
+            ,startPoint
+            ,endPoint
         );
     }
 

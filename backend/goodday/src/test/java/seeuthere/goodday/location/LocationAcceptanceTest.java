@@ -9,6 +9,7 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -118,8 +119,13 @@ class LocationAcceptanceTest extends AcceptanceTest {
         locations.add(new Point(126.8951914712376, 37.48025238823605));
 
         //when
+        long beforeTime = System.currentTimeMillis();
         ExtractableResponse<Response> response = getPostResponse(path, locations);
+        long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
 
+        long secDiffTime = (afterTime - beforeTime)/1000;
+        System.out.println("time : " + secDiffTime);
+        System.out.println(response.body().asString());
         //then
         validateResponse(response);
     }

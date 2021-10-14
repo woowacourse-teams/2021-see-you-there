@@ -4,7 +4,6 @@ import java.util.List;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.dto.api.response.APIUtilityDocument;
 import seeuthere.goodday.location.dto.api.response.APIUtilityResponse;
-import seeuthere.goodday.location.temp.Temp;
 
 public class UtilityParser {
 
@@ -18,7 +17,7 @@ public class UtilityParser {
 
         }
         APIUtilityDocument apiUtilityDocument = documents.get(0);
-        return new Point(apiUtilityDocument.getX(), apiUtilityDocument.getX());
+        return new Point(apiUtilityDocument.getX(), apiUtilityDocument.getY());
     }
 
 }

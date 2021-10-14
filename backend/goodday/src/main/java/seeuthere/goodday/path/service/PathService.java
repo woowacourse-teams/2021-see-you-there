@@ -41,7 +41,8 @@ public class PathService {
 
     private PathsResponse getPathsResponseWithWalk(PointWithName startPointWithName,
         PointWithName endPointWithName, PathsResponse pathsResponse) {
-        Paths paths = pathsResponse.toPaths();
+        Paths paths = pathsResponse.toPaths(startPointWithName.getPoint(),
+            endPointWithName.getPoint());
         Paths walkWithPaths = paths.pathsWithWalk(startPointWithName, endPointWithName);
         walkWithPaths.sort();
         return PathsResponse.valueOf(walkWithPaths);

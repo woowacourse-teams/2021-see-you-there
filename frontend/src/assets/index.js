@@ -15,6 +15,9 @@ export const avatar = { avatar1, avatar2, avatar3, avatar4, avatar5, avatar6, av
 import avatarWonder from './images/avatarWonder.png';
 export { avatarWonder };
 
+import avatarCry from './images/avatarCry.png';
+export { avatarCry };
+
 import home1 from './images/home1.png';
 import home2 from './images/home2.png';
 export { home1, home2 };

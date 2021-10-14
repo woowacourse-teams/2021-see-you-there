@@ -254,3 +254,73 @@ export const NoItem = styled.div`
     }
   }
 `;
+
+/* 공지사항 모달 */
+
+export const NoticeModalHeader = styled.div`
+  position: absolute;
+  top: -1px;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 2.5rem;
+
+  background-color: ${COLOR.PRIMARY};
+  border-radius: 0.25rem 0.25rem 0 0;
+
+  & img {
+    height: 20px;
+  }
+
+  & button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  & button path {
+    fill: ${COLOR.ON_PRIMARY};
+  }
+`;
+
+export const NoticeModalBody = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 3rem;
+
+  & img {
+    width: 4rem;
+  }
+
+  & h2 {
+    padding-top: 1.25rem;
+    padding-bottom: 2.5rem;
+  }
+
+  & p {
+    margin-bottom: 1rem;
+    width: 30rem;
+
+    line-height: 2;
+    text-align: center;
+    white-space: normal;
+    word-break: keep-all;
+    font-size: 0.9rem;
+
+    @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+      width: 16rem;
+    }
+  }
+
+  & a {
+    color: ${COLOR.PRIMARY_LIGHT};
+
+    &:hover {
+      color: ${COLOR.PRIMARY_DARK};
+    }
+  }
+`;

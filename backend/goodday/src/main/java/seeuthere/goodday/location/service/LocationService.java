@@ -138,16 +138,23 @@ public class LocationService {
         List<Paths> redisSubwayResults = new ArrayList<>();
         List<Paths> busResults = new ArrayList<>();
         List<Temp> uncachedResults = new ArrayList<>();
+        long beforeTime = System.currentTimeMillis();
 
         for (Temp temp : temps) {
             // 레디스에서 데이터 가져오기
+            APIUtilityDocument apiUtilityDocument = temp.getUserNearStation().block().getDocuments()
+                .get(0);
+            Point targetPoint = temp.getDestination().getPoint();
             Optional<TransportCache> optionalPathResult = subwayRedisRepository.findById(
-                "subway:" + temp.getUserNearStation().block() + temp.getDestination().getPoint());
+                "subway:" + new Point(apiUtilityDocument.getX(), apiUtilityDocument.getY()) + targetPoint);
             if (optionalPathResult.isPresent()) {
-                APITransportResponse apiTransportResponse = optionalPathResult.get()
+                APITransportResponse transportResponse = optionalPathResult.get()
                     .getApiTransportResponse();
-                PathsResponse pathsResponse = PathsResponse
-                    .valueOf(apiTransportResponse.getMsgBody());
+                if (Objects.isNull(transportResponse)) {
+                    continue;
+                }
+                PathsResponse pathsResponse = PathsResponse.valueOf(
+                    Objects.requireNonNull(transportResponse).getMsgBody());
 
                 // pathWithWalk
                 Point startPoint = temp.getUserPoint();
@@ -163,21 +170,32 @@ public class LocationService {
             }
             uncachedResults.add(temp);
         }
+        long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
+        long secDiffTime = (afterTime - beforeTime) / 1000;
+        System.out.println("레디스 가져오는데 걸린시간 : " + secDiffTime);
 
+        beforeTime = System.currentTimeMillis();
         // 지하철 남은거 가져오기
         List<PathData> subWayPathData = pathService.findSubwayPaths(uncachedResults);
 
         // 버스 전체 조회하기
         List<PathData> busPathData = pathService.findBusPaths(temps);
 
+        afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
+        secDiffTime = (afterTime - beforeTime) / 1000;
+        System.out.println("경로 가져오는데 걸린시간 : " + secDiffTime);
+
+        beforeTime = System.currentTimeMillis();
         // -> subway 를 PathResult 로 편집해서 redis에 저장하기
         for (PathData pathData : subWayPathData) {
             APITransportResponse transportResponse = pathData.getTransportResponseMono().block();
             Temp temp = pathData.getTemp();
 
             // 여기에서 캐싱해야함
+            APIUtilityDocument apiUtilityDocument = temp.getUserNearStation().block().getDocuments()
+                .get(0);
             TransportCache transportCache = new TransportCache(
-                "subway" + temp.getUserNearStation().block() + temp.getDestination().getPoint(),
+                "subway:" + new Point(apiUtilityDocument.getX(), apiUtilityDocument.getY()) + temp.getDestination().getPoint(),
                 transportResponse);
             subwayRedisRepository.save(transportCache);
 
@@ -194,7 +212,12 @@ public class LocationService {
             redisSubwayResults.add(walkWithPaths);
         }
 
+        afterTime = System.currentTimeMillis();
+        secDiffTime = (afterTime - beforeTime) / 1000;
+        System.out.println("지하철 분리 걸린 시간 : " + secDiffTime);
+
         // 버스 편집하기
+        beforeTime = System.currentTimeMillis();
         for (PathData pathData : busPathData) {
             APITransportResponse transportResponse = pathData.getTransportResponseMono().block();
             Temp temp = pathData.getTemp();
@@ -211,6 +234,10 @@ public class LocationService {
 
             busResults.add(walkWithPaths);
         }
+
+        afterTime = System.currentTimeMillis();
+        secDiffTime = (afterTime - beforeTime) / 1000;
+        System.out.println("버스 분리 걸린 시간 : " + secDiffTime);
 
         // 도착점이 같은 지하철과 버스 묶기
         // redisSubwayResult

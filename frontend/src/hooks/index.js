@@ -17,4 +17,5 @@ export { useMutateFriend } from './useMutateFriend';
 export { useMutateProfile } from './useMutateProfile';
 export { useMutateBoard } from './useMutateBoard';
 
+export { useNotice } from './useNotice';
 export { useShareLink } from './useShareLink';

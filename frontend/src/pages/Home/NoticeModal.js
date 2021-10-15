@@ -10,7 +10,7 @@ import { ROUTE } from '../../constants';
 import { logo, avatarCry } from '../../assets';
 
 export const NoticeModal = () => {
-  const { isOpenModal, openModal, closeModal } = useModal();
+  const { isModalOpen, openModal, closeModal } = useModal();
   const history = useHistory();
   const title = '수리중';
   const content = `현재 교통 정보를 가져오는 공공 API 서버가 동작하지 않아, 중간지점 추천 기능이 원활하게 동작하지 않습니다.
@@ -23,27 +23,25 @@ export const NoticeModal = () => {
   }, []);
 
   return (
-    <>
-      {isOpenModal && (
-        <Modal escape={closeModal}>
-          <NoticeModalHeader>
-            <img src={logo} />
-            <button onClick={closeModal}>
-              <Icon.Close />
-            </button>
-          </NoticeModalHeader>
+    isModalOpen && (
+      <Modal escape={closeModal}>
+        <NoticeModalHeader>
+          <img src={logo} />
+          <button onClick={closeModal}>
+            <Icon.Close />
+          </button>
+        </NoticeModalHeader>
 
-          <NoticeModalBody>
-            <img src={avatarCry} />
-            <h2>{title}</h2>
-            <p>{content}</p>
-            <p>
-              기타 문의사항은 로그인 후 <a onClick={() => history.push(ROUTE.BOARD.PATH)}>문의 게시판</a>을 활용해주세요
-              :)
-            </p>
-          </NoticeModalBody>
-        </Modal>
-      )}
-    </>
+        <NoticeModalBody>
+          <img src={avatarCry} />
+          <h2>{title}</h2>
+          <p>{content}</p>
+          <p>
+            기타 문의사항은 로그인 후 <a onClick={() => history.push(ROUTE.BOARD.PATH)}>문의 게시판</a>을 활용해주세요
+            :)
+          </p>
+        </NoticeModalBody>
+      </Modal>
+    )
   );
 };

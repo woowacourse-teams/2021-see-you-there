@@ -38,6 +38,8 @@ export const API_URL = {
     `${API_END_POINT}/boards?size=${size}&pageNumber=${pageNumber}&type=${type}`,
 
   COMMENT: (articleId) => `${API_END_POINT}/boards/${articleId}/comments`,
+
+  NOTICE: `${API_END_POINT}/notices`,
 };
 
 export const QUERY_KEY = {
@@ -63,6 +65,7 @@ export const QUERY_KEY = {
 
   ARTICLE: '관리자 게시물',
   ARTICLE_LIST: '관리자 게시판',
+  NOTICE: '공지사항',
 };
 
 export const STATUS = {

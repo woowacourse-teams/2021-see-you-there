@@ -158,9 +158,10 @@ export const TIPS = [
 export const POBI_POINT = { x: 127.10296, y: 37.515403, name: '어디서 만나?', tag: '포비 💙' };
 
 export const STORAGE_KEY = {
-  TOKEN: 'token',
+  TOKEN: 'tk',
   PARTICIPANT: 'p',
   SCROLL: 'scr',
+  NOTICE: 'nt',
 };
 
 export const ARTICLE = {

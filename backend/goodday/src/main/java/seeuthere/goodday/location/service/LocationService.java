@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Vector;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -29,7 +30,6 @@ import seeuthere.goodday.location.dto.response.LocationResponse;
 import seeuthere.goodday.location.dto.response.MiddlePointResponse;
 import seeuthere.goodday.location.dto.response.SpecificLocationResponse;
 import seeuthere.goodday.location.dto.response.UtilityResponse;
-import seeuthere.goodday.location.repository.PathResultRedisRepository;
 import seeuthere.goodday.location.temp.PathData;
 import seeuthere.goodday.location.temp.StationPoint;
 import seeuthere.goodday.location.temp.Temp;
@@ -37,9 +37,9 @@ import seeuthere.goodday.location.util.LocationCategory;
 import seeuthere.goodday.path.domain.Path;
 import seeuthere.goodday.path.domain.Paths;
 import seeuthere.goodday.path.domain.PointWithName;
-import seeuthere.goodday.path.domain.Route;
 import seeuthere.goodday.path.domain.TransportCache;
 import seeuthere.goodday.path.dto.api.response.APITransportResponse;
+import seeuthere.goodday.path.dto.response.PathsRedisDto;
 import seeuthere.goodday.path.dto.response.PathsResponse;
 import seeuthere.goodday.path.repository.SubwayRedisRepository;
 import seeuthere.goodday.path.service.PathService;
@@ -49,18 +49,15 @@ public class LocationService {
 
     private final Requesters requesters;
     private final PathService pathService;
-    private final PathResultRedisRepository pathResultRedisRepository;
     private final SubwayRedisRepository subwayRedisRepository;
     private final WeightStations weightStations;
 
     public LocationService(Requesters requesters,
         PathService pathService,
-        PathResultRedisRepository pathResultRedisRepository,
         SubwayRedisRepository subwayRedisRepository,
         WeightStations weightStations) {
         this.requesters = requesters;
         this.pathService = pathService;
-        this.pathResultRedisRepository = pathResultRedisRepository;
         this.subwayRedisRepository = subwayRedisRepository;
         this.weightStations = weightStations;
     }
@@ -136,27 +133,76 @@ public class LocationService {
 
         // 지하철 캐싱된 데이터 찾기
         List<Paths> redisSubwayResults = new ArrayList<>();
-        List<Paths> busResults = new ArrayList<>();
-        List<Temp> uncachedResults = new ArrayList<>();
-        long beforeTime = System.currentTimeMillis();
 
-        for (Temp temp : temps) {
-            // 레디스에서 데이터 가져오기
-            APIUtilityDocument apiUtilityDocument = temp.getUserNearStation().block().getDocuments()
-                .get(0);
-            Point targetPoint = temp.getDestination().getPoint();
-            Optional<TransportCache> optionalPathResult = subwayRedisRepository.findById(
-                "subway:" + new Point(apiUtilityDocument.getX(), apiUtilityDocument.getY()) + targetPoint);
-            if (optionalPathResult.isPresent()) {
-                APITransportResponse transportResponse = optionalPathResult.get()
-                    .getApiTransportResponse();
-                if (Objects.isNull(transportResponse)) {
-                    continue;
+        List<Temp> uncachedResults = temps.parallelStream()
+            .filter(temp -> {
+                APIUtilityDocument apiUtilityDocument = Objects.requireNonNull(
+                    temp.getUserNearStation().block()).getDocuments().get(0);
+                Point targetPoint = temp.getDestination().getPoint();
+                Optional<TransportCache> optionalPathResult = subwayRedisRepository.findById(
+                    "subway:" + new Point(apiUtilityDocument.getX(), apiUtilityDocument.getY()) + targetPoint);
+                if (optionalPathResult.isPresent()) {
+                    Paths paths = optionalPathResult.get().getPaths();
+
+                    // pathWithWalk
+                    Point startPoint = temp.getUserPoint();
+                    Point endPoint = temp.getDestination().getPoint();
+                    PointWithName startPointWithName = new PointWithName(startPoint, "출발점");
+                    PointWithName endPointWithName = new PointWithName(endPoint, "도착점");
+                    Paths walkWithPaths = paths.pathsWithWalk(startPointWithName, endPointWithName);
+                    walkWithPaths.sort();
+
+                    redisSubwayResults.add(walkWithPaths);
+                    return false;
                 }
+                return true;
+            }).collect(Collectors.toList());
+
+        // 지하철 남은거 가져오기
+        List<PathData> subWayPathData = pathService.findSubwayPaths(uncachedResults);
+
+        // 버스 전체 조회하기
+        List<PathData> busPathData = pathService.findBusPaths(temps);
+
+        List<Paths> pathsList = subWayPathData.parallelStream()
+            .map(pathData -> {
+                APITransportResponse transportResponse = pathData.getTransportResponseMono()
+                    .block();
+                Temp temp = pathData.getTemp();
+
                 PathsResponse pathsResponse = PathsResponse.valueOf(
                     Objects.requireNonNull(transportResponse).getMsgBody());
+                Point startPoint = temp.getUserPoint();
+                Point endPoint = temp.getDestination().getPoint();
+                Paths paths = pathsResponse.toPaths(startPoint, endPoint);
+                // 여기에서 캐싱해야함
+                APIUtilityDocument apiUtilityDocument = Objects
+                    .requireNonNull(temp.getUserNearStation().block()).getDocuments()
+                    .get(0);
+                TransportCache transportCache = new TransportCache(
+                    "subway:" + new Point(apiUtilityDocument.getX(), apiUtilityDocument.getY())
+                        + temp.getDestination().getPoint(),
+                    new PathsRedisDto(paths));
+                subwayRedisRepository.save(transportCache);
 
-                // pathWithWalk
+                // redisSubwayResults 에 합치기
+                PointWithName startPointWithName = new PointWithName(startPoint, "출발점");
+                PointWithName endPointWithName = new PointWithName(endPoint, "도착점");
+                Paths walkWithPaths = paths.pathsWithWalk(startPointWithName, endPointWithName);
+                walkWithPaths.sort();
+                return walkWithPaths;
+            })
+            .collect(Collectors.toList());
+        redisSubwayResults.addAll(pathsList);
+
+        List<Paths> busResults = busPathData.parallelStream()
+            .map(pathData -> {
+                APITransportResponse transportResponse = pathData.getTransportResponseMono()
+                    .block();
+                Temp temp = pathData.getTemp();
+
+                PathsResponse pathsResponse = PathsResponse.valueOf(
+                    Objects.requireNonNull(transportResponse).getMsgBody());
                 Point startPoint = temp.getUserPoint();
                 Point endPoint = temp.getDestination().getPoint();
                 Paths paths = pathsResponse.toPaths(startPoint, endPoint);
@@ -164,89 +210,13 @@ public class LocationService {
                 PointWithName endPointWithName = new PointWithName(endPoint, "도착점");
                 Paths walkWithPaths = paths.pathsWithWalk(startPointWithName, endPointWithName);
                 walkWithPaths.sort();
+                return walkWithPaths;
+            })
+            .collect(Collectors.toList());
 
-                redisSubwayResults.add(walkWithPaths);
-                continue;
-            }
-            uncachedResults.add(temp);
-        }
-        long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
-        long secDiffTime = (afterTime - beforeTime) / 1000;
-        System.out.println("레디스 가져오는데 걸린시간 : " + secDiffTime);
-
-        beforeTime = System.currentTimeMillis();
-        // 지하철 남은거 가져오기
-        List<PathData> subWayPathData = pathService.findSubwayPaths(uncachedResults);
-
-        // 버스 전체 조회하기
-        List<PathData> busPathData = pathService.findBusPaths(temps);
-
-        afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
-        secDiffTime = (afterTime - beforeTime) / 1000;
-        System.out.println("경로 가져오는데 걸린시간 : " + secDiffTime);
-
-        beforeTime = System.currentTimeMillis();
-        // -> subway 를 PathResult 로 편집해서 redis에 저장하기
-        for (PathData pathData : subWayPathData) {
-            APITransportResponse transportResponse = pathData.getTransportResponseMono().block();
-            Temp temp = pathData.getTemp();
-
-            // 여기에서 캐싱해야함
-            APIUtilityDocument apiUtilityDocument = temp.getUserNearStation().block().getDocuments()
-                .get(0);
-            TransportCache transportCache = new TransportCache(
-                "subway:" + new Point(apiUtilityDocument.getX(), apiUtilityDocument.getY()) + temp.getDestination().getPoint(),
-                transportResponse);
-            subwayRedisRepository.save(transportCache);
-
-            // redisSubwayResults 에 합치기
-            PathsResponse pathsResponse = PathsResponse.valueOf(
-                Objects.requireNonNull(transportResponse).getMsgBody());
-            Point startPoint = temp.getUserPoint();
-            Point endPoint = temp.getDestination().getPoint();
-            Paths paths = pathsResponse.toPaths(startPoint, endPoint);
-            PointWithName startPointWithName = new PointWithName(startPoint, "출발점");
-            PointWithName endPointWithName = new PointWithName(endPoint, "도착점");
-            Paths walkWithPaths = paths.pathsWithWalk(startPointWithName, endPointWithName);
-            walkWithPaths.sort();
-            redisSubwayResults.add(walkWithPaths);
-        }
-
-        afterTime = System.currentTimeMillis();
-        secDiffTime = (afterTime - beforeTime) / 1000;
-        System.out.println("지하철 분리 걸린 시간 : " + secDiffTime);
-
-        // 버스 편집하기
-        beforeTime = System.currentTimeMillis();
-        for (PathData pathData : busPathData) {
-            APITransportResponse transportResponse = pathData.getTransportResponseMono().block();
-            Temp temp = pathData.getTemp();
-
-            PathsResponse pathsResponse = PathsResponse.valueOf(
-                Objects.requireNonNull(transportResponse).getMsgBody());
-            Point startPoint = temp.getUserPoint();
-            Point endPoint = temp.getDestination().getPoint();
-            Paths paths = pathsResponse.toPaths(startPoint, endPoint);
-            PointWithName startPointWithName = new PointWithName(startPoint, "출발점");
-            PointWithName endPointWithName = new PointWithName(endPoint, "도착점");
-            Paths walkWithPaths = paths.pathsWithWalk(startPointWithName, endPointWithName);
-            walkWithPaths.sort();
-
-            busResults.add(walkWithPaths);
-        }
-
-        afterTime = System.currentTimeMillis();
-        secDiffTime = (afterTime - beforeTime) / 1000;
-        System.out.println("버스 분리 걸린 시간 : " + secDiffTime);
-
-        // 도착점이 같은 지하철과 버스 묶기
-        // redisSubwayResult
-        // -> <List>Path
-        // -> <List>Route 에서 첫번째 Route의 startX, startY and 마지막 Route endX, endY = 최단경로
         Map<Point, Map<Point, Path>> pathFromSourceToTarget = new HashMap<>();
-
         for (Paths paths : redisSubwayResults) {
-            Path path = paths.getPaths().get(0);
+            Path path = paths.getPathRegistry().get(0);
             Point startPoint = paths.getStartPoint();
             Point endPoint = paths.getEndPoint();
             Map<Point, Path> pointKeyValuePath = pathFromSourceToTarget
@@ -256,7 +226,7 @@ public class LocationService {
         }
 
         for (Paths paths : busResults) {
-            Path path = paths.getPaths().get(0);
+            Path path = paths.getPathRegistry().get(0);
             Point startPoint = paths.getStartPoint();
             Point endPoint = paths.getEndPoint();
 
@@ -272,22 +242,14 @@ public class LocationService {
             pathFromSourceToTarget.put(endPoint, pointKeyValuePath);
         }
         // 비용 계산하기
-            StationGrades stationGrades = StationGrades.valueOf(userStartPoints, candidateDestinations, pathFromSourceToTarget);
+        StationGrades stationGrades = StationGrades.valueOf(userStartPoints, candidateDestinations, pathFromSourceToTarget);
 
         // 정렬해서 제일 작은 친구 반환하기
         StationPoint terminalStationPoint = stationGrades.findStationPoint();
         Point terminalPoint = terminalStationPoint.getPoint();
 
         return new MiddlePointResponse(terminalPoint.getX(), terminalPoint.getY());
-
-
-//        Map<Point, Map<Point, PathResult>> responsesFromPoint = makePath(userStartPoints, candidateDestinations);
-//        StationGrades stationGrades = StationGrades.valueOf(userStartPoints, candidateDestinations, responsesFromPoint);
-//
-//        UtilityResponse finalResponse = stationGrades.finalUtilityResponse();
-//        return new MiddlePointResponse(finalResponse.getX(), finalResponse.getY());
-//        return null;
-        }
+    }
 
     private Path minPath(Path busPath, Path subwayPath) {
         if (busPath.getTime() < subwayPath.getTime()) {

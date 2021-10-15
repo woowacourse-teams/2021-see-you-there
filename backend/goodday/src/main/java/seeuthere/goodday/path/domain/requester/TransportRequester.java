@@ -47,7 +47,7 @@ public class TransportRequester {
     }
 
     public List<PathData> pathsByTransport(List<Temp> temps, TransportURL transportURL) {
-        return temps.stream()
+        return temps.parallelStream()
             .map(temp -> {
                 Point nearbyStation = UtilityParser.parsePoint(temp);
                 Point targetPosition = temp.getDestination().getPoint();

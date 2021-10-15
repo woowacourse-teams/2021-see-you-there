@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import seeuthere.goodday.location.domain.location.Point;
-import seeuthere.goodday.location.temp.Temp;
 
 public class Paths {
 
@@ -19,10 +18,6 @@ public class Paths {
         this.endPoint = endPoint;
     }
 
-    public List<Path> getPaths() {
-        return pathRegistry;
-    }
-
     public Paths pathsWithWalk(PointWithName startPointWithName, PointWithName endPointWithName) {
         if (pathRegistry.isEmpty()) {
             return onlyWalkPath(startPointWithName, endPointWithName);
@@ -34,6 +29,10 @@ public class Paths {
 
     public void sort() {
         Collections.sort(pathRegistry);
+    }
+
+    public List<Path> getPathRegistry() {
+        return pathRegistry;
     }
 
     private Paths onlyWalkPath(PointWithName startPointWithName, PointWithName endPointWithName) {

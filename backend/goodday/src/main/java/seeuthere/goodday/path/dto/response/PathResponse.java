@@ -7,10 +7,10 @@ import seeuthere.goodday.path.dto.api.response.APIItemListResponse;
 
 public class PathResponse {
 
-    private final List<RouteResponse> routes;
-    private final int distance;
-    private final int time;
-    private final int walkTime;
+    private List<RouteResponse> routes;
+    private int distance;
+    private int time;
+    private int walkTime;
 
     public PathResponse(List<RouteResponse> routes, int distance, int time, int walkTime) {
         this.routes = routes;

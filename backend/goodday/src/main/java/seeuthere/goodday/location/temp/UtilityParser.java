@@ -12,7 +12,6 @@ public class UtilityParser {
     public static Point parsePoint(Temp temp) {
         APIUtilityResponse utilityResponse = temp.getUserNearStation().block();
         List<APIUtilityDocument> documents = utilityResponse.getDocuments();
-        // todo - 비어있을때 예외처리
         if (documents.size() == 0) {
 
         }

@@ -1,7 +1,6 @@
 package seeuthere.goodday.path.service;
 
 import java.util.List;
-import java.util.Objects;
 import org.springframework.stereotype.Service;
 import seeuthere.goodday.location.config.Requesters;
 import seeuthere.goodday.location.domain.location.Point;
@@ -59,19 +58,20 @@ public class PathService {
             redisId(startStation, endStation))
             .orElseGet(() -> saveRedisCachePathsResponse(startStation, endStation));
 
-        APITransportResponse apiTransportResponse = validAPITransportResponse(transportCache);
-        PathsResponse pathsResponse = PathsResponse.valueOf(apiTransportResponse.getMsgBody());
+        Paths paths = transportCache.getPaths();
+        PathsResponse pathsResponse = PathsResponse.valueOf(paths);
 
         return getPathsResponseWithWalk(startPointWithName, endPointWithName, pathsResponse);
     }
 
-    private APITransportResponse validAPITransportResponse(TransportCache transportCache) {
-        APITransportResponse apiTransportResponse = transportCache.getApiTransportResponse();
-        if (Objects.isNull(apiTransportResponse)) {
-            apiTransportResponse = new APITransportResponse();
-        }
-        return apiTransportResponse;
-    }
+//    private APITransportResponse validAPITransportResponse(TransportCache transportCache) {
+//        Paths paths = transportCache.getPaths();
+//        APITransportResponse apiTransportResponse = transportCache.getApiTransportResponse();
+//        if (Objects.isNull(apiTransportResponse)) {
+//            apiTransportResponse = new APITransportResponse();
+//        }
+//        return apiTransportResponse;
+//    }
 
     public PathsResponse findTransferPath(PointWithName startPointWithName,
         PointWithName endPointWithName) {
@@ -88,8 +88,10 @@ public class PathService {
             startStation.getPoint(),
             endStation.getPoint(),
             TransportURL.SUBWAY);
+        PathsResponse pathsResponse = PathsResponse.valueOf(apiTransportResponse.getMsgBody());
+        Paths paths = pathsResponse.toPaths(startStation.getPoint(), endStation.getPoint());
         TransportCache transportCache = new TransportCache(redisId(startStation, endStation),
-            apiTransportResponse);
+            paths);
         subwayRedisRepository.save(transportCache);
         return transportCache;
     }

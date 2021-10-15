@@ -9,8 +9,8 @@ public class UtilityParser {
 
     private UtilityParser() {}
 
-    public static Point parsePoint(Temp temp) {
-        APIUtilityResponse utilityResponse = temp.getUserNearStation().block();
+    public static Point parsePoint(PathCandidate pathCandidate) {
+        APIUtilityResponse utilityResponse = pathCandidate.getUserNearStation().block();
         List<APIUtilityDocument> documents = utilityResponse.getDocuments();
         if (documents.size() == 0) {
 

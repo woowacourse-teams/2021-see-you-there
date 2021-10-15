@@ -1,16 +1,18 @@
 package seeuthere.goodday.location.temp;
 
+import java.util.Objects;
 import reactor.core.publisher.Mono;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.location.dto.api.response.APIUtilityDocument;
 import seeuthere.goodday.location.dto.api.response.APIUtilityResponse;
 
-public class Temp {
+public class PathCandidate {
 
     private final Point userPoint;
     private final Mono<APIUtilityResponse> userNearStation;
     private final StationPoint destination;
 
-    public Temp(Point userPoint,
+    public PathCandidate(Point userPoint,
         Mono<APIUtilityResponse> userNearStation,
         StationPoint destination) {
         this.userPoint = userPoint;
@@ -28,5 +30,9 @@ public class Temp {
 
     public StationPoint getDestination() {
         return destination;
+    }
+
+    public APIUtilityDocument apiUtilityDocument() {
+        return Objects.requireNonNull(userNearStation.block()).getDocuments().get(0);
     }
 }

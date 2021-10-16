@@ -1,9 +1,10 @@
-package seeuthere.goodday.path.domain;
+package seeuthere.goodday.path.domain.api;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.location.dto.PointWithName;
 
 public class Paths {
 

@@ -1,4 +1,4 @@
-package seeuthere.goodday.location.temp;
+package seeuthere.goodday.location.domain;
 
 import seeuthere.goodday.location.domain.location.Point;
 

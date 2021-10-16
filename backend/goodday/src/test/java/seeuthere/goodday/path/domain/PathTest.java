@@ -7,6 +7,9 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.location.dto.PointWithName;
+import seeuthere.goodday.path.domain.api.Path;
+import seeuthere.goodday.path.domain.api.Route;
 
 class PathTest {
 

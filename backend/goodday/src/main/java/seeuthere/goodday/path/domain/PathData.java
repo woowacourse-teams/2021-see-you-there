@@ -1,4 +1,4 @@
-package seeuthere.goodday.location.temp;
+package seeuthere.goodday.path.domain;
 
 import java.util.Objects;
 import reactor.core.publisher.Mono;

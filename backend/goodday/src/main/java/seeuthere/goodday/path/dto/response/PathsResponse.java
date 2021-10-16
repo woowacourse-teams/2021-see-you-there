@@ -3,7 +3,7 @@ package seeuthere.goodday.path.dto.response;
 import java.util.List;
 import java.util.stream.Collectors;
 import seeuthere.goodday.location.domain.location.Point;
-import seeuthere.goodday.path.domain.Paths;
+import seeuthere.goodday.path.domain.api.Paths;
 import seeuthere.goodday.path.dto.api.response.APIMsgBodyResponse;
 
 public class PathsResponse {

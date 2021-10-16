@@ -1,7 +1,8 @@
-package seeuthere.goodday.location.temp;
+package seeuthere.goodday.path.repository.support;
 
 import org.springframework.data.repository.CrudRepository;
-import seeuthere.goodday.path.domain.Paths;
+import seeuthere.goodday.path.domain.PathCandidate;
+import seeuthere.goodday.path.domain.api.Paths;
 import seeuthere.goodday.path.domain.TransportCache;
 
 @FunctionalInterface

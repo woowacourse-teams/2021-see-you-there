@@ -1,7 +1,8 @@
-package seeuthere.goodday.location.temp;
+package seeuthere.goodday.path.domain;
 
 import java.util.Objects;
 import reactor.core.publisher.Mono;
+import seeuthere.goodday.location.domain.StationPoint;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.dto.api.response.APIUtilityDocument;
 import seeuthere.goodday.location.dto.api.response.APIUtilityResponse;

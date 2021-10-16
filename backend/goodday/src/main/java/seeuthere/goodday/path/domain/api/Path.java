@@ -1,8 +1,9 @@
-package seeuthere.goodday.path.domain;
+package seeuthere.goodday.path.domain.api;
 
 import java.util.ArrayList;
 import java.util.List;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.location.dto.PointWithName;
 import seeuthere.goodday.path.domain.algorithm.Interval;
 
 public class Path implements Comparable<Path> {

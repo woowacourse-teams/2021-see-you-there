@@ -1,12 +1,13 @@
 package seeuthere.goodday.path.dto.response;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import seeuthere.goodday.location.domain.location.Point;
-import seeuthere.goodday.path.domain.Path;
-import seeuthere.goodday.path.domain.Paths;
+import seeuthere.goodday.path.domain.api.Path;
+import seeuthere.goodday.path.domain.api.Paths;
 
 public class PathsRedisDto {
 

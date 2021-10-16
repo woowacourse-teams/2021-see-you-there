@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.domain.location.Points;
-import seeuthere.goodday.location.temp.StationPoint;
-import seeuthere.goodday.path.domain.Path;
+import seeuthere.goodday.location.domain.StationPoint;
+import seeuthere.goodday.path.domain.api.Path;
 
 public class StationGrades {
 

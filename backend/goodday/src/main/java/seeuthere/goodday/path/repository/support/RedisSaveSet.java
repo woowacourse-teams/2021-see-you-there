@@ -1,4 +1,4 @@
-package seeuthere.goodday.location.temp;
+package seeuthere.goodday.path.repository.support;
 
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.dto.api.response.APIUtilityDocument;

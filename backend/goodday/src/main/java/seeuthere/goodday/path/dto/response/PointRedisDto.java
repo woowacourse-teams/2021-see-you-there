@@ -8,7 +8,6 @@ public class PointRedisDto {
     private double y;
 
     public PointRedisDto() {
-
     }
 
     public PointRedisDto(double x, double y) {

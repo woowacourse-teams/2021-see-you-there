@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import seeuthere.goodday.location.temp.StationPoint;
+import seeuthere.goodday.location.domain.StationPoint;
 
 public class DuplicateStationRemover {
 

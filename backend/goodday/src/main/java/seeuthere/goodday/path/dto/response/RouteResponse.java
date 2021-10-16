@@ -1,6 +1,6 @@
 package seeuthere.goodday.path.dto.response;
 
-import seeuthere.goodday.path.domain.Route;
+import seeuthere.goodday.path.domain.api.Route;
 import seeuthere.goodday.path.dto.api.response.APIPathListResponse;
 
 public class RouteResponse {

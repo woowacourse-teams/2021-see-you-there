@@ -37,6 +37,6 @@ public class NoticeService {
     }
 
     public List<Notice> findAll() {
-        return noticeRepository.findAllByActivation(true);
+        return noticeRepository.findAllByActive(true);
     }
 }

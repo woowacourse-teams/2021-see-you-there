@@ -1,4 +1,4 @@
-package seeuthere.goodday.path.domain;
+package seeuthere.goodday.path.domain.api;
 
 public class Route {
 

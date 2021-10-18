@@ -23,7 +23,8 @@ public class StationPoints {
 
     public static StationPoints valueOf(Points userStartPoints, WeightStations weightStations,
         Requesters requesters) {
-        List<StationPoint> stationPointRegistry = findMiddleStations(userStartPoints, weightStations, requesters);
+        List<StationPoint> stationPointRegistry = findMiddleStations(userStartPoints,
+            weightStations, requesters);
         return new StationPoints(stationPointRegistry);
     }
 

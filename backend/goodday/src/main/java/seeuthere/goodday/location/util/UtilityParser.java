@@ -9,7 +9,8 @@ import seeuthere.goodday.path.domain.PathCandidate;
 
 public class UtilityParser {
 
-    private UtilityParser() {}
+    private UtilityParser() {
+    }
 
     public static Point parsePoint(PathCandidate pathCandidate) {
         APIUtilityResponse utilityResponse = pathCandidate.getUserNearStation().block();

@@ -8,9 +8,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.location.util.UtilityParser;
 import seeuthere.goodday.path.domain.PathCandidate;
 import seeuthere.goodday.path.domain.PathData;
-import seeuthere.goodday.location.util.UtilityParser;
 import seeuthere.goodday.path.dto.api.response.APITransportResponse;
 import seeuthere.goodday.path.exception.PathExceptionSet;
 import seeuthere.goodday.path.util.TransportURL;
@@ -46,7 +46,8 @@ public class TransportRequester {
             .orElseThrow(() -> new GoodDayException(PathExceptionSet.API_SERVER));
     }
 
-    public List<PathData> pathsByTransport(List<PathCandidate> pathCandidates, TransportURL transportURL) {
+    public List<PathData> pathsByTransport(List<PathCandidate> pathCandidates,
+        TransportURL transportURL) {
         return pathCandidates.parallelStream()
             .map(temp -> {
                 Point nearbyStation = UtilityParser.parsePoint(temp);

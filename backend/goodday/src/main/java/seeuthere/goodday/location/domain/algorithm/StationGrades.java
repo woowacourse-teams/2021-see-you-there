@@ -3,9 +3,9 @@ package seeuthere.goodday.location.domain.algorithm;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import seeuthere.goodday.location.domain.StationPoint;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.domain.location.Points;
-import seeuthere.goodday.location.domain.StationPoint;
 import seeuthere.goodday.path.domain.api.Path;
 
 public class StationGrades {

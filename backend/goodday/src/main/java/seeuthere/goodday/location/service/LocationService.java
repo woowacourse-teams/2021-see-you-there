@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import seeuthere.goodday.location.config.Requesters;
+import seeuthere.goodday.location.domain.StationPoints;
+import seeuthere.goodday.location.domain.TerminalPoint;
 import seeuthere.goodday.location.domain.combiner.AxisKeywordCombiner;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.domain.location.Points;
@@ -24,20 +26,18 @@ import seeuthere.goodday.location.dto.response.LocationResponse;
 import seeuthere.goodday.location.dto.response.MiddlePointResponse;
 import seeuthere.goodday.location.dto.response.SpecificLocationResponse;
 import seeuthere.goodday.location.dto.response.UtilityResponse;
+import seeuthere.goodday.location.util.LocationCategory;
 import seeuthere.goodday.path.domain.CalibratedWalkPath;
 import seeuthere.goodday.path.domain.PathCandidate;
 import seeuthere.goodday.path.domain.PathCandidates;
 import seeuthere.goodday.path.domain.PathData;
-import seeuthere.goodday.path.repository.support.RedisSaveSet;
-import seeuthere.goodday.path.repository.support.RedisSaver;
-import seeuthere.goodday.location.domain.StationPoints;
-import seeuthere.goodday.location.domain.TerminalPoint;
-import seeuthere.goodday.location.util.LocationCategory;
-import seeuthere.goodday.path.domain.api.Paths;
 import seeuthere.goodday.path.domain.TransportCache;
+import seeuthere.goodday.path.domain.api.Paths;
 import seeuthere.goodday.path.dto.api.response.APITransportResponse;
 import seeuthere.goodday.path.dto.response.PathsResponse;
 import seeuthere.goodday.path.repository.TransportRedisRepository;
+import seeuthere.goodday.path.repository.support.RedisSaveSet;
+import seeuthere.goodday.path.repository.support.RedisSaver;
 import seeuthere.goodday.path.service.PathService;
 
 @Service
@@ -152,14 +152,17 @@ public class LocationService {
             .filter(pathCandidate -> {
                 Optional<TransportCache> optionalPathResult = findBySubwayId(
                     pathCandidate);
-                return isValidTransportCache(transportPathResults, pathCandidate, optionalPathResult);
+                return isValidTransportCache(transportPathResults, pathCandidate,
+                    optionalPathResult);
             }).collect(Collectors.toList());
     }
 
-    private boolean isValidTransportCache(List<Paths> transportPathResults, PathCandidate pathCandidate,
+    private boolean isValidTransportCache(List<Paths> transportPathResults,
+        PathCandidate pathCandidate,
         Optional<TransportCache> optionalPathResult) {
         if (optionalPathResult.isPresent()) {
-            insertTransportPathResult(transportPathResults, pathCandidate, optionalPathResult.get());
+            insertTransportPathResult(transportPathResults, pathCandidate,
+                optionalPathResult.get());
             return false;
         }
         return true;
@@ -177,7 +180,8 @@ public class LocationService {
             + targetPoint;
     }
 
-    private void insertTransportPathResult(List<Paths> transportPathResults, PathCandidate pathCandidate,
+    private void insertTransportPathResult(List<Paths> transportPathResults,
+        PathCandidate pathCandidate,
         TransportCache optionalPathResult) {
         Paths paths = optionalPathResult.getPaths();
 

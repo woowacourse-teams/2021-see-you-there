@@ -1,6 +1,5 @@
 package seeuthere.goodday.path.dto.response;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +36,7 @@ public class PathsRedisDto {
         if (Objects.isNull(pathRegistry)) {
             pathRegistry = new ArrayList<>();
         }
-        List <Path> pathRegistry = this.pathRegistry.stream()
+        List<Path> pathRegistry = this.pathRegistry.stream()
             .map(PathResponse::toPath)
             .collect(Collectors.toList());
         Point startOriginalPoint = this.startPoint.toPoint();

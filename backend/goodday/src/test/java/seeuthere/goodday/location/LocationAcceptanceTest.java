@@ -118,13 +118,8 @@ class LocationAcceptanceTest extends AcceptanceTest {
         locations.add(new Point(126.8951914712376, 37.48025238823605));
 
         //when
-        long beforeTime = System.currentTimeMillis();
         ExtractableResponse<Response> response = getPostResponse(path, locations);
-        long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
 
-        long secDiffTime = (afterTime - beforeTime)/1000;
-        System.out.println("time : " + secDiffTime);
-        System.out.println(response.body().asString());
         //then
         validateResponse(response);
     }

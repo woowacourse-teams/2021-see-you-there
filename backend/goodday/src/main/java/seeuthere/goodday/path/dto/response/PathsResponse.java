@@ -36,8 +36,8 @@ public class PathsResponse {
         return new Paths(paths.stream()
             .map(PathResponse::toPath)
             .collect(Collectors.toList())
-            ,startPoint
-            ,endPoint
+            , startPoint
+            , endPoint
         );
     }
 

@@ -9,8 +9,6 @@ import { storage } from '../../utils';
 import { ROUTE, STORAGE_KEY } from '../../constants';
 import { logo, avatarCry } from '../../assets';
 
-
-
 export const NoticeModal = () => {
   const notice = useNotice();
   const { isModalOpen, openModal, closeModal } = useModal();

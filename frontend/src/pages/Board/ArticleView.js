@@ -106,7 +106,7 @@ export const ArticleView = () => {
             <ArticleDate>{createTime.slice(0, 10).replace(/-/g, '. ')}</ArticleDate>
           </DetailGroup>
 
-          {isAuthor && (
+          {isAuthor && !hasComment && (
             <EditButtonGroup>
               <button onClick={() => history.push(`${url}/edit`)}>수정</button>
               <button onClick={handleDeleteArticle}>삭제</button>

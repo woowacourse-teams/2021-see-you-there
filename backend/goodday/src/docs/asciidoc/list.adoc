@@ -1,0 +1,36 @@
+= Rest Docs API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+:default-path: https://seeyouthere.co.kr/api/docs
+:dev-path: https://dev.seeyouthere.co.kr/api/docs
+
+
+## 서비스 서버
+
+link:{default-path}/locations[Locations RestDocs]
+
+link:{default-path}/paths[Paths RestDocs]
+
+link:{default-path}/member[Member RestDocs]
+
+link:{default-path}/board[Board RestDocs]
+
+link:{default-path}/notice[Notice RestDocs]
+
+## 개발 서버
+
+link:{dev-path}/locations[Locations RestDocs]
+
+link:{dev-path}/paths[Paths RestDocs]
+
+link:{dev-path}/member[Member RestDocs]
+
+link:{dev-path}/board[Board RestDocs]
+
+link:{dev-path}/notice[Notice RestDocs]

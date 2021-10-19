@@ -1,0 +1,127 @@
+{
+  "name": "see-you-there-frontend",
+  "version": "4.2.0",
+  "description": "여기서만나(프론트엔드)",
+  "main": "index.js",
+  "sideEffects": false,
+  "scripts": {
+    "start": "webpack serve --mode=development",
+    "lint": "eslint src",
+    "build": "webpack --mode=production",
+    "bundle": "webpack --mode=production --env bundleAnalyze=true",
+    "cypress": "cypress open --config watchForFileChanges=false,pluginsFile=false --config-file false",
+    "cypress:run": "cypress run --config pluginsFile=false --config-file false",
+    "test": "start-server-and-test start http-get://localhost:9000 cypress:run"
+  },
+  "contributors": [
+    {
+      "name": "Seonbin Im",
+      "email": "0imbean0@gmail.com",
+      "url": "https://github.com/0imbean0"
+    },
+    {
+      "name": "Haru Kim",
+      "email": "365listener@gmail.com",
+      "url": "https://365kim.tistory.com/"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/woowacourse-teams/2021-see-you-there"
+  },
+  "engines": {
+    "node": "v14.17.3",
+    "npm": "6.14.13"
+  },
+  "license": "ISC",
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:jsx-a11y/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "ecmaFeatures": {
+        "modules": true,
+        "jsx": true
+      },
+      "sourceType": "module",
+      "requireConfigFile": false,
+      "babelOptions": {
+        "presets": [
+          "@babel/preset-react"
+        ]
+      }
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "ignorePatterns": "node_modules",
+    "rules": {
+      "react-hooks/exhaustive-deps": "off",
+      "jsx-a11y/no-autofocus": "off",
+      "no-unused-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "_"
+        }
+      ]
+    }
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "quoteProps": "consistent",
+    "endOfLine": "auto",
+    "tabWidth": 2,
+    "useTabs": false
+  },
+  "dependencies": {
+    "prop-types": "15.7.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-lottie": "1.2.3",
+    "react-query": "3.19.0",
+    "react-router-dom": "5.2.0",
+    "styled-components": "5.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.14.6",
+    "@babel/eslint-parser": "7.14.7",
+    "@babel/preset-env": "7.14.7",
+    "@babel/preset-react": "7.14.5",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
+    "babel-loader": "8.2.2",
+    "clean-webpack-plugin": "4.0.0-alpha.0",
+    "compression-webpack-plugin": "^8.0.1",
+    "cypress": "8.1.0",
+    "eslint": "7.31.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-jsx-a11y": "6.4.1",
+    "eslint-plugin-prettier": "3.4.0",
+    "eslint-plugin-react": "7.24.0",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "file-loader": "6.2.0",
+    "html-webpack-plugin": "5.3.2",
+    "image-minimizer-webpack-plugin": "2.2.0",
+    "imagemin-webp": "6.0.0",
+    "prettier": "2.3.2",
+    "react-refresh": "0.10.0",
+    "start-server-and-test": "1.13.1",
+    "url-loader": "4.1.1",
+    "webpack": "5.45.1",
+    "webpack-bundle-analyzer": "4.4.2",
+    "webpack-cli": "4.7.2",
+    "webpack-dev-server": "3.11.2"
+  }
+}

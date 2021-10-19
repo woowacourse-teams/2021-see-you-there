@@ -1,0 +1,3 @@
+[submodule "build_info"]
+	path = build_info
+	url = https://github.com/2021-see-you-there/build_info.git

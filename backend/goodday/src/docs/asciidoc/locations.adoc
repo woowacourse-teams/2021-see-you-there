@@ -1,0 +1,43 @@
+= Rest Docs API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+:default-path: build/generated-snippets
+
+# Axis
+
+## request
+include::{default-path}/axis/http-request.adoc[]
+
+## response
+include::{default-path}/axis/http-response.adoc[]
+
+# Coordinate
+
+## request
+include::{default-path}/coordinate/http-request.adoc[]
+
+## response
+include::{default-path}/coordinate/http-response.adoc[]
+
+# Keyword
+
+## request
+include::{default-path}/keyword/http-request.adoc[]
+
+## response
+include::{default-path}/keyword/http-response.adoc[]
+
+# MidPoint
+
+## request
+include::{default-path}/midPoint/http-request.adoc[]
+
+## response
+include::{default-path}/midPoint/http-response.adoc[]
+

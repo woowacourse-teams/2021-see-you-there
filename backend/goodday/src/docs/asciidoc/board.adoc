@@ -1,0 +1,193 @@
+= Rest Docs API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-http-request-title: Example Request
+:operation-http-response-title: Example Response
+:default-path: build/generated-snippets/board
+
+# 게시물 생성
+
+## request
+include::{default-path}/board-create/http-request.adoc[]
+
+## response
+include::{default-path}/board-create/http-response.adoc[]
+
+# 여러 게시물 불러오기
+
+## request
+include::{default-path}/board-read/http-request.adoc[]
+
+## response
+include::{default-path}/board-read/http-response.adoc[]
+
+# 게시물 필터링해서 불러오기
+
+## request
+include::{default-path}/board-filter/http-request.adoc[]
+
+## response
+include::{default-path}/board-filter/http-response.adoc[]
+
+# 원하는 게시물 불러오기
+include::{default-path}/board-get/http-request.adoc[]
+
+## response
+include::{default-path}/board-get/http-response.adoc[]가
+
+# 게시물 수정
+
+## request
+include::{default-path}/board-update/http-request.adoc[]
+
+## response
+include::{default-path}/board-update/http-response.adoc[]
+
+# 게시물 삭제
+
+## request
+include::{default-path}/board-delete/http-request.adoc[]
+
+## response
+include::{default-path}/board-delete/http-response.adoc[]
+
+# 답글 생성
+
+## request
+include::{default-path}/comment-create/http-request.adoc[]
+
+## response
+include::{default-path}/comment-create/http-response.adoc[]
+
+# 답글 수정
+
+## request
+include::{default-path}/comment-update/http-request.adoc[]
+
+## response
+include::{default-path}/comment-update/http-response.adoc[]
+
+# 답글 삭제
+
+## request
+include::{default-path}/comment-delete/http-request.adoc[]
+
+## response
+include::{default-path}/comment-delete/http-response.adoc[
+
+# 없는 게시물 수정 예외
+
+## request
+include::{default-path}/board-update-exist-exception/http-request.adoc[]
+
+## response
+include::{default-path}/board-update-exist-exception/http-response.adoc[]
+
+# 없는 게시물 삭제 예외
+
+## request
+include::{default-path}/board-delete-exist-exception/http-request.adoc[]
+
+## response
+include::{default-path}/board-delete-exist-exception/http-response.adoc[]
+
+# 없는 게시물 조회 예외
+
+## request
+include::{default-path}/board-read-exist-exception/http-request.adoc[]
+
+## response
+include::{default-path}/board-read-exist-exception/http-response.adoc[]
+
+# 내 소유가 아닌 게시물 삭제 예외
+
+## request
+include::{default-path}/board-delete-auth-exception/http-request.adoc[]
+
+## response
+include::{default-path}/board-delete-auth-exception/http-response.adoc[]
+
+# 내 소유가 아닌 게시물 수정 예외
+
+## request
+include::{default-path}/board-update-auth-exception/http-request.adoc[]
+
+## response
+include::{default-path}/board-update-auth-exception/http-response.adoc[]
+
+# 답글 있는 게시물에 답글 달면 예외
+
+## request
+include::{default-path}/comment-create-exception/http-request.adoc[]
+
+## response
+include::{default-path}/comment-create-exception/http-response.adoc[]
+
+# 답글 있는 게시물은 수정 시도 시 예외
+
+## request
+include::{default-path}/board-update-exception-with-comment/http-request.adoc[]
+
+## response
+include::{default-path}/board-update-exception-with-comment/http-response.adoc[]
+
+# 답글 있는 게시물 삭제 시도 시 예외
+
+## request
+include::{default-path}/board-delete-exception-with-comment/http-request.adoc[]
+
+## response
+include::{default-path}/board-delete-exception-with-comment/http-response.adoc[]
+
+# 없는 답글 수정 예외
+
+## request
+include::{default-path}/comment-update-exception/http-request.adoc[]
+
+## response
+include::{default-path}/comment-update-exception/http-response.adoc[]
+
+# 없는 답글 삭제 예외
+
+## request
+include::{default-path}/comment-delete-exception/http-request.adoc[]
+
+## response
+include::{default-path}/comment-delete-exception/http-response.adoc[]
+
+# 특정 글자수 이하 예외
+
+## request
+include::{default-path}/comment-content-exception/http-request.adoc[]
+
+## response
+include::{default-path}/comment-content-exception/http-response.adoc[]
+
+# 관리자가 아닌 사람이 답글을 달면 예외
+
+## request
+include::{default-path}/comment-auth-create-exception/http-request.adoc[]
+
+## response
+include::{default-path}/comment-auth-create-exception/http-response.adoc[]
+
+# 관리자가 아닌 사람이 답글을 수정하면 예외
+
+## request
+include::{default-path}/comment-auth-update-exception/http-request.adoc[]
+
+## response
+include::{default-path}/comment-auth-update-exception/http-response.adoc[]
+
+# 관리자가 아닌 사람이 답글을 삭제하면 예외
+
+## request
+include::{default-path}/comment-auth-delete-exception/http-request.adoc[]
+
+## response
+include::{default-path}/comment-auth-delete-exception/http-response.adoc[]
+

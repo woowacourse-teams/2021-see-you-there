@@ -26,28 +26,35 @@ import { ARTICLE, MESSAGE } from '../../constants';
 const FORM_ID_COMMENT_EDIT = 'commentEdit';
 
 export const ArticleView = () => {
-  const { article, setArticleId, isArticleLoading } = useContext(BoardContext);
   const history = useHistory();
   const { url } = useRouteMatch();
   const { articleId } = useParams();
+
+  const { article, setArticleId, isArticleLoading } = useContext(BoardContext);
   const { deleteArticle, createComment, updateComment, deleteComment } = useMutateBoard();
+
+  const { memberId: userMemberId, isAdmin } = useContext(UserContext);
+  const { createTime, memberId, title, content, commentResponse, type } = article ?? {};
+  const isAuthor = memberId === userMemberId;
+
+  const [isCommentEditing, setIsCommentEditing] = useState(false);
+  const [comment, setComment] = useState(commentResponse?.content);
+  const hasComment = !!commentResponse;
+
   const { isConfirmOpen, openConfirm, approveConfirm, cancelConfirm } = useConfirm({
     approve: deleteArticle,
   });
-  const { memberId: userMemberId } = useContext(UserContext);
-  const { createTime, memberId, title, content, commentResponse, type } = article ?? {};
-  const [comment, setComment] = useState(commentResponse);
-  const [isCommentEditing, setIsCommentEditing] = useState(false);
-  const isAuthor = memberId === userMemberId;
-  const isAdmin = false;
-  const hasComment = !!commentResponse;
 
-  const handleSubmitComment = () => {
+  const handleSubmitComment = (e) => {
+    e.preventDefault();
+
     if (hasComment) {
       updateComment({ id: articleId, content: comment });
+      setIsCommentEditing(false);
       return;
     }
     createComment({ id: articleId, content: comment });
+    setIsCommentEditing(false);
   };
 
   const handleDeleteArticle = () => {
@@ -66,7 +73,15 @@ export const ArticleView = () => {
     if (articleId) {
       setArticleId(articleId);
     }
+
+    return () => setArticleId(null);
   }, []);
+
+  useEffect(() => {
+    if (commentResponse) {
+      setComment(commentResponse.content);
+    }
+  }, [commentResponse]);
 
   if (!article || isArticleLoading) {
     return null;
@@ -80,7 +95,7 @@ export const ArticleView = () => {
       <ArticleSection>
         <ArticleHeader>
           <TagGroup style={{ flexDirection: 'row-reverse', height: 'auto' }}>
-            <StatusTag status={commentResponse}>{commentResponse ? '답변완료' : '답변대기'}</StatusTag>
+            <StatusTag status={hasComment}>{hasComment ? '답변완료' : '답변대기'}</StatusTag>
             <TypeTag type={type}>{type === ARTICLE.TYPE.SUGGESTION ? '제안합니다' : '고쳐주세요'}</TypeTag>
           </TagGroup>
 
@@ -134,7 +149,7 @@ export const ArticleView = () => {
         </CommentHeader>
 
         <CommentBody isEditing={isCommentEditing}>
-          <p>{commentResponse ? commentResponse : '잠시만 기다려주세요.🙏 관리자가 확인하러 달려오고 있어요.💨💨💨'}</p>
+          <p>{hasComment ? comment : '잠시만 기다려주세요.🙏 관리자가 확인하러 달려오고 있어요.💨💨💨'}</p>
           <form id={FORM_ID_COMMENT_EDIT} onSubmit={handleSubmitComment}>
             <textarea aria-label="답글 작성" value={comment} onChange={handleChangeComment} />
           </form>

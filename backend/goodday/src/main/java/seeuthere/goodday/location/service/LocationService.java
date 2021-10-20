@@ -3,6 +3,7 @@ package seeuthere.goodday.location.service;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -114,7 +115,7 @@ public class LocationService {
             .collect(Collectors.toList());
     }
 
-    public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest) {
+    public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest, boolean onlySubway) {
         Points userStartPoints = Points.valueOf(locationsRequest);
         Map<Point, APIUtilityResponse> nearbyStations = requesters.utility()
             .findNearbyStations(userStartPoints);
@@ -124,14 +125,14 @@ public class LocationService {
         PathCandidates pathCandidates = PathCandidates
             .valueOf(userStartPoints, stationPoints, nearbyStations);
 
-        List<Paths> transportPathResults = getPaths(pathCandidates.getPathCandidateRegistry());
+        List<Paths> transportPathResults = getPaths(pathCandidates.getPathCandidateRegistry(), onlySubway);
 
         TerminalPoint terminalPoint = TerminalPoint
             .valueOf(userStartPoints, stationPoints, transportPathResults);
         return new MiddlePointResponse(terminalPoint.getX(), terminalPoint.getY());
     }
 
-    private List<Paths> getPaths(List<PathCandidate> pathCandidates) {
+    private List<Paths> getPaths(List<PathCandidate> pathCandidates, boolean onlySubway) {
         List<Paths> transportPathResults = new ArrayList<>();
 
         List<PathCandidate> uncachedResults = extractedUncachedResults(pathCandidates,
@@ -139,15 +140,20 @@ public class LocationService {
 
         Map<PathCandidate, APITransportResponse> subWayPathData = pathService
             .findSubwayPaths(uncachedResults);
-        Map<PathCandidate, APITransportResponse> busPathData = pathService
-            .findBusPaths(pathCandidates);
+        Map<PathCandidate, APITransportResponse> busPathData = new HashMap<>();
+
+        if (!onlySubway) {
+            busPathData = pathService.findBusPaths(pathCandidates);
+        }
 
         List<Paths> pathsList = generatedPaths(uncachedResults, subWayPathData,
             RedisSaveSet.SUBWAY.getRedisSaver());
 
         transportPathResults.addAll(pathsList);
-        transportPathResults.addAll(
-            generatedPaths(pathCandidates, busPathData, RedisSaveSet.DEFAULT.getRedisSaver()));
+        if (!onlySubway) {
+            transportPathResults.addAll(
+                generatedPaths(pathCandidates, busPathData, RedisSaveSet.DEFAULT.getRedisSaver()));
+        }
         return transportPathResults;
     }
 
@@ -201,15 +207,12 @@ public class LocationService {
         APITransportResponse> transportPathDates, RedisSaver redissaver) {
         Deque<PathCandidate> pathCandidateQueue = new ArrayDeque<>(pathCandidates);
         List<Paths> pathsList = new ArrayList<>();
-
+        long startTime = System.currentTimeMillis();
         while (!pathCandidateQueue.isEmpty()) {
             PathCandidate pathCandidate = pathCandidateQueue.pollFirst();
             APITransportResponse transportResponse = transportPathDates.get(pathCandidate);
-            long startTime = System.currentTimeMillis();
             if (Objects.isNull(transportResponse)) {
-                if (System.currentTimeMillis() - startTime <= LIMIT_TIME) {
-                    pathCandidateQueue.addLast(pathCandidate);
-                }
+                validateLimitTime(pathCandidateQueue, startTime, pathCandidate);
                 continue;
             }
             Point startPoint = pathCandidate.getUserPoint();
@@ -224,5 +227,12 @@ public class LocationService {
             pathsList.add(calibratedWalkPath.getPaths());
         }
         return pathsList;
+    }
+
+    private void validateLimitTime(Deque<PathCandidate> pathCandidateQueue, long startTime,
+        PathCandidate pathCandidate) {
+        if (System.currentTimeMillis() - startTime <= LIMIT_TIME) {
+            pathCandidateQueue.addLast(pathCandidate);
+        }
     }
 }

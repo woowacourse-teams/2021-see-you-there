@@ -1,8 +1,11 @@
 package seeuthere.goodday.path.domain;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import reactor.core.publisher.Mono;
 import seeuthere.goodday.location.domain.StationPoint;
 import seeuthere.goodday.location.domain.StationPoints;
@@ -20,22 +23,30 @@ public class PathCandidates {
 
     public static PathCandidates valueOf(Points userStartPoints,
         StationPoints stationPoints,
-        Map<Point, Mono<APIUtilityResponse>> nearbyStations) {
+        Map<Point, APIUtilityResponse> nearbyStations) {
         List<PathCandidate> pathCandidateRegistry = new ArrayList<>();
         List<StationPoint> candidateDestinations = stationPoints.getStationPointRegistry();
-        for (Point startPoint : userStartPoints.getPointRegistry()) {
-            insertPathCandidate(nearbyStations, pathCandidateRegistry, candidateDestinations,
+
+        Deque<Point> pointQueue = new ArrayDeque<>(userStartPoints.getPointRegistry());
+        while (!pointQueue.isEmpty()) {
+            Point startPoint = pointQueue.pollFirst();
+            APIUtilityResponse apiUtilityResponse = nearbyStations.get(startPoint);
+            if (Objects.isNull(apiUtilityResponse)) {
+                pointQueue.add(startPoint);
+                continue;
+            }
+            insertPathCandidate(apiUtilityResponse, pathCandidateRegistry, candidateDestinations,
                 startPoint);
         }
         return new PathCandidates(pathCandidateRegistry);
     }
 
-    private static void insertPathCandidate(Map<Point, Mono<APIUtilityResponse>> nearbyStations,
+    private static void insertPathCandidate(APIUtilityResponse apiUtilityResponse,
         List<PathCandidate> pathCandidateRegistry, List<StationPoint> candidateDestinations,
         Point startPoint) {
         for (StationPoint stationPoint : candidateDestinations) {
             pathCandidateRegistry
-                .add(new PathCandidate(startPoint, nearbyStations.get(startPoint),
+                .add(new PathCandidate(startPoint, apiUtilityResponse,
                     stationPoint));
         }
     }

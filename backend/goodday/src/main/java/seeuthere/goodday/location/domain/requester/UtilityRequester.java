@@ -71,10 +71,10 @@ public class UtilityRequester {
         return apiUtilityDocuments;
     }
 
-    public Map<Point, Mono<APIUtilityResponse>> findNearbyStations(Points points) {
-        Map<Point, Mono<APIUtilityResponse>> map = new HashMap<>();
+    public Map<Point, APIUtilityResponse> findNearbyStations(Points points) {
+        Map<Point, APIUtilityResponse> map = new HashMap<>();
         points.getPointRegistry().forEach(point -> {
-            Mono<APIUtilityResponse> api = webClient.get()
+            webClient.get()
                 .uri(uriBuilder ->
                     uriBuilder.path(BASIC_URL)
                         .queryParam("x", point.getX())
@@ -86,8 +86,8 @@ public class UtilityRequester {
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(APIUtilityResponse.class);
-            map.put(point, api);
+                .bodyToMono(APIUtilityResponse.class)
+                .subscribe(result -> map.put(point, result));
         });
         return map;
     }

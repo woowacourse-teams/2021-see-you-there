@@ -1,6 +1,8 @@
 package seeuthere.goodday.location.service;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -114,7 +116,7 @@ public class LocationService {
 
     public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest) {
         Points userStartPoints = Points.valueOf(locationsRequest);
-        Map<Point, Mono<APIUtilityResponse>> nearbyStations = requesters.utility()
+        Map<Point, APIUtilityResponse> nearbyStations = requesters.utility()
             .findNearbyStations(userStartPoints);
 
         StationPoints stationPoints = StationPoints
@@ -135,14 +137,13 @@ public class LocationService {
         List<PathCandidate> uncachedResults = extractedUncachedResults(pathCandidates,
             transportPathResults);
 
-        List<PathData> subWayPathData = pathService.findSubwayPaths(uncachedResults);
-        List<PathData> busPathData = pathService.findBusPaths(pathCandidates);
+        Map<PathCandidate, APITransportResponse> subWayPathData = pathService.findSubwayPaths(uncachedResults);
+        Map<PathCandidate, APITransportResponse> busPathData = pathService.findBusPaths(pathCandidates);
 
-        List<Paths> pathsList = generatedPaths(subWayPathData, RedisSaveSet.SUBWAY.getRedisSaver());
+        List<Paths> pathsList = generatedPaths(uncachedResults, subWayPathData, RedisSaveSet.SUBWAY.getRedisSaver());
 
         transportPathResults.addAll(pathsList);
-        transportPathResults
-            .addAll(generatedPaths(busPathData, RedisSaveSet.DEFAULT.getRedisSaver()));
+        transportPathResults.addAll(generatedPaths(pathCandidates ,busPathData, RedisSaveSet.DEFAULT.getRedisSaver()));
         return transportPathResults;
     }
 
@@ -192,24 +193,28 @@ public class LocationService {
         transportPathResults.add(calibratedWalkPath.getPaths());
     }
 
-    private List<Paths> generatedPaths(List<PathData> transportPathDates, RedisSaver redissaver) {
-        return transportPathDates.parallelStream()
-            .map(pathData -> {
-                    APITransportResponse transportResponse = pathData.apiTransportResponse();
-                    PathCandidate pathCandidate = pathData.getPathCandidate();
+    private List<Paths> generatedPaths(List<PathCandidate> pathCandidates, Map<PathCandidate, APITransportResponse> transportPathDates, RedisSaver redissaver) {
+        Deque<PathCandidate> pathCandidateQueue = new ArrayDeque<>(pathCandidates);
+        List<Paths> pathsList = new ArrayList<>();
+        while (!pathCandidateQueue.isEmpty()) {
+            PathCandidate pathCandidate = pathCandidateQueue.pollFirst();
+            APITransportResponse transportResponse = transportPathDates.get(pathCandidate);
+            if (Objects.isNull(transportResponse)) {
+                pathCandidateQueue.add(pathCandidate);
+                continue;
+            }
+            Point startPoint = pathCandidate.getUserPoint();
+            Point endPoint = pathCandidate.getDestination().getPoint();
+            PathsResponse pathsResponse = PathsResponse.valueOf(
+                Objects.requireNonNull(transportResponse).getMsgBody());
+            Paths paths = pathsResponse.toPaths(startPoint, endPoint);
 
-                    PathsResponse pathsResponse = PathsResponse.valueOf(
-                        Objects.requireNonNull(transportResponse).getMsgBody());
-                    Point startPoint = pathCandidate.getUserPoint();
-                    Point endPoint = pathCandidate.getDestination().getPoint();
-                    Paths paths = pathsResponse.toPaths(startPoint, endPoint);
-                    redissaver.save(pathCandidate, transportRedisRepository, paths);
-                    CalibratedWalkPath calibratedWalkPath = CalibratedWalkPath
-                        .valueOf(paths, startPoint, endPoint);
-                    return calibratedWalkPath.getPaths();
-                }
-            )
-            .collect(Collectors.toList());
+            // todo - 시간이 오래 걸리면 멀티스레드 처리하기
+            redissaver.save(pathCandidate, transportRedisRepository, paths);
+            CalibratedWalkPath calibratedWalkPath = CalibratedWalkPath
+                .valueOf(paths, startPoint, endPoint);
+            pathsList.add(calibratedWalkPath.getPaths());
+        }
+        return pathsList;
     }
-
 }

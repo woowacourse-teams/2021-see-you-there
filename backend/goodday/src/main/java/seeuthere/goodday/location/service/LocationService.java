@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 import seeuthere.goodday.location.config.Requesters;
 import seeuthere.goodday.location.domain.StationPoints;
 import seeuthere.goodday.location.domain.TerminalPoint;
@@ -32,7 +31,6 @@ import seeuthere.goodday.location.util.LocationCategory;
 import seeuthere.goodday.path.domain.CalibratedWalkPath;
 import seeuthere.goodday.path.domain.PathCandidate;
 import seeuthere.goodday.path.domain.PathCandidates;
-import seeuthere.goodday.path.domain.PathData;
 import seeuthere.goodday.path.domain.TransportCache;
 import seeuthere.goodday.path.domain.api.Paths;
 import seeuthere.goodday.path.dto.api.response.APITransportResponse;
@@ -44,6 +42,8 @@ import seeuthere.goodday.path.service.PathService;
 
 @Service
 public class LocationService {
+
+    private static final long LIMIT_TIME = 2_000L;
 
     private final Requesters requesters;
     private final PathService pathService;
@@ -137,13 +137,17 @@ public class LocationService {
         List<PathCandidate> uncachedResults = extractedUncachedResults(pathCandidates,
             transportPathResults);
 
-        Map<PathCandidate, APITransportResponse> subWayPathData = pathService.findSubwayPaths(uncachedResults);
-        Map<PathCandidate, APITransportResponse> busPathData = pathService.findBusPaths(pathCandidates);
+        Map<PathCandidate, APITransportResponse> subWayPathData = pathService
+            .findSubwayPaths(uncachedResults);
+        Map<PathCandidate, APITransportResponse> busPathData = pathService
+            .findBusPaths(pathCandidates);
 
-        List<Paths> pathsList = generatedPaths(uncachedResults, subWayPathData, RedisSaveSet.SUBWAY.getRedisSaver());
+        List<Paths> pathsList = generatedPaths(uncachedResults, subWayPathData,
+            RedisSaveSet.SUBWAY.getRedisSaver());
 
         transportPathResults.addAll(pathsList);
-        transportPathResults.addAll(generatedPaths(pathCandidates ,busPathData, RedisSaveSet.DEFAULT.getRedisSaver()));
+        transportPathResults.addAll(
+            generatedPaths(pathCandidates, busPathData, RedisSaveSet.DEFAULT.getRedisSaver()));
         return transportPathResults;
     }
 
@@ -193,14 +197,19 @@ public class LocationService {
         transportPathResults.add(calibratedWalkPath.getPaths());
     }
 
-    private List<Paths> generatedPaths(List<PathCandidate> pathCandidates, Map<PathCandidate, APITransportResponse> transportPathDates, RedisSaver redissaver) {
+    private List<Paths> generatedPaths(List<PathCandidate> pathCandidates, Map<PathCandidate,
+        APITransportResponse> transportPathDates, RedisSaver redissaver) {
         Deque<PathCandidate> pathCandidateQueue = new ArrayDeque<>(pathCandidates);
         List<Paths> pathsList = new ArrayList<>();
+
         while (!pathCandidateQueue.isEmpty()) {
             PathCandidate pathCandidate = pathCandidateQueue.pollFirst();
             APITransportResponse transportResponse = transportPathDates.get(pathCandidate);
+            long startTime = System.currentTimeMillis();
             if (Objects.isNull(transportResponse)) {
-                pathCandidateQueue.add(pathCandidate);
+                if (System.currentTimeMillis() - startTime <= LIMIT_TIME) {
+                    pathCandidateQueue.addLast(pathCandidate);
+                }
                 continue;
             }
             Point startPoint = pathCandidate.getUserPoint();
@@ -209,7 +218,6 @@ public class LocationService {
                 Objects.requireNonNull(transportResponse).getMsgBody());
             Paths paths = pathsResponse.toPaths(startPoint, endPoint);
 
-            // todo - 시간이 오래 걸리면 멀티스레드 처리하기
             redissaver.save(pathCandidate, transportRedisRepository, paths);
             CalibratedWalkPath calibratedWalkPath = CalibratedWalkPath
                 .valueOf(paths, startPoint, endPoint);

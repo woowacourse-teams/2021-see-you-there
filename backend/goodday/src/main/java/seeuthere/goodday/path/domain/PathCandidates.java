@@ -6,7 +6,6 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import reactor.core.publisher.Mono;
 import seeuthere.goodday.location.domain.StationPoint;
 import seeuthere.goodday.location.domain.StationPoints;
 import seeuthere.goodday.location.domain.location.Point;
@@ -22,8 +21,7 @@ public class PathCandidates {
     }
 
     public static PathCandidates valueOf(Points userStartPoints,
-        StationPoints stationPoints,
-        Map<Point, APIUtilityResponse> nearbyStations) {
+        StationPoints stationPoints, Map<Point, APIUtilityResponse> nearbyStations) {
         List<PathCandidate> pathCandidateRegistry = new ArrayList<>();
         List<StationPoint> candidateDestinations = stationPoints.getStationPointRegistry();
 

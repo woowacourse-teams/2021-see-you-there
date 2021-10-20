@@ -7,7 +7,6 @@ import seeuthere.goodday.location.config.Requesters;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.dto.PointWithName;
 import seeuthere.goodday.path.domain.PathCandidate;
-import seeuthere.goodday.path.domain.PathData;
 import seeuthere.goodday.path.domain.TransportCache;
 import seeuthere.goodday.path.domain.algorithm.Station;
 import seeuthere.goodday.path.domain.algorithm.Stations;
@@ -108,11 +107,13 @@ public class PathService {
     }
 
     // todo - findPaths로 추상화할지 정하기
-    public Map<PathCandidate, APITransportResponse> findSubwayPaths(List<PathCandidate> pathCandidates) {
+    public Map<PathCandidate, APITransportResponse> findSubwayPaths(
+        List<PathCandidate> pathCandidates) {
         return transportRequester.pathsByTransport(pathCandidates, TransportURL.SUBWAY);
     }
 
-    public Map<PathCandidate, APITransportResponse> findBusPaths(List<PathCandidate> pathCandidates) {
+    public Map<PathCandidate, APITransportResponse> findBusPaths(
+        List<PathCandidate> pathCandidates) {
         return transportRequester.pathsByTransport(pathCandidates, TransportURL.BUS);
     }
 }

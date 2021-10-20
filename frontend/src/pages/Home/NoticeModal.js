@@ -6,7 +6,7 @@ import { Icon, Modal } from '../../components';
 import { NoticeModalHeader, NoticeModalBody } from './style';
 import { useModal, useNotice } from '../../hooks';
 import { storage } from '../../utils';
-import { ROUTE, STORAGE_KEY } from '../../constants';
+import { ROUTE, STORAGE_KEY, ID } from '../../constants';
 import { logo, avatarCry } from '../../assets';
 
 export const NoticeModal = () => {
@@ -29,7 +29,7 @@ export const NoticeModal = () => {
       <Modal escape={closeModal}>
         <NoticeModalHeader>
           <img src={logo} />
-          <button onClick={closeModal}>
+          <button onClick={closeModal} data-testid={ID.NOTICE_MODAL_CLOSE_BUTTON}>
             <Icon.Close />
           </button>
         </NoticeModalHeader>

@@ -255,20 +255,6 @@ export const ArticleBody = styled.section`
     line-height: 3;
     white-space: pre-wrap;
   }
-
-  /* & > form {
-    display: ${(props) => (props.isEditing ? 'block' : 'none')};
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    & > textarea {
-      line-height: 2.9;
-      white-space: normal;
-    } */
-  }
 `;
 
 export const CommentSection = styled.section`
@@ -297,7 +283,7 @@ export const CommentBody = styled.section`
     min-height: 5rem;
 
     line-height: 2;
-    white-space: normal;
+    white-space: pre-wrap;
   }
 
   & > form {

@@ -10,11 +10,11 @@ import seeuthere.goodday.location.dto.api.response.APIUtilityResponse;
 public class PathCandidate {
 
     private final Point userPoint;
-    private final Mono<APIUtilityResponse> userNearStation;
+    private final APIUtilityResponse userNearStation;
     private final StationPoint destination;
 
     public PathCandidate(Point userPoint,
-        Mono<APIUtilityResponse> userNearStation,
+        APIUtilityResponse userNearStation,
         StationPoint destination) {
         this.userPoint = userPoint;
         this.userNearStation = userNearStation;
@@ -25,7 +25,7 @@ public class PathCandidate {
         return userPoint;
     }
 
-    public Mono<APIUtilityResponse> getUserNearStation() {
+    public APIUtilityResponse getUserNearStation() {
         return userNearStation;
     }
 
@@ -34,6 +34,6 @@ public class PathCandidate {
     }
 
     public APIUtilityDocument apiUtilityDocument() {
-        return Objects.requireNonNull(userNearStation.block()).getDocuments().get(0);
+        return Objects.requireNonNull(userNearStation).getDocuments().get(0);
     }
 }

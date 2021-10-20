@@ -13,7 +13,7 @@ public class UtilityParser {
     }
 
     public static Point parsePoint(PathCandidate pathCandidate) {
-        APIUtilityResponse utilityResponse = pathCandidate.getUserNearStation().block();
+        APIUtilityResponse utilityResponse = pathCandidate.getUserNearStation();
         List<APIUtilityDocument> documents = Objects.requireNonNull(utilityResponse).getDocuments();
         APIUtilityDocument apiUtilityDocument = documents.get(0);
         return new Point(apiUtilityDocument.getX(), apiUtilityDocument.getY());

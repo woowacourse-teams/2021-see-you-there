@@ -14,7 +14,7 @@ import seeuthere.goodday.location.dto.api.response.APIUtilityResponse;
 
 public class PathCandidates {
 
-    private static final long LIMIT_TIME = 2_000L;
+    private static final long LIMIT_TIME = 2_000_000_000L;
 
     private final List<PathCandidate> pathCandidateRegistry;
 
@@ -28,7 +28,7 @@ public class PathCandidates {
         List<StationPoint> candidateDestinations = stationPoints.getStationPointRegistry();
 
         Deque<Point> pointQueue = new ArrayDeque<>(userStartPoints.getPointRegistry());
-        long startTime = System.currentTimeMillis();
+        long startTime = System.nanoTime();
         while (!pointQueue.isEmpty()) {
             Point startPoint = pointQueue.pollFirst();
             APIUtilityResponse apiUtilityResponse = nearbyStations.get(startPoint);
@@ -43,7 +43,7 @@ public class PathCandidates {
     }
 
     private static void validateLimitTime(Deque<Point> pointQueue, long startTime, Point startPoint) {
-        if (System.currentTimeMillis() - startTime <= LIMIT_TIME) {
+        if (System.nanoTime() - startTime <= LIMIT_TIME) {
             pointQueue.add(startPoint);
         }
     }

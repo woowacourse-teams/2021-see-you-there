@@ -44,7 +44,9 @@ import seeuthere.goodday.path.service.PathService;
 @Service
 public class LocationService {
 
-    private static final long LIMIT_TIME = 2_000L;
+    private static final long DEFAULT_LIMIT_TIME = 2_000_000_000L;
+    private static final long LIMIT_TIME = 1_000_000_000L;
+    private static final long STATION_COUNT_PER_PERSON = 70L;
 
     private final Requesters requesters;
     private final PathService pathService;
@@ -207,12 +209,13 @@ public class LocationService {
         APITransportResponse> transportPathDates, RedisSaver redissaver) {
         Deque<PathCandidate> pathCandidateQueue = new ArrayDeque<>(pathCandidates);
         List<Paths> pathsList = new ArrayList<>();
-        long startTime = System.currentTimeMillis();
+        long startTime = System.nanoTime();
+        long expectedNumberOfPeople = pathCandidates.size() / STATION_COUNT_PER_PERSON;
         while (!pathCandidateQueue.isEmpty()) {
             PathCandidate pathCandidate = pathCandidateQueue.pollFirst();
             APITransportResponse transportResponse = transportPathDates.get(pathCandidate);
             if (Objects.isNull(transportResponse)) {
-                validateLimitTime(pathCandidateQueue, startTime, pathCandidate);
+                validateLimitTime(pathCandidateQueue, startTime, pathCandidate, expectedNumberOfPeople);
                 continue;
             }
             Point startPoint = pathCandidate.getUserPoint();
@@ -230,8 +233,9 @@ public class LocationService {
     }
 
     private void validateLimitTime(Deque<PathCandidate> pathCandidateQueue, long startTime,
-        PathCandidate pathCandidate) {
-        if (System.currentTimeMillis() - startTime <= LIMIT_TIME) {
+        PathCandidate pathCandidate, long expectedNumberOfPeople ) {
+        long diffTime = System.nanoTime() - startTime;
+        if (diffTime <= Math.max(DEFAULT_LIMIT_TIME, LIMIT_TIME * expectedNumberOfPeople)) {
             pathCandidateQueue.addLast(pathCandidate);
         }
     }

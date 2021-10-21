@@ -21,9 +21,9 @@ public class LocationRequester {
 
     public List<APILocationDocument> requestAddress(double x, double y) {
         try {
-            APILocationResponse APILocationResponse = receivedLocationResponse(x, y);
+            APILocationResponse apiLocationResponse = receivedLocationResponse(x, y);
 
-            return Objects.requireNonNull(APILocationResponse).getDocuments();
+            return Objects.requireNonNull(apiLocationResponse).getDocuments();
         } catch (WebClientResponseException e) {
             throw new GoodDayException(LocationExceptionSet.INVALID_LOCATION);
         }

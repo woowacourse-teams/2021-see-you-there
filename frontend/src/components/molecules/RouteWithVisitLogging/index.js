@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 
 window.dataLayer = window.dataLayer || [];
 
-const gtag = (...params) => window.dataLayer.push(params);
+function gtag() {
+  dataLayer.push(arguments);
+}
 
 gtag('js', new Date());
 gtag('config', GTAG);

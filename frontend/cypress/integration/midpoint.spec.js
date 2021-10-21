@@ -5,6 +5,12 @@ describe('HomePage & MidpointPage', () => {
   before(() => {
     cy.visit('http://localhost:9000');
     sessionStorage.clear();
+
+    const $noticeModalCloseButton = cy.get(`button[data-testid=${ID.NOTICE_MODAL_CLOSE_BUTTON}]`);
+
+    if ($noticeModalCloseButton) {
+      $noticeModalCloseButton.click();
+    }
   });
 
   const participants = [

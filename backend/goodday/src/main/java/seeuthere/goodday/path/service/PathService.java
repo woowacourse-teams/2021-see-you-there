@@ -1,12 +1,12 @@
 package seeuthere.goodday.path.service;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import seeuthere.goodday.location.config.Requesters;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.dto.PointWithName;
 import seeuthere.goodday.path.domain.PathCandidate;
-import seeuthere.goodday.path.domain.PathData;
 import seeuthere.goodday.path.domain.TransportCache;
 import seeuthere.goodday.path.domain.algorithm.Station;
 import seeuthere.goodday.path.domain.algorithm.Stations;
@@ -107,11 +107,13 @@ public class PathService {
     }
 
     // todo - findPaths로 추상화할지 정하기
-    public List<PathData> findSubwayPaths(List<PathCandidate> pathCandidates) {
+    public Map<PathCandidate, APITransportResponse> findSubwayPaths(
+        List<PathCandidate> pathCandidates) {
         return transportRequester.pathsByTransport(pathCandidates, TransportURL.SUBWAY);
     }
 
-    public List<PathData> findBusPaths(List<PathCandidate> pathCandidates) {
+    public Map<PathCandidate, APITransportResponse> findBusPaths(
+        List<PathCandidate> pathCandidates) {
         return transportRequester.pathsByTransport(pathCandidates, TransportURL.BUS);
     }
 }

@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   nickname: null,
   profileImage: null,
   memberId: null,
+  adminInfo: null,
 };
 
 export const UserContext = createContext();
@@ -26,7 +27,7 @@ export const UserContextProvider = ({ children }) => {
 
   const [token, setToken] = useState(INITIAL_TOKEN);
   const [user, setUser] = useState(INITIAL_STATE);
-  const { id, memberId, nickname, profileImage } = user;
+  const { id, memberId, nickname, profileImage, adminInfo: isAdmin } = user;
 
   const login = (userInfo) => {
     const { nickname, token } = userInfo;
@@ -162,6 +163,7 @@ export const UserContextProvider = ({ children }) => {
         nickname,
         profileImage,
         token,
+        isAdmin,
 
         httpAuthRequest,
 

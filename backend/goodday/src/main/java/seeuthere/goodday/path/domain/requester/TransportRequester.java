@@ -1,16 +1,15 @@
 package seeuthere.goodday.path.domain.requester;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.util.UtilityParser;
 import seeuthere.goodday.path.domain.PathCandidate;
-import seeuthere.goodday.path.domain.PathData;
 import seeuthere.goodday.path.dto.api.response.APITransportResponse;
 import seeuthere.goodday.path.exception.PathExceptionSet;
 import seeuthere.goodday.path.util.TransportURL;
@@ -46,27 +45,32 @@ public class TransportRequester {
             .orElseThrow(() -> new GoodDayException(PathExceptionSet.API_SERVER));
     }
 
-    public List<PathData> pathsByTransport(List<PathCandidate> pathCandidates,
+    public Map<PathCandidate, APITransportResponse> pathsByTransport(
+        List<PathCandidate> pathCandidates,
         TransportURL transportURL) {
-        return pathCandidates.parallelStream()
-            .map(temp -> {
-                Point nearbyStation = UtilityParser.parsePoint(temp);
-                Point targetPosition = temp.getDestination().getPoint();
 
-                Mono<APITransportResponse> apiTransportResponseMono = webClient.get()
-                    .uri(uriBuilder ->
-                        uriBuilder.path(transportURL.getUrl())
-                            .queryParam("ServiceKey", secretKey.getTransportApiKey())
-                            .queryParam("startX", nearbyStation.getX())
-                            .queryParam("startY", nearbyStation.getY())
-                            .queryParam("endX", targetPosition.getX())
-                            .queryParam("endY", targetPosition.getY())
-                            .build()
-                    )
-                    .accept(MediaType.APPLICATION_XML)
-                    .retrieve()
-                    .bodyToMono(APITransportResponse.class);
-                return new PathData(temp, apiTransportResponseMono);
-            }).collect(Collectors.toList());
+        Map<PathCandidate, APITransportResponse> pathData = new HashMap<>();
+
+        for (PathCandidate pathCandidate : pathCandidates) {
+            Point nearbyStation = UtilityParser.parsePoint(pathCandidate);
+            Point targetPosition = pathCandidate.getDestination().getPoint();
+
+            webClient.get()
+                .uri(uriBuilder ->
+                    uriBuilder.path(transportURL.getUrl())
+                        .queryParam("ServiceKey", secretKey.getTransportApiKey())
+                        .queryParam("startX", nearbyStation.getX())
+                        .queryParam("startY", nearbyStation.getY())
+                        .queryParam("endX", targetPosition.getX())
+                        .queryParam("endY", targetPosition.getY())
+                        .build()
+                )
+                .accept(MediaType.APPLICATION_XML)
+                .retrieve()
+                .bodyToMono(APITransportResponse.class)
+                .subscribe(
+                    apiTransportResponse -> pathData.put(pathCandidate, apiTransportResponse));
+        }
+        return pathData;
     }
 }

@@ -8,7 +8,6 @@ import java.util.Objects;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-import reactor.core.publisher.Mono;
 import seeuthere.goodday.exception.GoodDayException;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.domain.location.Points;
@@ -71,10 +70,10 @@ public class UtilityRequester {
         return apiUtilityDocuments;
     }
 
-    public Map<Point, Mono<APIUtilityResponse>> findNearbyStations(Points points) {
-        Map<Point, Mono<APIUtilityResponse>> map = new HashMap<>();
-        points.getPointRegistry().forEach(point -> {
-            Mono<APIUtilityResponse> api = webClient.get()
+    public Map<Point, APIUtilityResponse> findNearbyStations(Points points) {
+        Map<Point, APIUtilityResponse> nearbyStations = new HashMap<>();
+        points.getPointRegistry().forEach(point ->
+            webClient.get()
                 .uri(uriBuilder ->
                     uriBuilder.path(BASIC_URL)
                         .queryParam("x", point.getX())
@@ -86,9 +85,9 @@ public class UtilityRequester {
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(APIUtilityResponse.class);
-            map.put(point, api);
-        });
-        return map;
+                .bodyToMono(APIUtilityResponse.class)
+                .subscribe(result -> nearbyStations.put(point, result))
+        );
+        return nearbyStations;
     }
 }

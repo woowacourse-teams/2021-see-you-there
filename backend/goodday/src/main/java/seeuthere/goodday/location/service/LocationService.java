@@ -1,13 +1,14 @@
 package seeuthere.goodday.location.service;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 import seeuthere.goodday.location.config.Requesters;
 import seeuthere.goodday.location.domain.StationPoints;
 import seeuthere.goodday.location.domain.TerminalPoint;
@@ -30,7 +31,6 @@ import seeuthere.goodday.location.util.LocationCategory;
 import seeuthere.goodday.path.domain.CalibratedWalkPath;
 import seeuthere.goodday.path.domain.PathCandidate;
 import seeuthere.goodday.path.domain.PathCandidates;
-import seeuthere.goodday.path.domain.PathData;
 import seeuthere.goodday.path.domain.TransportCache;
 import seeuthere.goodday.path.domain.api.Paths;
 import seeuthere.goodday.path.dto.api.response.APITransportResponse;
@@ -42,6 +42,8 @@ import seeuthere.goodday.path.service.PathService;
 
 @Service
 public class LocationService {
+
+    private static final long LIMIT_TIME = 2_000L;
 
     private final Requesters requesters;
     private final PathService pathService;
@@ -114,7 +116,7 @@ public class LocationService {
 
     public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest) {
         Points userStartPoints = Points.valueOf(locationsRequest);
-        Map<Point, Mono<APIUtilityResponse>> nearbyStations = requesters.utility()
+        Map<Point, APIUtilityResponse> nearbyStations = requesters.utility()
             .findNearbyStations(userStartPoints);
 
         StationPoints stationPoints = StationPoints
@@ -135,14 +137,17 @@ public class LocationService {
         List<PathCandidate> uncachedResults = extractedUncachedResults(pathCandidates,
             transportPathResults);
 
-        List<PathData> subWayPathData = pathService.findSubwayPaths(uncachedResults);
-        List<PathData> busPathData = pathService.findBusPaths(pathCandidates);
+        Map<PathCandidate, APITransportResponse> subWayPathData = pathService
+            .findSubwayPaths(uncachedResults);
+        Map<PathCandidate, APITransportResponse> busPathData = pathService
+            .findBusPaths(pathCandidates);
 
-        List<Paths> pathsList = generatedPaths(subWayPathData, RedisSaveSet.SUBWAY.getRedisSaver());
+        List<Paths> pathsList = generatedPaths(uncachedResults, subWayPathData,
+            RedisSaveSet.SUBWAY.getRedisSaver());
 
         transportPathResults.addAll(pathsList);
-        transportPathResults
-            .addAll(generatedPaths(busPathData, RedisSaveSet.DEFAULT.getRedisSaver()));
+        transportPathResults.addAll(
+            generatedPaths(pathCandidates, busPathData, RedisSaveSet.DEFAULT.getRedisSaver()));
         return transportPathResults;
     }
 
@@ -192,24 +197,32 @@ public class LocationService {
         transportPathResults.add(calibratedWalkPath.getPaths());
     }
 
-    private List<Paths> generatedPaths(List<PathData> transportPathDates, RedisSaver redissaver) {
-        return transportPathDates.parallelStream()
-            .map(pathData -> {
-                    APITransportResponse transportResponse = pathData.apiTransportResponse();
-                    PathCandidate pathCandidate = pathData.getPathCandidate();
+    private List<Paths> generatedPaths(List<PathCandidate> pathCandidates, Map<PathCandidate,
+        APITransportResponse> transportPathDates, RedisSaver redissaver) {
+        Deque<PathCandidate> pathCandidateQueue = new ArrayDeque<>(pathCandidates);
+        List<Paths> pathsList = new ArrayList<>();
 
-                    PathsResponse pathsResponse = PathsResponse.valueOf(
-                        Objects.requireNonNull(transportResponse).getMsgBody());
-                    Point startPoint = pathCandidate.getUserPoint();
-                    Point endPoint = pathCandidate.getDestination().getPoint();
-                    Paths paths = pathsResponse.toPaths(startPoint, endPoint);
-                    redissaver.save(pathCandidate, transportRedisRepository, paths);
-                    CalibratedWalkPath calibratedWalkPath = CalibratedWalkPath
-                        .valueOf(paths, startPoint, endPoint);
-                    return calibratedWalkPath.getPaths();
+        while (!pathCandidateQueue.isEmpty()) {
+            PathCandidate pathCandidate = pathCandidateQueue.pollFirst();
+            APITransportResponse transportResponse = transportPathDates.get(pathCandidate);
+            long startTime = System.currentTimeMillis();
+            if (Objects.isNull(transportResponse)) {
+                if (System.currentTimeMillis() - startTime <= LIMIT_TIME) {
+                    pathCandidateQueue.addLast(pathCandidate);
                 }
-            )
-            .collect(Collectors.toList());
-    }
+                continue;
+            }
+            Point startPoint = pathCandidate.getUserPoint();
+            Point endPoint = pathCandidate.getDestination().getPoint();
+            PathsResponse pathsResponse = PathsResponse.valueOf(
+                Objects.requireNonNull(transportResponse).getMsgBody());
+            Paths paths = pathsResponse.toPaths(startPoint, endPoint);
 
+            redissaver.save(pathCandidate, transportRedisRepository, paths);
+            CalibratedWalkPath calibratedWalkPath = CalibratedWalkPath
+                .valueOf(paths, startPoint, endPoint);
+            pathsList.add(calibratedWalkPath.getPaths());
+        }
+        return pathsList;
+    }
 }

@@ -1,4 +1,6 @@
 export const ID = {
+  NOTICE_MODAL_CLOSE_BUTTON: 'notice-modal-close-button',
+
   PARTICIPANT: 'participant',
   PARTICIPANT_ADD_BUTTON: 'participant-add-button',
   PARTICIPANT_LIST: 'participant-list',

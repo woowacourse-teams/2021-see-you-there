@@ -62,6 +62,7 @@ const getConfig = ({ isDev, isAnalyzeMode }) => ({
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      favicon: './src/assets/images/favicon.png',
     }),
     new ReactRefreshWebpackPlugin(),
     new ImageMinimizerPlugin({

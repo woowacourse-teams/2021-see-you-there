@@ -157,6 +157,9 @@ export const TIPS = [
 
 export const POBI_POINT = { x: 127.10296, y: 37.515403, name: '어디서 만나?', tag: '포비 💙' };
 
+export const SEOUL = '서울';
+export const CAPITAL_AREAS = ['서울', '경기', '인천'];
+
 export const STORAGE_KEY = {
   TOKEN: 'tk',
   PARTICIPANT: 'p',

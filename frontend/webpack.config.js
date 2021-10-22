@@ -57,11 +57,12 @@ const getConfig = ({ isDev, isAnalyzeMode }) => ({
     new webpack.DefinePlugin({
       VERSION: JSON.stringify(package.version),
       KAKAO: JSON.stringify('1b0ee776c585e8fb3a1ab8da4a771a75'),
-      GTAG: JSON.stringify('G-F47EFX7Z7B'),
+      GTAG: JSON.stringify('G-BPV8LW9CRN'),
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      favicon: './src/assets/images/favicon.png',
     }),
     new ReactRefreshWebpackPlugin(),
     new ImageMinimizerPlugin({

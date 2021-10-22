@@ -5,13 +5,13 @@ import { useQuery } from 'react-query';
 
 import { ParticipantContext } from '.';
 import { httpRequest } from '../utils';
-import { API_URL, QUERY_KEY, STATUS } from '../constants';
+import { API_URL, QUERY_KEY, STATUS, CAPITAL_AREAS, SEOUL } from '../constants';
 
-// TODO: 에러 대응
 const fetchMidpoint = async ({ queryKey }) => {
-  const [_, participants] = queryKey;
+  const [_, participants, isSubwayOnly] = queryKey;
   const locations = participants.map(({ x, y }) => ({ x, y }));
-  const response = await httpRequest.post(API_URL.MIDPOINT, { body: { locations } });
+  const url = isSubwayOnly ? API_URL.MIDPOINT_SUBWAY_ONLY : API_URL.MIDPOINT;
+  const response = await httpRequest.post(url, { body: { locations } });
   const body = await response.json();
 
   if (response.status === 400) {
@@ -48,12 +48,13 @@ export const MapViewContextProvider = ({ children }) => {
   const mapViewRef = useRef(null);
   const [isMapViewLoading, setIsMapViewLoading] = useState(true);
   const [category, setCategory] = useState(null);
+  const isSubwayOnly = participants.every((p) => p.fullAddress.slice(0, 2) === SEOUL);
 
   const {
     data: midpoint,
     isLoading: isMidpointLoading,
     isError: isMidpointError,
-  } = useQuery([QUERY_KEY.MIDPOINT, participants], fetchMidpoint, {
+  } = useQuery([QUERY_KEY.MIDPOINT, participants, isSubwayOnly], fetchMidpoint, {
     enabled: pathname === '/midpoint' && !isLackParticipants,
   });
 

@@ -61,7 +61,7 @@ export const ArticleList = () => {
   }, []);
 
   return (
-    <ContentArea ref={contentAreaRef} onScroll={throttle(handleScroll, 300)}>
+    <ContentArea ref={contentAreaRef} onScroll={throttle(handleScroll)}>
       <h2>무엇이든 얘기해주세요!</h2>
       <span>관리자가 직접 답변해드릴게요 :)</span>
 

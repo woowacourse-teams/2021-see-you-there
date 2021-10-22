@@ -3,6 +3,7 @@ package seeuthere.goodday.location.service;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -43,7 +44,9 @@ import seeuthere.goodday.path.service.PathService;
 @Service
 public class LocationService {
 
-    private static final long LIMIT_TIME = 2_000L;
+    private static final long DEFAULT_LIMIT_TIME = 2_000_000_000L;
+    private static final long LIMIT_TIME = 1_000_000_000L;
+    private static final long STATION_COUNT_PER_PERSON = 70L;
 
     private final Requesters requesters;
     private final PathService pathService;
@@ -114,7 +117,7 @@ public class LocationService {
             .collect(Collectors.toList());
     }
 
-    public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest) {
+    public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest, boolean onlySubway) {
         Points userStartPoints = Points.valueOf(locationsRequest);
         Map<Point, APIUtilityResponse> nearbyStations = requesters.utility()
             .findNearbyStations(userStartPoints);
@@ -124,14 +127,14 @@ public class LocationService {
         PathCandidates pathCandidates = PathCandidates
             .valueOf(userStartPoints, stationPoints, nearbyStations);
 
-        List<Paths> transportPathResults = getPaths(pathCandidates.getPathCandidateRegistry());
+        List<Paths> transportPathResults = getPaths(pathCandidates.getPathCandidateRegistry(), onlySubway);
 
         TerminalPoint terminalPoint = TerminalPoint
             .valueOf(userStartPoints, stationPoints, transportPathResults);
         return new MiddlePointResponse(terminalPoint.getX(), terminalPoint.getY());
     }
 
-    private List<Paths> getPaths(List<PathCandidate> pathCandidates) {
+    private List<Paths> getPaths(List<PathCandidate> pathCandidates, boolean onlySubway) {
         List<Paths> transportPathResults = new ArrayList<>();
 
         List<PathCandidate> uncachedResults = extractedUncachedResults(pathCandidates,
@@ -139,15 +142,20 @@ public class LocationService {
 
         Map<PathCandidate, APITransportResponse> subWayPathData = pathService
             .findSubwayPaths(uncachedResults);
-        Map<PathCandidate, APITransportResponse> busPathData = pathService
-            .findBusPaths(pathCandidates);
+        Map<PathCandidate, APITransportResponse> busPathData = new HashMap<>();
+
+        if (!onlySubway) {
+            busPathData = pathService.findBusPaths(pathCandidates);
+        }
 
         List<Paths> pathsList = generatedPaths(uncachedResults, subWayPathData,
             RedisSaveSet.SUBWAY.getRedisSaver());
 
         transportPathResults.addAll(pathsList);
-        transportPathResults.addAll(
-            generatedPaths(pathCandidates, busPathData, RedisSaveSet.DEFAULT.getRedisSaver()));
+        if (!onlySubway) {
+            transportPathResults.addAll(
+                generatedPaths(pathCandidates, busPathData, RedisSaveSet.DEFAULT.getRedisSaver()));
+        }
         return transportPathResults;
     }
 
@@ -201,15 +209,13 @@ public class LocationService {
         APITransportResponse> transportPathDates, RedisSaver redissaver) {
         Deque<PathCandidate> pathCandidateQueue = new ArrayDeque<>(pathCandidates);
         List<Paths> pathsList = new ArrayList<>();
-
+        long startTime = System.nanoTime();
+        long expectedNumberOfPeople = pathCandidates.size() / STATION_COUNT_PER_PERSON;
         while (!pathCandidateQueue.isEmpty()) {
             PathCandidate pathCandidate = pathCandidateQueue.pollFirst();
             APITransportResponse transportResponse = transportPathDates.get(pathCandidate);
-            long startTime = System.currentTimeMillis();
             if (Objects.isNull(transportResponse)) {
-                if (System.currentTimeMillis() - startTime <= LIMIT_TIME) {
-                    pathCandidateQueue.addLast(pathCandidate);
-                }
+                validateLimitTime(pathCandidateQueue, startTime, pathCandidate, expectedNumberOfPeople);
                 continue;
             }
             Point startPoint = pathCandidate.getUserPoint();
@@ -224,5 +230,13 @@ public class LocationService {
             pathsList.add(calibratedWalkPath.getPaths());
         }
         return pathsList;
+    }
+
+    private void validateLimitTime(Deque<PathCandidate> pathCandidateQueue, long startTime,
+        PathCandidate pathCandidate, long expectedNumberOfPeople ) {
+        long diffTime = System.nanoTime() - startTime;
+        if (diffTime <= Math.max(DEFAULT_LIMIT_TIME, LIMIT_TIME * expectedNumberOfPeople)) {
+            pathCandidateQueue.addLast(pathCandidate);
+        }
     }
 }

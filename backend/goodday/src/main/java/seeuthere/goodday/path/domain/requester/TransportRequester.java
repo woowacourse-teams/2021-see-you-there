@@ -1,8 +1,10 @@
 package seeuthere.goodday.path.domain.requester;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -49,7 +51,7 @@ public class TransportRequester {
         List<PathCandidate> pathCandidates,
         TransportURL transportURL) {
 
-        Map<PathCandidate, APITransportResponse> pathData = new HashMap<>();
+        Map<PathCandidate, APITransportResponse> pathData = new ConcurrentHashMap<>();
 
         for (PathCandidate pathCandidate : pathCandidates) {
             Point nearbyStation = UtilityParser.parsePoint(pathCandidate);

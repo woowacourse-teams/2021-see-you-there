@@ -135,6 +135,8 @@ export const MESSAGE = {
     SNACKBAR_COMMENT_DELETE: '답변이 삭제되었습니다.',
 
     CONFIRM_COMMENT_DELETE: '답변을 삭제하시겠습니까?',
+
+    DEFAULT_COMMENT: '( 관리자가 확인하고 답변을 달아드릴 거에요. )',
   },
 
   AUTH: {

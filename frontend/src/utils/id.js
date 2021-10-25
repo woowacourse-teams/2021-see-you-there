@@ -4,7 +4,7 @@ export const getId = (() => {
   return () => `${new Date().getTime()}${id++}`;
 })();
 
-export const getAvatarKey = (() => {
+export const getAvatarId = (() => {
   let avatarIndex = 1;
 
   return () => {

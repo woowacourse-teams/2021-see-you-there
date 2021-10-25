@@ -5,6 +5,13 @@ describe('HomePage & MidpointPage', () => {
   before(() => {
     cy.visit('http://localhost:9000');
     sessionStorage.clear();
+
+    const noticeModalCloseButtonSelector = `button[data-testid=${ID.NOTICE_MODAL_CLOSE_BUTTON}]`;
+    cy.get('button').then(($buttons) => {
+      if ($buttons.find(noticeModalCloseButtonSelector).length) {
+        cy.get(noticeModalCloseButtonSelector).click();
+      }
+    });
   });
 
   const participants = [

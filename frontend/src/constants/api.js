@@ -1,5 +1,3 @@
-// export const API_DOMAIN = 'http://localhost:8080';
-// export const API_END_POINT = 'http://localhost:8080/api';
 const isDev = window.location.origin.includes('dev') || window.location.origin.includes('localhost');
 
 const SERVER_ORIGIN = isDev ? 'https://dev.seeyouthere.co.kr' : 'https://seeyouthere.co.kr';
@@ -12,6 +10,7 @@ export const API_END_POINT = `${SERVER_ORIGIN}/api`;
 export const API_URL = {
   ADDRESS_SEARCH: (keyword) => `${API_END_POINT}/locations/coordinate?address=${keyword}`,
   MIDPOINT: `${API_END_POINT}/locations/midPoint`,
+  MIDPOINT_SUBWAY_ONLY: `${API_END_POINT}/locations/midPoint?onlySubway=true`,
   CATEGORY: (category, { x, y }) => `${API_END_POINT}/locations/utility/${category}?x=${x}&y=${y}`,
   PATH: (transport, participant, station) =>
     `${API_END_POINT}/path/${transport}?startName=${participant.addressName}&startX=${participant.x}&startY=${participant.y}&endX=${station.x}&endY=${station.y}&endName=${station.placeName}`,
@@ -30,6 +29,16 @@ export const API_URL = {
   FRIEND_REQUEST_LIST: `${API_END_POINT}/members/friends/requestList`,
   FRIEND_RECEIVE_LIST: `${API_END_POINT}/members/friends/receiveList`,
   FRIEND_SEARCH: (keyword) => `${API_END_POINT}/members/friends/search?searchWord=${keyword}`,
+
+  ARTICLE: `${API_END_POINT}/boards`,
+  ARTICLE_BY_ID: (id) => `${API_END_POINT}/boards/${id}`,
+  ARTICLE_LIST: (size, pageNumber) => `${API_END_POINT}/boards?size=${size}&pageNumber=${pageNumber}`,
+  ARTICLE_LIST_FILTERED: (size, pageNumber, type) =>
+    `${API_END_POINT}/boards?size=${size}&pageNumber=${pageNumber}&type=${type}`,
+
+  COMMENT: (articleId) => `${API_END_POINT}/boards/${articleId}/comments`,
+
+  NOTICE: `${API_END_POINT}/notices`,
 };
 
 export const QUERY_KEY = {
@@ -52,6 +61,10 @@ export const QUERY_KEY = {
   FRIEND_RECEIVE: '받은 친구요청',
   FRIEND_SEARCH: '친구 ID검색',
   PROFILE: '내 프로필',
+
+  ARTICLE: '관리자 게시물',
+  ARTICLE_LIST: '관리자 게시판',
+  NOTICE: '공지사항',
 };
 
 export const STATUS = {

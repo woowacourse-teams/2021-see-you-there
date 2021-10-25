@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import seeuthere.goodday.location.domain.location.Point;
-import seeuthere.goodday.path.domain.PointWithName;
+import seeuthere.goodday.location.dto.PointWithName;
 import seeuthere.goodday.path.dto.response.PathsResponse;
 import seeuthere.goodday.path.service.PathService;
 

@@ -1,12 +1,16 @@
 package seeuthere.goodday.location.domain.requester;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import seeuthere.goodday.exception.GoodDayException;
+import seeuthere.goodday.location.domain.location.Point;
+import seeuthere.goodday.location.domain.location.Points;
 import seeuthere.goodday.location.dto.api.response.APIUtilityDocument;
 import seeuthere.goodday.location.dto.api.response.APIUtilityResponse;
 import seeuthere.goodday.location.exception.LocationExceptionSet;
@@ -64,5 +68,26 @@ public class UtilityRequester {
         } while (!apiUtilityResponse.getMeta().isEnd());
 
         return apiUtilityDocuments;
+    }
+
+    public Map<Point, APIUtilityResponse> findNearbyStations(Points points) {
+        Map<Point, APIUtilityResponse> nearbyStations = new HashMap<>();
+        points.getPointRegistry().forEach(point ->
+            webClient.get()
+                .uri(uriBuilder ->
+                    uriBuilder.path(BASIC_URL)
+                        .queryParam("x", point.getX())
+                        .queryParam("y", point.getY())
+                        .queryParam("category_group_code", LocationCategory.SW8.getCode())
+                        .queryParam("radius", BASIC_DISTANCE)
+                        .queryParam("page", 1)
+                        .queryParam("sort", "distance")
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(APIUtilityResponse.class)
+                .subscribe(result -> nearbyStations.put(point, result))
+        );
+        return nearbyStations;
     }
 }

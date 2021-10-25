@@ -1,18 +1,20 @@
 package seeuthere.goodday.path.service;
 
-import java.util.Objects;
+import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import seeuthere.goodday.location.config.Requesters;
 import seeuthere.goodday.location.domain.location.Point;
-import seeuthere.goodday.path.domain.Paths;
-import seeuthere.goodday.path.domain.PointWithName;
+import seeuthere.goodday.location.dto.PointWithName;
+import seeuthere.goodday.path.domain.PathCandidate;
 import seeuthere.goodday.path.domain.TransportCache;
 import seeuthere.goodday.path.domain.algorithm.Station;
 import seeuthere.goodday.path.domain.algorithm.Stations;
+import seeuthere.goodday.path.domain.api.Paths;
 import seeuthere.goodday.path.domain.requester.TransportRequester;
 import seeuthere.goodday.path.dto.api.response.APITransportResponse;
 import seeuthere.goodday.path.dto.response.PathsResponse;
-import seeuthere.goodday.path.repository.SubwayRedisRepository;
+import seeuthere.goodday.path.repository.TransportRedisRepository;
 import seeuthere.goodday.path.util.TransportURL;
 
 @Service
@@ -20,13 +22,13 @@ public class PathService {
 
     private final TransportRequester transportRequester;
     private final Requesters requesters;
-    private final SubwayRedisRepository subwayRedisRepository;
+    private final TransportRedisRepository transportRedisRepository;
 
     public PathService(TransportRequester transportRequester, Requesters requesters,
-        SubwayRedisRepository subwayRedisRepository) {
+        TransportRedisRepository transportRedisRepository) {
         this.transportRequester = transportRequester;
         this.requesters = requesters;
-        this.subwayRedisRepository = subwayRedisRepository;
+        this.transportRedisRepository = transportRedisRepository;
     }
 
     public PathsResponse findBusPath(PointWithName startPointWithName,
@@ -38,7 +40,8 @@ public class PathService {
 
     private PathsResponse getPathsResponseWithWalk(PointWithName startPointWithName,
         PointWithName endPointWithName, PathsResponse pathsResponse) {
-        Paths paths = pathsResponse.toPaths();
+        Paths paths = pathsResponse.toPaths(startPointWithName.getPoint(),
+            endPointWithName.getPoint());
         Paths walkWithPaths = paths.pathsWithWalk(startPointWithName, endPointWithName);
         walkWithPaths.sort();
         return PathsResponse.valueOf(walkWithPaths);
@@ -51,23 +54,24 @@ public class PathService {
         Station endStation = Stations.of(requesters.utility(), endPointWithName.getPoint())
             .getNearestStation();
 
-        TransportCache transportCache = subwayRedisRepository.findById(
+        TransportCache transportCache = transportRedisRepository.findById(
             redisId(startStation, endStation))
             .orElseGet(() -> saveRedisCachePathsResponse(startStation, endStation));
 
-        APITransportResponse apiTransportResponse = validAPITransportResponse(transportCache);
-        PathsResponse pathsResponse = PathsResponse.valueOf(apiTransportResponse.getMsgBody());
+        Paths paths = transportCache.getPaths();
+        PathsResponse pathsResponse = PathsResponse.valueOf(paths);
 
         return getPathsResponseWithWalk(startPointWithName, endPointWithName, pathsResponse);
     }
 
-    private APITransportResponse validAPITransportResponse(TransportCache transportCache) {
-        APITransportResponse apiTransportResponse = transportCache.getApiTransportResponse();
-        if (Objects.isNull(apiTransportResponse)) {
-            apiTransportResponse = new APITransportResponse();
-        }
-        return apiTransportResponse;
-    }
+//    private APITransportResponse validAPITransportResponse(TransportCache transportCache) {
+//        Paths paths = transportCache.getPaths();
+//        APITransportResponse apiTransportResponse = transportCache.getApiTransportResponse();
+//        if (Objects.isNull(apiTransportResponse)) {
+//            apiTransportResponse = new APITransportResponse();
+//        }
+//        return apiTransportResponse;
+//    }
 
     public PathsResponse findTransferPath(PointWithName startPointWithName,
         PointWithName endPointWithName) {
@@ -84,9 +88,11 @@ public class PathService {
             startStation.getPoint(),
             endStation.getPoint(),
             TransportURL.SUBWAY);
+        PathsResponse pathsResponse = PathsResponse.valueOf(apiTransportResponse.getMsgBody());
+        Paths paths = pathsResponse.toPaths(startStation.getPoint(), endStation.getPoint());
         TransportCache transportCache = new TransportCache(redisId(startStation, endStation),
-            apiTransportResponse);
-        subwayRedisRepository.save(transportCache);
+            paths);
+        transportRedisRepository.save(transportCache);
         return transportCache;
     }
 
@@ -97,6 +103,17 @@ public class PathService {
     }
 
     private String redisId(Station startStation, Station endStation) {
-        return "subway:" + startStation + endStation;
+        return "subway:" + startStation.getPoint() + endStation.getPoint();
+    }
+
+    // todo - findPaths로 추상화할지 정하기
+    public Map<PathCandidate, APITransportResponse> findSubwayPaths(
+        List<PathCandidate> pathCandidates) {
+        return transportRequester.pathsByTransport(pathCandidates, TransportURL.SUBWAY);
+    }
+
+    public Map<PathCandidate, APITransportResponse> findBusPaths(
+        List<PathCandidate> pathCandidates) {
+        return transportRequester.pathsByTransport(pathCandidates, TransportURL.BUS);
     }
 }

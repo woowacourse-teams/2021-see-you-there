@@ -4,55 +4,43 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import seeuthere.goodday.location.dto.response.UtilityResponse;
+import seeuthere.goodday.location.domain.StationPoint;
 
 public class DuplicateStationRemover {
 
     private static final String DELIMITER = " ";
 
-    private final List<UtilityResponse> utilityResponseList;
+    private final List<StationPoint> stationPoints;
 
-    public DuplicateStationRemover(List<UtilityResponse> utilityResponseList) {
-        this.utilityResponseList = utilityResponseList;
+    public DuplicateStationRemover(
+        List<StationPoint> stationPoints) {
+        this.stationPoints = stationPoints;
     }
 
-    public static String translatedStationName(String placeName) {
+    public List<StationPoint> result() {
+        List<StationPoint> utilityResponses = new ArrayList<>();
+        Set<String> stations = new HashSet<>();
+        for (StationPoint stationPoint : stationPoints) {
+            insertValidStation(utilityResponses, stations, stationPoint);
+        }
+        return utilityResponses;
+    }
+
+    private void insertValidStation(List<StationPoint> utilityResponses, Set<String> stations,
+        StationPoint stationPoint) {
+        String name = translatedStationName(stationPoint.getKey());
+
+        if (!stations.contains(name)) {
+            stations.add(name);
+            utilityResponses.add(stationPoint);
+        }
+    }
+
+    private String translatedStationName(String placeName) {
         String name = placeName.split(DELIMITER)[0];
         if (DuplicatedEdgeCase.isContain(name)) {
             return placeName;
         }
         return name;
-    }
-
-    public List<UtilityResponse> result() {
-        List<UtilityResponse> utilityResponses = new ArrayList<>();
-        Set<String> stations = new HashSet<>();
-        for (UtilityResponse response : utilityResponseList) {
-            insertValidStation(utilityResponses, stations, response);
-        }
-        return utilityResponses;
-    }
-
-    private void insertValidStation(List<UtilityResponse> utilityResponses, Set<String> stations,
-        UtilityResponse response) {
-        String name = translatedStationName(response.getPlaceName());
-
-        if (!stations.contains(name)) {
-            stations.add(name);
-            UtilityResponse utilityResponse = createdUtilityResponse(response, name);
-            utilityResponses.add(utilityResponse);
-        }
-    }
-
-    private UtilityResponse createdUtilityResponse(UtilityResponse response, String name) {
-        return new UtilityResponse.Builder()
-            .x(response.getX())
-            .y(response.getY())
-            .addressName(response.getAddressName())
-            .distance(response.getDistance())
-            .roadAddressName(response.getRoadAddressName())
-            .placeUrl(response.getPlaceUrl())
-            .placeName(name)
-            .build();
     }
 }

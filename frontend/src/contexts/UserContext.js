@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   nickname: null,
   profileImage: null,
   memberId: null,
+  adminInfo: null,
 };
 
 export const UserContext = createContext();
@@ -26,7 +27,7 @@ export const UserContextProvider = ({ children }) => {
 
   const [token, setToken] = useState(INITIAL_TOKEN);
   const [user, setUser] = useState(INITIAL_STATE);
-  const { id, memberId, nickname, profileImage } = user;
+  const { id, memberId, nickname, profileImage, adminInfo: isAdmin } = user;
 
   const login = (userInfo) => {
     const { nickname, token } = userInfo;
@@ -58,7 +59,7 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
-  const httpAuthRequest = async ({ method, url, body }) => {
+  const httpAuthRequest = async ({ method = 'get', url, body }) => {
     const response = await httpRequest[method](url, { token, body });
 
     if (response.status === 401) {
@@ -162,6 +163,7 @@ export const UserContextProvider = ({ children }) => {
         nickname,
         profileImage,
         token,
+        isAdmin,
 
         httpAuthRequest,
 

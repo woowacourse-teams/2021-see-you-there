@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon } from '../../components';
-import { ParticipantChipContainer, ParticipantChipList, ParticipantChip, Avatar, Name } from './style';
+import { Icon, Avatar } from '../../components';
+import { ParticipantChipContainer, ParticipantChipList, ParticipantChip, Name } from './style';
 
 export const ParticipantChips = (props) => {
   const { items, participantId, setParticipant } = props;
@@ -17,14 +17,19 @@ export const ParticipantChips = (props) => {
       </button>
       <ParticipantChipList chipLength={items.length} shiftCount={chipIndex}>
         {items.map((item) => {
-          const { id, name, avatar } = item;
+          const { id, name, src, avatarId } = item;
 
           return (
             <li key={id}>
               <ParticipantChip onClick={() => setParticipant(item)}>
-                <Avatar isSelected={id === participantId}>
-                  <img src={avatar} alt={name} />
-                </Avatar>
+                <Avatar
+                  size="2.5rem"
+                  isSelected={id === participantId}
+                  hasShadow
+                  src={src}
+                  avatarId={avatarId}
+                  alt={name}
+                />
                 <Name>{name}</Name>
               </ParticipantChip>
             </li>
@@ -41,8 +46,10 @@ export const ParticipantChips = (props) => {
 ParticipantChips.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       name: PropTypes.string,
-      avatar: PropTypes.string,
+      src: PropTypes.string,
+      avatarId: PropTypes.string,
     })
   ).isRequired,
   participantId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

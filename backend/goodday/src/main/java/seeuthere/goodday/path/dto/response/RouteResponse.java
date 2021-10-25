@@ -1,17 +1,20 @@
 package seeuthere.goodday.path.dto.response;
 
-import seeuthere.goodday.path.domain.Route;
+import seeuthere.goodday.path.domain.api.Route;
 import seeuthere.goodday.path.dto.api.response.APIPathListResponse;
 
 public class RouteResponse {
 
-    private final double startX;
-    private final double startY;
-    private final String startName;
-    private final String routeName;
-    private final double endX;
-    private final double endY;
-    private final String endName;
+    private double startX;
+    private double startY;
+    private String startName;
+    private String routeName;
+    private double endX;
+    private double endY;
+    private String endName;
+
+    public RouteResponse() {
+    }
 
     public RouteResponse(double startX, double startY, String startName, String routeName,
         double endX, double endY, String endName) {

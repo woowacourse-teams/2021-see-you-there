@@ -10,4 +10,6 @@ import seeuthere.goodday.member.domain.Member;
 public interface AdminRepository extends JpaRepository<Admin, Long> {
 
     Optional<Admin> findAdminByMember(Member member);
+
+    boolean existsAdminByMemberId(String memberId);
 }

@@ -61,7 +61,7 @@ class BoardTest {
     void addComment() {
         //given
         String content = "댓글을 달았습니다.";
-        Comment comment = new Comment(content, board, DataLoader.관리자와이비);
+        Comment comment = new Comment(content, board);
 
         //when
         board.addComment(comment);
@@ -76,7 +76,7 @@ class BoardTest {
     void addCommentWithExistException() {
         //given
         String content = "댓글을 달았습니다.";
-        Comment comment = new Comment(content, board, DataLoader.관리자와이비);
+        Comment comment = new Comment(content, board);
         board.addComment(comment);
 
         //when
@@ -90,7 +90,7 @@ class BoardTest {
     void deleteComment() {
         //given
         String content = "댓글을 달았습니다.";
-        Comment comment = new Comment(content, board, DataLoader.관리자와이비);
+        Comment comment = new Comment(content, board);
         board.addComment(comment);
 
         //when
@@ -105,7 +105,7 @@ class BoardTest {
     void validateUpdateBoard() {
         //when
         String content = "댓글을 달았습니다.";
-        Comment comment = new Comment(content, board, DataLoader.관리자와이비);
+        Comment comment = new Comment(content, board);
         board.addComment(comment);
 
         //then

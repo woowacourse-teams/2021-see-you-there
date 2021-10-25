@@ -112,7 +112,7 @@ class LocationAcceptanceTest extends AcceptanceTest {
     @DisplayName("midPoint 테스트")
     void midPoint() {
         //given
-        String path = "/api/locations/midPoint";
+        String path = "/api/locations/midPoint?onlySubway=false";
         LocationsDto locations = new LocationsDto();
         locations.add(new Point(126.93103838968054, 37.488456683299155));
         locations.add(new Point(126.8951914712376, 37.48025238823605));

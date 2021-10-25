@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { COLOR, LAYOUT } from '../../../constants';
+import { LAYOUT } from '../../../constants';
 
 export const List = styled.ul`
   display: grid;
@@ -31,24 +31,6 @@ export const DeleteButton = styled.button`
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     left: 2rem;
-  }
-`;
-
-export const Avatar = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 4.25rem;
-  height: 4.25rem;
-
-  border-radius: 100%;
-  background-color: ${COLOR.BACKGROUND};
-
-  & > img {
-    width: 3.25rem;
-    height: 3.25rem;
-
-    border-radius: 50%;
   }
 `;
 

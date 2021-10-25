@@ -66,7 +66,8 @@ export const QuickAddModal = (props) => {
 
     const newParticipant = {
       id: getId(),
-      avatar: profileImage,
+      avatarId: null, // src가 있는 경우 avatarId를 사용하지 않음
+      src: profileImage,
       name: nickname,
       ...address,
     };

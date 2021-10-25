@@ -1,32 +1,41 @@
 import React from 'react';
-import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import { Switch, useRouteMatch } from 'react-router-dom';
 
 import { ArticleList } from './ArticleList';
 import { ArticleView } from './ArticleView';
-import { ArticleNew } from './ArticleNew';
-import { ContentArea } from './style';
+import { ArticleForm } from './ArticleForm';
+import { RouteWithVisitLogging } from '../../components';
+import { BoardContextProvider } from '../../contexts';
+
+const MIN_ARTICLE_COUNT_PER_PAGE = 3;
+const HEADER_HEIGHT = 280;
+const CARD_HEIGHT = 120;
 
 const BoardPage = () => {
   const { path } = useRouteMatch();
+  const articleCountPerPage = Math.max(
+    MIN_ARTICLE_COUNT_PER_PAGE,
+    Math.floor(((window.innerHeight - HEADER_HEIGHT) / CARD_HEIGHT) * 2)
+  );
 
   return (
     <main>
-      <ContentArea>
-        <h2>무엇이든 얘기해주세요!</h2>
-        <span>관리자가 직접 답변해드릴게요 :)</span>
-
+      <BoardContextProvider articleCountPerPage={articleCountPerPage}>
         <Switch>
-          <Route exact path={path}>
+          <RouteWithVisitLogging exact path={path}>
             <ArticleList />
-          </Route>
-          <Route exact path={`${path}/new`}>
-            <ArticleNew />
-          </Route>
-          <Route path={`${path}/:id`}>
+          </RouteWithVisitLogging>
+          <RouteWithVisitLogging exact path={`${path}/new`}>
+            <ArticleForm />
+          </RouteWithVisitLogging>
+          <RouteWithVisitLogging exact path={`${path}/:articleId/edit`}>
+            <ArticleForm />
+          </RouteWithVisitLogging>
+          <RouteWithVisitLogging path={`${path}/:articleId`}>
             <ArticleView />
-          </Route>
+          </RouteWithVisitLogging>
         </Switch>
-      </ContentArea>
+      </BoardContextProvider>
     </main>
   );
 };

@@ -308,6 +308,23 @@ class BoardAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    @DisplayName("관리자가 아닌 사람이 답글을 삭제하면 에러가 발생한다..")
+    void deleteCommentWithNotAdmin() {
+        // given
+        String identifier = "board/comment-delete-authenticate-exception";
+        Board board = createBoard();
+        addComment(board);
+
+        //when
+        ExtractableResponse<Response> response = makeResponse(
+            String.format("/api/boards/%d/comments", board.getId()), TestMethod.DELETE,
+            DataLoader.멍토토큰, identifier);
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
     @DisplayName("답글이 있는 상태에서 생성하면 에러가 발생한다.")
     void createAnotherCommentException() {
         String identifier = "board/comment-create-exception";
@@ -470,7 +487,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
     }
 
     private void addComment(Board board) {
-        Comment comment = new Comment("수정전 답변입니다.", board, DataLoader.관리자하루);
+        Comment comment = new Comment("수정전 답변입니다.", board);
         boardService.addComment(board, comment);
     }
 }

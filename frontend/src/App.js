@@ -1,11 +1,11 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 import HomePage from './pages/Home';
 import BlankPage from './pages/Blank';
-import { AuthRoute, NavBar } from './components';
+import { RouteWithVisitLogging, AuthRoute, NavBar } from './components';
 import {
   UserContextProvider,
   ParticipantContextProvider,
@@ -49,17 +49,17 @@ export const App = () => {
               <NavBar />
               <Suspense fallback={<BlankPage />}>
                 <Switch>
-                  <Route exact path={ROUTE.HOME.PATH}>
+                  <RouteWithVisitLogging exact path={ROUTE.HOME.PATH}>
                     <HomePage />
-                  </Route>
-                  <Route exact path={ROUTE.MIDPOINT.PATH}>
+                  </RouteWithVisitLogging>
+                  <RouteWithVisitLogging exact path={ROUTE.MIDPOINT.PATH}>
                     <MapViewContextProvider>
                       <MidpointPage />
                     </MapViewContextProvider>
-                  </Route>
-                  <Route exact path={ROUTE.SHARE.PATH}>
+                  </RouteWithVisitLogging>
+                  <RouteWithVisitLogging exact path={ROUTE.SHARE.PATH}>
                     <SharePage />
-                  </Route>
+                  </RouteWithVisitLogging>
 
                   <AuthRoute path={ROUTE.WELCOME.PATH}>
                     <WelcomePage />
@@ -73,29 +73,29 @@ export const App = () => {
                   <AuthRoute path={ROUTE.FRIEND.PATH}>
                     <FriendPage />
                   </AuthRoute>
-                  <Route path={ROUTE.BOARD.PATH}>
+                  <AuthRoute path={ROUTE.BOARD.PATH}>
                     <BoardPage />
-                  </Route>
+                  </AuthRoute>
 
-                  <Route exact path={ROUTE.LOGIN.PATH}>
+                  <RouteWithVisitLogging exact path={ROUTE.LOGIN.PATH}>
                     <LoginPage />
-                  </Route>
-                  <Route path={[ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGIN_NAVER.PATH]}>
+                  </RouteWithVisitLogging>
+                  <RouteWithVisitLogging path={[ROUTE.LOGIN_KAKAO.PATH, ROUTE.LOGIN_NAVER.PATH]}>
                     <OAuthPage />
-                  </Route>
-                  <Route path={ROUTE.LOGOUT.PATH}>
+                  </RouteWithVisitLogging>
+                  <RouteWithVisitLogging path={ROUTE.LOGOUT.PATH}>
                     <LogoutPage />
-                  </Route>
+                  </RouteWithVisitLogging>
 
-                  <Route exact path={ROUTE.ERROR.PATH}>
+                  <RouteWithVisitLogging exact path={ROUTE.ERROR.PATH}>
                     <ErrorPage />
-                  </Route>
-                  <Route exact path={ROUTE.EXPIRED.PATH}>
+                  </RouteWithVisitLogging>
+                  <RouteWithVisitLogging exact path={ROUTE.EXPIRED.PATH}>
                     <ExpiredPage />
-                  </Route>
-                  <Route exact path={ROUTE.NOT_FOUND.PATH}>
+                  </RouteWithVisitLogging>
+                  <RouteWithVisitLogging exact path={ROUTE.NOT_FOUND.PATH}>
                     <NotFoundPage />
-                  </Route>
+                  </RouteWithVisitLogging>
                 </Switch>
               </Suspense>
             </UserContextProvider>

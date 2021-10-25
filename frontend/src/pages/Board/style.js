@@ -22,7 +22,9 @@ const styleWidth = {
 };
 
 export const ContentArea = styled.section`
-  ${CONTENT_AREA.DEFAULT}
+  ${CONTENT_AREA.DEFAULT};
+
+  overflow-y: scroll;
 
   & > span:nth-child(2) {
     margin-top: -1rem;
@@ -32,24 +34,27 @@ export const ContentArea = styled.section`
   }
 `;
 
-export const ButtonSection = styled.section`
+export const HeaderSection = styled.section`
   ${styleWidth.board};
 
+  position: sticky;
+  top: calc(${LAYOUT.NAV_HEIGHT} - ${LAYOUT.CONTENT_PADDING_TOP});
   display: flex;
-  justify-content: flex-end;
-  margin-top: 1.25rem;
-`;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${LAYOUT.PADDING} 0;
 
-export const ListSection = styled.section`
-  ${styleWidth.board};
+  background-color: ${COLOR.BACKGROUND};
 
-  display: flex;
-  flex-direction: column;
+  @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    top: calc(${LAYOUT.NAV_HEIGHT} - ${LAYOUT.CONTENT_PADDING_TOP_TABLET});
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
 `;
 
 export const Filter = styled.div`
   display: flex;
-  margin-top: ${LAYOUT.MARGIN};
   padding: ${LAYOUT.PADDING_HALF} ${LAYOUT.PADDING};
   width: fit-content;
 
@@ -62,6 +67,7 @@ export const Filter = styled.div`
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+    margin-top: ${LAYOUT.MARGIN};
     justify-content: center;
     width: 100%;
   }
@@ -84,8 +90,15 @@ export const FilterItem = styled.li`
   }
 `;
 
+export const ListSection = styled.section`
+  ${styleWidth.board};
+
+  display: flex;
+  flex-direction: column;
+`;
+
 export const List = styled.ol`
-  margin-top: ${LAYOUT.MARGIN};
+  margin-top: ${LAYOUT.MARGIN_HALF};
   font-size: 0.9rem;
   width: 100%;
 
@@ -104,16 +117,16 @@ export const ListItem = styled.li`
   & > a {
     display: flex;
     align-items: center;
-    padding: 2.5rem 2rem;
     gap: 1.75rem;
+    padding: 2.5rem 2rem;
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
     & > a {
       flex-direction: column;
       align-items: flex-start;
-      padding: 1.5rem 0.5rem;
       gap: 0.5rem;
+      padding: 1.5rem 0.5rem;
     }
   }
 `;
@@ -240,21 +253,7 @@ export const ArticleBody = styled.section`
     min-height: 12rem;
 
     line-height: 3;
-    white-space: normal;
-  }
-
-  & > form {
-    display: ${(props) => (props.isEditing ? 'block' : 'none')};
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    & > textarea {
-      line-height: 2.9;
-      white-space: normal;
-    }
+    white-space: pre-wrap;
   }
 `;
 
@@ -284,7 +283,7 @@ export const CommentBody = styled.section`
     min-height: 5rem;
 
     line-height: 2;
-    white-space: normal;
+    white-space: pre-wrap;
   }
 
   & > form {
@@ -333,8 +332,8 @@ export const Divider = styled.hr`
   margin: 0.5rem 0;
 `;
 
-/* ArticleNew.js */
-export const ArticleNewForm = styled.form`
+/* ArticleForm.js */
+export const Form = styled.form`
   ${styleWidth.board};
 
   display: flex;
@@ -372,7 +371,7 @@ export const ArticleTypeSelector = styled.div`
   }
 `;
 
-export const ArticleFormLabel = styled.label`
+export const FormLabel = styled.label`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -400,6 +399,7 @@ export const ArticleFormLabel = styled.label`
   }
 
   > textarea {
+    line-height: 2;
     height: 12rem;
   }
 `;

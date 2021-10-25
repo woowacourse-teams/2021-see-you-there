@@ -5,9 +5,8 @@ import { AddressSearchModal, ButtonSquare, Icon, Input, Notice } from '../../com
 import { AddFormContext, ParticipantContext, SnackbarContext } from '../../contexts';
 import { useModal, useParticipantNameInput, useAddressInput } from '../../hooks';
 import { AddForm, QuickAddButton, InputWithButtonWrapper } from './style';
-import { getId, getAvatarKey, isViewWiderThan } from '../../utils';
+import { getId, getAvatarId, isViewWiderThan } from '../../utils';
 import { ID, LAYOUT } from '../../constants';
-import { avatar } from '../../assets';
 
 export const ParticipantAddForm = () => {
   const { enqueueSnackbar } = useContext(SnackbarContext);
@@ -35,7 +34,8 @@ export const ParticipantAddForm = () => {
 
     const newParticipant = {
       id: getId(),
-      avatar: avatar[getAvatarKey()],
+      avatarId: getAvatarId(),
+      src: null, // avatarId를 사용하는 경우 별도의 src를 사용하지 않음
       name,
       ...address,
     };

@@ -1,4 +1,4 @@
-import { getAvatarKey } from '../utils';
+import { getAvatarId } from '../utils';
 import { avatar } from '../assets';
 
 export const MOCK_PARTICIPANT_LIST = [
@@ -88,25 +88,25 @@ export const MOCK_FRIEND_LIST = [
   {
     memberId: '365kim',
     nickname: '365kim',
-    profileImage: avatar[getAvatarKey()],
+    profileImage: avatar[getAvatarId()],
     addresses: [],
   },
   {
     memberId: '0imbean0',
     nickname: '임심바',
-    profileImage: avatar[getAvatarKey()],
+    profileImage: avatar[getAvatarId()],
     addresses: [],
   },
   {
     memberId: 'daum7766',
     nickname: '김멍토',
-    profileImage: avatar[getAvatarKey()],
+    profileImage: avatar[getAvatarId()],
     addresses: [],
   },
   {
     memberId: 'hybeom0720',
     nickname: '와이빛',
-    profileImage: avatar[getAvatarKey()],
+    profileImage: avatar[getAvatarId()],
     addresses: [],
   },
 ];
@@ -241,6 +241,36 @@ export const MOCK_BOARD_ITEM_LIST = [
   },
   {
     id: 10,
+    createTime: '2021-09-17T05:26:23.91719',
+    updateTime: '2021-09-17T05:26:23.91719',
+    memberId: '0imbean0',
+    title: '점이 찍히나 더 길게 씁니다 이거는 진짜로 더 긴 글 제목이에요',
+    content: '고쳐달라는 내용이에요',
+    commentResponse: null,
+    label: 'FIX',
+  },
+  {
+    id: 12,
+    createTime: '2021-09-17T05:26:23.91719',
+    updateTime: '2021-09-17T05:26:23.91719',
+    memberId: '0imbean0',
+    title: '점이 찍히나 더 길게 씁니다 이거는 진짜로 더 긴 글 제목이에요',
+    content: '고쳐달라는 내용이에요',
+    commentResponse: null,
+    label: 'FIX',
+  },
+  {
+    id: 13,
+    createTime: '2021-09-17T05:26:23.91719',
+    updateTime: '2021-09-17T05:26:23.91719',
+    memberId: '0imbean0',
+    title: '점이 찍히나 더 길게 씁니다 이거는 진짜로 더 긴 글 제목이에요',
+    content: '고쳐달라는 내용이에요',
+    commentResponse: null,
+    label: 'FIX',
+  },
+  {
+    id: 14,
     createTime: '2021-09-17T05:26:23.91719',
     updateTime: '2021-09-17T05:26:23.91719',
     memberId: '0imbean0',

@@ -3,6 +3,7 @@ package seeuthere.goodday.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -20,6 +21,14 @@ import seeuthere.goodday.secret.SecretKey;
 public class WebClientConfig {
 
     private final SecretKey secretKey;
+    @Value("${domain.kakao.auth}")
+    private String kakaoAuthURL;
+    @Value("${domain.kakao.web}")
+    private String kakaoWebURL;
+    @Value("${domain.kakao.host}")
+    private String kakaoHostURL;
+    @Value("${domain.transport}")
+    private String transportURL;
 
     public WebClientConfig(SecretKey secretKey) {
         this.secretKey = secretKey;
@@ -31,7 +40,7 @@ public class WebClientConfig {
         ExchangeStrategies exchangeStrategies = getExchangeStrategies(baseConfig);
 
         return WebClient.builder()
-            .baseUrl("https://dapi.kakao.com")
+            .baseUrl(kakaoWebURL)
             .exchangeStrategies(exchangeStrategies)
             .defaultHeader("Authorization", "KakaoAK " + secretKey.getKakaoApiKey())
             .build();
@@ -41,7 +50,7 @@ public class WebClientConfig {
     @Qualifier("TransportWebClient")
     public WebClient transportWebClient(ObjectMapper baseConfig) {
         ExchangeStrategies exchangeStrategies = getExchangeStrategies(baseConfig);
-        String apiUrl = "http://ws.bus.go.kr/api/rest/pathinfo";
+        String apiUrl = transportURL;
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(apiUrl);
         factory.setEncodingMode(EncodingMode.VALUES_ONLY);
 
@@ -57,7 +66,7 @@ public class WebClientConfig {
     public WebClient kakaoHostClient(ObjectMapper baseConfig) {
         ExchangeStrategies exchangeStrategies = getExchangeStrategies(baseConfig);
         return WebClient.builder()
-            .baseUrl("https://kapi.kakao.com")
+            .baseUrl(kakaoHostURL)
             .exchangeStrategies(exchangeStrategies)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
@@ -68,7 +77,7 @@ public class WebClientConfig {
     public WebClient kakaoAuthClient(ObjectMapper baseConfig) {
         ExchangeStrategies exchangeStrategies = getExchangeStrategies(baseConfig);
         return WebClient.builder()
-            .baseUrl("https://kauth.kakao.com")
+            .baseUrl(kakaoAuthURL)
             .exchangeStrategies(exchangeStrategies)
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();

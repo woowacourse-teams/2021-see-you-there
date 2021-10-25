@@ -1,4 +1,5 @@
 export { Animation } from './atoms/Animation';
+export { Avatar } from './atoms/Avatar';
 export { ButtonRound } from './atoms/ButtonRound';
 export { ButtonSquare } from './atoms/ButtonSquare';
 export { Icon } from './atoms/Icon';
@@ -21,3 +22,4 @@ export { MidpointLoader } from './molecules/MidpointLoader';
 export { Confirm } from './molecules/Confirm';
 export { ParticipantList } from './molecules/ParticipantList';
 export { Picture } from './molecules/Picture';
+export { RouteWithVisitLogging } from './molecules/RouteWithVisitLogging';

@@ -42,6 +42,7 @@ export const Dimmer = styled.div`
 export const Container = styled.div`
   ${(props) => styleSize[props.size]};
 
+  position: relative; // NoticeModal 을 위해 추가
   display: flex;
   flex-direction: column;
   justify-content: center;

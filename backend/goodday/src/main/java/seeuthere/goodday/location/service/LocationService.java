@@ -1,51 +1,65 @@
 package seeuthere.goodday.location.service;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import seeuthere.goodday.location.config.Requesters;
-import seeuthere.goodday.location.domain.algorithm.DuplicateStationRemover;
-import seeuthere.goodday.location.domain.algorithm.PathResult;
-import seeuthere.goodday.location.domain.algorithm.StationGrades;
+import seeuthere.goodday.location.domain.StationPoints;
+import seeuthere.goodday.location.domain.TerminalPoint;
 import seeuthere.goodday.location.domain.combiner.AxisKeywordCombiner;
-import seeuthere.goodday.location.domain.location.MiddlePoint;
 import seeuthere.goodday.location.domain.location.Point;
 import seeuthere.goodday.location.domain.location.Points;
 import seeuthere.goodday.location.domain.location.WeightStations;
 import seeuthere.goodday.location.domain.requester.CoordinateRequester;
 import seeuthere.goodday.location.domain.requester.SearchRequester;
-import seeuthere.goodday.location.dto.PathTransferResult;
 import seeuthere.goodday.location.dto.api.response.APIAxisDocument;
 import seeuthere.goodday.location.dto.api.response.APILocationDocument;
 import seeuthere.goodday.location.dto.api.response.APIUtilityDocument;
+import seeuthere.goodday.location.dto.api.response.APIUtilityResponse;
 import seeuthere.goodday.location.dto.request.LocationsRequest;
 import seeuthere.goodday.location.dto.response.LocationResponse;
 import seeuthere.goodday.location.dto.response.MiddlePointResponse;
 import seeuthere.goodday.location.dto.response.SpecificLocationResponse;
 import seeuthere.goodday.location.dto.response.UtilityResponse;
-import seeuthere.goodday.location.repository.PathResultRedisRepository;
 import seeuthere.goodday.location.util.LocationCategory;
-import seeuthere.goodday.path.domain.PointWithName;
+import seeuthere.goodday.path.domain.CalibratedWalkPath;
+import seeuthere.goodday.path.domain.PathCandidate;
+import seeuthere.goodday.path.domain.PathCandidates;
+import seeuthere.goodday.path.domain.TransportCache;
+import seeuthere.goodday.path.domain.api.Paths;
+import seeuthere.goodday.path.dto.api.response.APITransportResponse;
+import seeuthere.goodday.path.dto.response.PathsResponse;
+import seeuthere.goodday.path.repository.TransportRedisRepository;
+import seeuthere.goodday.path.repository.support.RedisSaveSet;
+import seeuthere.goodday.path.repository.support.RedisSaver;
 import seeuthere.goodday.path.service.PathService;
 
 @Service
 public class LocationService {
 
+    private static final long DEFAULT_LIMIT_TIME = 2_000_000_000L;
+    private static final long LIMIT_TIME = 1_000_000_000L;
+    private static final long STATION_COUNT_PER_PERSON = 70L;
+
     private final Requesters requesters;
     private final PathService pathService;
-    private final PathResultRedisRepository pathResultRedisRepository;
+    private final TransportRedisRepository transportRedisRepository;
     private final WeightStations weightStations;
 
-    public LocationService(
-        Requesters requesters,
-        PathService pathService, PathResultRedisRepository pathResultRedisRepository,
+    public LocationService(Requesters requesters,
+        PathService pathService,
+        TransportRedisRepository transportRedisRepository,
         WeightStations weightStations) {
         this.requesters = requesters;
         this.pathService = pathService;
-        this.pathResultRedisRepository = pathResultRedisRepository;
+        this.transportRedisRepository = transportRedisRepository;
         this.weightStations = weightStations;
     }
 
@@ -103,105 +117,126 @@ public class LocationService {
             .collect(Collectors.toList());
     }
 
-    public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest) {
-        Points points = Points.valueOf(locationsRequest);
-        List<UtilityResponse> result = middleUtilityResponses(points);
+    public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest, boolean onlySubway) {
+        Points userStartPoints = Points.valueOf(locationsRequest);
+        Map<Point, APIUtilityResponse> nearbyStations = requesters.utility()
+            .findNearbyStations(userStartPoints);
 
-        Map<Point, Map<Point, PathResult>> responsesFromPoint = getPointsToPath(points, result);
+        StationPoints stationPoints = StationPoints
+            .valueOf(userStartPoints, weightStations, requesters);
+        PathCandidates pathCandidates = PathCandidates
+            .valueOf(userStartPoints, stationPoints, nearbyStations);
 
-        StationGrades stationGrades = StationGrades.valueOf(points, result, responsesFromPoint);
+        List<Paths> transportPathResults = getPaths(pathCandidates.getPathCandidateRegistry(), onlySubway);
 
-        UtilityResponse finalResponse = stationGrades.finalUtilityResponse();
-        return new MiddlePointResponse(finalResponse.getX(), finalResponse.getY());
+        TerminalPoint terminalPoint = TerminalPoint
+            .valueOf(userStartPoints, stationPoints, transportPathResults);
+        return new MiddlePointResponse(terminalPoint.getX(), terminalPoint.getY());
     }
 
-    private List<UtilityResponse> middleUtilityResponses(Points points) {
-        MiddlePoint middlePoint = MiddlePoint.valueOf(points);
-        List<UtilityResponse> utilityResponses = findSubway(middlePoint.getX(), middlePoint.getY());
-        Set<String> keys = weightStations.getKeys();
-        for (String key : keys) {
-            insertMiddleUtilityResponse(utilityResponses, key);
+    private List<Paths> getPaths(List<PathCandidate> pathCandidates, boolean onlySubway) {
+        List<Paths> transportPathResults = new ArrayList<>();
+
+        List<PathCandidate> uncachedResults = extractedUncachedResults(pathCandidates,
+            transportPathResults);
+
+        Map<PathCandidate, APITransportResponse> subWayPathData = pathService
+            .findSubwayPaths(uncachedResults);
+        Map<PathCandidate, APITransportResponse> busPathData = new HashMap<>();
+
+        if (!onlySubway) {
+            busPathData = pathService.findBusPaths(pathCandidates);
         }
 
-        DuplicateStationRemover duplicateStationRemover = new DuplicateStationRemover(
-            utilityResponses);
-        return duplicateStationRemover.result();
-    }
+        List<Paths> pathsList = generatedPaths(uncachedResults, subWayPathData,
+            RedisSaveSet.SUBWAY.getRedisSaver());
 
-    private void insertMiddleUtilityResponse(List<UtilityResponse> utilityResponses, String key) {
-        Point point = weightStations.get(key);
-        UtilityResponse utilityResponse = new UtilityResponse.Builder()
-            .placeName(key)
-            .x(point.getX())
-            .y(point.getY())
-            .build();
-        utilityResponses.add(utilityResponse);
-    }
-
-    private Map<Point, Map<Point, PathResult>> getPointsToPath(Points points,
-        List<UtilityResponse> utilityResponses) {
-        Map<Point, Map<Point, PathResult>> responsesFromPoint = new HashMap<>();
-
-        for (UtilityResponse response : utilityResponses) {
-            calculateSource(points, responsesFromPoint, response);
+        transportPathResults.addAll(pathsList);
+        if (!onlySubway) {
+            transportPathResults.addAll(
+                generatedPaths(pathCandidates, busPathData, RedisSaveSet.DEFAULT.getRedisSaver()));
         }
-        return responsesFromPoint;
+        return transportPathResults;
     }
 
-    private void calculateSource(Points points,
-        Map<Point, Map<Point, PathResult>> responsesFromPoint, UtilityResponse response) {
+    private List<PathCandidate> extractedUncachedResults(List<PathCandidate> pathCandidates,
+        List<Paths> transportPathResults) {
+        return pathCandidates.parallelStream()
+            .filter(pathCandidate -> {
+                Optional<TransportCache> optionalPathResult = findBySubwayId(
+                    pathCandidate);
+                return isValidTransportCache(transportPathResults, pathCandidate,
+                    optionalPathResult);
+            }).collect(Collectors.toList());
+    }
 
-        final Point target = new Point(response.getX(), response.getY());
-
-        List<PathTransferResult> pathTransferResults = calculatedPathTransferResults(points,
-            response, target);
-
-        for (PathTransferResult pathTransferResult : pathTransferResults) {
-            Map<Point, PathResult> responses
-                = responsesFromPoint.getOrDefault(pathTransferResult.getSource(), new HashMap<>());
-            responses.put(pathTransferResult.getTarget(), pathTransferResult.getPathResult());
-            responsesFromPoint.put(pathTransferResult.getSource(), responses);
+    private boolean isValidTransportCache(List<Paths> transportPathResults,
+        PathCandidate pathCandidate,
+        Optional<TransportCache> optionalPathResult) {
+        if (optionalPathResult.isPresent()) {
+            insertTransportPathResult(transportPathResults, pathCandidate,
+                optionalPathResult.get());
+            return false;
         }
+        return true;
     }
 
-    private List<PathTransferResult> calculatedPathTransferResults(Points points,
-        UtilityResponse response, Point target) {
-        return points.getPointRegistry().parallelStream()
-            .map((source) -> new PathTransferResult(
-                source,
-                target,
-                pathResultRedisRepository.findById(source.toString() + target)
-                    .orElseGet(
-                        () -> saveRedisCachePathResult(source, target, response.getPlaceName())))
-            )
-            .collect(Collectors.toList());
+    private Optional<TransportCache> findBySubwayId(PathCandidate pathCandidate) {
+        APIUtilityDocument apiUtilityDocument = pathCandidate.apiUtilityDocument();
+        Point targetPoint = pathCandidate.getDestination().getPoint();
+        return transportRedisRepository.findById(
+            redisId(apiUtilityDocument, targetPoint));
     }
 
-    private PathResult saveRedisCachePathResult(Point source, Point target, String placeName) {
-        PathResult result = minPathResult(source, target, placeName);
-        pathResultRedisRepository.save(result);
-        return result;
+    private String redisId(APIUtilityDocument apiUtilityDocument, Point targetPoint) {
+        return "subway:" + new Point(apiUtilityDocument.getX(), apiUtilityDocument.getY())
+            + targetPoint;
     }
 
-    private PathResult minPathResult(Point source, Point target, String placeName) {
-        PointWithName startPointWithName = new PointWithName(source, "출발점");
-        PointWithName endPointWithName = new PointWithName(target, "도착점");
+    private void insertTransportPathResult(List<Paths> transportPathResults,
+        PathCandidate pathCandidate,
+        TransportCache optionalPathResult) {
+        Paths paths = optionalPathResult.getPaths();
 
-        PathResult subwayResult = PathResult
-            .pathsResponseToPathResult(source, target,
-                pathService.findSubwayPath(startPointWithName, endPointWithName),
-                weightStations.contains(placeName));
-
-        PathResult busSubwayResult = PathResult
-            .pathsResponseToPathResult(source, target,
-                pathService.findTransferPath(startPointWithName, endPointWithName),
-                weightStations.contains(placeName));
-
-        return PathResult.minTimePathResult(subwayResult, busSubwayResult);
+        Point startPoint = pathCandidate.getUserPoint();
+        Point endPoint = pathCandidate.getDestination().getPoint();
+        CalibratedWalkPath calibratedWalkPath = CalibratedWalkPath
+            .valueOf(paths, startPoint, endPoint);
+        transportPathResults.add(calibratedWalkPath.getPaths());
     }
 
-    private List<UtilityResponse> findSubway(double x, double y) {
-        List<APIUtilityDocument> apiUtilityDocuments = requesters.utility().requestSubway(x, y);
-        return toUtilityResponse(apiUtilityDocuments);
+    private List<Paths> generatedPaths(List<PathCandidate> pathCandidates, Map<PathCandidate,
+        APITransportResponse> transportPathDates, RedisSaver redissaver) {
+        Deque<PathCandidate> pathCandidateQueue = new ArrayDeque<>(pathCandidates);
+        List<Paths> pathsList = new ArrayList<>();
+        long startTime = System.nanoTime();
+        long expectedNumberOfPeople = pathCandidates.size() / STATION_COUNT_PER_PERSON;
+        while (!pathCandidateQueue.isEmpty()) {
+            PathCandidate pathCandidate = pathCandidateQueue.pollFirst();
+            APITransportResponse transportResponse = transportPathDates.get(pathCandidate);
+            if (Objects.isNull(transportResponse)) {
+                validateLimitTime(pathCandidateQueue, startTime, pathCandidate, expectedNumberOfPeople);
+                continue;
+            }
+            Point startPoint = pathCandidate.getUserPoint();
+            Point endPoint = pathCandidate.getDestination().getPoint();
+            PathsResponse pathsResponse = PathsResponse.valueOf(
+                Objects.requireNonNull(transportResponse).getMsgBody());
+            Paths paths = pathsResponse.toPaths(startPoint, endPoint);
+
+            redissaver.save(pathCandidate, transportRedisRepository, paths);
+            CalibratedWalkPath calibratedWalkPath = CalibratedWalkPath
+                .valueOf(paths, startPoint, endPoint);
+            pathsList.add(calibratedWalkPath.getPaths());
+        }
+        return pathsList;
+    }
+
+    private void validateLimitTime(Deque<PathCandidate> pathCandidateQueue, long startTime,
+        PathCandidate pathCandidate, long expectedNumberOfPeople ) {
+        long diffTime = System.nanoTime() - startTime;
+        if (diffTime <= Math.max(DEFAULT_LIMIT_TIME, LIMIT_TIME * expectedNumberOfPeople)) {
+            pathCandidateQueue.addLast(pathCandidate);
+        }
     }
 }

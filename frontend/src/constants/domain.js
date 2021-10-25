@@ -123,6 +123,20 @@ export const MESSAGE = {
     SNACKBAR_UPDATE: '프로필 정보가 수정되었습니다.',
   },
 
+  BOARD: {
+    SNACKBAR_ARTICLE_CREATE: '게시글이 추가되었습니다.',
+    SNACKBAR_ARTICLE_UPDATE: '게시글이 수정되었습니다.',
+    SNACKBAR_ARTICLE_DELETE: '게시글이 삭제되었습니다.',
+
+    CONFIRM_ARTICLE_DELETE: '게시글을 삭제하시겠습니까?',
+
+    SNACKBAR_COMMENT_CREATE: '답변이 추가되었습니다.',
+    SNACKBAR_COMMENT_UPDATE: '답변이 수정되었습니다.',
+    SNACKBAR_COMMENT_DELETE: '답변이 삭제되었습니다.',
+
+    CONFIRM_COMMENT_DELETE: '답변을 삭제하시겠습니까?',
+  },
+
   AUTH: {
     LOGIN: (nickname) => `${nickname}님 환영합니다. > <`,
     LOGOUT: (nickname) => `${nickname}님 다음에 또 만나요. > <`,
@@ -143,9 +157,14 @@ export const TIPS = [
 
 export const POBI_POINT = { x: 127.10296, y: 37.515403, name: '어디서 만나?', tag: '포비 💙' };
 
+export const SEOUL = '서울';
+export const CAPITAL_AREAS = ['서울', '경기', '인천'];
+
 export const STORAGE_KEY = {
-  TOKEN: 'token',
+  TOKEN: 'tk',
   PARTICIPANT: 'p',
+  SCROLL: 'scr',
+  NOTICE: 'nt',
 };
 
 export const ARTICLE = {

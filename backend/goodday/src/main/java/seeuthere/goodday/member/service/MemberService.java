@@ -222,4 +222,8 @@ public class MemberService {
     public void cancelRequest(RequestFriendRequest request) {
         requestFriendRepository.deleteById(request.getId());
     }
+
+    public boolean isAdmin(String memberId) {
+        return adminRepository.existsAdminByMemberId(memberId);
+    }
 }

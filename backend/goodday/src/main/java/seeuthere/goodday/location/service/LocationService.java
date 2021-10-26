@@ -118,7 +118,9 @@ public class LocationService {
             .collect(Collectors.toList());
     }
 
-    public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest, boolean onlySubway) {
+    public MiddlePointResponse findMiddlePoint(LocationsRequest locationsRequest,
+        boolean onlySubway) {
+        // todo - 도메인이 dto를 알고있음
         Points userStartPoints = Points.valueOf(locationsRequest);
         Map<Point, APIUtilityResponse> nearbyStations = requesters.utility()
             .findNearbyStations(userStartPoints);
@@ -128,7 +130,8 @@ public class LocationService {
         PathCandidates pathCandidates = PathCandidates
             .valueOf(userStartPoints, stationPoints, nearbyStations);
 
-        List<Paths> transportPathResults = getPaths(pathCandidates.getPathCandidateRegistry(), onlySubway);
+        List<Paths> transportPathResults = getPaths(pathCandidates.getPathCandidateRegistry(),
+            onlySubway);
 
         TerminalPoint terminalPoint = TerminalPoint
             .valueOf(userStartPoints, stationPoints, transportPathResults);
@@ -215,7 +218,8 @@ public class LocationService {
             PathCandidate pathCandidate = pathCandidateQueue.pollFirst();
             APITransportResponse transportResponse = transportPathDates.get(pathCandidate);
             if (Objects.isNull(transportResponse)) {
-                validateLimitTime(pathCandidateQueue, startTime, pathCandidate, expectedNumberOfPeople);
+                validateLimitTime(pathCandidateQueue, startTime, pathCandidate,
+                    expectedNumberOfPeople);
                 continue;
             }
             Point startPoint = pathCandidate.getUserPoint();
@@ -224,16 +228,16 @@ public class LocationService {
                 Objects.requireNonNull(transportResponse).getMsgBody());
             Paths paths = pathsResponse.toPaths(startPoint, endPoint);
 
+            redissaver.save(pathCandidate, transportRedisRepository, paths);
             CalibratedWalkPath calibratedWalkPath = CalibratedWalkPath
                 .valueOf(paths, startPoint, endPoint);
-            redissaver.save(pathCandidate, transportRedisRepository, paths);
             pathsList.add(calibratedWalkPath.getPaths());
         }
         return pathsList;
     }
 
     private void validateLimitTime(Deque<PathCandidate> pathCandidateQueue, long startTime,
-        PathCandidate pathCandidate, long expectedNumberOfPeople ) {
+        PathCandidate pathCandidate, long expectedNumberOfPeople) {
         long diffTime = System.nanoTime() - startTime;
         if (diffTime <= Math.max(DEFAULT_LIMIT_TIME, LIMIT_TIME * expectedNumberOfPeople)) {
             pathCandidateQueue.addLast(pathCandidate);

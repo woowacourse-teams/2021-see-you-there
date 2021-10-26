@@ -29,8 +29,7 @@ public class StationPoints {
     }
 
     private static List<StationPoint> findMiddleStations(Points points,
-        WeightStations weightStations,
-        Requesters requesters) {
+        WeightStations weightStations, Requesters requesters) {
         MiddlePoint userMiddlePoint = MiddlePoint.valueOf(points);
         List<StationPoint> stationPoints = new ArrayList<>();
 

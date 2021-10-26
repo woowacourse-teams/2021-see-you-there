@@ -2,6 +2,7 @@ package seeuthere.goodday.location.service;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
@@ -135,7 +136,7 @@ public class LocationService {
     }
 
     private List<Paths> getPaths(List<PathCandidate> pathCandidates, boolean onlySubway) {
-        List<Paths> transportPathResults = new ArrayList<>();
+        List<Paths> transportPathResults = Collections.synchronizedList(new ArrayList<>());
 
         List<PathCandidate> uncachedResults = extractedUncachedResults(pathCandidates,
             transportPathResults);
@@ -194,8 +195,7 @@ public class LocationService {
     }
 
     private void insertTransportPathResult(List<Paths> transportPathResults,
-        PathCandidate pathCandidate,
-        TransportCache optionalPathResult) {
+        PathCandidate pathCandidate, TransportCache optionalPathResult) {
         Paths paths = optionalPathResult.getPaths();
 
         Point startPoint = pathCandidate.getUserPoint();
@@ -224,9 +224,9 @@ public class LocationService {
                 Objects.requireNonNull(transportResponse).getMsgBody());
             Paths paths = pathsResponse.toPaths(startPoint, endPoint);
 
-            redissaver.save(pathCandidate, transportRedisRepository, paths);
             CalibratedWalkPath calibratedWalkPath = CalibratedWalkPath
                 .valueOf(paths, startPoint, endPoint);
+            redissaver.save(pathCandidate, transportRedisRepository, paths);
             pathsList.add(calibratedWalkPath.getPaths());
         }
         return pathsList;

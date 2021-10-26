@@ -1,10 +1,10 @@
 package seeuthere.goodday.location.domain.requester;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -71,7 +71,7 @@ public class UtilityRequester {
     }
 
     public Map<Point, APIUtilityResponse> findNearbyStations(Points points) {
-        Map<Point, APIUtilityResponse> nearbyStations = new HashMap<>();
+        Map<Point, APIUtilityResponse> nearbyStations = new ConcurrentHashMap<>();
         points.getPointRegistry().forEach(point ->
             webClient.get()
                 .uri(uriBuilder ->

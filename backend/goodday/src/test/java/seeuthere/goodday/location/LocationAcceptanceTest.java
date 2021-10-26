@@ -124,7 +124,7 @@ class LocationAcceptanceTest extends AcceptanceTest {
 
     @Test
     @DisplayName("지하철만 midPoint 테스트")
-    void test() {
+    void midPointOnlySubway() {
         //given
         String path = "/api/locations/midPoint";
         Point 용산역1호선 = new Point(126.96462961258051, 37.52977356999725);

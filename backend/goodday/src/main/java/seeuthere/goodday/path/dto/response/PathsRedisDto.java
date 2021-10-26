@@ -43,4 +43,16 @@ public class PathsRedisDto {
         Point endOriginalPoint = this.endPoint.toPoint();
         return new Paths(pathRegistry, startOriginalPoint, endOriginalPoint);
     }
+
+    public List<PathResponse> getPathRegistry() {
+        return pathRegistry;
+    }
+
+    public PointRedisDto getStartPoint() {
+        return startPoint;
+    }
+
+    public PointRedisDto getEndPoint() {
+        return endPoint;
+    }
 }

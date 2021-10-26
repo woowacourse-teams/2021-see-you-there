@@ -109,17 +109,30 @@ class LocationAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("midPoint 테스트")
+    @DisplayName("지하철 + 버스 midPoint 테스트")
     void midPoint() {
         //given
         String path = "/api/locations/midPoint?onlySubway=false";
         LocationsDto locations = new LocationsDto();
         locations.add(new Point(126.93103838968054, 37.488456683299155));
         locations.add(new Point(126.8951914712376, 37.48025238823605));
-
         //when
         ExtractableResponse<Response> response = getPostResponse(path, locations);
+        //then
+        validateResponse(response);
+    }
 
+    @Test
+    @DisplayName("지하철만 midPoint 테스트")
+    void midPointOnlySubway() {
+        //given
+        String path = "/api/locations/midPoint";
+        Point 용산역1호선 = new Point(126.96462961258051, 37.52977356999725);
+        Point 신림역 = new Point(126.929745374123, 37.4842680361482);
+        LocationsDto locations = new LocationsDto();
+        locations.add(용산역1호선);
+        locations.add(신림역);
+        ExtractableResponse<Response> response = getPostResponse(path, locations);
         //then
         validateResponse(response);
     }

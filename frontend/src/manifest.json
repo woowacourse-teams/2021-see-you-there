@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "version": "5.0",
+  "name": "여기서만나",
+  "dir": "ltr",
+  "orientation": "any",
+  "description": "어디서만나? 여기서만나!",
+  "start_url": "/",
+  "display": "minimal-ui",
+  "theme_color": "#2962FF",
+  "background_color": "#ffffff",
+  "developer": {
+    "name": "팀 여기서만나",
+    "url": "https://github.com/woowacourse-teams/2021-see-you-there"
+  },
+  "icons": [
+    {
+      "src": "assets/images/logo@512w.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

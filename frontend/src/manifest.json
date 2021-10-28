@@ -1,6 +1,5 @@
 {
   "manifest_version": 2,
-  "version": "5.0",
   "name": "여기서만나",
   "dir": "ltr",
   "orientation": "any",
@@ -15,32 +14,32 @@
   },
   "icons": [
     {
-      "src": "assets/images/logo@512w.png",
+      "src": "images/icons/icon@512w.png",
       "type": "image/png",
       "sizes": "512x512"
     },
     {
-      "src": "assets/images/logo@192w.png",
+      "src": "images/icons/icon@192w.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "assets/images/logo@144w.png",
+      "src": "images/icons/icon@144w.png",
       "type": "image/png",
       "sizes": "144x144"
     },
     {
-      "src": "assets/images/logo@96w.png",
+      "src": "images/icons/icon@96w.png",
       "type": "image/png",
       "sizes": "96x96"
     },
     {
-      "src": "assets/images/logo@72w.png",
+      "src": "images/icons/icon@72w.png",
       "type": "image/png",
       "sizes": "72x72"
     },
     {
-      "src": "assets/images/logo@48w.png",
+      "src": "images/icons/icon@48w.png",
       "type": "image/png",
       "sizes": "48x48"
     }

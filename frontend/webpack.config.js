@@ -1,12 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const package = require('./package.json');
 
 const getConfig = ({ isDev, isAnalyzeMode }) => ({
   mode: isDev ? 'development' : 'production',
@@ -55,7 +55,7 @@ const getConfig = ({ isDev, isAnalyzeMode }) => ({
   },
   plugins: [
     new webpack.DefinePlugin({
-      VERSION: JSON.stringify(package.version),
+      VERSION: JSON.stringify(process.env.npm_package_version),
       KAKAO: JSON.stringify('1b0ee776c585e8fb3a1ab8da4a771a75'),
       GTAG: JSON.stringify('G-BPV8LW9CRN'),
     }),
@@ -63,6 +63,33 @@ const getConfig = ({ isDev, isAnalyzeMode }) => ({
     new HtmlWebpackPlugin({
       template: './src/index.html',
       favicon: './src/assets/images/favicon.png',
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.join(__dirname, 'src/manifest.json'),
+          to: path.join(__dirname, 'dist'),
+          transform: (content) =>
+            Buffer.from(
+              JSON.stringify({
+                version: process.env.npm_package_version,
+                ...JSON.parse(content.toString('utf-8')),
+              })
+            ),
+        },
+        {
+          from: path.join(__dirname, 'src/assets/images/icons'),
+          to: path.join(__dirname, 'dist/images/icons'),
+        },
+        {
+          from: path.join(__dirname, 'src/pwabuilder-sw.js'),
+          to: path.join(__dirname, 'dist'),
+        },
+        {
+          from: path.join(__dirname, 'src/offline.html'),
+          to: path.join(__dirname, 'dist'),
+        },
+      ],
     }),
     new ReactRefreshWebpackPlugin(),
     new ImageMinimizerPlugin({

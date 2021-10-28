@@ -1,4 +1,4 @@
-export const throttle = (callback, delay) => {
+export const throttle = (callback, delay = 300) => {
   let timer;
 
   return function () {

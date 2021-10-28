@@ -36,6 +36,10 @@ public class TransportCache implements Serializable {
         return id;
     }
 
+    public PathsRedisDto getPathsRedisDto() {
+        return pathsRedisDto;
+    }
+
     public Paths getPaths() {
         return pathsRedisDto.valueOf();
     }

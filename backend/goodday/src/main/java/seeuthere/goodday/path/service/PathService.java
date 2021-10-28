@@ -59,19 +59,10 @@ public class PathService {
             .orElseGet(() -> saveRedisCachePathsResponse(startStation, endStation));
 
         Paths paths = transportCache.getPaths();
-        PathsResponse pathsResponse = PathsResponse.valueOf(paths);
-
-        return getPathsResponseWithWalk(startPointWithName, endPointWithName, pathsResponse);
+        Paths walkWithPaths = paths.pathsWithWalk(startPointWithName, endPointWithName);
+        walkWithPaths.sort();
+        return PathsResponse.valueOf(walkWithPaths);
     }
-
-//    private APITransportResponse validAPITransportResponse(TransportCache transportCache) {
-//        Paths paths = transportCache.getPaths();
-//        APITransportResponse apiTransportResponse = transportCache.getApiTransportResponse();
-//        if (Objects.isNull(apiTransportResponse)) {
-//            apiTransportResponse = new APITransportResponse();
-//        }
-//        return apiTransportResponse;
-//    }
 
     public PathsResponse findTransferPath(PointWithName startPointWithName,
         PointWithName endPointWithName) {
@@ -89,9 +80,8 @@ public class PathService {
             endStation.getPoint(),
             TransportURL.SUBWAY);
         PathsResponse pathsResponse = PathsResponse.valueOf(apiTransportResponse.getMsgBody());
-        Paths paths = pathsResponse.toPaths(startStation.getPoint(), endStation.getPoint());
         TransportCache transportCache = new TransportCache(redisId(startStation, endStation),
-            paths);
+            pathsResponse.toPaths(startStation.getPoint(), endStation.getPoint()));
         transportRedisRepository.save(transportCache);
         return transportCache;
     }

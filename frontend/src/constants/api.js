@@ -1,5 +1,3 @@
-// export const API_DOMAIN = 'http://localhost:8080';
-// export const API_END_POINT = 'http://localhost:8080/api';
 const isDev = window.location.origin.includes('dev') || window.location.origin.includes('localhost');
 
 const SERVER_ORIGIN = isDev ? 'https://dev.seeyouthere.co.kr' : 'https://seeyouthere.co.kr';
@@ -12,6 +10,7 @@ export const API_END_POINT = `${SERVER_ORIGIN}/api`;
 export const API_URL = {
   ADDRESS_SEARCH: (keyword) => `${API_END_POINT}/locations/coordinate?address=${keyword}`,
   MIDPOINT: `${API_END_POINT}/locations/midPoint`,
+  MIDPOINT_SUBWAY_ONLY: `${API_END_POINT}/locations/midPoint?onlySubway=true`,
   CATEGORY: (category, { x, y }) => `${API_END_POINT}/locations/utility/${category}?x=${x}&y=${y}`,
   PATH: (transport, participant, station) =>
     `${API_END_POINT}/path/${transport}?startName=${participant.addressName}&startX=${participant.x}&startY=${participant.y}&endX=${station.x}&endY=${station.y}&endName=${station.placeName}`,

@@ -18,6 +18,31 @@
       "src": "assets/images/logo@512w.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "assets/images/logo@192w.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/images/logo@144w.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "assets/images/logo@96w.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "assets/images/logo@72w.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "assets/images/logo@48w.png",
+      "type": "image/png",
+      "sizes": "48x48"
     }
   ]
 }

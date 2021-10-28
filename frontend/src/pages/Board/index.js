@@ -10,13 +10,15 @@ import { BoardContextProvider } from '../../contexts';
 const MIN_ARTICLE_COUNT_PER_PAGE = 3;
 const HEADER_HEIGHT = 280;
 const CARD_HEIGHT = 120;
+const BUFFER = 2;
 
 const BoardPage = () => {
   const { path } = useRouteMatch();
   const articleCountPerPage = Math.max(
     MIN_ARTICLE_COUNT_PER_PAGE,
-    Math.floor(((window.innerHeight - HEADER_HEIGHT) / CARD_HEIGHT) * 2)
+    Math.floor((window.innerHeight - HEADER_HEIGHT) / CARD_HEIGHT + BUFFER)
   );
+  console.log();
 
   return (
     <main>

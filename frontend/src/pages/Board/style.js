@@ -57,6 +57,7 @@ export const Filter = styled.div`
   display: flex;
   padding: ${LAYOUT.PADDING_HALF} ${LAYOUT.PADDING};
   width: fit-content;
+  align-items: center;
 
   font-size: 0.85rem;
   background-color: ${COLOR.PRIMARY_BACKGROUND};
@@ -67,26 +68,7 @@ export const Filter = styled.div`
   }
 
   @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
-    margin-top: ${LAYOUT.MARGIN};
-    justify-content: center;
-    width: 100%;
-  }
-`;
-
-export const FilterItem = styled.li`
-  position: relative;
-  margin-left: ${LAYOUT.MARGIN_HALF};
-  padding-left: ${LAYOUT.PADDING};
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0.2rem;
-    left: 0.5rem;
-    width: 0.625rem;
-    height: 0.625rem;
-    border-radius: 50%;
-    background-color: ${(props) => (props.type === ARTICLE.TYPE.SUGGESTION ? COLOR.PRIMARY : COLOR.ACCENT)};
+    display: none;
   }
 `;
 
@@ -368,6 +350,10 @@ export const ArticleTypeSelector = styled.div`
     display: flex;
     align-items: center;
     font-size: 0.9rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 

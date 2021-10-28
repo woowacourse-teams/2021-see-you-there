@@ -174,6 +174,7 @@ export const ARTICLE = {
   CONTENT_MAX_LENGTH: 2000,
 
   TYPE: {
+    ALL: 'ALL',
     FIX: 'FIX',
     SUGGESTION: 'SUGGEST',
   },

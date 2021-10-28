@@ -40,9 +40,9 @@ public class BoardController {
     @GetMapping
     public ResponseEntity<List<BoardResponse>> loadBoards(
         @RequestParam(defaultValue = "5") int size,
-        @RequestParam(defaultValue = "1") int pageNumber,
+        @RequestParam(defaultValue = "0") long lastBoardId,
         @RequestParam(defaultValue = "ALL") BoardType type) {
-        List<Board> boards = boardService.findAllWithPagination(pageNumber, size, type);
+        List<Board> boards = boardService.findAllWithPagination(lastBoardId, size, type);
         List<BoardResponse> boardResponses = boards.stream()
             .map(BoardResponse::new)
             .collect(Collectors.toList());

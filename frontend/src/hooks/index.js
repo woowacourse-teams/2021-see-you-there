@@ -19,3 +19,5 @@ export { useMutateBoard } from './useMutateBoard';
 
 export { useNotice } from './useNotice';
 export { useShareLink } from './useShareLink';
+
+export { useScreenSize } from './useScreenSize';

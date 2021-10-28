@@ -7,7 +7,8 @@ import { MapViewArea, MapView, ContentArea, AddSection, ListSection, BottomSecti
 import { ButtonRound, Icon, Confirm, ParticipantList } from '../../components';
 import { ParticipantContext, AddFormContextProvider, SnackbarContext } from '../../contexts';
 import { useConfirm, useMapViewApi } from '../../hooks';
-import { MESSAGE, ROUTE, POBI_POINT, ID } from '../../constants';
+import { isViewWiderThan, throttle } from '../../utils';
+import { MESSAGE, ROUTE, POBI_POINT, ID, LAYOUT } from '../../constants';
 
 const formId = 'PARTICIPANT';
 
@@ -21,6 +22,7 @@ const HomePage = () => {
   const [participantMarkers, setParticipantMarkers] = useState([]);
   const history = useHistory();
   const { enqueueSnackbar, clearSnackbar } = useContext(SnackbarContext);
+  const [isWebView, setIsWebView] = useState(isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET));
 
   const showParticipantsMarkers = () => {
     const markers = participants.map(({ x, y, name: title, id }) => getMarker({ x, y, title, key: 'PARTICIPANT', id }));
@@ -35,27 +37,43 @@ const HomePage = () => {
       enqueueSnackbar(MESSAGE.PARTICIPANT.SNACKBAR_MIN_PARTICIPANT, { variant: 'error' });
       return;
     }
-
     resetLastParticipant();
     history.push(ROUTE.MIDPOINT.PATH);
   };
 
+  const handleResize = () => setIsWebView(isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET));
+  const throttleResizeHandler = throttle(handleResize);
+
   useEffect(() => {
-    showMapView(POBI_POINT);
-    return clearSnackbar;
+    window.addEventListener('resize', throttleResizeHandler);
+
+    return () => {
+      window.removeEventListener('resize', throttleResizeHandler);
+      clearSnackbar();
+    };
   }, []);
 
   useEffect(() => {
-    showParticipantsMarkers();
-    participants.length && setBounds(participants);
-  }, [participants]);
+    if (isWebView) {
+      showMapView(POBI_POINT);
+    }
+  }, [isWebView]);
+
+  useEffect(() => {
+    if (isWebView) {
+      showParticipantsMarkers();
+      participants.length && setBounds(participants);
+    }
+  }, [participants, isWebView]);
 
   return (
     <>
       <main>
-        <MapViewArea lastParticipantId={lastParticipant?.id}>
-          <MapView ref={mapViewRef} />
-        </MapViewArea>
+        {isWebView && (
+          <MapViewArea lastParticipantId={lastParticipant?.id}>
+            <MapView ref={mapViewRef} />
+          </MapViewArea>
+        )}
 
         <ContentArea>
           <AddSection>

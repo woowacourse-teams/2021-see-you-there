@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useRouteMatch } from 'react-router-dom';
 
-import { Icon, LinkRound } from '../../components';
+import { Icon, LinkRound, InputRadio } from '../../components';
 import {
   ContentArea,
   HeaderSection,
   ListSection,
   Filter,
+  ArticleTypeSelector,
   FilterItem,
   List,
   ListItem,
@@ -22,11 +23,11 @@ import {
   ArticleWriter,
 } from './style';
 import { storage, throttle } from '../../utils';
-import { ARTICLE, STORAGE_KEY } from '../../constants';
+import { ARTICLE, STORAGE_KEY, COLOR } from '../../constants';
 import { BoardContext } from '../../contexts';
 
 export const ArticleList = () => {
-  const { totalArticleList, fetchNextPage, hasNextPage, isFetchingNextPage } = useContext(BoardContext);
+  const { totalArticleList, fetchNextPage, hasNextPage, isFetchingNextPage, type, setType } = useContext(BoardContext);
   const { url } = useRouteMatch();
 
   const contentAreaRef = useRef(null);
@@ -69,10 +70,40 @@ export const ArticleList = () => {
         <Filter>
           <Icon.Filter width="18" />
           필터
-          <ul>
-            <FilterItem type={ARTICLE.TYPE.SUGGESTION}>제안합니다</FilterItem>
-            <FilterItem type={ARTICLE.TYPE.FIX}>고쳐주세요</FilterItem>
-          </ul>
+          <ArticleTypeSelector>
+            <label>
+              <InputRadio
+                type="radio"
+                name="type"
+                color={COLOR.ICON}
+                value={ARTICLE.TYPE.ALL}
+                checked={type === ARTICLE.TYPE.ALL}
+                onChange={() => setType(ARTICLE.TYPE.ALL)}
+              />
+              전체보기
+            </label>
+            <label>
+              <InputRadio
+                type="radio"
+                name="type"
+                value={ARTICLE.TYPE.SUGGESTION}
+                checked={type === ARTICLE.TYPE.SUGGESTION}
+                onChange={() => setType(ARTICLE.TYPE.SUGGESTION)}
+              />
+              제안합니다
+            </label>
+            <label>
+              <InputRadio
+                type="radio"
+                name="type"
+                color={COLOR.ACCENT}
+                value={ARTICLE.TYPE.FIX}
+                checked={type === ARTICLE.TYPE.FIX}
+                onChange={() => setType(ARTICLE.TYPE.FIX)}
+              />
+              고쳐주세요
+            </label>
+          </ArticleTypeSelector>
         </Filter>
 
         <LinkRound size="sm" Icon={<Icon.Edit width="18" color="#fff" />} to={`${url}/new`}>

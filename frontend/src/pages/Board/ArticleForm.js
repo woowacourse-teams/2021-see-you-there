@@ -1,21 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { useMutateBoard } from '../../hooks';
+import { BoardContext, UserContext } from '../../contexts';
 import { ContentArea, Form, ArticleTypeSelector, FormLabel } from './style';
 import { ButtonRound, InputRadio, Icon } from '../../components';
 import { addThousandSeparator } from '../../utils';
-import { ARTICLE, COLOR } from '../../constants';
-import { BoardContext } from '../../contexts';
+import { ARTICLE, COLOR, ROUTE } from '../../constants';
 
 const MAX_LENGTH_TITLE = 50;
 const MAX_LENGTH_CONTENT = 2000;
 
-// TODO: 수정권한 없으면 블로킹 처리
 export const ArticleForm = () => {
+  const history = useHistory();
   const { articleId } = useParams();
   const isEditing = !!articleId;
-  const { article, setArticleId } = useContext(BoardContext);
+  const { memberId: userMemberId } = useContext(UserContext);
+  const { article, setArticleId, isArticleLoading } = useContext(BoardContext);
 
   const { createArticle, updateArticle } = useMutateBoard();
 
@@ -69,6 +70,16 @@ export const ArticleForm = () => {
   }, [articleId]);
 
   useEffect(() => {
+    if (!articleId || !article) {
+      return;
+    }
+
+    const isAuthor = article.memberId === userMemberId;
+
+    if (!isAuthor) {
+      history.replace(ROUTE.BOARD.PATH);
+      return;
+    }
     if (articleId && article) {
       setType(article.type);
       setTitle(article.title);

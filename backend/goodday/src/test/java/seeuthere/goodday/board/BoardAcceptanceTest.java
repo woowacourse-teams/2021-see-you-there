@@ -53,55 +53,11 @@ class BoardAcceptanceTest extends AcceptanceTest {
         assertThat(board.getType()).isEqualTo(boardType);
     }
 
-    @ParameterizedTest
-    @DisplayName("여러 게시물을 불러온다.")
-    @MethodSource("boardsSetting")
-    void loadPagination(String url, int number) {
-        //given
-        String identifier = "board/board-read";
-        generateBoards();
-
-        // when
-        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET,
-            DataLoader.와이비토큰, identifier);
-        List<BoardResponse> findBoards = response.body().jsonPath()
-            .getList(".", BoardResponse.class);
-
-        // then
-        assertThat(findBoards.size()).isEqualTo(number);
-    }
-
     private void generateBoards() {
         for (int i = 0; i < 5; i++) {
             Board board = new Board("테스트", "테스트", BoardType.FIX, DataLoader.와이비);
             boardService.saveBoard(board);
         }
-    }
-
-    private static Stream<Arguments> boardsSetting() {
-        return Stream.of(
-            Arguments.of("/api/boards", 5),
-            Arguments.of("/api/boards?size=1&pageNumber=1", 1)
-        );
-    }
-
-    @Test
-    @DisplayName("게시물을 필터링해서 불러온다.")
-    void loadPaginationWithFiltering() {
-        //given
-        String identifier = "board/board-filter";
-        String url = "/api/boards?size=5&pageNumber=1&type=SUGGEST";
-        Board board = new Board("테스트", "테스트", BoardType.SUGGEST, DataLoader.와이비);
-        boardService.saveBoard(board);
-
-        // when
-        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET,
-            DataLoader.와이비토큰, identifier);
-        List<BoardResponse> findBoards = response.body().jsonPath()
-            .getList(".", BoardResponse.class);
-
-        // then
-        assertThat(findBoards.size()).isEqualTo(1);
     }
 
     @Test
@@ -475,6 +431,63 @@ class BoardAcceptanceTest extends AcceptanceTest {
             identifier);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
+    }
+
+    private static Stream<Arguments> providePaginationArgument() {
+        return Stream.of(
+            Arguments.of("/api/boards?size=3&lastBoardId=2&type=ALL", "board/board-pagination-type", 1),
+            Arguments.of("/api/boards?size=3&lastBoardId=6&type=ALL", "board/board-pagination-type-boardId", 3),
+            Arguments.of("/api/boards?size=5&lastBoardId=2&type=ALL", "board/board-pagination-type-size", 1),
+            Arguments.of("/api/boards?size=3&lastBoardId=2&type=FIX", "board/board-pagination-type-fix", 1),
+            Arguments.of("/api/boards?size=3&lastBoardId=2&type=SUGGEST", "board/board-pagination-type-suggest", 0),
+            Arguments.of("/api/boards?size=3&type=FIX", "board/board-pagination-filter-default", 3)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("providePaginationArgument")
+    @DisplayName("pagination 쿼리 개선")
+    void findBoardByPagination(String url, String identifier, int goalSize) {
+        for (int i = 0; i < 10; i++) {
+            createBoard();
+        }
+
+        // when
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET,
+            DataLoader.와이비토큰, identifier);
+        List<BoardResponse> findBoards = response.body().jsonPath()
+            .getList(".", BoardResponse.class);
+
+        // then
+        for (BoardResponse boardResponse : findBoards) {
+            System.out.println(boardResponse.getId());
+        }
+        assertThat(findBoards.size()).isEqualTo(goalSize);
+    }
+
+    @Test
+    @DisplayName("pagination 쿼리 개선")
+    void findBoardByPaginationDefault() {
+        String identifier = "board/board-pagination-first";
+        for (int i = 0; i < 10; i++) {
+            createBoard();
+        }
+
+        int size = 3;
+        // type을 여러개로 두고 테스트 FIX, SUGGEST, ALL
+        String url = "/api/boards?size=" + size + "&type=FIX";
+
+        // when
+        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET,
+            DataLoader.와이비토큰, identifier);
+        List<BoardResponse> findBoards = response.body().jsonPath()
+            .getList(".", BoardResponse.class);
+
+        // then
+        for (BoardResponse boardResponse : findBoards) {
+            System.out.println(boardResponse.getId());
+        }
+        assertThat(findBoards.size()).isEqualTo(size);
     }
 
     private Board createBoard() {

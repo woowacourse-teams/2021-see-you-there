@@ -6,12 +6,20 @@ describe('HomePage & MidpointPage', () => {
     cy.visit('http://localhost:9000');
     sessionStorage.clear();
 
+    const $noticeModalCloseButton = cy.get(`button[data-testid=${ID.NOTICE_MODAL_CLOSE_BUTTON}]`);
+
+    if ($noticeModalCloseButton) {
+      $noticeModalCloseButton.click();
+    }
+    // TODO: 모달 표시여부 상관없이 대응 가능하도록 수정
+    /*
     const noticeModalCloseButtonSelector = `button[data-testid=${ID.NOTICE_MODAL_CLOSE_BUTTON}]`;
     cy.get('button').then(($buttons) => {
       if ($buttons.find(noticeModalCloseButtonSelector).length) {
         cy.get(noticeModalCloseButtonSelector).click();
       }
     });
+    */
   });
 
   const participants = [

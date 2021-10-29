@@ -32,9 +32,7 @@ export const API_URL = {
 
   ARTICLE: `${API_END_POINT}/boards`,
   ARTICLE_BY_ID: (id) => `${API_END_POINT}/boards/${id}`,
-  ARTICLE_LIST: (size, pageNumber) => `${API_END_POINT}/boards?size=${size}&pageNumber=${pageNumber}`,
-  ARTICLE_LIST_FILTERED: (size, pageNumber, type) =>
-    `${API_END_POINT}/boards?size=${size}&pageNumber=${pageNumber}&type=${type}`,
+  ARTICLE_LIST: (size) => `${API_END_POINT}/boards?size=${size}`,
 
   COMMENT: (articleId) => `${API_END_POINT}/boards/${articleId}/comments`,
 

@@ -6,9 +6,8 @@ import { NoticeModal } from './NoticeModal';
 import { MapViewArea, MapView, ContentArea, AddSection, ListSection, BottomSection } from './style';
 import { ButtonRound, Icon, Confirm, ParticipantList } from '../../components';
 import { ParticipantContext, AddFormContextProvider, SnackbarContext } from '../../contexts';
-import { useConfirm, useMapViewApi } from '../../hooks';
-import { isViewWiderThan, throttle } from '../../utils';
-import { MESSAGE, ROUTE, POBI_POINT, ID, LAYOUT } from '../../constants';
+import { useConfirm, useMapViewApi, useScreenSize } from '../../hooks';
+import { MESSAGE, ROUTE, POBI_POINT, ID } from '../../constants';
 
 const formId = 'PARTICIPANT';
 
@@ -22,8 +21,7 @@ const HomePage = () => {
   const [participantMarkers, setParticipantMarkers] = useState([]);
   const history = useHistory();
   const { enqueueSnackbar, clearSnackbar } = useContext(SnackbarContext);
-  const [isWebView, setIsWebView] = useState(isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET));
-
+  const { isOverBreakPoint: isWebView } = useScreenSize();
   const showParticipantsMarkers = () => {
     const markers = participants.map(({ x, y, name: title, id }) => getMarker({ x, y, title, key: 'PARTICIPANT', id }));
 
@@ -41,22 +39,14 @@ const HomePage = () => {
     history.push(ROUTE.MIDPOINT.PATH);
   };
 
-  const handleResize = () => setIsWebView(isViewWiderThan(LAYOUT.DEVICE_WIDTH_TABLET));
-  const throttleResizeHandler = throttle(handleResize);
-
-  useEffect(() => {
-    window.addEventListener('resize', throttleResizeHandler);
-
-    return () => {
-      window.removeEventListener('resize', throttleResizeHandler);
-      clearSnackbar();
-    };
-  }, []);
-
   useEffect(() => {
     if (isWebView) {
       showMapView(POBI_POINT);
     }
+
+    return () => {
+      clearSnackbar();
+    };
   }, [isWebView]);
 
   useEffect(() => {

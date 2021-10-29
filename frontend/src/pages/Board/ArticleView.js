@@ -149,7 +149,7 @@ export const ArticleView = () => {
         </CommentHeader>
 
         <CommentBody isEditing={isCommentEditing}>
-          <p>{hasComment ? comment : '잠시만 기다려주세요.🙏 관리자가 확인하러 달려오고 있어요.💨💨💨'}</p>
+          <p>{hasComment ? comment : MESSAGE.BOARD.DEFAULT_COMMENT}</p>
           <form id={FORM_ID_COMMENT_EDIT} onSubmit={handleSubmitComment}>
             <textarea aria-label="답글 작성" value={comment} onChange={handleChangeComment} />
           </form>

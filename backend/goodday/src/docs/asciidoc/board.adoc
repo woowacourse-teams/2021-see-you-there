@@ -17,21 +17,21 @@ include::{default-path}/board-create/http-request.adoc[]
 ## response
 include::{default-path}/board-create/http-response.adoc[]
 
-# 여러 게시물 불러오기
+# 여러 게시물 불러오기 (첫페이지)
 
 ## request
-include::{default-path}/board-read/http-request.adoc[]
+include::{default-path}/board-pagination-first/http-request.adoc[]
 
 ## response
-include::{default-path}/board-read/http-response.adoc[]
+include::{default-path}/board-pagination-first/http-response.adoc[]
 
-# 게시물 필터링해서 불러오기
+# 여러 게시물 필터링해서 불러오기
 
 ## request
-include::{default-path}/board-filter/http-request.adoc[]
+include::{default-path}/board-pagination-type/http-request.adoc[]
 
 ## response
-include::{default-path}/board-filter/http-response.adoc[]
+include::{default-path}/board-pagination-type/http-response.adoc[]
 
 # 원하는 게시물 불러오기
 include::{default-path}/board-get/http-request.adoc[]

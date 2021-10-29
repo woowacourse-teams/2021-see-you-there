@@ -3,30 +3,37 @@ import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
 
 import { UserContext } from '.';
-import { API_URL, QUERY_KEY } from '../constants';
+import { API_URL, ARTICLE, QUERY_KEY } from '../constants';
 
-const INITIAL_PAGE = 1;
 const INITIAL_LIST = [];
 
 export const BoardContext = createContext();
 
 export const BoardContextProvider = ({ articleCountPerPage, children }) => {
   const { httpAuthRequest } = useContext(UserContext);
-  const [pageNumber, setPageNumber] = useState(INITIAL_PAGE);
+  const [lastBoardId, setLastBoardId] = useState(null);
   const [totalArticleList, setTotalArticleList] = useState(INITIAL_LIST);
   const [hasNextPage, setHasNextPage] = useState(true);
   const [articleId, setArticleId] = useState(null);
+  const [type, setType] = useState(ARTICLE.TYPE.ALL);
 
   const fetchArticleList = async () => {
-    const response = await httpAuthRequest({
-      url: API_URL.ARTICLE_LIST(articleCountPerPage, pageNumber),
-    });
+    let url = API_URL.ARTICLE_LIST(articleCountPerPage);
+
+    if (type !== ARTICLE.TYPE.ALL) {
+      url += `&type=${type}`;
+    }
+    if (lastBoardId) {
+      url += `&lastBoardId=${lastBoardId}`;
+    }
+
+    const response = await httpAuthRequest({ url });
 
     return await response.json();
   };
 
   const { data: articleList, isLoading: isFetchingNextPage } = useQuery(
-    [QUERY_KEY.ARTICLE_LIST, pageNumber],
+    [QUERY_KEY.ARTICLE_LIST, type, lastBoardId],
     fetchArticleList
   );
 
@@ -43,12 +50,19 @@ export const BoardContextProvider = ({ articleCountPerPage, children }) => {
   });
 
   const fetchNextPage = () => {
-    setPageNumber((prev) => prev + 1);
+    const lastId = totalArticleList[totalArticleList.length - 1].id;
+
+    setLastBoardId(lastId);
   };
 
   const resetBoard = () => {
     setTotalArticleList(INITIAL_LIST);
-    setPageNumber(INITIAL_PAGE);
+    setLastBoardId(null);
+  };
+
+  const setTypeWithNewBoard = (type) => {
+    resetBoard();
+    setType(type);
   };
 
   useEffect(() => {
@@ -64,14 +78,16 @@ export const BoardContextProvider = ({ articleCountPerPage, children }) => {
   return (
     <BoardContext.Provider
       value={{
-        pageNumber,
-        setPageNumber,
+        lastBoardId,
+        setLastBoardId,
         totalArticleList,
         setTotalArticleList,
         hasNextPage,
         setHasNextPage,
         articleId,
         setArticleId,
+        type,
+        setType: setTypeWithNewBoard,
 
         fetchNextPage,
         isFetchingNextPage,

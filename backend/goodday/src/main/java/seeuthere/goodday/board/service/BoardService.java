@@ -34,14 +34,32 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<Board> findAllWithPagination(int pageNumber, int size, BoardType boardType) {
+    public List<Board> findAllWithPagination(long lastBoardId, int size, BoardType boardType) {
+        if(lastBoardId == 0) {
+            return findFirstPage(size, boardType);
+        }
+        return findNextPage(lastBoardId, size, boardType);
+    }
+
+    private List<Board> findFirstPage(int size, BoardType boardType) {
         if (boardType.equals(BoardType.ALL)) {
-            Page<Board> boards = boardRepository.findAll(PageRequest.of(pageNumber - 1, size,
-                Sort.by("id").descending()) );
+            // 첫페이지 모든 타입
+            Page<Board> boards = boardRepository.findAll(
+                PageRequest.of(0, size, Sort.by("id").descending()));
             return boards.getContent();
         }
         Page<Board> boards = boardRepository.findByType(boardType,
-            PageRequest.of(pageNumber - 1, size, Sort.by("id").descending()));
+            PageRequest.of(0, size, Sort.by("id").descending()));
+        return boards.getContent();
+    }
+
+    private List<Board> findNextPage(long lastBoardId, int size, BoardType boardType) {
+        if (boardType.equals(BoardType.ALL)) {
+            Page<Board> boards = boardRepository.findAllByPagination(lastBoardId, PageRequest.of(0, size));
+            return boards.getContent();
+        }
+        Page<Board> boards = boardRepository.findByTypePagination(lastBoardId, boardType,
+            PageRequest.of(0, size));
         return boards.getContent();
     }
 

@@ -3,7 +3,15 @@ import { useHistory } from 'react-router-dom';
 
 import { ParticipantAddForm } from './ParticipantAddForm';
 import { NoticeModal } from './NoticeModal';
-import { MapViewArea, MapView, ContentArea, AddSection, ListSection, BottomSection } from './style';
+import {
+  MapViewArea,
+  MapView,
+  ContentArea,
+  AddSection,
+  ListSection,
+  BottomSection,
+  NoServiceAreaNotice,
+} from './style';
 import { ButtonRound, Icon, Confirm, ParticipantList } from '../../components';
 import { ParticipantContext, AddFormContextProvider, SnackbarContext } from '../../contexts';
 import { useConfirm, useMapViewApi, useScreenSize } from '../../hooks';
@@ -12,8 +20,15 @@ import { MESSAGE, ROUTE, POBI_POINT, ID } from '../../constants';
 const formId = 'PARTICIPANT';
 
 const HomePage = () => {
-  const { participants, removeParticipant, lastParticipant, resetLastParticipant, isLackParticipants } =
-    useContext(ParticipantContext);
+  const {
+    participants,
+    removeParticipant,
+    lastParticipant,
+    resetLastParticipant,
+    isLackParticipants,
+    namesWithNoServiceArea,
+    hasNoServiceArea,
+  } = useContext(ParticipantContext);
   const mapObj = useRef(null);
   const mapViewRef = useRef(null);
   const { showMapView, setBounds, getMarker, showMarkers, hideMarkers } = useMapViewApi({ mapObj, mapViewRef });
@@ -85,6 +100,13 @@ const HomePage = () => {
           </ListSection>
 
           <BottomSection>
+            {hasNoServiceArea && (
+              <NoServiceAreaNotice>
+                서비스 지역이 아닌 곳 발견! ({namesWithNoServiceArea.length}곳)
+                <br />
+                중간지점 추천이 원활하지 않을 수 있어요.
+              </NoServiceAreaNotice>
+            )}
             <ButtonRound
               Icon={<Icon.Search color="#fff" />}
               onClick={handleClickGetMiddlePoint}

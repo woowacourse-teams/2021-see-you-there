@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import seeuthere.goodday.location.domain.StationGradePoint;
 import seeuthere.goodday.location.domain.StationPoint;
 import seeuthere.goodday.location.domain.location.Point;
@@ -38,6 +39,9 @@ public class StationGrades {
 
         Point targetPoint = stationPoint.getPoint();
         Map<Point, Path> pointPathMap = pathFromSourceToTarget.get(targetPoint);
+        if (Objects.isNull(pointPathMap)) {
+            return;
+        }
         for (Path path : pointPathMap.values()) {
             timeGrade.calculateTime(path.getTime());
         }

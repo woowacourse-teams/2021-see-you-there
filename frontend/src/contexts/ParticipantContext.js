@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { SnackbarContext } from '.';
 import { storage } from '../utils';
-import { PARTICIPANT, STORAGE_KEY, MESSAGE } from '../constants';
+import { PARTICIPANT, STORAGE_KEY, MESSAGE, CAPITAL_AREAS } from '../constants';
 
 const INITIAL_STATE = storage.session.get(STORAGE_KEY.PARTICIPANT) ?? [];
 
@@ -38,6 +38,11 @@ export const ParticipantContextProvider = ({ children }) => {
   const isFullParticipants = participants.length === PARTICIPANT.MAX_LENGTH;
   const isLackParticipants = participants.length < PARTICIPANT.MIN_LENGTH;
 
+  const namesWithNoServiceArea = participants
+    .filter((p) => !CAPITAL_AREAS.includes(p.fullAddress.slice(0, 2)))
+    .map((p) => p.name);
+  const hasNoServiceArea = !!namesWithNoServiceArea.length;
+
   return (
     <ParticipantContext.Provider
       value={{
@@ -52,6 +57,9 @@ export const ParticipantContextProvider = ({ children }) => {
 
         isFullParticipants,
         isLackParticipants,
+
+        namesWithNoServiceArea,
+        hasNoServiceArea,
       }}
     >
       {children}

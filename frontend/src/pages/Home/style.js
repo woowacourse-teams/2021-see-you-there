@@ -96,10 +96,11 @@ export const ListSection = styled.section`
 /* 하단 버튼 Section */
 
 export const BottomSection = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   height: ${LAYOUT.CONTENT_BOTTOM_HEIGHT};
   padding: 1.5rem 0 2rem;
   width: inherit;
@@ -120,6 +121,21 @@ export const BottomSection = styled.section`
     position: fixed;
     bottom: 0;
   }
+`;
+
+export const NoServiceAreaNotice = styled.p`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0rem;
+  width: 100%;
+  height: 2.75rem;
+
+  text-align: center;
+  font-size: 0.7rem;
+  color: ${COLOR.ACCENT};
+  background-color: ${COLOR.PRIMARY_BACKGROUND};
 `;
 
 /* 간편추가 모달 */

@@ -6,8 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import seeuthere.goodday.AcceptanceTest;
@@ -49,56 +53,12 @@ class BoardAcceptanceTest extends AcceptanceTest {
         assertThat(board.getType()).isEqualTo(boardType);
     }
 
-//    @ParameterizedTest
-//    @DisplayName("여러 게시물을 불러온다.")
-//    @MethodSource("boardsSetting")
-//    void loadPagination(String url, int number) {
-//        //given
-//        String identifier = "board/board-read";
-//        generateBoards();
-//
-//        // when
-//        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET,
-//            DataLoader.와이비토큰, identifier);
-//        List<BoardResponse> findBoards = response.body().jsonPath()
-//            .getList(".", BoardResponse.class);
-//
-//        // then
-//        assertThat(findBoards.size()).isEqualTo(number);
-//    }
-
     private void generateBoards() {
         for (int i = 0; i < 5; i++) {
             Board board = new Board("테스트", "테스트", BoardType.FIX, DataLoader.와이비);
             boardService.saveBoard(board);
         }
     }
-
-//    private static Stream<Arguments> boardsSetting() {
-//        return Stream.of(
-//            Arguments.of("/api/boards", 5),
-//            Arguments.of("/api/boards?size=1&pageNumber=1", 1)
-//        );
-//    }
-
-//    @Test
-//    @DisplayName("게시물을 필터링해서 불러온다.")
-//    void loadPaginationWithFiltering() {
-//        //given
-//        String identifier = "board/board-filter";
-//        String url = "/api/boards?size=5&pageNumber=1&type=SUGGEST";
-//        Board board = new Board("테스트", "테스트", BoardType.SUGGEST, DataLoader.와이비);
-//        boardService.saveBoard(board);
-//
-//        // when
-//        ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET,
-//            DataLoader.와이비토큰, identifier);
-//        List<BoardResponse> findBoards = response.body().jsonPath()
-//            .getList(".", BoardResponse.class);
-//
-//        // then
-//        assertThat(findBoards.size()).isEqualTo(1);
-//    }
 
     @Test
     @DisplayName("원하는 게시물을 불러온다.")
@@ -473,20 +433,24 @@ class BoardAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
     }
 
-    @Test
+    private static Stream<Arguments> providePaginationArgument() {
+        return Stream.of(
+            Arguments.of("/api/boards?size=3&lastBoardId=2&type=ALL", "board/board-pagination-type", 1),
+            Arguments.of("/api/boards?size=3&lastBoardId=6&type=ALL", "board/board-pagination-type-boardId", 3),
+            Arguments.of("/api/boards?size=5&lastBoardId=2&type=ALL", "board/board-pagination-type-size", 1),
+            Arguments.of("/api/boards?size=3&lastBoardId=2&type=FIX", "board/board-pagination-type-fix", 1),
+            Arguments.of("/api/boards?size=3&lastBoardId=2&type=SUGGEST", "board/board-pagination-type-suggest", 0),
+            Arguments.of("/api/boards?size=3&type=FIX", "board/board-pagination-filter-default", 3)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("providePaginationArgument")
     @DisplayName("pagination 쿼리 개선")
-    void findBoardByPagination() {
-        String identifier = "board/board-pagination-type";
+    void findBoardByPagination(String url, String identifier, int goalSize) {
         for (int i = 0; i < 10; i++) {
             createBoard();
         }
-        // boardID 에 따른 테스트, 사이즈보다 작을때 클때, type 3가지 를 각각 설정해서 여러방향으로 테스트
-        // 메서드 파라미터로 받아서 한번에 처리
-        // 메서드 2개가 있는데 공통부분 추출해서 호출하기
-
-        int size = 3;
-        int lastBoardId = 2;
-        String url = "/api/boards?size=" + size + "&lastBoardId=" + lastBoardId + "&type=ALL";
 
         // when
         ExtractableResponse<Response> response = makeResponse(url, TestMethod.GET,
@@ -498,7 +462,7 @@ class BoardAcceptanceTest extends AcceptanceTest {
         for (BoardResponse boardResponse : findBoards) {
             System.out.println(boardResponse.getId());
         }
-        assertThat(findBoards.size()).isLessThan(size);
+        assertThat(findBoards.size()).isEqualTo(goalSize);
     }
 
     @Test

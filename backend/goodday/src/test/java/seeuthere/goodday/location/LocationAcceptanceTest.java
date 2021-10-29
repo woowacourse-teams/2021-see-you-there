@@ -127,11 +127,13 @@ class LocationAcceptanceTest extends AcceptanceTest {
     void midPointOnlySubway() {
         //given
         String path = "/api/locations/midPoint";
-        Point 용산역1호선 = new Point(126.96462961258051, 37.52977356999725);
-        Point 신림역 = new Point(126.929745374123, 37.4842680361482);
+        Point 가락시장역 = new Point(127.118262745146, 37.4930992522183);
+        Point 복정역 = new Point(127.126724009736, 37.4707418689753);
+        Point 구로역 = new Point(126.88230806229326, 37.50334155631282);
         LocationsDto locations = new LocationsDto();
-        locations.add(용산역1호선);
-        locations.add(신림역);
+        locations.add(가락시장역);
+        locations.add(복정역);
+        locations.add(구로역);
         ExtractableResponse<Response> response = getPostResponse(path, locations);
         //then
         validateResponse(response);

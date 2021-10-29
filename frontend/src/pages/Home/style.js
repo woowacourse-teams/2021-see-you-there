@@ -110,6 +110,10 @@ export const BottomSection = styled.section`
     position: relative;
     overflow-x: hidden;
     ${EFFECT.SHINE}
+
+    &:focus {
+      border-style: double;
+    }
   }
 
   @media (min-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {

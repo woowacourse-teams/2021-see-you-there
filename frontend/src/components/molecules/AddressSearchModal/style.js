@@ -2,28 +2,59 @@ import styled from 'styled-components';
 
 import { COLOR, LAYOUT } from '../../../constants';
 
-export const Top = styled.div`
+export const Top = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-
-  & > span {
-    font-size: 0.75rem;
-    padding-left: 0.5rem;
-    color: ${COLOR.PRIMARY_LIGHT};
-  }
+  justify-self: flex-start;
 
   & > button {
     width: fit-content;
   }
+
+  & > button:first-child {
+    visibility: ${(props) => (props.isBackButtonVisible ? 'visible' : 'hidden')};
+  }
+`;
+
+export const ButtonToMapMode = styled.button`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem 0.75rem;
+
+  & span {
+    padding-left: 0.25rem;
+  }
+`;
+
+export const Inner = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 85%;
+`;
+
+export const MiniMap = styled.div`
+  height: 75%;
+  margin: 0.5rem 0 0;
+  background-color: #eee;
+`;
+
+export const CurrentAddress = styled.span`
+  margin-top: 0.2rem;
+  margin-left: 0.5rem;
+
+  font-size: 0.9rem;
+  letter-spacing: -0.02rem;
 `;
 
 export const AddressSearchList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  height: 20rem;
+  height: 18rem;
   overflow-y: auto;
   margin: 1.25rem 0.75rem;
 
@@ -88,5 +119,18 @@ export const AddressSearchList = styled.ul`
         visibility: visible;
       }
     }
+  }
+`;
+
+export const Bottom = styled.section`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 2rem;
+
+  & > span {
+    font-size: 0.75rem;
+    padding-left: 0.5rem;
+    color: ${COLOR.PRIMARY_LIGHT};
   }
 `;

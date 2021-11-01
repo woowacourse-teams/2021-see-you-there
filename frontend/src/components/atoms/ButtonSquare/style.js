@@ -8,6 +8,11 @@ const styleSize = {
     height: 2.75rem;
     font-size: 0.9rem;
   `,
+  full: css`
+    width: 100%;
+    height: 2.75rem;
+    font-size: 0.9rem;
+  `,
 };
 
 const styleColor = {

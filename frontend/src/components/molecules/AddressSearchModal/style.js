@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { COLOR, LAYOUT } from '../../../constants';
+import { COLOR, LAYOUT, Z_INDEX } from '../../../constants';
 
 export const Top = styled.section`
   display: flex;
@@ -36,11 +36,32 @@ export const Inner = styled.section`
   height: 85%;
 `;
 
+const styleBlur = css`
+  filter: blur(2px);
+`;
+
 export const MiniMap = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 75%;
   margin: 0.5rem 0 0;
+
+  /* ${(props) => props.blur && styleBlur} */
   background-color: #eee;
   border: 1px solid ${COLOR.BORDER_LIGHT};
+`;
+
+export const MiniMapBlur = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: ${Z_INDEX.MAP_BLUR};
+
+  background-color: rgba(255, 255, 255, 0.5);
 `;
 
 export const CurrentAddress = styled.span`

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Z_INDEX } from '../../../constants';
+
 export const Container = styled.div`
   width: ${(props) => props.size};
   height: ${(props) => props.size};
@@ -7,6 +9,7 @@ export const Container = styled.div`
 
 export const Bar = styled.div`
   position: relative;
+  z-index: ${Z_INDEX.LOADING};
   transform-origin: calc(${(props) => props.size} / 2) calc(${(props) => props.size} / 2);
   animation: spin 0.9s cubic-bezier(0.5, 0, 1, 0.5) infinite;
 

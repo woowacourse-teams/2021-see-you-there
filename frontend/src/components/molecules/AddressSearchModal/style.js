@@ -40,6 +40,7 @@ export const MiniMap = styled.div`
   height: 75%;
   margin: 0.5rem 0 0;
   background-color: #eee;
+  border: 1px solid ${COLOR.BORDER_LIGHT};
 `;
 
 export const CurrentAddress = styled.span`

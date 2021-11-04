@@ -150,6 +150,14 @@ export const CONTENT_AREA = {
 };
 
 export const EFFECT = {
+  SHOW: css`
+    opacity: 1;
+    visibility: visible;
+  `,
+  HIDE: css`
+    opacity: 0;
+    visibility: hidden;
+  `,
   FADE_IN: css`
     opacity: 1;
     visibility: visible;

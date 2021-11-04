@@ -14,7 +14,9 @@ export const Confirm = (props) => {
           {children}
           <ButtonGroup>
             <CancelButton onClick={onCancel}>취소</CancelButton>
-            <ApproveButton onClick={onApprove}>확인</ApproveButton>
+            <ApproveButton onClick={onApprove} autoFocus>
+              확인
+            </ApproveButton>
           </ButtonGroup>
         </Container>
       </Modal>

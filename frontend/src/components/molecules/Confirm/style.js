@@ -31,18 +31,27 @@ export const ButtonGroup = styled.div`
 `;
 
 export const CancelButton = styled.button`
-  &:active,
-  &:hover {
+  outline: none;
+  border: 0.125rem solid transparent;
+
+  &:focus {
+    border-color: ${COLOR.PRIMARY};
   }
 `;
 
 export const ApproveButton = styled.button`
   color: ${COLOR.ON_PRIMARY};
   background-color: ${COLOR.PRIMARY};
+  outline: none;
+  border: 0.25rem double transparent;
 
   &:active,
   &:hover {
     color: ${COLOR.ON_PRIMARY};
     background-color: ${COLOR.PRIMARY_DARK};
+  }
+
+  &:focus {
+    border-color: ${COLOR.ON_PRIMARY};
   }
 `;

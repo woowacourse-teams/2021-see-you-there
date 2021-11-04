@@ -14,6 +14,14 @@ export const useMapViewApi = ({ mapObj, mapViewRef }) => {
     kakao.maps.event.addListener(mapObj.current, 'tilesloaded', () => setTimeout(callback, 150));
   };
 
+  const addMapViewEventListener = (event, callback) => {
+    kakao.maps.event.addListener(mapObj.current, event, callback);
+  };
+
+  const removeMapViewEventListener = (event, callback) => {
+    kakao.maps.event.removeListener(mapObj.current, event, callback);
+  };
+
   const showAroundPoint = (midpoint, level = 3) => {
     const { x, y } = midpoint;
     const position = new kakao.maps.LatLng(y, x);
@@ -139,9 +147,30 @@ export const useMapViewApi = ({ mapObj, mapViewRef }) => {
   };
   const hideMarkers = (markers) => markers.forEach((marker) => hideMarker(marker));
 
+  const geocoder = new kakao.maps.services.Geocoder();
+
+  const setAddressByCoordinates = (x, y, setAddress) => {
+    geocoder.coord2Address(x, y, (result, status) => {
+      if (status !== kakao.maps.services.Status.OK) {
+        return;
+      }
+
+      const address = {
+        x,
+        y,
+        addressName: result[0].address.address_name,
+        fullAddress: result[0].address.address_name,
+      };
+
+      setAddress(address);
+    });
+  };
+
   return {
     showMapView,
     addMapViewLoadingEventListener,
+    addMapViewEventListener,
+    removeMapViewEventListener,
 
     showAroundPoint,
     setBounds,
@@ -151,5 +180,7 @@ export const useMapViewApi = ({ mapObj, mapViewRef }) => {
     showMarkers,
     hideMarker,
     hideMarkers,
+
+    setAddressByCoordinates,
   };
 };

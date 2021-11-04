@@ -16,28 +16,15 @@ const PIN_IMAGE = {
 export const InnerCurrentLocation = () => {
   const mapObj = useRef(null);
   const mapViewRef = useRef(null);
+  const { escapeModal, setAddress, focusName } = useContext(AddFormContext);
   const { currentLocation: initialLocation } = useGeolocation();
+  const { showMapView, showAroundPoint, addMapViewEventListener, removeMapViewEventListener, setAddressByCoordinates } =
+    useMapViewApi({
+      mapObj,
+      mapViewRef,
+    });
   const [centerAddress, setCenterAddress] = useState({ addressName: '( 현재 위치를 불러오고 있습니다. )' });
   const [isDragging, setIsDragging] = useState(false);
-  const { showMapView, showAroundPoint } = useMapViewApi({ mapObj, mapViewRef });
-  const { escapeModal, setAddress, focusName } = useContext(AddFormContext);
-
-  // TODO: kakao 서비스 분리
-  const geocoder = new kakao.maps.services.Geocoder();
-
-  const setCenterAddressWithService = (x, y) => {
-    geocoder.coord2Address(x, y, (result, status) => {
-      if (status !== kakao.maps.services.Status.OK) {
-        return;
-      }
-      setCenterAddress({
-        x,
-        y,
-        addressName: result[0].address.address_name,
-        fullAddress: result[0].address.address_name,
-      });
-    });
-  };
 
   const handleDragStart = () => {
     setIsDragging(true);
@@ -47,7 +34,7 @@ export const InnerCurrentLocation = () => {
     const centerPosition = mapObj.current.getCenter();
     const [x, y] = [centerPosition.getLng(), centerPosition.getLat()];
 
-    setCenterAddressWithService(x, y);
+    setAddressByCoordinates(x, y, setCenterAddress);
     setIsDragging(false);
   };
 
@@ -57,22 +44,21 @@ export const InnerCurrentLocation = () => {
     focusName();
   };
 
-  // TODO: kakao 이벤트 등록, 해제 분리
   useEffect(() => {
     showMapView(POBI_POINT);
-    kakao.maps.event.addListener(mapObj.current, 'dragstart', handleDragStart);
-    kakao.maps.event.addListener(mapObj.current, 'dragend', handleDragEnd);
+    addMapViewEventListener('dragstart', handleDragStart);
+    addMapViewEventListener('dragend', handleDragEnd);
 
     return () => {
-      kakao.maps.event.addListener(mapObj.current, 'dragstart', handleDragStart);
-      kakao.maps.event.removeListener(mapObj.current, 'dragend', handleDragEnd);
+      removeMapViewEventListener('dragstart', handleDragStart);
+      removeMapViewEventListener('dragend', handleDragEnd);
     };
   }, []);
 
   useEffect(() => {
     if (initialLocation.x) {
       showAroundPoint(initialLocation);
-      setCenterAddressWithService(initialLocation.x, initialLocation.y);
+      setAddressByCoordinates(initialLocation.x, initialLocation.y, setCenterAddress);
     }
   }, [initialLocation]);
 

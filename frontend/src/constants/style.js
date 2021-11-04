@@ -72,6 +72,7 @@ export const Z_INDEX = {
   MAP_TOOLTIP: 7,
   MAP_CONTROLLER: 8,
   MAP_BLUR: 9,
+  MAP_CENTER_LOCATOR: 9,
 
   CONTENT: 10,
   ON_IMAGE: 15,

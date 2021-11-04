@@ -64,6 +64,11 @@ export const MiniMapBlur = styled.div`
   background-color: rgba(255, 255, 255, 0.5);
 `;
 
+export const CenterLocator = styled.picture`
+  z-index: ${Z_INDEX.MAP_CENTER_LOCATOR};
+  padding-bottom: 3rem;
+`;
+
 export const CurrentAddress = styled.span`
   margin-top: 0.2rem;
   margin-left: 0.5rem;

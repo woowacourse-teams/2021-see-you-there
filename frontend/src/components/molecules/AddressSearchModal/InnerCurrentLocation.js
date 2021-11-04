@@ -1,20 +1,24 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { MiniMap, MiniMapBlur, CurrentAddress } from './style';
-import { ButtonSquare } from '../../../components';
+import { MiniMap, MiniMapBlur, CurrentAddress, CenterLocator } from './style';
+import { ButtonSquare, Spinner } from '../../../components';
+import { AddFormContext } from '../../../contexts';
 import { useGeolocation, useMapViewApi } from '../../../hooks';
 import { getId } from '../../../utils';
 import { POBI_POINT } from '../../../constants';
-import { AddFormContext } from '../../../contexts';
-import { Spinner } from '../../atoms/Spinner';
+import { pinCurrentLocation } from '../../../assets';
+
+const PIN_IMAGE = {
+  CURRENT_LOCATION: { w: 60, h: 80, src: pinCurrentLocation },
+};
 
 export const InnerCurrentLocation = () => {
   const mapObj = useRef(null);
   const mapViewRef = useRef(null);
-  const { currentLocation } = useGeolocation();
+  const { currentLocation: initialLocation } = useGeolocation();
   const [centerAddress, setCenterAddress] = useState({ addressName: '( 현재 위치를 불러오고 있습니다. )' });
-  const { showMapView, showAroundPoint, setBounds, getMarker } = useMapViewApi({ mapObj, mapViewRef });
+  const { showMapView, showAroundPoint } = useMapViewApi({ mapObj, mapViewRef });
   const { escapeModal, setAddress, focusName } = useContext(AddFormContext);
 
   // TODO: kakao 서비스 분리
@@ -51,7 +55,6 @@ export const InnerCurrentLocation = () => {
   useEffect(() => {
     showMapView(POBI_POINT);
     kakao.maps.event.addListener(mapObj.current, 'dragend', handleDragEnd);
-    // TODO: center 마커 표시
 
     return () => {
       kakao.maps.event.removeListener(mapObj.current, 'dragend', handleDragEnd);
@@ -59,20 +62,33 @@ export const InnerCurrentLocation = () => {
   }, []);
 
   useEffect(() => {
-    if (currentLocation.x) {
-      showAroundPoint(currentLocation);
-      setCenterAddressWithService(currentLocation.x, currentLocation.y);
+    if (initialLocation.x) {
+      showAroundPoint(initialLocation);
+      setCenterAddressWithService(initialLocation.x, initialLocation.y);
     }
-  }, [currentLocation]);
+  }, [initialLocation]);
 
   return (
     <>
       <MiniMap ref={mapViewRef}>
-        {!currentLocation.x && (
+        {!initialLocation.x ? (
           <>
             <Spinner />
             <MiniMapBlur />
           </>
+        ) : (
+          <CenterLocator>
+            <source
+              type="image/png"
+              srcSet={`${PIN_IMAGE.CURRENT_LOCATION.src.x1} 1x, ${PIN_IMAGE.CURRENT_LOCATION.src.x2} 2x, ${PIN_IMAGE.CURRENT_LOCATION.src.x3} 3x`}
+            />
+            <img
+              src={PIN_IMAGE.CURRENT_LOCATION.src.x1}
+              alt="현재위치"
+              width={PIN_IMAGE.CURRENT_LOCATION.w}
+              height={PIN_IMAGE.CURRENT_LOCATION.h}
+            />
+          </CenterLocator>
         )}
       </MiniMap>
       <CurrentAddress>{centerAddress.addressName}</CurrentAddress>

@@ -64,9 +64,54 @@ export const MiniMapBlur = styled.div`
   background-color: rgba(255, 255, 255, 0.5);
 `;
 
+const PIN_UP = css`
+  opacity: 0.8;
+  transform: translateY(-20px);
+  transition: transform 200ms;
+`;
+
+const PIN_DOWN = css`
+  transform: translateY(0);
+  animation: tongtong 700ms;
+
+  @keyframes tongtong {
+    0% {
+      transform: translateY(-20px);
+    }
+    20% {
+      transform: translateY(0);
+    }
+    60% {
+      transform: translateY(-18px);
+    }
+    75% {
+      transform: translateY(0px);
+    }
+    95% {
+      transform: translateY(-6px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+`;
+
 export const CenterLocator = styled.picture`
+  ${(props) => (props.isMovingUp ? PIN_UP : PIN_DOWN)};
+
   z-index: ${Z_INDEX.MAP_CENTER_LOCATOR};
   padding-bottom: 3rem;
+`;
+
+export const CenterShadow = styled.span`
+  position: absolute;
+  top: calc(50% + 4px);
+  left: calc(50% - 10px);
+  width: 20px;
+  height: 4px;
+  z-index: ${Z_INDEX.MAP_CENTER_LOCATOR};
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
 `;
 
 export const CurrentAddress = styled.span`

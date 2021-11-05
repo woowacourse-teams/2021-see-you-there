@@ -65,7 +65,7 @@ export const MiniMapBlur = styled.div`
 `;
 
 const PIN_UP = css`
-  opacity: 0.8;
+  opacity: 0.7;
   transform: translateY(-20px);
   transition: transform 200ms;
 `;

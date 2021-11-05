@@ -13,7 +13,7 @@ export const ROUTE = {
   PROFILE: { NAME: '내 프로필', PATH: '/profile' },
   ADDRESS: { NAME: '내 주소관리', PATH: '/address' },
   FRIEND: { NAME: '내 친구관리', PATH: '/friend' },
-  BOARD: { NAME: '관리자 게시판', PATH: '/board' },
+  BOARD: { NAME: '문의 게시판', PATH: '/board' },
 
   ERROR: { NAME: '에러 페이지', PATH: '/error' },
   EXPIRED: { NAME: '만료 페이지', PATH: '/expired' },

@@ -3,6 +3,7 @@ export { useMidpoint } from './useMidpoint';
 export { useMapViewApi } from './useMapViewApi';
 export { useModal } from './useModal';
 
+export { useGeolocation } from './useGeolocation';
 export { useAddressSearch } from './useAddressSearch';
 export { useAddressInput } from './useAddressInput';
 export { useParticipantNameInput } from './useParticipantNameInput';

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { CategoryChips } from './CategoryChips';
@@ -19,7 +19,7 @@ import {
 } from './style';
 import { ParticipantContext, MapViewContext } from '../../contexts';
 import { useMapViewApi, useMidpoint, useShareLink } from '../../hooks';
-import { getKey } from '../../utils';
+import { getNextIndex } from '../../utils';
 import { ROUTE, COLOR, TIPS, QUERY_KEY } from '../../constants';
 
 const SUBWAY = 'subway';
@@ -34,11 +34,14 @@ const MidpointPage = () => {
   const { showDefaultBounds, showDefaultMarkers, showCategoryMarkers, hideCategoryMarkers, isSelected } = useMidpoint();
   const { share } = useShareLink();
 
+  const tipMessageRef = useRef(null);
   const [participant, setParticipant] = useState(participants?.[0]);
   const [transport, setTransport] = useState(SUBWAY);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const tipMessage = TIPS[getKey(TIPS)];
+  useEffect(() => {
+    tipMessageRef.current = TIPS[getNextIndex(TIPS)];
+  }, []);
 
   useEffect(() => {
     if (isLackParticipants || isDataLoading) {
@@ -75,7 +78,9 @@ const MidpointPage = () => {
   return (
     <>
       <main>
-        {(isDataLoading || isMapViewLoading) && <MidpointLoader duration="20s" width="85%" message={tipMessage} />}
+        {(isDataLoading || isMapViewLoading) && (
+          <MidpointLoader duration="20s" width="85%" message={tipMessageRef.current} />
+        )}
 
         <MapViewArea participantId={participant?.id}>
           <MapView ref={mapViewRef} />

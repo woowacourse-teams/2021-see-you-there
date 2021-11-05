@@ -35,16 +35,19 @@ export const RandomMessage = styled.div`
   margin-top: 4rem;
   padding: 1rem;
 
-  & > p {
-    color: ${COLOR.PARAGRAPH};
-    font-size: 0.85rem;
-    white-space: normal;
-    word-break: keep-all;
+  & span {
+    color: ${COLOR.PRIMARY};
+    align-self: flex-start;
+    font-size: 0.9rem;
   }
 
-  & > span {
-    color: ${COLOR.PARAGRAPH_LIGHT};
-    align-self: flex-start;
-    font-size: 0.7rem;
+  & p {
+    display: block;
+    padding-right: 0.75rem;
+
+    color: ${COLOR.PARAGRAPH};
+    font-size: 0.9rem;
+    white-space: normal;
+    word-break: keep-all;
   }
 `;

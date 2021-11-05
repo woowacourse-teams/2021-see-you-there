@@ -86,7 +86,7 @@ export const ProfileImage = styled.img`
 `;
 
 export const MenuList = styled.ul`
-  ${({ isVisible }) => (isVisible ? EFFECT.FADE_IN : EFFECT.FADE_OUT)}
+  ${({ isVisible }) => (isVisible ? EFFECT.FADE_IN : EFFECT.HIDE)}
 
   position: fixed;
   top: calc(${LAYOUT.NAV_HEIGHT} + 0.5rem);
@@ -121,6 +121,12 @@ export const MenuItem = styled.li`
 
   & a {
     position: relative;
+    display: flex;
+    align-items: center;
+
+    & svg {
+      margin-left: 0.25rem;
+    }
 
     &::after {
       display: ${(props) => (props.hasNotice ? 'block' : 'none')};
@@ -132,15 +138,6 @@ export const MenuItem = styled.li`
       height: 5px;
       background-color: ${COLOR.ACCENT};
       border-radius: 50%;
-    }
-  }
-
-  & button {
-    display: flex;
-    align-items: center;
-
-    & svg {
-      margin-left: 0.25rem;
     }
   }
 `;

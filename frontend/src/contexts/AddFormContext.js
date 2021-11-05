@@ -27,6 +27,7 @@ export const AddFormContextProvider = ({ initialName, initialAddress, formId, ch
   const [name, setName] = useState(initialName ?? INITIAL_STATE.NAME);
   const [address, setAddress] = useState(initialAddress ?? INITIAL_STATE.ADDRESS);
   const [addressKeyword, setAddressKeyword] = useState(INITIAL_STATE.ADDRESS_KEYWORD);
+  const [isMapMode, setIsMapMode] = useState(false);
   const [noticeMessage, setNoticeMessage] = useState(INITIAL_STATE.NOTICE_MESSAGE);
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -48,6 +49,7 @@ export const AddFormContextProvider = ({ initialName, initialAddress, formId, ch
   const dragAndSelectName = () => setTimeout(() => $name.select(), 0);
 
   const escapeModal = () => {
+    setIsMapMode(false);
     focusAddress();
     closeModal();
   };
@@ -83,6 +85,9 @@ export const AddFormContextProvider = ({ initialName, initialAddress, formId, ch
         addressList,
         isLoading,
         isError,
+
+        isMapMode,
+        setIsMapMode,
 
         noticeMessage,
         setNoticeMessage,

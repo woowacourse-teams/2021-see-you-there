@@ -1,29 +1,132 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { COLOR, LAYOUT } from '../../../constants';
+import { COLOR, LAYOUT, Z_INDEX } from '../../../constants';
 
-export const Top = styled.div`
+export const Top = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-
-  & > span {
-    font-size: 0.75rem;
-    padding-left: 0.5rem;
-    color: ${COLOR.PRIMARY_LIGHT};
-  }
+  justify-self: flex-start;
 
   & > button {
     width: fit-content;
   }
+
+  & > button:first-child {
+    visibility: ${(props) => (props.isBackButtonVisible ? 'visible' : 'hidden')};
+  }
+`;
+
+export const ButtonToMapMode = styled.button`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem 0.75rem;
+
+  & span {
+    padding-left: 0.25rem;
+  }
+`;
+
+export const Inner = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 85%;
+`;
+
+const styleBlur = css`
+  filter: blur(2px);
+`;
+
+export const MiniMap = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75%;
+  margin: 0.5rem 0 0;
+
+  /* ${(props) => props.blur && styleBlur} */
+  background-color: #eee;
+  border: 1px solid ${COLOR.BORDER_LIGHT};
+`;
+
+export const MiniMapBlur = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: ${Z_INDEX.MAP_BLUR};
+
+  background-color: rgba(255, 255, 255, 0.5);
+`;
+
+const PIN_UP = css`
+  opacity: 0.7;
+  transform: translateY(-20px);
+  transition: transform 200ms;
+`;
+
+const PIN_DOWN = css`
+  transform: translateY(0);
+  animation: tongtong 700ms;
+
+  @keyframes tongtong {
+    0% {
+      transform: translateY(-20px);
+    }
+    20% {
+      transform: translateY(0);
+    }
+    60% {
+      transform: translateY(-18px);
+    }
+    75% {
+      transform: translateY(0px);
+    }
+    95% {
+      transform: translateY(-6px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+`;
+
+export const CenterLocator = styled.picture`
+  ${(props) => (props.isMovingUp ? PIN_UP : PIN_DOWN)};
+
+  z-index: ${Z_INDEX.MAP_CENTER_LOCATOR};
+  padding-bottom: 3rem;
+`;
+
+export const CenterShadow = styled.span`
+  position: absolute;
+  top: calc(50% + 4px);
+  left: calc(50% - 10px);
+  width: 20px;
+  height: 4px;
+  z-index: ${Z_INDEX.MAP_CENTER_LOCATOR};
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+`;
+
+export const CurrentAddress = styled.span`
+  margin-top: 0.2rem;
+  margin-left: 0.5rem;
+
+  font-size: 0.9rem;
+  letter-spacing: -0.02rem;
 `;
 
 export const AddressSearchList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  height: 20rem;
+  height: 18rem;
   overflow-y: auto;
   margin: 1.25rem 0.75rem;
 
@@ -88,5 +191,18 @@ export const AddressSearchList = styled.ul`
         visibility: visible;
       }
     }
+  }
+`;
+
+export const Bottom = styled.section`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 2rem;
+
+  & > span {
+    font-size: 0.75rem;
+    padding-left: 0.5rem;
+    color: ${COLOR.PRIMARY_LIGHT};
   }
 `;

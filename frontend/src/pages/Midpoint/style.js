@@ -281,10 +281,14 @@ export const TransportTabs = styled.div`
 `;
 
 export const TransportTab = styled.button`
-  margin: 0 0.5rem;
-  color: ${(props) => (props.isSelected ? COLOR.PARAGRAPH : COLOR.PARAGRAPH_LIGHT)};
-  font-size: inherit;
   position: relative;
+  margin: 0 0.5rem;
+  padding: 0.1rem 0.5rem;
+
+  font-size: inherit;
+  color: ${(props) => (props.isSelected ? COLOR.ON_PRIMARY : COLOR.PARAGRAPH_LIGHT)};
+  background-color: ${(props) => (props.isSelected ? COLOR.PRIMARY : COLOR.BACKGROUND)};
+  border-radius: 4px;
 `;
 
 export const PathDetail = styled.div`

@@ -10,7 +10,7 @@ const styleSize = {
     @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
       min-width: 16rem;
       max-width: 26rem;
-      width: 90%;
+      width: 95%;
     }
   `,
   sm: css`
@@ -20,7 +20,17 @@ const styleSize = {
     @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
       min-width: 16rem;
       max-width: 21.5rem;
-      width: 90%;
+      width: 95%;
+    }
+  `,
+  lg: css`
+    min-width: 26rem;
+    height: 36rem;
+
+    @media (max-width: ${LAYOUT.DEVICE_WIDTH_TABLET}) {
+      min-width: 16rem;
+      max-width: 26rem;
+      width: 95%;
     }
   `,
 };

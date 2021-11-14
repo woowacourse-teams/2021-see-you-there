@@ -15,14 +15,14 @@ export const getAvatarId = (() => {
   };
 })();
 
-export const getKey = (() => {
-  let tipIndex = 0;
+export const getNextIndex = (() => {
+  let index = 0;
 
   return (array) => {
-    if (tipIndex === array.length) {
-      tipIndex = 0;
+    if (index === array.length) {
+      index = 0;
     }
-    return tipIndex++;
+    return index++;
   };
 })();
 

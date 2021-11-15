@@ -71,17 +71,19 @@ export const Z_INDEX = {
   MAP_PIN: 6,
   MAP_TOOLTIP: 7,
   MAP_CONTROLLER: 8,
+  MAP_BLUR: 9,
+  MAP_CENTER_LOCATOR: 9,
 
   CONTENT: 10,
   ON_IMAGE: 15,
   NAVBAR: 20,
   HAMBURGER_MENU: 30,
 
-  SNACKBAR: 80,
-
   MODAL: 100,
   LOADING: 100,
   BLANK: 100,
+
+  SNACKBAR: 110,
 };
 
 export const REACT_QUERY_DEV_TOOL = {
@@ -149,6 +151,14 @@ export const CONTENT_AREA = {
 };
 
 export const EFFECT = {
+  SHOW: css`
+    opacity: 1;
+    visibility: visible;
+  `,
+  HIDE: css`
+    opacity: 0;
+    visibility: hidden;
+  `,
   FADE_IN: css`
     opacity: 1;
     visibility: visible;

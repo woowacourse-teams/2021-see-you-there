@@ -50,6 +50,11 @@
 
 <br/><br/>
 
+## 💙 전체 프로젝트 구조
+![프로젝트 구조](https://user-images.githubusercontent.com/60066472/139381787-a2af982b-21d3-444f-a618-27c5f3f09b4a.png)
+
+<br/><br/>
+
 ## 💙 팀 운영
 
 - **소스코드 관리** 　<img src="https://img.shields.io/badge/Github-blue" alt="Github">

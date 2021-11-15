@@ -45,12 +45,16 @@ import pinPartyx3 from './images/pinParty@3x.png';
 import pinStationx1 from './images/pinStation.png';
 import pinStationx2 from './images/pinStation@2x.png';
 import pinStationx3 from './images/pinStation@3x.png';
+import pinCurrentLocationx1 from './images/pinCurrentLocation.png';
+import pinCurrentLocationx2 from './images/pinCurrentLocation@2x.png';
+import pinCurrentLocationx3 from './images/pinCurrentLocation@3x.png';
 
 export const pinCafe = { x1: pinCafex1, x2: pinCafex2, x3: pinCafex3 };
 export const pinDining = { x1: pinDiningx1, x2: pinDiningx2, x3: pinDiningx3 };
 export const pinParticipant = { x1: pinParticipantx1, x2: pinParticipantx2, x3: pinParticipantx3 };
 export const pinParty = { x1: pinPartyx1, x2: pinPartyx2, x3: pinPartyx3 };
 export const pinStation = { x1: pinStationx1, x2: pinStationx2, x3: pinStationx3 };
+export const pinCurrentLocation = { x1: pinCurrentLocationx1, x2: pinCurrentLocationx2, x3: pinCurrentLocationx3 };
 
 import drawingFriendx1 from './images/drawingFriend.png';
 import drawingFriendx2 from './images/drawingFriend@2x.png';

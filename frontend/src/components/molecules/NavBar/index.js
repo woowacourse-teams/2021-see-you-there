@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 
 import { Nav, Button, Title, ProfileImage, MenuList, MenuItem, Divider } from './style';
@@ -11,11 +11,40 @@ export const NavBar = () => {
   const { user, isLogin, hasReceiveFriend } = useContext(UserContext);
   const history = useHistory();
   const { pathname } = useLocation();
+  const menuList = useRef(null);
+  const menuListToggleButton = useRef(null);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   const isOAuthPage = PATHS.OAUTH.includes(pathname);
   const canGoBack = !PATHS.CANNOT_GO_BACK.includes(pathname);
   const hasMapView = PATHS.MAP_VIEW.includes(pathname);
+
+  const handleToggleMenuListButton = () => {
+    setIsMenuVisible((isMenuVisible) => !isMenuVisible);
+  };
+
+  const handleCloseMenuList = (e) => {
+    if (e.target.closest('button') === menuListToggleButton.current) return;
+    if (e.target.closest('ul') === menuList.current) return;
+
+    setIsMenuVisible(false);
+  };
+
+  const handleSelectMenuItem = (e) => {
+    if (e.target.closest('a') === null) return;
+
+    setIsMenuVisible(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('click', handleCloseMenuList);
+    window.addEventListener('focusin', handleCloseMenuList);
+
+    return () => {
+      window.removeEventListener('click', handleCloseMenuList);
+      window.removeEventListener('focusin', handleCloseMenuList);
+    };
+  }, []);
 
   return (
     <Nav hasMapView={hasMapView}>
@@ -32,7 +61,7 @@ export const NavBar = () => {
         </NavLink>
 
         {isLogin ? (
-          <Button isVisible={!isOAuthPage} onClick={() => setIsMenuVisible((isMenuVisible) => !isMenuVisible)}>
+          <Button ref={menuListToggleButton} isVisible={!isOAuthPage} onClick={handleToggleMenuListButton}>
             <ProfileImage src={user.profileImage} />
             <Icon.Dropdown width="10" color={COLOR.ON_PRIMARY} />
           </Button>
@@ -44,7 +73,7 @@ export const NavBar = () => {
           </NavLink>
         )}
 
-        <MenuList isVisible={isMenuVisible} onClick={() => setIsMenuVisible(false)}>
+        <MenuList ref={menuList} isVisible={isMenuVisible} onClick={handleSelectMenuItem}>
           <MenuItem>
             <strong>{user.nickname}</strong> 님 안녕하세요!
           </MenuItem>
@@ -58,16 +87,16 @@ export const NavBar = () => {
           <Divider />
 
           <MenuItem>
-            <button onClick={() => history.push(ROUTE.BOARD.PATH)}>문의 게시판</button>
+            <NavLink to={ROUTE.BOARD.PATH}>{ROUTE.BOARD.NAME}</NavLink>
           </MenuItem>
 
           <Divider />
 
           <MenuItem>
-            <button onClick={() => history.push(ROUTE.LOGOUT.PATH)}>
-              로그아웃
+            <NavLink to={ROUTE.LOGOUT.PATH}>
+              {ROUTE.LOGOUT.NAME}
               <Icon.Enter width="20" />
-            </button>
+            </NavLink>
           </MenuItem>
         </MenuList>
       </div>
